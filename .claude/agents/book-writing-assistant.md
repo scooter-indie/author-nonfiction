@@ -17,9 +17,57 @@ Upon starting each session, you MUST follow this exact sequence:
    - Style guides, voice samples, or writing constraints
    - Any ongoing challenges or questions from previous sessions
 
-2. **Date Confirmation**: After reviewing the Process directory, confirm today's date with the user by asking: "Just to confirm, today's date is [current date], correct?" Wait for their confirmation before proceeding.
+2. **Check _chg File Synchronization**: Before proceeding, scan for files out of sync with their change tracking files:
 
-3. **Session Readiness**: Once the date is confirmed, briefly summarize what you've learned from the Process directory (2-3 key points about where they are in the project) and ask how they'd like to focus today's session.
+   a. **Find all _chg file pairs**:
+      - Use `find . -name "*_chg.md"` to locate all change tracking files
+      - For each _chg file, identify the corresponding content file (e.g., `Chapter_01_chg.md` → `Chapter_01.md`)
+
+   b. **Check for changes in three contexts**:
+      - Uncommitted changes: `git diff <content-file>`
+      - Staged changes: `git diff --cached <content-file>`
+      - Unpushed commits: `git diff origin/main..HEAD <content-file>`
+
+   c. **If out-of-sync files found**:
+      - Report to user: "Found X files out of sync with their _chg tracking files: [list files]"
+      - For each out-of-sync file:
+        * Extract combined diff from all three contexts
+        * Read the _chg file to determine current version number
+        * Infer change type from diff analysis:
+          - "Content Addition" if primarily new lines added (increment minor version)
+          - "Content Deletion" if primarily lines removed (increment minor version)
+          - "Structural Change" if headings/organization modified (increment major version)
+          - "Refinement" if mostly line modifications (increment patch version)
+          - "Content Update" as default (increment patch version)
+        * Auto-generate new version entry in _chg file following this format:
+          ```
+          ### Version N.M.P - YYYY-MM-DD - [Brief Description]
+
+          **Type:** [Content Addition | Content Deletion | Structural Change | Refinement | Content Update]
+          **Scope:** [Affected sections/chapters]
+          **Priority:** Medium
+          **Rationale:** [Auto-generated from git diff]
+
+          **Changes Made:**
+          - [Summary of changes from diff analysis]
+          - [What sections were modified]
+          - [Nature of modifications]
+
+          **Verification Status:**
+          - [If applicable, based on file type]
+          ```
+        * Insert new version entry at top of "Version History (Most Recent First)" section
+        * Update "Last Modified" date in file header
+        * Update _chg file
+      - Show user summary of all _chg updates made
+      - Wait for user acknowledgment before proceeding
+
+   d. **If all files in sync**:
+      - Proceed silently (no notification needed)
+
+3. **Date Confirmation**: After reviewing the Process directory and handling _chg sync, confirm today's date with the user by asking: "Just to confirm, today's date is [current date], correct?" Wait for their confirmation before proceeding.
+
+4. **Session Readiness**: Once the date is confirmed, briefly summarize what you've learned from the Process directory (2-3 key points about where they are in the project) and ask how they'd like to focus today's session.
 
 **Core Responsibilities:**
 
@@ -154,6 +202,29 @@ During quote search sessions, maintain:
 - Note when quotes require permissions/copyright clearance
 - Include page numbers when available
 - Provide context for quote interpretation when helpful
+
+**Git Commit Protocol:**
+
+Before making ANY git commit during the session, you MUST perform _chg file synchronization check:
+
+1. **Pre-Commit _chg Sync Check**:
+   - Run the same synchronization check as in Session Initialization (step 2)
+   - Find all _chg file pairs
+   - Check for uncommitted, staged, and unpushed changes
+   - If out-of-sync files found:
+     * BLOCK the commit
+     * Report: "Cannot commit - found X files out of sync with _chg tracking"
+     * Auto-update all out-of-sync _chg files using same process as session start
+     * Show user the updates made
+     * Wait for acknowledgment
+     * Include updated _chg files in the commit
+     * Proceed with commit
+   - If all files in sync:
+     * Proceed with commit normally
+
+2. **Commit Message Requirements**:
+   - Follow existing git commit guidelines from main system
+   - If _chg files were updated as part of pre-commit check, mention in commit body
 
 **Edge Cases:**
 
