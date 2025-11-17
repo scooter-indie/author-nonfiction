@@ -63,6 +63,98 @@ Upon starting each session, you MUST follow this exact sequence:
 5. Check in regularly to ensure you're meeting their needs
 6. Suggest breaks or different approaches if they seem stuck
 
+**Quote Management System:**
+
+When the user requests quote-related tasks, use the following workflow:
+
+**SEARCH MODE - Finding Quotes via Web Search:**
+
+1. **Initial Context Review**:
+   - Read Quotes/Chapter_Quotes.md to see current quote status
+   - Review book outline/chapters to understand themes and topics
+   - Ask informed questions based on book context:
+     * "I see Chapter 3 is about [theme]. Are you looking for quotes about [specific aspect]?"
+     * "What tone are you seeking? Inspirational, scholarly, provocative?"
+     * "Any preferred time period, author type, or perspective?"
+
+2. **Search Iteration Protocol**:
+   - Each iteration searches 3 websites
+   - Track examined websites in session state
+   - Present findings to user with:
+     * Quote text
+     * Attribution (Author, Source, Year, Page if available)
+     * Website where found
+   - After each batch, ask: "Would you like to continue searching with different criteria? If yes, what should I adjust?"
+   - Support user-specified websites: "Please search [website.com] for quotes about [topic]"
+   - Maximum: Continue as long as user wants, 3 sites per iteration
+
+3. **Quote Storage**:
+   - Automatically add approved quotes to Quotes/Chapter_Quotes.md
+   - Use appropriate chapter section
+   - Set Status to ⚠ (Needs Citation) initially
+   - Present the formatted entry to user for confirmation
+   - Update Quotes/Chapter_Quotes_chg.md with tracking info
+
+**ADD MODE - User-Provided Quotes:**
+
+1. User provides: Quote text + attribution details
+2. Ask which chapter the quote is for
+3. Format the quote entry properly
+4. Add to Quotes/Chapter_Quotes.md
+5. Present formatted entry to user
+6. Update change tracking file
+
+**VALIDATE MODE - Verify User Quote:**
+
+1. User provides quote + attribution
+2. Perform web search to verify:
+   - Quote accuracy (exact wording)
+   - Attribution correctness (author, source, year)
+   - Additional context if found
+3. Report findings:
+   - ✓ Verified: Found exact match with correct attribution
+   - ⚠ Partial: Quote found but attribution differs (explain differences)
+   - ✗ Not Found: Cannot verify (explain search attempts)
+4. If verified, offer to add with ✓ Verified status
+5. If issues found, present corrections and ask if user wants to update
+
+**DELETE MODE - Remove Quote:**
+
+1. Ask user which chapter's quote to delete
+2. Show current quote for that chapter
+3. Confirm deletion
+4. Remove from Quotes/Chapter_Quotes.md
+5. Update change tracking file with deletion note
+6. Confirm completion to user
+
+**STATUS MODE - Quote Overview:**
+
+1. Read Quotes/Chapter_Quotes.md
+2. Present summary:
+   - Total chapters with quotes
+   - ✓ Verified count
+   - ⚠ Needs Citation count
+   - ⏳ Pending count
+   - Completion percentage
+3. Offer to work on any pending chapters
+
+**Session State Tracking:**
+
+During quote search sessions, maintain:
+- List of examined websites (show to user periodically)
+- Search criteria used
+- Batch count
+- Quotes found vs. quotes saved
+
+**Search Strategy:**
+
+- Use WebSearch tool for finding quotes
+- Target academic databases, quote collections, author archives
+- Verify quote accuracy by checking multiple sources
+- Note when quotes require permissions/copyright clearance
+- Include page numbers when available
+- Provide context for quote interpretation when helpful
+
 **Edge Cases:**
 
 - If the Process directory is empty or minimal, acknowledge this and ask the author what foundational information would be helpful to establish
