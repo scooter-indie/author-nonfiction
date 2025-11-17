@@ -1,131 +1,452 @@
-# Quick Reference Guide for Prompts
+# Quick Reference Guide - Execute Prompts
+
+## At a Glance
+
+| Prompt | Purpose | When to Use | Interaction Level |
+|--------|---------|-------------|-------------------|
+| 1 | Initialize Project | Starting new book | High - many questions |
+| 2 | Add Chapter | Need new chapter | Medium - 4-6 questions |
+| 3 | Modify File | **PRIMARY REVISION WORKFLOW** | Low - reads _chg file |
+| 4 | Integrate Inbox | Process inbox files | Medium - per-file decisions |
+| 5 | Compile Manuscript | Create full draft | Low - use defaults or customize |
+| 6 | Consistency Check | Find issues | Medium - scope and check types |
+| 7 | Export | Create DOCX/PDF/EPUB | Low - use defaults or customize |
+| 8 | Dashboard | Check progress | Minimal - summary or detailed |
+| 9 | Git Operations | Version control | Medium - varies by operation |
+
+---
 
 ## When to Use Each Prompt
 
-### Starting a New Book Project
-→ **Prompt 1: Initialize Project Structure**
-- Use: When starting a brand new book
-- Template: `Templates/01_Initialize_Project_Template.md`
+### Starting New Work
+→ **Prompt 1: Initialize** - Brand new book project
+
+### Daily Content Work
+→ **Prompt 3: Modify File** - Your main workflow
+- Edit _chg file with instructions
+- Execute Prompt 3
+- AI reads and applies changes
+- Auto-commits to git
 
 ### Adding Content
-
-#### Adding a New Chapter
-→ **Prompt 2: Add New TOC Entry**
-- Use: When you need to insert a new chapter
-- Template: `Templates/02_Add_TOC_Entry_Template.md`
-
-#### Processing Files from Inbox
-→ **Prompt 4: Integrate Content from Inbox**
-- Use: When you have TOC files, drafts, or references to import
-- Standalone: `Standalone/04_Integrate_Inbox.md`
-
-#### Editing Existing Content
-→ **Prompt 3: Modify Target File**
-- Use: When you need to revise a specific chapter or section
-- Template: `Templates/03_Modify_File_Template.md`
+→ **Prompt 2: Add Chapter** - New chapter (interactive or from draft)
+→ **Prompt 4: Integrate Inbox** - Process inbox files
 
 ### Quality Control
+→ **Prompt 6: Consistency** - Weekly or at milestones
+→ **Prompt 8: Dashboard** - Weekly progress check
 
-#### Check for Consistency Issues
-→ **Prompt 6: Consistency Checker**
-- Use: After major writing sessions or before compilation
-- Standalone: `Standalone/06_Consistency_Check.md`
-- Frequency: Weekly or at 25%, 50%, 75% milestones
-
-#### Track Progress
-→ **Prompt 8: Progress Dashboard**
-- Use: To see overall project status
-- Standalone: `Standalone/08_Progress_Dashboard.md`
-- Frequency: Weekly or after major changes
-
-### Compilation and Export
-
-#### Create Full Draft
-→ **Prompt 5: Compile Manuscript**
-- Use: When you want to review the complete book
-- Template: `Templates/05_Compile_Manuscript_Template.md`
-- Frequency: Monthly or at major milestones
-
-#### Export to Other Formats
-→ **Prompt 7: Export and Format**
-- Use: When preparing for submission or publication
-- Template: `Templates/07_Export_Format_Template.md`
-- Use after: Prompt 6 (consistency check) and final review
+### Compilation & Export
+→ **Prompt 5: Compile** - Review full manuscript
+→ **Prompt 7: Export** - Publication formats
 
 ### Version Control
+→ **Prompt 9: Git** - Commit, tag, push, status, etc.
 
-#### Git Operations
-→ **Prompt 9: Git Operations**
-- Use: For commits, tags, branches, history, push/pull
-- Template: `Templates/09_Git_Operations_Template.md`
-- Use frequently: After each work session or major change
+---
 
 ## Common Workflows
 
-### Daily Writing Workflow
-1. **Prompt 9**: Check git status
-2. Write/edit content in specific chapter
-3. **Prompt 3**: Make targeted revisions if needed
-4. **Prompt 9**: Commit changes
+### Daily Writing Session
 
-### Weekly Review Workflow
-1. **Prompt 8**: Generate progress dashboard
-2. **Prompt 6**: Run consistency check
-3. **Prompt 5**: Compile manuscript for review
-4. Fix identified issues using **Prompt 3**
-5. **Prompt 9**: Commit and push changes
+**Goal**: Write content, revise, commit, backup
+
+```
+1. Check git status
+   → Prompt 9 (Git) → Status
+
+2. Work on content in your editor
+
+3. Write revision instructions in _chg files
+   → Edit Chapters/Chapter_XX_chg.md
+   → Add instructions to [INSTRUCTIONS FOR THIS REVISION]
+   → Commit _chg file
+
+4. Execute revisions
+   → Prompt 3 (Modify File) for each chapter
+   → AI reads _chg, applies changes, commits
+
+5. Push to remote
+   → Prompt 9 (Git) → Push
+```
+
+**Time**: 5-10 minutes for prompts, rest is your writing
+
+---
+
+### Weekly Review
+
+**Goal**: Check progress, find issues, compile for review
+
+```
+1. Generate progress report
+   → Prompt 8 (Dashboard) → Detailed
+
+2. Run consistency checks
+   → Prompt 6 (Consistency) → All chapters, all checks
+
+3. Compile full manuscript
+   → Prompt 5 (Compile) → Use defaults
+
+4. Review compiled draft, note issues
+
+5. Fix issues
+   → Add instructions to _chg files
+   → Prompt 3 (Modify File) for each
+
+6. Commit and push
+   → Prompt 9 (Git) → Status
+   → Prompt 9 (Git) → Push
+```
+
+**Time**: 20-30 minutes
+
+---
+
+### Adding a New Chapter
+
+**Option A: Interactive (Quick Add)**
+
+```
+1. Execute add chapter prompt
+   → Prompt 2 (Add Chapter)
+
+2. Answer questions:
+   - Interactive or from Inbox? → Interactive
+   - Chapter title? → [your title]
+   - Position? → after Chapter 5
+   - Word count? → 3500
+   - Key topics? → [list or skip]
+   - Rationale? → [why adding]
+
+3. AI reorganizes, creates files, commits
+```
+
+**Option B: From Inbox (Drafted Content)**
+
+```
+1. Place chapter draft in Inbox/
+
+2. Execute integrate prompt
+   → Prompt 4 (Integrate Inbox)
+
+3. AI shows findings
+   → Suggests: Create new chapter
+
+4. Confirm position and integration method
+
+5. AI creates chapter, commits
+```
+
+**Time**: 5 minutes interactive, 10 minutes from Inbox
+
+---
 
 ### Milestone Workflow (25%, 50%, 75%, 100%)
-1. **Prompt 8**: Progress dashboard
-2. **Prompt 6**: Full consistency check
-3. **Prompt 5**: Compile complete manuscript
-4. Review and revise using **Prompt 3**
-5. **Prompt 9**: Create milestone tag (e.g., v1.0.0)
-6. **Prompt 9**: Push to remote backup
 
-### Integration Workflow (New Content)
-1. Place content file(s) in `Inbox/`
-2. **Prompt 4**: Integrate from Inbox
-3. Follow AI recommendations or provide guidance
-4. **Prompt 6**: Check consistency after integration
-5. **Prompt 3**: Make adjustments if needed
+**Goal**: Verify progress, check quality, tag milestone
 
-### Publication Prep Workflow
-1. **Prompt 8**: Verify 100% completion
-2. **Prompt 6**: Final consistency check
-3. Fix all issues using **Prompt 3**
-4. **Prompt 5**: Compile final manuscript
-5. **Prompt 7**: Export to required format(s)
-6. **Prompt 9**: Tag as publication-ready
+```
+1. Check completion status
+   → Prompt 8 (Dashboard) → Detailed
+   → Review chapter status table
+   → Note completion percentage
 
-## Template vs. Standalone
+2. Run full consistency check
+   → Prompt 6 (Consistency) → All chapters, all types
 
-### Use Templates When:
-- You need to provide specific information (chapter titles, file paths, etc.)
-- The prompt requires your decision on multiple options
-- You want to save a customized version for reuse
+3. Fix all critical and high-priority issues
+   → Add fixes to _chg files
+   → Prompt 3 (Modify File) for each issue
 
-### Use Standalone When:
-- The prompt doesn't require custom input
-- You want the AI to analyze and recommend options
-- You're ready to interact with the AI during execution
+4. Compile milestone version
+   → Prompt 5 (Compile) → v[X].0.0
 
-## Tips
+5. Create git tag
+   → Prompt 9 (Git) → Create Tag
+   → Tag name: v1.0.0 or first-draft
+   → Message: "Completed first draft" or "[XX]% milestone"
 
-1. **Always check git status first** - Use Prompt 9 before major operations
-2. **Reference the main process document** - All prompts link to detailed workflows
-3. **Save customized templates** - Keep filled-in templates outside this directory for reuse
-4. **Chain prompts logically** - Some workflows naturally combine prompts
-5. **Use the Anti-Hallucination Guidelines** - All prompts reference this automatically
+6. Push with tags
+   → Prompt 9 (Git) → Push
+   → Include tags? → Yes
+```
 
-## File Naming Legend
+**Time**: 1-2 hours depending on issues found
 
-- `01-09`: Prompt number
-- `_Template`: Fillable version with [FILL IN] markers
-- No suffix: Ready-to-use standalone version
+---
 
-## Need Help?
+### Publication Preparation
 
-- Read: `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
-- Check: `Process/Anti-Hallucination_Guidelines.md`
-- Review: This directory's `README.md`
+**Goal**: Finalize content, export for publisher
+
+```
+1. Verify 100% completion
+   → Prompt 8 (Dashboard) → Detailed
+   → Check all chapters show "Final" status
+   → Verify no placeholders
+
+2. Final consistency check
+   → Prompt 6 (Consistency) → All chapters, all types
+   → Should find zero critical issues
+
+3. Fix any remaining issues
+   → Prompt 3 (Modify File)
+
+4. Compile final manuscript
+   → Prompt 5 (Compile) → v[final].0.0
+   → Publication-Ready format
+
+5. Export to required format(s)
+   → Prompt 7 (Export)
+   → Format: DOCX and/or PDF
+   → Use publication settings
+
+6. Tag as publication-ready
+   → Prompt 9 (Git) → Create Tag
+   → Tag name: publication-v1
+   → Message: "Ready for submission"
+
+7. Push with tags
+   → Prompt 9 (Git) → Push with tags
+```
+
+**Time**: 2-3 hours for thorough final check
+
+---
+
+## The Primary Workflow: Prompt 3
+
+**This is how you'll spend 80% of your time revising content.**
+
+### Step-by-Step
+
+1. **Identify what needs changing**
+   - You review your content
+   - You decide what to revise
+
+2. **Write instructions in _chg file**
+   ```
+   Open: Chapters/Chapter_05_Analysis_chg.md
+
+   Find: ## REWRITE INSTRUCTIONS
+         ### [INSTRUCTIONS FOR THIS REVISION]
+
+   Write: Rewrite section 2 ("Data Analysis Methods") to:
+          - Add example using the survey data
+          - Clarify the statistical approach
+          - Add reference to Smith (2024) paper
+          - Improve transitions between paragraphs
+
+          Priority: High
+          Rationale: Current explanation is too abstract
+   ```
+
+3. **Commit the _chg file**
+   ```
+   git add Chapters/Chapter_05_Analysis_chg.md
+   git commit -m "Add revision instructions for Chapter 5"
+   ```
+
+4. **Execute Prompt 3**
+   ```
+   Copy: Process/Prompts/Prompt_3_Modify_File.md
+   Paste into Claude Code
+
+   AI asks: "Which file should I modify?"
+   You: "Chapters/Chapter_05_Analysis.md"
+
+   AI asks: "Should I analyze content first?"
+   You: "Yes" or "No"
+
+   AI: [Reads _chg file, confirms changes, executes]
+   ```
+
+5. **AI Auto-Completes**
+   - Applies your instructions
+   - Moves instructions to Version History
+   - Clears [INSTRUCTIONS FOR THIS REVISION]
+   - Updates metadata (word count, date)
+   - Creates git commit
+   - Reports results
+
+6. **Result**
+   - Chapter is revised
+   - _chg file has new Version History entry
+   - Instructions section is ready for next revision
+   - Git has commit record
+
+### Why This Works
+
+✅ **Single source of truth**: Instructions in _chg file
+✅ **Version tracked**: Instructions committed to git
+✅ **Auditable**: Version History shows all changes
+✅ **Repeatable**: Can iterate quickly
+✅ **Clean**: Instructions auto-archived, ready for next
+
+---
+
+## Prompt Chaining
+
+Some tasks naturally chain prompts:
+
+### Add Chapter → Modify Content
+```
+1. Prompt 2 (Add Chapter) - Creates placeholder
+2. Prompt 3 (Modify File) - Fill in content
+```
+
+### Integrate → Consistency → Fix
+```
+1. Prompt 4 (Integrate Inbox) - Add new content
+2. Prompt 6 (Consistency) - Check for issues
+3. Prompt 3 (Modify File) - Fix issues found
+```
+
+### Dashboard → Consistency → Compile
+```
+1. Prompt 8 (Dashboard) - Check status
+2. Prompt 6 (Consistency) - Full check
+3. Prompt 5 (Compile) - If ready, compile
+```
+
+---
+
+## Quick Decision Tree
+
+**"What prompt do I need?"**
+
+```
+Do you have a project yet?
+├─ No → Prompt 1 (Initialize)
+└─ Yes ↓
+
+What do you want to do?
+├─ Modify existing content → Prompt 3 (Modify File)
+├─ Add new chapter → Prompt 2 (Add Chapter)
+├─ Process inbox files → Prompt 4 (Integrate Inbox)
+├─ Check progress → Prompt 8 (Dashboard)
+├─ Find problems → Prompt 6 (Consistency)
+├─ Review full book → Prompt 5 (Compile)
+├─ Export for pub → Prompt 7 (Export)
+└─ Git operations → Prompt 9 (Git)
+```
+
+---
+
+## Frequency Recommendations
+
+| Prompt | Frequency | Why |
+|--------|-----------|-----|
+| 1 | Once per book | Project initialization |
+| 2 | As needed | When adding chapters |
+| 3 | **Daily-multiple times** | **Main revision workflow** |
+| 4 | Weekly or as needed | When inbox has content |
+| 5 | Weekly-monthly | Regular manuscript reviews |
+| 6 | Weekly | Catch issues early |
+| 7 | At milestones | Publication preparation |
+| 8 | Weekly | Progress monitoring |
+| 9 | Daily (status, push) | Version control hygiene |
+
+---
+
+## Tips for Success
+
+### For Prompt 3 (Your Main Tool)
+1. **Be specific in _chg instructions**: More detail = better results
+2. **Commit _chg before executing**: Creates audit trail
+3. **One focus per revision**: Don't try to fix everything at once
+4. **Use Priority markers**: High/Medium/Low helps AI understand urgency
+
+### For All Prompts
+1. **Read the Anti-Hallucination Guidelines**: Prevents fabricated content
+2. **Push to remote daily**: Cloud backup via Prompt 9
+3. **Run Prompt 8 weekly**: Stay aware of progress
+4. **Run Prompt 6 before compiling**: Catch issues before full review
+5. **Use default settings**: Stored in Project_Config.md, save time
+
+### TOC Management
+1. **Never edit TOC_chg.md manually**: AI-managed only
+2. **Use Prompt 2 for new chapters**: Keeps TOC in sync
+3. **No complete TOC files in Inbox after init**: Use Prompt 2 instead
+
+---
+
+## Example Instructions for _chg Files
+
+### Good Examples
+
+```markdown
+### [INSTRUCTIONS FOR THIS REVISION]
+
+Strengthen the opening paragraph:
+- Start with the surprising statistic about remote work adoption
+- Add emotional hook about changed workplace expectations
+- Connect to reader's likely experience
+- Lead into the chapter's main argument
+
+Priority: High
+Rationale: Current opening is weak, doesn't engage reader
+```
+
+```markdown
+### [INSTRUCTIONS FOR THIS REVISION]
+
+Add case study to section 3:
+- Use the TechCorp example (fictional but realistic)
+- Show how they implemented 4-day work week
+- Include challenges and results
+- Keep it brief (300-400 words)
+- Add [CITATION NEEDED] marker for real-world similar case
+
+Priority: Medium
+Rationale: Section needs concrete example to illustrate points
+```
+
+### Less Effective
+
+```markdown
+### [INSTRUCTIONS FOR THIS REVISION]
+
+Make it better
+```
+*Too vague - AI needs specific guidance*
+
+```markdown
+### [INSTRUCTIONS FOR THIS REVISION]
+
+Rewrite everything and add 10 examples and fix all the problems
+```
+*Too broad - break into smaller, focused revisions*
+
+---
+
+## Getting Unstuck
+
+**Problem**: Not sure which prompt to use
+**Solution**: Check the decision tree above or start with Prompt 8 (Dashboard)
+
+**Problem**: Prompt 3 isn't understanding my instructions
+**Solution**: Be more specific in _chg file, use examples
+
+**Problem**: Too many issues from Prompt 6
+**Solution**: Tackle high-priority first, use Prompt 3 iteratively
+
+**Problem**: Forgot to commit _chg file
+**Solution**: Commit it now, re-run Prompt 3
+
+**Problem**: Lost track of progress
+**Solution**: Prompt 8 (Dashboard) shows everything
+
+---
+
+## Remember
+
+**The core loop is simple:**
+1. Write instructions in _chg file
+2. Commit _chg file
+3. Execute Prompt 3
+4. AI applies, archives, commits
+5. Repeat
+
+Everything else supports this core workflow.

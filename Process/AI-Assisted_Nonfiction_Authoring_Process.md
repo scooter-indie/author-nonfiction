@@ -225,17 +225,51 @@ All content files are in Markdown (`.md`) format with accompanying change tracki
 
 ## REWRITE INSTRUCTIONS
 
-[CRITICAL: Keep all content in the target file unchanged, except as instructed below in the [INSTRUCTIONS FOR THIS REVISION] block. Each update to this file must be recorded in the Version History above with proper version increment.]
+**[WORKFLOW NOTE FOR AUTHORS]**
 
-### [INSTRUCTIONS FOR THIS REVISION]
+This section is your primary interface for requesting content modifications. When you want to revise the target file:
 
-[Instructions will be added here as needed for each revision]
+1. **Write your instructions** in the section below
+2. **Commit this _chg file** to git
+3. **Execute Prompt 3** (copy Process/Prompts/Prompt_3_Modify_File.md into Claude Code)
+4. **AI reads your instructions** from this section automatically
+5. **AI executes the changes** and auto-archives these instructions to Version History above
+
+**Important**: After execution, this section will be cleared and ready for your next set of instructions.
 
 ---
 
-**[KEEP THIS INSTRUCTION IN EVERY CHANGE FILE]**
+### [INSTRUCTIONS FOR THIS REVISION]
 
-Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS REVISION] blocks as needed. Archive completed instructions by moving them to the Version History.
+[Add your modification instructions here]
+
+**Example format:**
+```
+Rewrite the introduction section to:
+- Lead with the remote work adoption statistic
+- Add context about post-pandemic changes
+- Strengthen connection to main thesis
+- Improve transition to first section
+
+Priority: High
+Rationale: Current intro doesn't hook the reader effectively
+```
+
+[Ready for next revision - add instructions above]
+
+---
+
+**[AI ASSISTANT NOTE]**
+
+When executing Prompt 3:
+1. Read instructions from the [INSTRUCTIONS FOR THIS REVISION] section above
+2. Apply the modifications to the target file
+3. Create a new Version History entry with appropriate version increment
+4. Move completed instructions to that Version History entry
+5. Clear this [INSTRUCTIONS FOR THIS REVISION] section
+6. Leave message: "[Ready for next revision - add instructions above]"
+7. Update file metadata (word count, last modified, status if changed)
+8. Create git commit with version information
 ```
 
 ---
@@ -1462,11 +1496,29 @@ Include links to relevant style guides in `Project_Config.md`:
 - **List Style:** [Dash/Asterisk]
 - **Emphasis:** [Asterisk/Underscore]
 
-## Backup Settings
+## Git Settings
 
-- **Auto-Snapshot:** Before major operations
-- **Snapshot Retention:** Last 10
-- **Git Integration:** [Yes/No]
+- **Git Integration:** Required
+- **Remote Repository:** [URL to GitHub/GitLab/Bitbucket]
+- **Default Branch:** main
+- **Auto-Commit:** Enabled (via Prompt 3)
+
+## Default Compilation Settings (Prompt 5)
+
+- **Format:** Formatted
+- **Include Placeholders:** Yes
+- **Include Change Tracking Metadata:** No
+- **Auto-Generate TOC:** Yes
+
+## Default Export Settings (Prompt 7)
+
+- **Export Format:** DOCX
+- **Citation Style:** Chicago
+- **Include Cover Page:** Yes
+- **Include TOC:** Yes
+- **Include Page Numbers:** Yes
+- **Image Resolution:** High (print quality)
+- **Image Handling:** Include all, optimize for target format
 
 ## Custom Settings
 

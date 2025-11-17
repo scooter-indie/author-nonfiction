@@ -1,102 +1,301 @@
-# Prompt Files for AI-Assisted Nonfiction Authoring
+# Execute Prompts for AI-Assisted Nonfiction Authoring
 
-This directory contains ready-to-use prompt files for working with AI assistants on nonfiction book projects.
+This directory contains simple, conversational prompt files for working with AI assistants on nonfiction book projects.
 
-## Directory Structure
+## Philosophy
+
+**Single Source of Truth**: Content file `_chg.md` files contain all modification instructions. You write your instructions there, then execute the prompts.
+
+**Conversational Interface**: Just copy a prompt file and paste into Claude Code. The AI will ask you questions and guide you through the process.
+
+**No Templates**: No fill-in-the-blank forms. Just interactive conversations with the AI.
+
+---
+
+## Directory Contents
 
 ```
 Prompts/
 ├── README.md (this file)
-├── Standalone/          # Complete prompts, ready to copy/paste
-└── Templates/           # Fillable templates with [FILL IN] markers
+├── QUICK_REFERENCE.md (workflows and when to use each prompt)
+├── Prompt_1_Initialize.md
+├── Prompt_2_Add_Chapter.md
+├── Prompt_3_Modify_File.md
+├── Prompt_4_Integrate_Inbox.md
+├── Prompt_5_Compile.md
+├── Prompt_6_Consistency.md
+├── Prompt_7_Export.md
+├── Prompt_8_Dashboard.md
+└── Prompt_9_Git.md
 ```
+
+---
 
 ## How to Use
 
-### Standalone Prompts
-1. Navigate to `Standalone/`
-2. Open the desired prompt file
-3. Copy the entire content
-4. Paste into Claude Code
-5. The AI will execute the prompt as written
+### General Workflow
 
-### Template Prompts
-1. Navigate to `Templates/`
-2. Open the desired template file
-3. Search for `[FILL IN:` markers
-4. Replace each marker with your specific information
-5. Copy the completed prompt
-6. Paste into Claude Code
+1. **Open the prompt file** you want to use
+2. **Copy the entire contents**
+3. **Paste into Claude Code**
+4. **Answer the AI's questions** - The AI will guide you interactively
+5. **AI executes** the workflow and reports back
+
+### Example: Modifying a Chapter
+
+**Your workflow:**
+
+1. Open `Chapters/Chapter_03_Methods_chg.md`
+2. Add instructions to the `[INSTRUCTIONS FOR THIS REVISION]` section:
+   ```markdown
+   ### [INSTRUCTIONS FOR THIS REVISION]
+
+   Rewrite the "Data Collection" section to:
+   - Add example of survey design
+   - Include reference to Johnson (2023) study
+   - Clarify the sampling methodology
+   ```
+3. Commit the _chg file to git
+4. Open `Prompt_3_Modify_File.md` and copy/paste into Claude Code
+5. AI asks: "Which file should I modify?"
+6. You: "Chapters/Chapter_03_Methods.md"
+7. AI reads the _chg file, confirms the changes, and executes
+8. AI auto-archives your instructions to Version History
+
+---
 
 ## Available Prompts
 
-### Core Workflow Prompts
+### 1. Prompt_1_Initialize.md
+**Purpose**: Create new book project from scratch
 
-1. **Prompt 1: Initialize Project Structure**
-   - Standalone: `Standalone/01_Initialize_Project.md`
-   - Template: `Templates/01_Initialize_Project_Template.md`
-   - Purpose: Create initial project structure and TOC
+**When to use**: Starting a brand new book
 
-2. **Prompt 2: Add New TOC Entry**
-   - Standalone: `Standalone/02_Add_TOC_Entry.md`
-   - Template: `Templates/02_Add_TOC_Entry_Template.md`
-   - Purpose: Insert new chapter with automatic reorganization
+**Interaction**: Fully interactive - AI asks about title, author, word count, TOC, etc.
 
-3. **Prompt 3: Modify Target File**
-   - Standalone: `Standalone/03_Modify_File.md`
-   - Template: `Templates/03_Modify_File_Template.md`
-   - Purpose: Apply specific revisions to a file
+**Output**: Complete project structure, git repo, all placeholder files
 
-4. **Prompt 4: Integrate Content from Inbox**
-   - Standalone: `Standalone/04_Integrate_Inbox.md`
-   - Template: `Templates/04_Integrate_Inbox_Template.md`
-   - Purpose: Process and integrate files from Inbox, including TOC files
+---
 
-5. **Prompt 5: Compile Manuscript**
-   - Standalone: `Standalone/05_Compile_Manuscript.md`
-   - Template: `Templates/05_Compile_Manuscript_Template.md`
-   - Purpose: Generate single compiled document
+### 2. Prompt_2_Add_Chapter.md
+**Purpose**: Add a new chapter to existing book
 
-6. **Prompt 6: Consistency Checker**
-   - Standalone: `Standalone/06_Consistency_Check.md`
-   - Template: `Templates/06_Consistency_Check_Template.md`
-   - Purpose: Scan for consistency issues
+**When to use**: Need to insert a new chapter into your book
 
-7. **Prompt 7: Export and Format**
-   - Standalone: `Standalone/07_Export_Format.md`
-   - Template: `Templates/07_Export_Format_Template.md`
-   - Purpose: Generate output in various formats
+**Interaction**: Choose interactive (quick questions) or from Inbox content
 
-8. **Prompt 8: Progress Dashboard**
-   - Standalone: `Standalone/08_Progress_Dashboard.md`
-   - Template: `Templates/08_Progress_Dashboard_Template.md`
-   - Purpose: Generate comprehensive status report
+**Important**: TOC/TOC_chg.md is AI-managed only. Do not edit it manually.
 
-9. **Prompt 9: Git Operations**
-   - Standalone: `Standalone/09_Git_Operations.md`
-   - Template: `Templates/09_Git_Operations_Template.md`
-   - Purpose: Perform git version control operations
+**Output**: New chapter files, renumbered existing chapters, updated TOC, git commits
+
+---
+
+### 3. Prompt_3_Modify_File.md
+**Purpose**: Modify content based on _chg file instructions
+
+**When to use**: This is your PRIMARY workflow for content revisions
+
+**Interaction**:
+- You write instructions in the `_chg.md` file first
+- AI asks which file to modify
+- AI reads instructions from _chg file automatically
+- AI confirms and executes
+
+**Key feature**: Auto-archives completed instructions to Version History
+
+**Output**: Modified content file, updated _chg file, git commit
+
+---
+
+### 4. Prompt_4_Integrate_Inbox.md
+**Purpose**: Process files from Inbox/ directory
+
+**When to use**: You have content, references, or assets to integrate
+
+**Interaction**: AI scans Inbox/, shows findings, asks about each file
+
+**Special rule**: After initial project setup, complete TOC files are rejected
+
+**Output**: Integrated content, archived inbox files, git commits
+
+---
+
+### 5. Prompt_5_Compile.md
+**Purpose**: Generate complete manuscript in single file
+
+**When to use**: Want to review entire book, prepare for editing
+
+**Interaction**: AI asks for version number and whether to use default settings
+
+**Settings**: Stored in `Project_Config.md`, can customize per compilation
+
+**Output**: `Drafts/Full_Draft_[date]_v[version].md` with statistics
+
+---
+
+### 6. Prompt_6_Consistency.md
+**Purpose**: Check for consistency issues across all content
+
+**When to use**: Weekly, at milestones, before compilation/export
+
+**Interaction**: AI asks what scope and which checks to run
+
+**Checks**: Terminology, cross-references, style, facts, tone/voice
+
+**Output**: Comprehensive report with Critical/Warning/Suggestion categories
+
+---
+
+### 7. Prompt_7_Export.md
+**Purpose**: Export manuscript to DOCX, PDF, EPUB, LaTeX
+
+**When to use**: Preparing for publication, submission, or distribution
+
+**Interaction**: AI asks about format and settings (or uses defaults)
+
+**Settings**: Stored in `Project_Config.md`, can customize per export
+
+**Output**: Formatted files in `Exports/[date]/` directory
+
+---
+
+### 8. Prompt_8_Dashboard.md
+**Purpose**: Generate progress report and project status
+
+**When to use**: Weekly check-ins, after major changes, at milestones
+
+**Interaction**: AI asks Summary or Detailed
+
+**Output**: Comprehensive dashboard with metrics, git status, recommendations
+
+---
+
+### 9. Prompt_9_Git.md
+**Purpose**: Perform git version control operations
+
+**When to use**: Commit, tag, branch, view history, push/pull, status
+
+**Interaction**: AI asks which operation, then operation-specific questions
+
+**Safety**: Never runs destructive operations without confirmation
+
+**Output**: Git operation result and next recommendations
+
+---
+
+## Important Concepts
+
+### Single Source of Truth: _chg Files
+
+**For content modifications:**
+- Write your instructions in the `_chg.md` file
+- Commit the _chg file
+- Execute Prompt 3
+- AI reads and executes your instructions
+- AI auto-archives them to Version History
+
+**Do NOT edit:**
+- `TOC/TOC_chg.md` - This is AI-managed only
+
+### Auto-Archive Workflow
+
+When Prompt 3 completes:
+1. Instructions are moved to Version History with version increment
+2. `[INSTRUCTIONS FOR THIS REVISION]` section is cleared
+3. Message left: "[Ready for next revision - add instructions above]"
+4. File metadata updated (word count, date, etc.)
+5. Git commit created
+
+### Default Settings
+
+**Prompt 5 (Compile)** and **Prompt 7 (Export)** use defaults from `Project_Config.md`:
+- You can use defaults (quick)
+- Or customize per operation
+- Update defaults in Project_Config.md anytime
+
+---
+
+## Common Workflows
+
+### Daily Writing Session
+1. Work on content in your editor
+2. Run **Prompt 9** → Status to check git state
+3. Write revision instructions in _chg files
+4. Run **Prompt 3** for each file (auto-commits)
+5. Run **Prompt 9** → Push at end of session
+
+### Weekly Review
+1. **Prompt 8** → Progress Dashboard
+2. **Prompt 6** → Consistency Check
+3. **Prompt 5** → Compile manuscript for review
+4. Fix issues using **Prompt 3**
+5. **Prompt 9** → Commit and push
+
+### Adding New Content
+**Option A (Interactive):**
+- **Prompt 2** → Add Chapter (answer questions)
+
+**Option B (From Inbox):**
+- Place content in Inbox/
+- **Prompt 4** → Integrate Inbox
+
+### Milestone Workflow (25%, 50%, 75%, 100%)
+1. **Prompt 8** → Dashboard (verify progress)
+2. **Prompt 6** → Full consistency check
+3. Fix all issues using **Prompt 3**
+4. **Prompt 5** → Compile final version
+5. **Prompt 9** → Create tag (e.g., v1.0.0, first-draft)
+6. **Prompt 9** → Push with tags
+
+### Publication Preparation
+1. **Prompt 8** → Verify 100% completion
+2. **Prompt 6** → Final consistency check
+3. **Prompt 3** → Fix all remaining issues
+4. **Prompt 5** → Compile final manuscript
+5. **Prompt 7** → Export to required format(s)
+6. **Prompt 9** → Tag as publication-ready
+
+---
 
 ## Tips for Best Results
 
-1. **Always specify the working directory** in your prompts or ensure Claude Code is in the correct directory
+1. **Always reference Anti-Hallucination Guidelines**: All prompts do this automatically
 
-2. **Reference the Anti-Hallucination Guidelines** - All prompts include this reference automatically
+2. **Commit _chg files before using Prompt 3**: This ensures you have a record of your instructions
 
-3. **Use templates for repeated tasks** - Fill in the template once, save your customized version elsewhere for reuse
+3. **Use Prompt 8 (Dashboard) frequently**: Weekly check-ins help you stay on track
 
-4. **Chain prompts when needed** - Some workflows naturally combine multiple prompts (e.g., Prompt 4 → Prompt 3)
+4. **Run Prompt 6 (Consistency) at milestones**: Catch issues early
 
-5. **Check git status before major operations** - Run Prompt 9 (Git Status) before running Prompts 2, 4, or 5
+5. **Push to remote regularly**: Your cloud backup via Prompt 9
 
-## Customization
+6. **Don't edit TOC_chg.md manually**: Let the AI manage it via Prompts 1, 2, and 4
 
-Feel free to:
-- Create your own prompt variations
-- Combine prompts for common workflows
-- Add project-specific details to templates
-- Save customized versions outside this directory
+7. **Use descriptive instructions in _chg files**: Clear instructions = better results
+
+---
 
 ## Anti-Hallucination Guidelines
 
-All prompts automatically reference `Process/Anti-Hallucination_Guidelines.md` to ensure factual accuracy and proper handling of uncertainty during content generation.
+All prompts automatically reference `Process/Anti-Hallucination_Guidelines.md` to ensure:
+- Factual accuracy
+- Proper handling of uncertainty
+- No fabricated statistics, quotes, or citations
+- Clear markers for content needing verification
+
+---
+
+## Getting Help
+
+- **Process documentation**: `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
+- **Quick reference**: `Process/Prompts/QUICK_REFERENCE.md`
+- **Anti-hallucination rules**: `Process/Anti-Hallucination_Guidelines.md`
+
+---
+
+## Archived Materials
+
+Old template and standalone prompt files have been archived to:
+`Process/Archive/Old_Prompts_2025-11-17/`
+
+They remain in git history if you need to reference them.
