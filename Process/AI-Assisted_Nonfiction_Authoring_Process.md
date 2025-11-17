@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Process
 
-**Version:** 3.3.0
+**Version:** 3.4.0
 **Last Updated:** 2025-11-17
 **Purpose:** A comprehensive, systematic approach to authoring nonfiction books with AI assistance using Git version control
 
@@ -278,9 +278,83 @@ When executing Prompt 3:
 
 ---
 
+### Automatic Change Tracking Synchronization
+
+**Overview:**
+
+The framework includes automatic synchronization between content files and their `_chg` tracking files to ensure version history stays current even when manual edits are made outside the Prompt 3 workflow.
+
+**Synchronization Points:**
+
+1. **Session Start (book-writing-assistant agent)**
+   - Automatically scans for out-of-sync files when user begins writing session
+   - Reports findings and updates _chg files before proceeding
+   - User acknowledges updates before continuing
+
+2. **Pre-Commit (book-writing-assistant agent)**
+   - Blocks commits if files are out of sync with _chg tracking
+   - Auto-updates _chg files before allowing commit
+   - Includes updated _chg files in the commit
+
+3. **Manual Invocation (Prompt 10)**
+   - Run `Prompt_10_Update_Change_Tracking.md` anytime
+   - Useful for maintenance, before milestones, or after pulling from remote
+
+**Detection Scope:**
+
+The system checks for changes in three contexts:
+- **Uncommitted changes**: Local edits not yet staged (`git diff`)
+- **Staged changes**: Changes ready for commit (`git diff --cached`)
+- **Unpushed commits**: Commits made locally but not pushed (`git diff origin/main..HEAD`)
+
+**Auto-Generation Process:**
+
+For each out-of-sync file:
+1. Extract combined git diff from all three contexts
+2. Analyze diff to infer change type:
+   - "Content Addition" → primarily new lines added
+   - "Content Deletion" → primarily lines removed
+   - "Structural Change" → headings/organization modified
+   - "Refinement" → mostly line-by-line edits
+   - "Content Update" → general modifications (default)
+3. Apply semantic versioning based on change type:
+   - Structural Change → increment major version (X.0.0)
+   - Content Addition/Deletion → increment minor version (0.X.0)
+   - Refinement/Content Update → increment patch version (0.0.X)
+4. Generate version history entry with:
+   - Version number and current date
+   - Inferred change type and scope
+   - Summary of changes from diff analysis
+   - Rationale: "[Auto-generated from git diff]"
+5. Insert entry at top of "Version History (Most Recent First)" section
+6. Update "Last Modified" date in file header
+
+**Benefits:**
+
+- Ensures change tracking never falls behind content changes
+- Maintains audit trail for manual edits
+- Reduces friction in workflow (no manual _chg updates needed)
+- Provides meaningful version history even for quick edits
+- Blocks commits that would lose change tracking context
+
+**When Manual Updates Are Still Needed:**
+
+Auto-sync generates accurate technical summaries but cannot capture:
+- Strategic rationale for changes
+- Editorial feedback that prompted revisions
+- User preferences or specific context
+
+Consider manually editing auto-generated entries to add:
+- More detailed rationale beyond "[Auto-generated from git diff]"
+- Context about why changes were made
+- Notes about editorial feedback or review comments
+- Dependencies or related changes
+
+---
+
 ## Core Prompts
 
-The AI-Assisted Nonfiction Authoring Process includes 9 core prompts for different aspects of book development. Each prompt is a conversational interface stored in `Process/Prompts/`.
+The AI-Assisted Nonfiction Authoring Process includes 10 core prompts for different aspects of book development. Each prompt is a conversational interface stored in `Process/Prompts/`.
 
 **How to use:** Copy a prompt file and paste into Claude Code. The AI will guide you through the process interactively.
 
@@ -488,6 +562,30 @@ Performs git version control operations (commit, tag, branch, log, status, push,
 
 ---
 
+### Prompt 10: Update Change Tracking
+
+Synchronizes `_chg.md` (change tracking) files with content file modifications detected via git, auto-generating version history entries.
+
+**When to use:** After manual edits, before milestones, weekly maintenance, after pulling from remote
+
+**Key features:**
+- Scans for changes in three contexts: uncommitted, staged, and unpushed commits
+- Auto-detects all file pairs (content file + corresponding `_chg.md` file)
+- Analyzes git diffs to infer change type (Content Addition, Structural Change, Refinement, etc.)
+- Applies semantic versioning rules (major.minor.patch)
+- Generates properly formatted version history entries
+- Updates "Last Modified" dates in file headers
+
+**Interaction:** Minimal - AI runs automatic scan and shows summary of updates made
+
+**Output:** Updated `_chg` files with new version history entries documenting all changes
+
+**Note:** The book-writing-assistant agent automatically runs this check at session start and before commits, so manual execution is only needed for maintenance or when working outside the agent
+
+**See:** `Process/Prompts/Prompt_10_Update_Change_Tracking.md` for execution
+
+---
+
 ## Quote Management Workflow
 
 ### Overview
@@ -625,13 +723,54 @@ Each quote entry in `Quotes/Chapter_Quotes.md` follows this format:
 
 ### Managing Quote Changes
 
-**Adding/Updating Quotes:**
+**Method 1: Using Prompt 3 (Traditional Workflow):**
 
 1. Open `Quotes/Chapter_Quotes_chg.md`
 2. Add instructions in [INSTRUCTIONS FOR THIS REVISION] section
 3. Commit the _chg file
 4. Execute Prompt 3, specifying Chapter_Quotes.md as target
 5. AI updates quotes and auto-archives instructions
+
+**Method 2: Using Book-Writing-Assistant Agent (Enhanced Workflow):**
+
+The book-writing-assistant agent provides comprehensive quote management through natural language:
+
+**SEARCH MODE - Web-Based Quote Discovery:**
+- Agent asks context-aware questions based on book themes
+- Searches 3 websites per iteration
+- Tracks examined websites to avoid redundancy
+- User can specify particular websites to search
+- Continues with new criteria as long as needed
+- Auto-saves approved quotes with ⚠ status
+
+**ADD MODE - Manual Quote Entry:**
+- User provides quote text and attribution
+- Agent formats properly and adds to Chapter_Quotes.md
+- Updates change tracking automatically
+
+**VALIDATE MODE - Quote Verification:**
+- User provides quote and claimed attribution
+- Agent performs web search to verify accuracy
+- Reports: ✓ Verified, ⚠ Partial match, or ✗ Not found
+- Offers to add verified quotes with ✓ status
+
+**DELETE MODE - Quote Removal:**
+- Shows current quote before deletion
+- Requires confirmation
+- Updates both quote file and change tracking
+
+**STATUS MODE - Progress Overview:**
+- Shows completion statistics by status
+- Identifies chapters needing work
+- Offers to work on pending quotes
+
+**Trigger phrases:**
+- "Find quotes for Chapter 3"
+- "Search for quotes about [theme]"
+- "I have a quote to add"
+- "Validate this quote: [text]"
+- "Delete quote from Chapter 5"
+- "Show quote status"
 
 **Example Change Instructions:**
 
@@ -1200,6 +1339,32 @@ Include links to relevant style guides in `Project_Config.md`:
 ---
 
 ## Version History
+
+### Version 3.4.0 - 2025-11-17
+- **Added Prompt 10: Update Change Tracking** for manual _chg file synchronization
+- **Added book-writing-assistant agent** with comprehensive quote management and _chg sync
+- **Enhanced Quote Management** with five operational modes (SEARCH, ADD, VALIDATE, DELETE, STATUS)
+- **Implemented Automatic Change Tracking Synchronization**:
+  - Session-start sync check in book-writing-assistant agent
+  - Pre-commit blocking sync check to prevent unsynchronized commits
+  - Git diff analysis with automatic change type inference
+  - Semantic versioning based on change patterns
+  - Auto-generated version history entries
+- **Quote Search Features**:
+  - Context-aware web search with 3-site batches per iteration
+  - Examined website tracking to avoid redundancy
+  - User-specified website support
+  - Quote validation via web search
+  - Automatic integration with Chapter_Quotes.md
+- **Agent Configuration**:
+  - Created `.claude/agents/book-writing-assistant.md`
+  - Natural language interface for quote and change tracking operations
+  - Integrated with existing Process directory workflow
+- **Documentation Updates**:
+  - Updated Core Prompts from 9 to 10
+  - Added comprehensive _chg sync documentation in Change Tracking System section
+  - Enhanced Quote Management Workflow with agent methods
+  - Updated README.md and QUICK_REFERENCE.md
 
 ### Version 3.3.0 - 2025-11-17
 - **Refactored Core Prompts section** to eliminate duplication with prompt files
