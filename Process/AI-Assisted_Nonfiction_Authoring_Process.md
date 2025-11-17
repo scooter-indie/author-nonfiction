@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Process
 
-**Version:** 3.0.0
+**Version:** 3.2.0
 **Last Updated:** 2025-11-17
 **Purpose:** A comprehensive, systematic approach to authoring nonfiction books with AI assistance using Git version control
 
@@ -92,6 +92,10 @@ All content files are in Markdown (`.md`) format with accompanying change tracki
 │   ├── Sources/
 │   ├── Notes/
 │   └── References/
+│
+├── Quotes/
+│   ├── Chapter_Quotes.md                # Chapter epigraphs with verification status
+│   └── Chapter_Quotes_chg.md            # Quote change tracking
 │
 ├── Inbox/
 │   └── (New content awaiting integration)
@@ -1134,6 +1138,249 @@ When executing Prompt 3:
 
 ---
 
+## Quote Management Workflow
+
+### Overview
+
+The quote management system provides a centralized approach to selecting, verifying, and managing chapter epigraphs (opening quotes). Each chapter can have one epigraph that will be automatically inserted during manuscript compilation.
+
+### Quote Files Location
+
+```
+Quotes/
+├── Chapter_Quotes.md          # Centralized quote repository
+└── Chapter_Quotes_chg.md      # Quote change tracking
+```
+
+### Quote Verification Status Codes
+
+Each quote entry has a status code indicating its verification state:
+
+- **⏳ Pending**: Quote needs to be selected/researched for this chapter
+- **⚠ Needs Citation**: Quote selected but requires complete attribution verification
+- **✓ Verified**: Quote fully verified with complete bibliographic information
+
+### Quote Entry Structure
+
+Each quote entry in `Quotes/Chapter_Quotes.md` follows this format:
+
+```markdown
+## Chapter XX: [Chapter Title]
+
+**Status:** [⏳|⚠|✓]
+
+**Quote:**
+> [Quote text - exact wording from original source]
+
+**Attribution:**
+- **Author:** [Full name]
+- **Source:** [Book title, article, speech, etc.]
+- **Year:** [Publication/delivery year]
+- **Page:** [Page number if applicable]
+- **Context:** [Brief context about the quote]
+
+**Bibliography Reference:** [Full citation in project's chosen style]
+
+**Notes:** [Verification notes, permissions, fair use justification]
+```
+
+### Workflow Integration
+
+**During Project Initialization (Prompt 1):**
+- `Chapter_Quotes.md` created with placeholder entries for all chapters
+- All quotes start with Status: ⏳ Pending
+- Entries ready for quote selection
+
+**When Adding Chapters (Prompt 2):**
+- New quote entry automatically added to `Chapter_Quotes.md`
+- Initial status: ⏳ Pending
+- Change note added to `Chapter_Quotes_chg.md`
+
+**During Content Development:**
+- Author updates quotes as chapters are written
+- Progress through statuses: ⏳ → ⚠ → ✓
+- Track changes in `Chapter_Quotes_chg.md`
+
+**During Compilation (Prompt 5):**
+- Verified (✓) quotes automatically inserted at chapter start
+- Quotes needing citation (⚠) included with warning note
+- Pending quotes (⏳) skipped with note in compilation report
+
+**During Consistency Check (Prompt 6):**
+- Quote verification status reported
+- Missing attributions flagged
+- Formatting inconsistencies identified
+- Bibliography references validated
+
+**In Progress Dashboard (Prompt 8):**
+- Quote completion statistics displayed
+- Chapters needing quote work identified
+- Overall quote verification progress tracked
+
+### Quote Verification Process
+
+**Step 1: Select Appropriate Quote (⏳ → ⚠)**
+
+1. Choose quote relevant to chapter theme
+2. Ensure quote is authentic and properly attributed
+3. Avoid commonly misattributed quotes (see Anti-Hallucination Guidelines)
+4. Add quote to entry with basic attribution
+5. Update status to ⚠ Needs Citation
+
+**Step 2: Verify and Complete Attribution (⚠ → ✓)**
+
+1. Locate original source (book, article, recording)
+2. Verify exact wording matches original
+3. Add complete bibliographic information:
+   - Full author name
+   - Complete source title
+   - Publication year
+   - Page number (for print sources)
+   - Publisher information
+4. Add corresponding entry to `BackMatter/Bibliography.md`
+5. Link bibliography reference in quote entry
+6. Add verification notes (date verified, source consulted)
+7. Confirm fair use applicability for epigraph use
+8. Update status to ✓ Verified
+
+### Best Practices
+
+**Quote Selection:**
+- Choose quotes that illuminate chapter themes
+- Prefer well-documented, easily verifiable quotes
+- Avoid quotes found only on quote websites
+- Be skeptical of quotes without page numbers or specific sources
+- Check multiple sources for wording consistency
+
+**Attribution Requirements:**
+- Always provide complete source information
+- Include page numbers for print sources
+- For speeches/videos, include date and venue/platform
+- For translations, note translator and edition
+- Document where original was verified
+
+**Common Pitfalls to Avoid:**
+- Misattributions to famous figures (Einstein, Twain, Churchill)
+- Quotes that only appear on quote aggregator sites
+- Paraphrased quotes presented as exact quotations
+- Missing or incomplete source information
+- Using quotes without verification
+
+**Fair Use Considerations:**
+- Epigraphs typically qualify as fair use
+- Use brief quotes (1-2 sentences preferred)
+- Always attribute properly
+- Document fair use justification in Notes field
+- Consult legal guidance for longer quotes or restricted sources
+
+### Managing Quote Changes
+
+**Adding/Updating Quotes:**
+
+1. Open `Quotes/Chapter_Quotes_chg.md`
+2. Add instructions in [INSTRUCTIONS FOR THIS REVISION] section
+3. Commit the _chg file
+4. Execute Prompt 3, specifying Chapter_Quotes.md as target
+5. AI updates quotes and auto-archives instructions
+
+**Example Change Instructions:**
+
+```markdown
+Update quote for Chapter 05:
+
+Current Status: ⏳ Pending
+New Status: ✓ Verified
+
+Add the following verified quote:
+
+Quote: "The scientific method is really a way of thinking about and testing
+our understanding of nature through experiment and observation."
+
+Attribution:
+- Author: Carl Sagan
+- Source: The Demon-Haunted World: Science as a Candle in the Dark
+- Year: 1995
+- Page: 27
+- Context: Introduction to scientific thinking
+
+Bibliography: Sagan, C. (1995). The Demon-Haunted World: Science as a
+Candle in the Dark. New York: Random House.
+
+Notes: Verified from original text, page 27. Fair use as chapter epigraph.
+
+Priority: Medium
+Rationale: Perfect thematic introduction for chapter on empirical research methods
+```
+
+### Compilation Formatting
+
+When compiling the manuscript (Prompt 5), verified quotes are formatted as:
+
+```markdown
+# Chapter 5: Research Methods
+
+> The scientific method is really a way of thinking about and testing our
+> understanding of nature through experiment and observation.
+>
+> — Carl Sagan, *The Demon-Haunted World* (1995)
+
+[Chapter content begins here...]
+```
+
+**Formatting Rules:**
+- Quote appears immediately after chapter heading
+- Blockquote formatting (> prefix)
+- Attribution line: — Author, *Source* (Year)
+- Blank line separates quote from chapter content
+- Source title in italics
+
+### Anti-Hallucination Compliance
+
+**CRITICAL RULES:**
+
+1. **NEVER fabricate quotes** - If uncertain about exact wording, mark as ⏳ Pending
+2. **NEVER guess attributions** - Research thoroughly before marking ✓ Verified
+3. **ALWAYS verify against original sources** - Quote sites are NOT sufficient
+4. **ALWAYS document verification** - Note where and when quote was verified
+5. **Flag uncertainty** - Use ⚠ status if ANY doubt exists about attribution
+
+See `Process/Anti-Hallucination_Guidelines.md` for comprehensive quote verification rules and common misattribution examples.
+
+### Quote Statistics and Monitoring
+
+**Track these metrics (visible in Prompt 8 Dashboard):**
+
+- Total quotes: [N] chapters
+- Verified (✓): [N] quotes ([XX]%)
+- Needs Citation (⚠): [N] quotes ([XX]%)
+- Pending (⏳): [N] quotes ([XX]%)
+- Overall completion: [XX]%
+
+**Quality Targets:**
+- Before first compilation: At least 50% verified (✓)
+- Before major review: At least 80% verified (✓)
+- Before final draft: 100% verified (✓)
+- Never include ⏳ Pending quotes in final manuscript
+
+### Troubleshooting
+
+**Problem:** Can't verify exact quote wording
+**Solution:** Mark as ⏳ Pending, research further, or select different quote
+
+**Problem:** Quote attributed to famous person but no source found
+**Solution:** Likely misattributed - see Anti-Hallucination Guidelines for common examples
+
+**Problem:** Quote only appears on quote websites
+**Solution:** Not sufficiently verified - find original source or choose different quote
+
+**Problem:** Need longer quote than typical epigraph length
+**Solution:** Consider fair use implications, consult legal guidance, or excerpt shorter portion
+
+**Problem:** Source is out of print or inaccessible
+**Solution:** Use library archives, digital databases, or select alternative quote with accessible source
+
+---
+
 ## Workflow States
 
 Each content file progresses through defined states:
@@ -1603,6 +1850,19 @@ Include links to relevant style guides in `Project_Config.md`:
 ---
 
 ## Version History
+
+### Version 3.2.0 - 2025-11-17
+- Added comprehensive Quote Management Workflow system
+- Created Quotes/ directory with Chapter_Quotes.md and Chapter_Quotes_chg.md
+- Added quote verification status codes (⏳ Pending, ⚠ Needs Citation, ✓ Verified)
+- Updated Prompt 1: Initialize to create quote templates and placeholders
+- Updated Prompt 2: Add Chapter to create quote entries for new chapters
+- Updated Prompt 5: Compile to insert verified quotes as chapter epigraphs
+- Updated Prompt 6: Consistency Checker with quote verification checks
+- Updated Prompt 8: Dashboard with quote completion statistics
+- Enhanced Anti-Hallucination Guidelines with Quote/Epigraph section
+- Added quote best practices, verification process, and troubleshooting
+- Integrated quote workflow with existing change tracking system
 
 ### Version 3.0.0 - 2025-11-17
 - **BREAKING CHANGE:** Replaced snapshot system with Git version control (required)

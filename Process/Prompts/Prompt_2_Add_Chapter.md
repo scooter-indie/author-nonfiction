@@ -51,11 +51,13 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 5. AI updates TOC/TOC_chg.md (you should NOT edit this file manually)
 6. Rename affected chapter files
 7. Create new chapter files (Chapter_XX.md and Chapter_XX_chg.md)
-8. Update cross-references in all files
-9. Update Project_Config.md with new chapter count
-10. Create git commits for all changes
-11. Optionally tag if major milestone
-12. Generate impact report
+8. Add new quote entry to Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
+9. Update Quotes/Chapter_Quotes_chg.md with addition note
+10. Update cross-references in all files
+11. Update Project_Config.md with new chapter count
+12. Create git commits for all changes
+13. Optionally tag if major milestone
+14. Generate impact report
 
 ---
 

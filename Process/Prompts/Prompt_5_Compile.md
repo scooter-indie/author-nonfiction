@@ -31,26 +31,40 @@ I'll use your default compilation settings (stored in `Project_Config.md`), or y
 
 1. **Validation**: Verify all files exist, check for missing cross-references
 
-2. **Assembly** in order:
+2. **Read Chapter Quotes**: Load Quotes/Chapter_Quotes.md and prepare epigraphs
+
+3. **Assembly** in order:
    - Front Matter (Title Page, Dedication, Acknowledgments, Foreword, Preface)
    - Table of Contents (auto-generated from headings)
-   - All Chapters (in numerical order)
+   - All Chapters (in numerical order, with epigraphs inserted)
    - Back Matter (Appendices, Glossary, Bibliography, Index)
 
-3. **Processing**:
+4. **Processing**:
    - Strip change tracking metadata (unless you want it included)
+   - Insert chapter epigraphs (if Status ✓ or ⚠ in Chapter_Quotes.md)
    - Process cross-references
    - Handle asset references
    - Insert page break markers
 
-4. **Formatting**: Apply chosen format level
+5. **Epigraph Formatting**: For each chapter with a quote:
+   ```markdown
+   # Chapter X: [Title]
+
+   > [Quote text]
+   >
+   > — [Author], *[Source]* ([Year])
+
+   [Chapter content begins...]
+   ```
+
+6. **Formatting**: Apply chosen format level
    - **Basic**: Simple concatenation, minimal formatting
    - **Formatted**: Proper heading hierarchy, page breaks, consistent spacing
    - **Publication-Ready**: Full formatting, formatted bibliography, index placeholders
 
-5. **Statistics**: Calculate total word count, completion percentage, chapter breakdown
+7. **Statistics**: Calculate total word count, completion percentage, chapter breakdown, quote status
 
-6. **Metadata header**: Add to top of compiled file:
+8. **Metadata header**: Add to top of compiled file:
    ```markdown
    # [Working Title]
 
@@ -62,9 +76,15 @@ I'll use your default compilation settings (stored in `Project_Config.md`), or y
    **Status:** [Draft/Review/Final]
    ```
 
-7. **Save**: `Drafts/Full_Draft_[YYYY-MM-DD]_v[version].md`
+9. **Save**: `Drafts/Full_Draft_[YYYY-MM-DD]_v[version].md`
 
-8. **Report**: Compilation statistics, missing content warnings, recommendations
+10. **Report**: Compilation statistics including:
+    - Total word count
+    - Completion percentage
+    - Chapters with/without epigraphs
+    - Epigraphs with Status ⏳ (pending verification)
+    - Missing content warnings
+    - Recommendations
 
 ---
 

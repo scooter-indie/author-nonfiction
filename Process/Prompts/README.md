@@ -73,7 +73,9 @@ Prompts/
 
 **Interaction**: Fully interactive - AI asks about title, author, word count, TOC, etc.
 
-**Output**: Complete project structure, git repo, all placeholder files
+**Quote setup**: Creates `Quotes/Chapter_Quotes.md` with placeholder entries for all chapters (Status: ⏳ Pending)
+
+**Output**: Complete project structure, git repo, all placeholder files including quote management
 
 ---
 
@@ -86,14 +88,16 @@ Prompts/
 
 **Important**: TOC/TOC_chg.md is AI-managed only. Do not edit it manually.
 
-**Output**: New chapter files, renumbered existing chapters, updated TOC, git commits
+**Quote handling**: Automatically adds quote entry to `Chapter_Quotes.md` (Status: ⏳ Pending)
+
+**Output**: New chapter files, renumbered existing chapters, updated TOC, quote entry, git commits
 
 ---
 
 ### 3. Prompt_3_Modify_File.md
 **Purpose**: Modify content based on _chg file instructions
 
-**When to use**: This is your PRIMARY workflow for content revisions
+**When to use**: This is your PRIMARY workflow for content revisions (including quote management)
 
 **Interaction**:
 - You write instructions in the `_chg.md` file first
@@ -102,6 +106,8 @@ Prompts/
 - AI confirms and executes
 
 **Key feature**: Auto-archives completed instructions to Version History
+
+**Quote updates**: Use with `Quotes/Chapter_Quotes_chg.md` to add/update chapter quotes
 
 **Output**: Modified content file, updated _chg file, git commit
 
@@ -129,7 +135,9 @@ Prompts/
 
 **Settings**: Stored in `Project_Config.md`, can customize per compilation
 
-**Output**: `Drafts/Full_Draft_[date]_v[version].md` with statistics
+**Quote insertion**: Verified (✓) quotes automatically inserted as chapter epigraphs; compilation report shows quote status
+
+**Output**: `Drafts/Full_Draft_[date]_v[version].md` with statistics and quote completion metrics
 
 ---
 
@@ -140,9 +148,11 @@ Prompts/
 
 **Interaction**: AI asks what scope and which checks to run
 
-**Checks**: Terminology, cross-references, style, facts, tone/voice
+**Checks**: Terminology, cross-references, style, facts, tone/voice, quote/epigraph verification
 
-**Output**: Comprehensive report with Critical/Warning/Suggestion categories
+**Quote verification**: Flags pending quotes (⏳), missing attributions, incomplete citations, formatting issues
+
+**Output**: Comprehensive report with Critical/Warning/Suggestion categories including quote status
 
 ---
 
@@ -166,7 +176,9 @@ Prompts/
 
 **Interaction**: AI asks Summary or Detailed
 
-**Output**: Comprehensive dashboard with metrics, git status, recommendations
+**Quote metrics**: Shows verification status (✓/⚠/⏳) for all chapters, completion percentage, chapters needing work
+
+**Output**: Comprehensive dashboard with metrics, git status, quote status, recommendations
 
 ---
 
@@ -255,6 +267,48 @@ When Prompt 3 completes:
 5. **Prompt 7** → Export to required format(s)
 6. **Prompt 9** → Tag as publication-ready
 
+### Quote Management Workflow
+**Adding/Updating Chapter Quotes:**
+
+1. Open `Quotes/Chapter_Quotes_chg.md`
+2. Add instructions in `[INSTRUCTIONS FOR THIS REVISION]` section:
+   ```markdown
+   Update quote for Chapter 05:
+
+   Current Status: ⏳ Pending
+   New Status: ✓ Verified
+
+   Add verified quote:
+   Quote: "The scientific method is..."
+   Author: Carl Sagan
+   Source: The Demon-Haunted World
+   Year: 1995
+   Page: 27
+
+   Bibliography: Sagan, C. (1995)...
+   Notes: Verified from original text
+   ```
+3. Commit the _chg file
+4. **Prompt 3** → Modify File → Select `Quotes/Chapter_Quotes.md`
+5. AI updates quote and auto-archives instructions
+
+**Quote Verification Progression:**
+- ⏳ Pending → Quote needs to be selected
+- ⚠ Needs Citation → Quote selected but needs complete attribution
+- ✓ Verified → Quote fully verified with complete bibliographic info
+
+**Checking Quote Status:**
+- **Prompt 8** → Dashboard shows all quote statuses
+- **Prompt 6** → Consistency check validates quotes
+- **Prompt 5** → Compilation report shows which quotes will be inserted
+
+**Quality Targets:**
+- Before first compilation: 50% verified (✓)
+- Before major review: 80% verified (✓)
+- Before final draft: 100% verified (✓)
+
+**See also**: `Process/Anti-Hallucination_Guidelines.md` for quote verification rules and common misattribution examples
+
 ---
 
 ## Tips for Best Results
@@ -282,6 +336,8 @@ All prompts automatically reference `Process/Anti-Hallucination_Guidelines.md` t
 - Proper handling of uncertainty
 - No fabricated statistics, quotes, or citations
 - Clear markers for content needing verification
+- Quote verification requirements (never fabricate attributions)
+- Common misattribution warnings (Einstein, Twain, Churchill, etc.)
 
 ---
 

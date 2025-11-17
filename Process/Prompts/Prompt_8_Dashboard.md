@@ -35,6 +35,7 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
    - Target vs. actual comparison
    - Version numbers for each file
    - Completion rate per chapter
+   - Quote/epigraph verification status
 
 3. **Status Analysis**:
    - Files by status (Draft, Review, Revised, Final)
@@ -72,6 +73,16 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
    - Medium priority: [N] items
    - Low priority: [N] items
    - Summary of what needs attention
+
+   **Quote/Epigraph Status**
+   - Verified (✓): [N] / [Total] chapters ([XX]%)
+   - Needs Citation (⚠): [N] chapters
+   - Pending (⏳): [N] chapters
+   - Overall quote completion: [XX]%
+
+   **Chapters needing quote work:**
+   - Chapter [XX]: [Status and what's needed]
+   - Chapter [XX]: [Status and what's needed]
 
    **Milestones**
    - [ ] First Draft Complete (25%)

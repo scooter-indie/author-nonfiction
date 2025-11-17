@@ -27,6 +27,7 @@ I'll ask you what scope and types of checks you want, then analyze your content 
    - Style consistency
    - Fact consistency
    - Tone/voice analysis
+   - Quote/epigraph verification
    - All of the above
 
 ### Then I'll:
@@ -67,12 +68,22 @@ I'll ask you what scope and types of checks you want, then analyze your content 
    - Note tense consistency (past, present, future)
    - Identify outlier sections that don't match overall tone
 
+   **Quote/Epigraph Verification:**
+   - Check Quotes/Chapter_Quotes.md for completeness
+   - Flag chapters with Status ⏳ (pending quotes)
+   - Verify all quotes have complete attribution (Author, Source, Year)
+   - Check for missing bibliography references
+   - Flag quotes without page numbers (where applicable)
+   - Identify formatting inconsistencies in quote entries
+   - Report quote verification status summary
+
 3. **Generate Report** organized by:
    - **Critical Issues**: Must be fixed (broken references, contradictions)
    - **Warnings**: Should be reviewed (style variations, unclear references)
    - **Suggestions**: Consider addressing (minor inconsistencies, improvements)
    - **Terminology Index**: All terms and usage patterns
    - **Cross-Reference Map**: All references and their validity
+   - **Quote Status Summary**: Verification status and missing attributions
 
 ---
 
@@ -81,7 +92,7 @@ I'll ask you what scope and types of checks you want, then analyze your content 
 The report will be organized by:
 - Priority (Critical → High → Medium → Low)
 - Location (Chapter and section where issue occurs)
-- Type (Terminology, Cross-reference, Style, Fact, Tone)
+- Type (Terminology, Cross-reference, Style, Fact, Tone, Quote)
 
 Example:
 ```markdown

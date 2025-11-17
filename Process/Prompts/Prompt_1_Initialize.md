@@ -12,6 +12,7 @@ I will help you create a new nonfiction book project from scratch, including:
 - Configuration files
 - Table of contents
 - Chapter placeholders with change tracking files
+- Chapter quote (epigraph) management system
 - Front and back matter placeholders
 
 ---
@@ -34,15 +35,17 @@ I'll ask you a series of questions to gather the information needed to set up yo
 **Then I'll:**
 
 1. Parse existing TOC (if provided) or create from your input
-2. Create complete directory structure
+2. Create complete directory structure (including Quotes/ directory)
 3. Initialize git repository
 4. Generate configuration files (Project_Config.md, Project_Metadata.md, USAGE_GUIDE.md)
 5. Create TOC/TOC.md and TOC/TOC_chg.md
 6. Generate chapter placeholder files with _chg files
-7. Create front matter and back matter placeholders
-8. Commit everything to git with appropriate messages
-9. Tag as v1.0.0
-10. Provide confirmation report
+7. Create Quotes/Chapter_Quotes.md with placeholder entries for all chapters
+8. Create Quotes/Chapter_Quotes_chg.md for tracking quote changes
+9. Create front matter and back matter placeholders
+10. Commit everything to git with appropriate messages
+11. Tag as v1.0.0
+12. Provide confirmation report
 
 ---
 

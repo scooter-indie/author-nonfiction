@@ -483,7 +483,198 @@ Before finalizing any drafted content, verify:
 
 ---
 
+## Quote/Epigraph Guidelines
+
+### Never Fabricate or Misattribute Quotes
+
+Quotes used as chapter epigraphs must be accurate and properly attributed. This is a critical area where AI hallucination can damage credibility.
+
+### Rule 1: Verify Every Quote
+
+❌ **NEVER do this:**
+> As Einstein famously said, "The most powerful force in the universe is compound interest."
+
+*(This is often misattributed - likely apocryphal, no primary source exists)*
+
+✅ **Instead:**
+If uncertain about attribution:
+- Mark as Status: ⏳ Pending in Quotes/Chapter_Quotes.md
+- Add note: "NEEDS VERIFICATION: Check attribution before using"
+- Research original source
+- Only mark as ✓ Verified when confirmed
+
+### Rule 2: Complete Attribution Required
+
+**For all chapter epigraphs in Quotes/Chapter_Quotes.md:**
+
+**Required fields:**
+- **Quote text**: Exact wording from source (use [...] for omissions)
+- **Author**: Full name
+- **Source**: Book title, article, speech, interview, etc.
+- **Year**: Publication or delivery year
+- **Page**: Page number if from book/article (or N/A if not applicable)
+
+**Do NOT mark as ✓ Verified unless all fields are complete and confirmed.**
+
+### Rule 3: Quote Verification Process
+
+**Status ⏳ Pending → Status ⚠ Needs Citation:**
+1. Select appropriate quote for chapter theme
+2. Verify exact wording (check against original if possible)
+3. Confirm basic attribution (Author, Source, Year)
+4. Add to Quotes/Chapter_Quotes.md
+5. Mark as ⚠ Needs Citation
+
+**Status ⚠ Needs Citation → Status ✓ Verified:**
+1. Locate original source (book, article, video, recording)
+2. Verify exact wording matches
+3. Add complete bibliographic information (page number, publisher, etc.)
+4. Add corresponding entry to Bibliography.md
+5. Link bibliography reference in quote entry
+6. Mark as ✓ Verified
+
+### Rule 4: When You Cannot Verify
+
+If you cannot verify a quote:
+
+❌ **Don't use it anyway**
+❌ **Don't mark it as verified**
+❌ **Don't guess at the attribution**
+
+✅ **Instead:**
+```markdown
+## Chapter XX: [Title]
+
+**Status:** ⏳ Pending
+
+**Quote:**
+> [NEEDS VERIFICATION: Cannot confirm exact wording or attribution]
+
+**Attribution:**
+- **Author:** [Likely author but unconfirmed]
+- **Source:** [UNKNOWN - needs research]
+- **Year:**
+- **Page:**
+
+**Bibliography Reference:** N/A
+
+**Notes:** Quote appears widely but no primary source found.
+Consider alternative quote or skip epigraph for this chapter.
+```
+
+### Rule 5: Common Quote Pitfalls
+
+**Misattributions to watch for:**
+- Einstein: Many apocryphal quotes attributed to him
+- Mark Twain: Often falsely credited with witty sayings
+- Confucius: Many modern sayings incorrectly attributed
+- Winston Churchill: Numerous misattributions
+- Abraham Lincoln: "Don't believe everything you read on the internet" (obviously fake)
+
+**Red flags:**
+- "As [famous person] famously said..."
+- Quote found only on quote websites, not in original works
+- No page number or specific source provided
+- Wording varies significantly across sources
+
+### Rule 6: Acceptable Sources for Verification
+
+**Primary sources (preferred):**
+- Original book, article, or publication
+- Verified speech transcript
+- Authenticated interview recording
+- Author's collected works
+
+**Secondary sources (use with caution):**
+- Reputable quote databases with citations (e.g., Yale Book of Quotations)
+- Scholarly articles citing the quote with source
+- Biographies with proper attribution
+
+**Unacceptable sources:**
+- Quote aggregator websites without citations
+- Social media posts
+- Unsourced quote images
+- "Someone said on the internet"
+
+### Rule 7: When Paraphrasing
+
+If you need to paraphrase or modernize language:
+
+❌ **Don't do this:**
+> As Aristotle said, "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
+
+*(This is Will Durant paraphrasing Aristotle, not Aristotle's actual words)*
+
+✅ **Instead, attribute accurately:**
+> As Will Durant wrote, summarizing Aristotle, "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
+
+**Or find the original:**
+> As Aristotle wrote in *Nicomachean Ethics*, "...for the things we have to learn before we can do them, we learn by doing them."
+
+### Quote Workflow Integration
+
+**With Prompt 3 (Modify File):**
+- Don't use Prompt 3 for quote management
+- Edit Quotes/Chapter_Quotes.md directly
+- Commit quote changes separately
+
+**With Prompt 5 (Compile):**
+- Only quotes with Status ✓ or ⚠ are inserted
+- Status ⏳ quotes are skipped or marked [EPIGRAPH PENDING]
+
+**With Prompt 6 (Consistency Check):**
+- Automatically flags unverified quotes
+- Checks for missing attribution fields
+- Verifies bibliography links
+
+**With Prompt 8 (Dashboard):**
+- Shows quote completion percentage
+- Lists chapters needing quote work
+
+### Example: Good Quote Entry
+
+```markdown
+## Chapter 05: The Scientific Method
+
+**Status:** ✓ Verified
+
+**Quote:**
+> The most beautiful experience we can have is the mysterious. It is the fundamental emotion that stands at the cradle of true art and true science.
+
+**Attribution:**
+- **Author:** Albert Einstein
+- **Source:** The World As I See It
+- **Year:** 1931
+- **Page:** 5
+- **Context:** Essay on science and religion
+
+**Bibliography Reference:** Einstein, A. (1931). *The World As I See It* (A. Harris, Trans.). New York: Covici-Friede. (Original work published 1930)
+
+**Notes:** Verified from original English translation. Public domain.
+```
+
+### Remember
+
+**The Golden Rule for Quotes:**
+When in doubt, leave it out. It's better to have no epigraph than an incorrectly attributed one.
+
+**Verification is not optional:**
+- Status ⏳ = Not verified, don't use in final manuscript
+- Status ⚠ = Partially verified, use with caution
+- Status ✓ = Fully verified, safe to publish
+
+---
+
 ## Version History
+
+### Version 1.1.0 - 2025-11-17
+- Added Quote/Epigraph Guidelines section
+- Defined quote verification process
+- Established verification status codes
+- Common quote pitfalls and misattributions
+- Acceptable vs. unacceptable quote sources
+- Quote workflow integration with prompts
+- Examples of good quote entries
 
 ### Version 1.0.0 - 2025-11-17
 - Initial creation of anti-hallucination guidelines
