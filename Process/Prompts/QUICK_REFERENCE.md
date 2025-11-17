@@ -13,6 +13,7 @@
 | 7 | Export | Create DOCX/PDF/EPUB | Low - use defaults or customize |
 | 8 | Dashboard | Check progress | Minimal - summary or detailed |
 | 9 | Git Operations | Version control | Medium - varies by operation |
+| 10 | Update Change Tracking | Sync _chg files | Minimal - automatic scan |
 
 ---
 
@@ -40,8 +41,9 @@
 → **Prompt 5: Compile** - Review full manuscript
 → **Prompt 7: Export** - Publication formats
 
-### Version Control
+### Version Control & Tracking
 → **Prompt 9: Git** - Commit, tag, push, status, etc.
+→ **Prompt 10: Update Change Tracking** - Sync _chg files with changes
 
 ---
 

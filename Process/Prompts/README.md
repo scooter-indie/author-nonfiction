@@ -195,6 +195,23 @@ Prompts/
 
 ---
 
+### 10. Prompt_10_Update_Change_Tracking.md
+**Purpose**: Synchronize _chg files with content file changes
+
+**When to use**: After manual edits, before milestones, weekly maintenance
+
+**Interaction**: AI scans for out-of-sync files and auto-updates them
+
+**Detection**: Checks uncommitted, staged, and unpushed changes
+
+**Auto-generation**: Creates version history entries from git diffs with inferred change types
+
+**Note**: The book-writing-assistant agent runs this automatically at session start and before commits
+
+**Output**: Updated _chg files with new version history entries
+
+---
+
 ## Important Concepts
 
 ### Single Source of Truth: _chg Files
