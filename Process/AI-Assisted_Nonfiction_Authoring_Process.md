@@ -1,8 +1,8 @@
 # AI-Assisted Nonfiction Book Authoring Process
 
-**Version:** 2.0.0  
-**Last Updated:** 2025-11-17  
-**Purpose:** A comprehensive, systematic approach to authoring nonfiction books with AI assistance
+**Version:** 3.0.0
+**Last Updated:** 2025-11-17
+**Purpose:** A comprehensive, systematic approach to authoring nonfiction books with AI assistance using Git version control
 
 ---
 
@@ -30,7 +30,7 @@ This process provides a structured framework for creating nonfiction books using
 - **Traceability**: All changes are tracked with rationale
 - **Flexibility**: Easy reorganization and restructuring
 - **Quality**: Built-in validation and consistency checking
-- **Safety**: Automatic backups before major operations
+- **Safety**: Git version control with commits before major operations
 
 ### File Format
 
@@ -96,12 +96,9 @@ All content files are in Markdown (`.md`) format with accompanying change tracki
 ├── Inbox/
 │   └── (New content awaiting integration)
 │
-├── Drafts/
-│   ├── Full_Draft_[YYYY-MM-DD].md
-│   └── (Compiled manuscript versions)
-│
-└── Snapshots/
-    └── (Automatic backups before major operations)
+└── Drafts/
+    ├── Full_Draft_[YYYY-MM-DD].md
+    └── (Compiled manuscript versions)
 ```
 
 ---
@@ -134,14 +131,6 @@ All content files are in Markdown (`.md`) format with accompanying change tracki
 **Examples:**
 - `Full_Draft_2025-11-17_v1.0.0.md`
 - `Full_Draft_2025-12-01_v1.2.5.md`
-
-### Snapshots
-
-**Format:** `Snapshot_[YYYY-MM-DD]_[HH-MM-SS]_[Operation].zip`
-
-**Examples:**
-- `Snapshot_2025-11-17_14-30-00_TOC-Reorganization.zip`
-- `Snapshot_2025-11-20_09-15-00_Chapter-Addition.zip`
 
 ---
 
@@ -278,20 +267,51 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
    - Completion Target: [date]
    ```
 
-2. **Create Directory Structure:**
+2. **Check Inbox for Existing TOC:**
+   - Scan `Inbox/` directory for TOC files
+   - Look for files with names containing: "toc", "table-of-contents", "contents", "outline"
+   - If found, analyze and parse the TOC structure
+   - Support multiple formats:
+     - Simple numbered/bulleted markdown lists
+     - Structured chapter listings
+     - Outline formats with sections and subsections
+   - Extract chapter titles, order, and any additional metadata
+
+3. **Interactive TOC Decision (if TOC found in Inbox):**
+   - Display parsed TOC structure to user
+   - Present options:
+     - **Use Inbox TOC**: Create project structure from this TOC
+     - **Modify Inbox TOC**: Allow edits before proceeding
+     - **Ignore Inbox TOC**: Proceed with manual chapter input
+   - If using Inbox TOC:
+     - Validate structure (logical flow, numbering, completeness)
+     - Identify any gaps or issues
+     - Suggest improvements if needed
+     - Get user confirmation before proceeding
+
+4. **Create Directory Structure:**
    - Generate all directories as specified in [Directory Structure](#directory-structure)
    - Create placeholder README files
 
-3. **Generate Configuration Files:**
+5. **Initialize Git Repository (if not already initialized):**
+   - Check if `.git` directory exists
+   - If not, run `git init`
+   - Create `.gitignore` file with appropriate exclusions
+   - Make initial commit with message: "Initial project structure"
+
+6. **Generate Configuration Files:**
    - `Project_Config.md` with project settings
    - `Project_Metadata.md` with book details
    - `USAGE_GUIDE.md` with instructions
+   - Git commit: "Add configuration files"
 
-4. **Create Table of Contents:**
-   - `TOC/TOC.md` with chapter listing
+7. **Create Table of Contents:**
+   - `TOC/TOC.md` with chapter listing (from Inbox TOC or manual input)
    - `TOC/TOC_chg.md` for tracking
+   - If using Inbox TOC, archive original file to `Inbox/Processed_[date]/`
+   - Git commit: "Create initial table of contents"
 
-5. **Generate Chapter Placeholders:**
+8. **Generate Chapter Placeholders:**
    - Create `Chapter_[NN]_[Title-Slug].md` for each chapter
    - Create corresponding `_chg.md` files
    - Initialize each with basic structure:
@@ -315,22 +335,25 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
      [Content placeholder]
      ```
 
-6. **Create Front Matter Placeholders:**
+9. **Create Front Matter Placeholders:**
    - Generate files in `FrontMatter/` directory
    - Initialize with basic structure
+   - Git commit: "Add front matter placeholders"
 
-7. **Create Back Matter Placeholders:**
-   - Generate files in `BackMatter/` directory
-   - Initialize Bibliography with citation format notes
+10. **Create Back Matter Placeholders:**
+    - Generate files in `BackMatter/` directory
+    - Initialize Bibliography with citation format notes
+    - Git commit: "Add back matter placeholders"
 
-8. **Generate Initial Snapshot:**
-   - Create first snapshot for rollback capability
+11. **Final Setup:**
+    - Tag initial version: `git tag v1.0.0`
+    - Generate project summary report
 
 **Output:**
 - Complete directory structure
 - All placeholder files with change tracking files
 - Configuration files
-- Initial project snapshot
+- Initialized git repository with initial commits
 - Confirmation report with file listing
 
 ---
@@ -348,9 +371,10 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
 
 **Process:**
 
-1. **Create Snapshot:**
-   - Backup current state before any changes
-   - Name: `Snapshot_[date]_[time]_Chapter-Addition.zip`
+1. **Pre-Operation Git Commit:**
+   - Ensure all current changes are committed
+   - Create commit: "Pre-reorganization state before adding [chapter title]"
+   - Optionally create branch for major reorganizations
 
 2. **Validate Insertion Point:**
    - Verify position makes logical sense
@@ -366,38 +390,48 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
    - Modify `TOC/TOC.md` with new entry
    - Update version in `TOC/TOC_chg.md`
    - Document rationale
+   - Git commit: "Update TOC with new chapter entry"
 
 5. **Reorganize Files:**
    - Rename affected chapter files (increment numbers)
    - Update both `.md` and `_chg.md` files
    - Maintain chronological sequence
+   - Git stage all renames
 
 6. **Create New Chapter Files:**
    - Generate `Chapter_[NN]_[Title-Slug].md`
    - Generate `Chapter_[NN]_[Title-Slug]_chg.md`
    - Initialize with structure template
+   - Git add new files
 
 7. **Update Cross-References:**
    - Scan all files for chapter references
    - Update chapter numbers in cross-references
    - Flag any ambiguous references for manual review
+   - Git commit updated cross-references
 
 8. **Update Configuration:**
    - Increment major version (N.0.0)
    - Update metadata with new chapter count
    - Update total target word count
+   - Git commit: "Update configuration for new chapter"
 
-9. **Generate Impact Report:**
-   - List all modified files
-   - Show before/after structure
-   - Note any manual review items
+9. **Final Commit and Tag:**
+   - Create commit: "Add Chapter [NN]: [Title]"
+   - Tag if major milestone: `git tag v[N.0.0]`
+
+10. **Generate Impact Report:**
+    - List all modified files
+    - Show before/after structure
+    - Note any manual review items
+    - Git log summary
 
 **Output:**
 - Reorganized chapter files with updated numbering
 - New chapter placeholder files
 - Updated TOC
 - Impact report
-- New snapshot
+- Git history with clear commit trail
 
 ---
 
@@ -417,10 +451,11 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
    - Confirm file exists
    - Check current version number
    - Review pending revisions
+   - Check git status for uncommitted changes
 
-2. **Create Pre-Modification Backup:**
-   - Save current state of target file
-   - Timestamp backup
+2. **Pre-Modification State:**
+   - If significant changes, commit current state first
+   - Or create a feature branch for experimental edits
 
 3. **Analysis Mode (Optional):**
    - Review content for potential issues
@@ -446,16 +481,23 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
    - Confirm style consistency
    - Run spell check (if available)
 
-7. **Generate Modification Report:**
+7. **Git Commit:**
+   - Stage modified files
+   - Create commit with descriptive message
+   - Include version change in commit message
+   - Example: "Update Chapter 05 v1.4.0: Revise examples section"
+
+8. **Generate Modification Report:**
    - Summary of changes
    - Before/after word count
    - Any warnings or concerns
+   - Git diff summary
 
 **Output:**
 - Modified target file
 - Updated change tracking file
 - Modification report
-- File backup
+- Git commit record
 
 ---
 
@@ -473,9 +515,57 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
 1. **Scan Inbox:**
    - List all files in `Inbox/`
    - Analyze content of each file
-   - Determine likely destination(s)
+   - Identify file types:
+     - **TOC/Outline files** (priority handling)
+     - Regular content files
+     - Reference materials
+     - Assets (images, diagrams, etc.)
 
-2. **Interactive Analysis:**
+2. **Special Handling for TOC Files:**
+
+   **If TOC/Outline file detected:**
+   - Parse content flexibly, supporting formats:
+     - Simple numbered lists (1. Chapter Title, 2. Chapter Title)
+     - Bulleted lists with hierarchy
+     - Markdown headers as structure
+     - Outline formats with nested items
+     - Informal note formats with chapter ideas
+
+   - **Extract structure:**
+     - Chapter titles/topics
+     - Subsection information (if present)
+     - Ordering/numbering
+     - Any notes or descriptions
+
+   - **Present to User:**
+     - Display parsed structure
+     - Offer options:
+       - **Merge with existing TOC**: Integrate new chapters into current structure
+       - **Replace existing TOC**: Complete reorganization
+       - **Create parallel outline**: Save as alternative structure in Research/
+       - **Ignore**: Skip TOC processing
+
+   - **If User selects Merge:**
+     - Show current TOC alongside new TOC
+     - Identify conflicts, duplicates, gaps
+     - Suggest merge strategy (where new chapters fit)
+     - Allow user to adjust positions
+     - Execute merge using Prompt 2 workflow for each new chapter
+
+   - **If User selects Replace:**
+     - Backup existing TOC structure to Research/Archived_TOC_[date]/
+     - Identify chapters to keep, rename, or remove
+     - Generate reorganization plan
+     - Execute complete restructure
+     - Update all cross-references
+
+   - **Git commits during TOC processing:**
+     - "Pre-TOC update state"
+     - "Update TOC structure from Inbox"
+     - "Reorganize chapters for new TOC"
+     - "Update cross-references for new structure"
+
+3. **Regular Content Analysis:**
    - Present file summaries to user
    - Suggest appropriate integration points:
      - New chapter
@@ -484,7 +574,7 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
      - Bibliography entries
      - Research/reference material
 
-3. **User Decision:**
+4. **User Decision:**
    - Confirm destination
    - Specify integration method:
      - Replace section
@@ -492,52 +582,56 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
      - Append to chapter
      - Merge with existing content
 
-4. **Create Snapshot:**
-   - Backup before integration
+5. **Pre-Integration Git State:**
+   - Commit any uncommitted changes first
+   - Create commit: "Pre-integration state before processing Inbox"
 
-5. **Integration Options:**
+6. **Integration Options:**
 
    **Option A: New Chapter**
    - Use Prompt 2 workflow
    - Create new chapter from content
-   
+
    **Option B: Insert into Existing Chapter**
    - Use Prompt 3 workflow
    - Merge content at specified position
-   
+
    **Option C: Update Front/Back Matter**
    - Apply to appropriate section
    - Update change tracking
-   
+
    **Option D: Move to Research**
    - Relocate to appropriate Research subfolder
    - Update research index
 
-6. **Update References:**
+7. **Update References:**
    - Add bibliography entries if needed
    - Update cross-references
    - Link to assets if applicable
 
-7. **Version Control:**
+8. **Version Control:**
    - Update appropriate change tracking files
    - Increment versions
    - Document integration
+   - Git commit: "Integrate [filename] from Inbox"
 
-8. **Clean Inbox:**
+9. **Clean Inbox:**
    - Archive processed file with timestamp
    - Move to `Inbox/Processed_[date]/`
+   - Keep Inbox/ clean for new content
 
-9. **Generate Integration Report:**
-   - Summary of actions taken
-   - Updated file locations
-   - Required follow-up actions
+10. **Generate Integration Report:**
+    - Summary of actions taken
+    - Updated file locations
+    - Required follow-up actions
+    - Git log of changes
 
 **Output:**
 - Integrated content in target location(s)
 - Updated change tracking
 - Archived inbox file
 - Integration report
-- New snapshot
+- Git commit history of integration
 
 ---
 
@@ -793,7 +887,8 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
 3. **Status Analysis:**
    - Files by status (Draft/Review/Revised/Final)
    - Pending revisions count
-   - Recent activity summary
+   - Recent activity from git log (last 7-30 days)
+   - Git repository statistics (commits, branches, tags)
 
 4. **Generate Dashboard:**
    ```markdown
@@ -817,10 +912,17 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
    | 01 | [title] | Draft | [N] | [N] | XX% |
    | 02 | [title] | Review | [N] | [N] | XX% |
    
-   ## Recent Activity (Last 7 Days)
-   
-   - [Date]: [Action on File]
-   - [Date]: [Action on File]
+   ## Recent Activity (From Git Log)
+
+   - [Date]: [Commit message]
+   - [Date]: [Commit message]
+
+   ## Git Status
+
+   - **Current Branch:** [branch name]
+   - **Commits:** [N] total
+   - **Latest Tag:** [tag]
+   - **Uncommitted Changes:** [Yes/No]
    
    ## Pending Revisions
    
@@ -849,6 +951,150 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
 - Comprehensive progress report
 - Visual progress indicators
 - Actionable next steps
+
+---
+
+### Prompt 9: Git Operations
+
+**Purpose:** Manually perform git version control operations on the project.
+
+**Input Requirements:**
+- Operation type (commit, tag, branch, log, status, push, pull)
+- Additional parameters specific to operation
+- Optional commit message or tag name
+
+**Process:**
+
+**Operation: Commit Current Changes**
+
+1. **Review Uncommitted Changes:**
+   - Run `git status` to show modified files
+   - Run `git diff` to show detailed changes
+   - Present summary to user
+
+2. **Interactive Staging:**
+   - Ask user which files to include
+   - Allow selective staging
+   - Option to commit all changes
+
+3. **Commit Message:**
+   - Prompt user for commit message
+   - Suggest message based on changed files
+   - Follow format: "[Action]: [Brief description]"
+   - Examples:
+     - "Update: Chapter 03 v1.5.0 - Add examples"
+     - "Edit: Fix typos in Chapters 01-03"
+     - "Reorganize: Move Chapter 07 to Chapter 05"
+
+4. **Execute Commit:**
+   - Stage selected files
+   - Create commit with message
+   - Display commit hash and summary
+
+**Operation: Create Tag**
+
+1. **Tag Information:**
+   - Tag name (e.g., v1.0.0, first-draft)
+   - Optional annotation message
+   - Target commit (default: current HEAD)
+
+2. **Execute Tag:**
+   - Create tag: `git tag -a <tagname> -m "<message>"`
+   - Confirm creation
+   - List all tags
+
+**Operation: Branch Management**
+
+1. **Branch Operations:**
+   - Create new branch
+   - Switch to existing branch
+   - List all branches
+   - Merge branch into current
+   - Delete branch
+
+2. **For New Branch:**
+   - Branch name (e.g., draft-chapter-12, restructure-part-2)
+   - Create and optionally switch to new branch
+
+3. **For Merge:**
+   - Identify source and target branches
+   - Check for conflicts
+   - Execute merge
+   - Handle conflicts if present
+
+**Operation: View History**
+
+1. **Display Options:**
+   - Last N commits (default: 10)
+   - Commits for specific file
+   - Commits by date range
+   - Commits with diffs
+
+2. **Format Output:**
+   - One-line summary: `git log --oneline -N`
+   - Detailed: `git log -N`
+   - With changes: `git log -p -N`
+   - File-specific: `git log -- path/to/file`
+
+**Operation: Push to Remote**
+
+1. **Remote Check:**
+   - Verify remote repository configured
+   - Check branch tracking
+   - Identify unpushed commits
+
+2. **Push:**
+   - Push current branch: `git push`
+   - Push with tags: `git push --tags`
+   - Push new branch: `git push -u origin <branch>`
+
+**Operation: Pull from Remote**
+
+1. **Pre-Pull Check:**
+   - Warn if uncommitted changes exist
+   - Suggest stashing or committing first
+
+2. **Pull:**
+   - Fetch and merge: `git pull`
+   - Handle merge conflicts if any
+
+**Operation: Status Report**
+
+1. **Collect Information:**
+   - Current branch
+   - Uncommitted changes
+   - Unpushed commits
+   - Recent commits (last 5)
+   - Tags
+   - Remote status
+
+2. **Generate Report:**
+   ```markdown
+   # Git Repository Status
+
+   **Branch:** main
+   **Uncommitted Changes:** 3 files modified
+   **Unpushed Commits:** 2
+
+   ## Recent Commits
+   - [hash] Update Chapter 05 v1.3.0
+   - [hash] Add Appendix B
+   - [hash] Fix cross-references
+
+   ## Tags
+   - v1.0.0 (initial structure)
+   - first-draft (complete draft)
+
+   ## Remote
+   - URL: [repository URL]
+   - Status: Up to date / 2 commits ahead
+   ```
+
+**Output:**
+- Operation result
+- Status confirmation
+- Relevant git output
+- Next recommended steps
 
 ---
 
@@ -953,32 +1199,32 @@ Track state changes in the change file:
 
 ## Backup and Safety
 
-### Automatic Snapshots
+### Git Version Control (Required)
 
-Create snapshots before:
+All projects must use Git for version control. This replaces the previous snapshot system and provides superior tracking, branching, and rollback capabilities.
+
+### Git Workflow Best Practices
+
+**Commit before major operations:**
 - TOC reorganization
 - Chapter addition/deletion
 - Major content modifications
 - Bulk operations
+- Starting experimental edits
 
-### Snapshot Naming
+**Commit strategy:**
+- Commit frequently (after each logical change)
+- Use descriptive commit messages
+- Include version numbers in messages when updating change files
+- Tag major milestones (v1.0.0, v2.0.0, etc.)
 
-`Snapshot_[YYYY-MM-DD]_[HH-MM-SS]_[Operation].zip`
+**Example commit messages:**
+- "Update Chapter 03 v1.5.0: Add case study examples"
+- "Reorganize TOC: Move Chapter 07 to Chapter 05"
+- "Add Chapter 12: Future Trends"
+- "Copy edit: Chapters 01-05"
 
-### Snapshot Contents
-
-- All `.md` files
-- All `_chg.md` files
-- Configuration files
-- Current state of TOC
-
-### Retention Policy
-
-- Keep all snapshots during active writing
-- Archive after major milestones
-- Minimum: Last 10 snapshots always retained
-
-### Git Integration (Recommended)
+### Repository Setup
 
 1. **Initialize Repository:**
    ```bash
@@ -1011,16 +1257,50 @@ Create snapshots before:
    # Drafts/Full_Draft_*.md
    ```
 
-3. **Commit Strategy:**
-   - Commit after each significant change
-   - Use descriptive commit messages
-   - Tag major versions
+3. **Branching Strategy:**
+   - `main`: Stable, reviewed content
+   - `draft-[chapter-name]`: Experimental chapter drafts
+   - `restructure`: Major reorganization work
+   - Merge branches when content is reviewed and stable
 
-### Manual Backups
+4. **Tagging Strategy:**
+   - Tag major milestones: `v1.0.0`, `v2.0.0`
+   - Tag completed drafts: `first-draft`, `revised-draft`, `final-draft`
+   - Tag submission versions: `submission-v1`, `submission-v2`
 
-- Daily: Copy entire project folder
-- Weekly: Backup to cloud storage
-- Monthly: Archive to external drive
+5. **Useful Git Commands:**
+   ```bash
+   # View recent activity
+   git log --oneline -10
+
+   # See what changed in a specific commit
+   git show <commit-hash>
+
+   # Restore a file from a previous commit
+   git checkout <commit-hash> -- path/to/file
+
+   # Create a branch for experimental work
+   git checkout -b experiment-chapter-reorg
+
+   # View uncommitted changes
+   git diff
+
+   # View changes in a specific file over time
+   git log -p -- path/to/file
+   ```
+
+### Remote Backup (Highly Recommended)
+
+1. **GitHub/GitLab/Bitbucket:**
+   - Create private repository
+   - Push regularly: `git push origin main`
+   - Provides cloud backup and access from multiple devices
+   - Enable issues for tracking revision tasks
+
+2. **Additional Backups:**
+   - Weekly: Export to cloud storage (Dropbox, Google Drive, etc.)
+   - Monthly: Archive entire project folder to external drive
+   - Before major milestones: Create ZIP archive of entire project
 
 ---
 
@@ -1054,7 +1334,8 @@ Create snapshots before:
 5. **Regular Maintenance:**
    - Run Prompt 8 weekly (Progress Dashboard)
    - Run Prompt 6 at milestones (Consistency Checker)
-   - Create snapshots before major changes
+   - Commit changes frequently with descriptive messages
+   - Push to remote repository regularly
 
 6. **Compile and Review:**
    - Use Prompt 5 periodically
@@ -1089,9 +1370,10 @@ Create snapshots before:
    - Keep separate notes in Research/
 
 6. **Backups:**
-   - Don't rely only on automated snapshots
-   - Use version control (Git)
-   - Backup to multiple locations
+   - Use Git for all version control
+   - Push to remote repository regularly
+   - Maintain additional backups to cloud storage
+   - Archive complete project at major milestones
 
 ---
 
@@ -1108,8 +1390,8 @@ Create snapshots before:
 **Problem:** Inconsistent terminology  
 **Solution:** Run Prompt 6, create style guide, use find-replace carefully
 
-**Problem:** Lost changes  
-**Solution:** Restore from latest snapshot, check change file for record
+**Problem:** Lost changes or want to undo recent edits
+**Solution:** Use `git log` to find the commit, then `git checkout <commit-hash> -- <file>` to restore, or `git revert <commit-hash>` to undo a commit
 
 **Problem:** Placeholder content in final draft  
 **Solution:** Run Prompt 8 to identify, then use Prompt 3 to complete sections
@@ -1121,7 +1403,7 @@ Create snapshots before:
 ### Recommended Tools
 
 - **Markdown Editors:** Typora, Obsidian, VS Code with Markdown extensions
-- **Version Control:** Git with GitHub/GitLab
+- **Version Control:** Git (required) with GitHub/GitLab/Bitbucket (recommended)
 - **Conversion:** Pandoc for format conversion
 - **Bibliography:** Zotero, Mendeley
 - **Writing:** Grammarly, ProWritingAid (for final polish)
@@ -1267,6 +1549,18 @@ Include links to relevant style guides in `Project_Config.md`:
 ---
 
 ## Version History
+
+### Version 3.0.0 - 2025-11-17
+- **BREAKING CHANGE:** Replaced snapshot system with Git version control (required)
+- Added Prompt 9: Git Operations for manual version control
+- Extended Prompt 1: Initialize to check /Inbox for existing TOC files
+- Extended Prompt 4: Integrate from Inbox with special TOC handling and flexible parsing
+- Updated all prompts (1-8) to use git commits instead of snapshots
+- Removed Snapshots/ directory from structure
+- Added comprehensive git workflow best practices
+- Added branching and tagging strategies
+- Updated backup procedures to emphasize remote repositories
+- Enhanced Progress Dashboard (Prompt 8) with git log integration
 
 ### Version 2.0.0 - 2025-11-17
 - Complete rewrite of authoring process
