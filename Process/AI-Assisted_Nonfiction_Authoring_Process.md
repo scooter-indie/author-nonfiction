@@ -244,12 +244,13 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
 
 ### Prompt 1: Initialize Project Structure
 
-**Purpose:** Create the initial project structure, table of contents, and placeholder files.
+**Purpose:** Create the initial project structure, table of contents, and placeholder files. Optionally import an existing TOC from an external file.
 
 **Input Requirements:**
 - Working title
-- Number of chapters (estimated)
-- Chapter topics/titles
+- Number of chapters (estimated, if no TOC file provided)
+- Chapter topics/titles (if no TOC file provided)
+- Path to existing TOC file (optional)
 - Target word count (total and per chapter)
 - Target audience
 - Book purpose/thesis
@@ -261,29 +262,29 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
    - Working Title: [title]
    - Author Name: [name]
    - Target Total Word Count: [count]
-   - Estimated Chapters: [number]
+   - Estimated Chapters: [number] (if no TOC provided)
    - Target Audience: [description]
    - Book Purpose: [thesis/goal]
    - Completion Target: [date]
+   - Path to existing TOC file (optional): [path]
    ```
 
-2. **Check Inbox for Existing TOC:**
-   - Scan `Inbox/` directory for TOC files
-   - Look for files with names containing: "toc", "table-of-contents", "contents", "outline"
-   - If found, analyze and parse the TOC structure
+2. **Check for Existing TOC:**
+   - If user provides path to TOC file, read and parse it
    - Support multiple formats:
      - Simple numbered/bulleted markdown lists
      - Structured chapter listings
      - Outline formats with sections and subsections
+     - Informal note formats with chapter ideas
    - Extract chapter titles, order, and any additional metadata
 
-3. **Interactive TOC Decision (if TOC found in Inbox):**
+3. **Interactive TOC Decision (if TOC provided):**
    - Display parsed TOC structure to user
    - Present options:
-     - **Use Inbox TOC**: Create project structure from this TOC
-     - **Modify Inbox TOC**: Allow edits before proceeding
-     - **Ignore Inbox TOC**: Proceed with manual chapter input
-   - If using Inbox TOC:
+     - **Use this TOC**: Create project structure from this TOC
+     - **Modify this TOC**: Allow edits before proceeding
+     - **Ignore this TOC**: Proceed with manual chapter input
+   - If using provided TOC:
      - Validate structure (logical flow, numbering, completeness)
      - Identify any gaps or issues
      - Suggest improvements if needed
@@ -292,6 +293,7 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
 4. **Create Directory Structure:**
    - Generate all directories as specified in [Directory Structure](#directory-structure)
    - Create placeholder README files
+   - Create `Inbox/` directory for future content
 
 5. **Initialize Git Repository (if not already initialized):**
    - Check if `.git` directory exists
@@ -306,9 +308,9 @@ Always maintain the Version History section and add new [INSTRUCTIONS FOR THIS R
    - Git commit: "Add configuration files"
 
 7. **Create Table of Contents:**
-   - `TOC/TOC.md` with chapter listing (from Inbox TOC or manual input)
+   - `TOC/TOC.md` with chapter listing (from provided TOC or manual input)
    - `TOC/TOC_chg.md` for tracking
-   - If using Inbox TOC, archive original file to `Inbox/Processed_[date]/`
+   - If TOC was provided from external file, copy original to `Inbox/Processed_[date]/` for reference
    - Git commit: "Create initial table of contents"
 
 8. **Generate Chapter Placeholders:**
