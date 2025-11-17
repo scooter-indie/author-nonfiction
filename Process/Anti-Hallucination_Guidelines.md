@@ -665,25 +665,4 @@ When in doubt, leave it out. It's better to have no epigraph than an incorrectly
 
 ---
 
-## Version History
-
-### Version 1.1.0 - 2025-11-17
-- Added Quote/Epigraph Guidelines section
-- Defined quote verification process
-- Established verification status codes
-- Common quote pitfalls and misattributions
-- Acceptable vs. unacceptable quote sources
-- Quote workflow integration with prompts
-- Examples of good quote entries
-
-### Version 1.0.0 - 2025-11-17
-- Initial creation of anti-hallucination guidelines
-- Core principles established
-- Fact-based writing rules defined
-- Brainstorming guidelines created
-- Citation requirements specified
-- Self-check procedures documented
-
----
-
 **End of Document**
