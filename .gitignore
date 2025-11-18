@@ -3,7 +3,6 @@
 # Build artifacts from Prompt_99_Build_Release
 build/
 *.zip
-configure.md
 release-notes.md
 
 # Local Claude settings
