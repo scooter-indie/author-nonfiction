@@ -72,6 +72,9 @@ jobs:
           # Remove Proposal directory if it exists
           rm -rf Proposal/
 
+          # Remove local settings (user-specific)
+          rm -f .claude/settings.local.json
+
       - name: Generate manifest
         run: |
           cat > build/temp/.nonfiction-manifest.json <<EOF
