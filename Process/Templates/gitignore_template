@@ -1,0 +1,45 @@
+# Temporary files
+*.tmp
+*.bak
+~*
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build artifacts
+build/
+dist/
+
+# Optional: Large compiled drafts (uncomment if needed)
+# Drafts/Full_Draft_*.md
+# Drafts/Full_Draft_*.docx
+# Drafts/Full_Draft_*.pdf
+
+# Optional: Research files that are too large
+# Research/Videos/
+# Research/Archives/
+
+# Node modules (if using any JavaScript tools)
+node_modules/
+
+# Python virtual environments (if using any Python tools)
+venv/
+.venv/
+env/
+ENV/
+
+# Installer files (auto-deleted, but just in case)
+nonfiction-v*.zip
+installer.md
+
+# Local Claude settings (may contain personal tokens)
+.claude/settings.local.json

@@ -1,0 +1,26 @@
+# Framework Development Files
+
+# Build artifacts from Prompt_99_Build_Release
+build/
+*.zip
+installer.md
+
+# Local Claude settings
+.claude/settings.local.json
+
+# Temporary files
+*.tmp
+*.bak
+~*
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
