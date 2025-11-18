@@ -45,12 +45,13 @@ I will modify a content file based on instructions you've written in its corresp
 4. Check git status for uncommitted changes
 5. Optionally analyze content for consistency issues (if you said yes)
 6. Apply the specified modifications
-7. **Auto-archive**: Move completed instructions to Version History with proper version increment
-8. **Clear instructions section**: Leave it ready for your next revision
-9. Update file metadata (word count, status, etc.)
-10. Validate for broken cross-references and style consistency
-11. Create git commit with descriptive message including version
-12. Generate modification report
+7. **Style consistency check**: Verify changes align with Style/Style_Guide.md (see below)
+8. **Auto-archive**: Move completed instructions to Version History with proper version increment
+9. **Clear instructions section**: Leave it ready for your next revision
+10. Update file metadata (word count, status, etc.)
+11. Validate for broken cross-references
+12. Create git commit with descriptive message including version
+13. Generate modification report
 
 ---
 
@@ -85,11 +86,85 @@ And the completed instructions are moved to Version History with version 1.X.0 o
 
 ---
 
+## Style Consistency Check
+
+**After applying your modifications, I'll verify style alignment with your configured writing style.**
+
+### What I Check
+
+If `Style/Style_Guide.md` exists in your project, I'll automatically:
+
+1. **Load your active style configuration**
+   - Read selected style from Style_Guide.md
+   - Extract DO/DON'T guidelines
+   - Note voice, tone, and pacing parameters
+
+2. **Analyze modified/added content for:**
+   - **Person consistency**: First/second/third person usage
+   - **Formality level**: Matches configured formality
+   - **Paragraph length**: Checks against style guidelines (if specified)
+   - **Sentence complexity**: Simple vs. complex based on style
+   - **Terminology**: Technical terms explained when style requires it
+   - **Passive voice**: Flags excessive use if style discourages it
+
+3. **Compare against DO/DON'T lists**
+   - Check for violations of style DON'Ts
+   - Verify adherence to style DOs
+
+### What Happens If Issues Found
+
+**Minor inconsistencies:**
+- I'll note them in the modification report
+- Example: "Paragraph on lines 45-52 is 180 words (style suggests max 150)"
+
+**Moderate issues:**
+- I'll flag them and ask if you want corrections
+- Example: "Found 3 instances of first person in a third-person style section"
+- **You choose:** "Fix automatically" or "Leave as-is (intentional variation)"
+
+**Significant drift:**
+- I'll highlight major deviations
+- Example: "This section uses highly technical jargon without explanation, but your style emphasizes accessibility"
+- Offer specific revision suggestions
+
+### Your Options
+
+When style issues are detected:
+
+**Option 1: Apply automatic corrections**
+- I'll adjust the text to match your style guide
+- Preserve your meaning and content
+- Show you what was changed
+
+**Option 2: Review manually**
+- I'll show you the issues
+- You fix them yourself
+- Rerun if needed
+
+**Option 3: Skip - Intentional variation**
+- Mark as intentional in the report
+- Useful when a specific section requires different style
+- Document the exception
+
+**Option 4: Update style guide**
+- If the "violation" reflects your evolved preference
+- Update Style/Style_Guide.md
+- Continue with modification
+
+### Style Check is Optional
+
+- If no Style/Style_Guide.md exists, this step is skipped
+- You can temporarily disable by saying "skip style check"
+- Useful when experimenting with different voices for specific sections
+
+---
+
 ## Important Notes
 
 - **Single source of truth**: The _chg file contains your instructions
 - **Auto-archive**: I automatically move completed instructions to Version History
 - **Version increment**: I choose appropriate version number (Major.Minor.Patch)
+- **Style consistency**: I check against Style/Style_Guide.md if it exists
 - **Git commit**: I create a commit with the changes and version info
 
 ---

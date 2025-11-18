@@ -31,21 +31,96 @@ I'll ask you a series of questions to gather the information needed to set up yo
 6. What is your target completion date?
 7. Do you have an existing TOC file? (If yes, provide path)
 8. If no TOC file: How many chapters and what are their topics/titles?
+9. Writing style selection (interactive - see below)
 
 **Then I'll:**
 
 1. Parse existing TOC (if provided) or create from your input
-2. Create complete directory structure (including Quotes/ directory)
+2. Create complete directory structure (including Quotes/ and Style/ directories)
 3. Initialize git repository
 4. Generate configuration files (Project_Config.md, Project_Metadata.md, USAGE_GUIDE.md)
-5. Create TOC/TOC.md and TOC/TOC_chg.md
-6. Generate chapter placeholder files with _chg files
-7. Create Quotes/Chapter_Quotes.md with placeholder entries for all chapters
-8. Create Quotes/Chapter_Quotes_chg.md for tracking quote changes
-9. Create front matter and back matter placeholders
-10. Commit everything to git with appropriate messages
-11. Tag as v1.0.0
-12. Provide confirmation report
+5. Configure writing style (interactive style selection)
+6. Create TOC/TOC.md and TOC/TOC_chg.md
+7. Generate chapter placeholder files with _chg files
+8. Create Quotes/Chapter_Quotes.md with placeholder entries for all chapters
+9. Create Quotes/Chapter_Quotes_chg.md for tracking quote changes
+10. Create front matter and back matter placeholders
+11. Commit everything to git with appropriate messages
+12. Tag as v1.0.0
+13. Provide confirmation report
+
+---
+
+## Writing Style Configuration
+
+**This step helps you choose or define the writing style for your book.**
+
+After gathering basic project information, I'll guide you through selecting a writing style:
+
+### Step 1: Understand Your Audience
+
+Based on your target audience answer, I'll show you 3-4 relevant framework styles from Process/Style_Examples.md:
+
+- **Academic researchers** → Academic Authority, Scientific Communicator
+- **Professional practitioners** → Conversational Expert, Business Professional
+- **General public** → Narrative Storyteller, Practical Guide, Inspirational Teacher
+- **Technical specialists** → Technical Precision
+- **Mixed audience** → Multiple options presented
+
+### Step 2: Review Style Examples
+
+For each relevant style, I'll show you:
+- Description (what it sounds like, who it's for)
+- Example passage (150-200 words demonstrating the style)
+- Key characteristics (voice, tone, pacing)
+
+### Step 3: Make Your Choice
+
+You can:
+
+**Option A: Choose a framework style**
+- Select one of the presented styles
+- I'll use it as-is from Process/Style_Examples.md
+
+**Option B: Customize a framework style**
+- Start with a framework style
+- Tell me what to adjust (e.g., "more formal" or "shorter paragraphs")
+- I'll create a customized version in your Style/Style_Guide.md
+
+**Option C: Mix multiple styles**
+- Combine voice from one style, tone from another
+- I'll help you create a unified custom style
+
+**Option D: Define your own**
+- Describe your desired style in your own words
+- Optionally paste a sample paragraph you admire
+- I'll help formalize it into a style guide
+
+**Option E: Skip for now**
+- I'll set up a neutral default style
+- You can configure it later by editing Style/Style_Guide.md
+
+### Step 4: Confirm with Example
+
+Once you've chosen, I'll:
+1. Show you a sample paragraph written in your selected style
+2. Ask if it feels right
+3. Make adjustments if needed
+4. Create Style/Style_Guide.md with your configuration
+
+### What Gets Created
+
+**Style/Style_Guide.md** - Your active style configuration containing:
+- Selected style name and source
+- Complete style characteristics
+- DO/DON'T guidelines
+- Example passage for reference
+- Notes on how prompts will use this style
+
+**Style/Custom_Styles.md** (only if you create a custom style):
+- Your custom style definition
+- Can be reused in other projects
+- Can be modified over time
 
 ---
 
