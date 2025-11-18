@@ -1,0 +1,170 @@
+name: Build and Release Framework
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags like v3.6.0
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 3.6.0)'
+        required: true
+        type: string
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION=${{ github.event.inputs.version }}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      - name: Verify version matches files
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          FILE_VERSION=$(grep -m 1 "^\*\*Version:\*\*" Process/AI-Assisted_Nonfiction_Authoring_Process.md | sed 's/.*Version:\*\* //')
+          echo "Tag version: $VERSION"
+          echo "File version: $FILE_VERSION"
+          if [ "$VERSION" != "$FILE_VERSION" ]; then
+            echo "ERROR: Version mismatch!"
+            echo "Git tag version ($VERSION) doesn't match file version ($FILE_VERSION)"
+            echo "Please update Process/AI-Assisted_Nonfiction_Authoring_Process.md first"
+            exit 1
+          fi
+
+      - name: Create build directory
+        run: mkdir -p build/temp
+
+      - name: Copy framework files
+        run: |
+          # Copy directories
+          cp -r Process build/temp/
+          cp -r .claude build/temp/
+
+          # Copy root documentation files
+          cp README.md INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md build/temp/
+
+      - name: Remove development files
+        run: |
+          cd build/temp
+
+          # Remove all _chg.md files
+          find . -name "*_chg.md" -delete
+
+          # Remove development-only files
+          rm -f Process/Prompts/Prompt_99_Build_Release.md
+          rm -f Process/Prompts/README.md
+
+          # Remove Proposal directory if it exists
+          rm -rf Proposal/
+
+      - name: Generate manifest
+        run: |
+          cat > build/temp/.nonfiction-manifest.json <<EOF
+          {
+            "framework": "AI-Assisted Nonfiction Authoring",
+            "frameworkVersion": "${{ steps.version.outputs.version }}",
+            "installedVersion": null,
+            "installedDate": null,
+            "releaseDate": "$(date +%Y-%m-%d)",
+            "releaseUrl": "https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.version }}"
+          }
+          EOF
+
+      - name: Copy gitignore template
+        run: cp Process/Templates/gitignore_template build/temp/.gitignore
+
+      - name: Create zip archive (correct structure)
+        run: |
+          cd build/temp
+          zip -r ../../nonfiction-v${{ steps.version.outputs.version }}.zip .
+          cd ../..
+          echo "Zip created with correct structure (no parent directory)"
+
+      - name: Verify zip structure
+        run: |
+          echo "Verifying zip contents (should show files at root):"
+          unzip -l nonfiction-v${{ steps.version.outputs.version }}.zip | head -20
+
+      - name: Calculate checksum
+        id: checksum
+        run: |
+          CHECKSUM=$(sha256sum nonfiction-v${{ steps.version.outputs.version }}.zip | awk '{print $1}')
+          echo "checksum=$CHECKSUM" >> $GITHUB_OUTPUT
+          echo "SHA256: $CHECKSUM"
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+
+          # Extract version section from CHANGELOG.md
+          echo "Extracting release notes for v$VERSION..."
+
+          # Get the section between [VERSION] and the next [
+          sed -n "/## \[$VERSION\]/,/^## \[/p" CHANGELOG.md | sed '$ d' > release-notes-temp.md
+
+          # Add download instructions
+          echo "" >> release-notes-temp.md
+          echo "---" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "## 📥 Installation" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "1. Download \`nonfiction-v$VERSION.zip\` from this release" >> release-notes-temp.md
+          echo "2. Extract to your book project directory" >> release-notes-temp.md
+          echo "3. Start Claude Code in that directory" >> release-notes-temp.md
+          echo "4. Execute \`configure.md\` to set up" >> release-notes-temp.md
+          echo "5. Execute \`Prompt 1\` to initialize your book project" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "See \`INSTALLATION.md\` (in the zip) for detailed instructions." >> release-notes-temp.md
+
+          # Add checksum
+          echo "" >> release-notes-temp.md
+          echo "## 📊 Release Assets" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "**SHA256 Checksum:**" >> release-notes-temp.md
+          echo '```' >> release-notes-temp.md
+          echo "${{ steps.checksum.outputs.checksum }}  nonfiction-v$VERSION.zip" >> release-notes-temp.md
+          echo '```' >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "---" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "**Download:** https://github.com/${{ github.repository }}/releases/download/v$VERSION/nonfiction-v$VERSION.zip" >> release-notes-temp.md
+          echo "**Support:** https://github.com/${{ github.repository }}/issues" >> release-notes-temp.md
+
+          echo "Release notes generated"
+          cat release-notes-temp.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Nonfiction Framework v${{ steps.version.outputs.version }}
+          body_path: release-notes-temp.md
+          files: nonfiction-v${{ steps.version.outputs.version }}.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -rf build/
+          echo "Build directory cleaned up"
+
+      - name: Release complete
+        run: |
+          echo "✅ Release v${{ steps.version.outputs.version }} published successfully!"
+          echo "📦 Download: https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.version }}"
