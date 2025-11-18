@@ -64,15 +64,15 @@ The framework includes a comprehensive writing style system with 9 curated profe
 
 **How It Works:**
 1. **Prompt 1 (Initialize)** asks you to select a style during project setup
-2. Creates `Style/Style_Guide.md` with your active configuration
+2. Creates `Manuscript/Style/Style_Guide.md` with your active configuration
 3. **Prompt 3 (Modify File)** automatically checks modified content against your style
 4. **Prompt 6 (Consistency)** analyzes entire book for style alignment
 5. **Book-writing-assistant agent** applies your style to all writing assistance
 
 **Quick Actions:**
 - **Select style**: Use Prompt 1 during initialization
-- **Create custom style**: Edit `Style/Custom_Styles.md`
-- **Change your style**: Edit `Style/Style_Guide.md`
+- **Create custom style**: Edit `Manuscript/Style/Custom_Styles.md`
+- **Change your style**: Edit `Manuscript/Style/Style_Guide.md`
 - **Check style consistency**: Use Prompt 6 with style analysis
 
 ---
@@ -90,7 +90,7 @@ The framework includes a comprehensive writing style system with 9 curated profe
 2. Work on content in your editor
 
 3. Write revision instructions in _chg files
-   → Edit Chapters/Chapter_XX_chg.md
+   → Edit Manuscript/Chapters/Chapter_XX/Chapter_XX_chg.md
    → Add instructions to [INSTRUCTIONS FOR THIS REVISION]
    → Commit _chg file
 
@@ -157,7 +157,7 @@ The framework includes a comprehensive writing style system with 9 curated profe
 **Option B: From Inbox (Drafted Content)**
 
 ```
-1. Place chapter draft in Inbox/
+1. Place chapter draft in Manuscript/Inbox/
 
 2. Execute integrate prompt
    → Prompt 4 (Integrate Inbox)
@@ -259,7 +259,7 @@ The framework includes a comprehensive writing style system with 9 curated profe
 
 2. **Write instructions in _chg file**
    ```
-   Open: Chapters/Chapter_05_Analysis_chg.md
+   Open: Manuscript/Chapters/Chapter_05/Chapter_05_Analysis_chg.md
 
    Find: ## REWRITE INSTRUCTIONS
          ### [INSTRUCTIONS FOR THIS REVISION]
@@ -276,7 +276,7 @@ The framework includes a comprehensive writing style system with 9 curated profe
 
 3. **Commit the _chg file**
    ```
-   git add Chapters/Chapter_05_Analysis_chg.md
+   git add Manuscript/Chapters/Chapter_05/Chapter_05_Analysis_chg.md
    git commit -m "Add revision instructions for Chapter 5"
    ```
 
@@ -286,7 +286,7 @@ The framework includes a comprehensive writing style system with 9 curated profe
    Paste into Claude Code
 
    AI asks: "Which file should I modify?"
-   You: "Chapters/Chapter_05_Analysis.md"
+   You: "Manuscript/Chapters/Chapter_05/Chapter_05_Analysis.md"
 
    AI asks: "Should I analyze content first?"
    You: "Yes" or "No"

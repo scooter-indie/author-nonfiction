@@ -36,7 +36,7 @@ Your project now contains:
 
 Example:
 ```
-1. Open: Chapters/Chapter_03_Analysis_chg.md
+1. Open: Manuscript/Chapters/Chapter_03/Chapter_03_Analysis_chg.md
 2. Write in [INSTRUCTIONS FOR THIS REVISION] section:
    "Add example using survey data. Clarify statistical approach."
 3. Commit: git commit -am "Add revision instructions for Chapter 3"
@@ -95,14 +95,14 @@ Your framework includes 9 professionally curated writing styles:
 - Inspirational Teacher
 - Scientific Communicator
 
-**You selected your style during initialization.** It's configured in `Style/Style_Guide.md`.
+**You selected your style during initialization.** It's configured in `Manuscript/Style/Style_Guide.md`.
 
 The framework automatically:
 - Checks your writing against your style (Prompt 3)
 - Analyzes style consistency across chapters (Prompt 6)
 - Applies your style during AI writing assistance
 
-**Change your style:** Edit `Style/Style_Guide.md` or create custom styles in `Style/Custom_Styles.md`
+**Change your style:** Edit `Manuscript/Style/Style_Guide.md` or create custom styles in `Manuscript/Style/Custom_Styles.md`
 
 ---
 
