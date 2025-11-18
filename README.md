@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Framework
 
-**Version 3.6.0**
+**Version 0.9.0**
 
 A complete system for writing professional nonfiction books with AI assistance using Claude Code.
 
@@ -27,7 +27,7 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 
 ### 1. Download the Framework
 
-Download `nonfiction-v3.6.0.zip` from:
+Download `nonfiction-v0.9.0.zip` from:
 
 **GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
 
@@ -333,7 +333,7 @@ This framework is released under the MIT License. See LICENSE file for details.
 
 ## About
 
-**Framework Version**: 3.6.0
+**Framework Version**: 0.9.0
 **Release Date**: 2025-11-18
 **Repository**: https://github.com/scooter-indie/author-nonfiction
 

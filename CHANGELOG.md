@@ -7,204 +7,128 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [3.6.0] - 2025-11-18
+## [0.9.0] - 2025-11-18 (Pre-release)
+
+### Major Structural Changes
+
+**Directory Reorganization:**
+- **NEW: `Manuscript/` directory** - All book content now organized under single parent directory
+- Clearer separation between manuscript content and framework files
+- Better organization for complex books with multiple content types
+
+**New Structure:**
+```
+project-root/
+├── Manuscript/           # All book content here
+│   ├── Chapters/
+│   │   ├── Chapter_01/   # Each chapter in own subdirectory
+│   │   │   ├── Chapter_01.md
+│   │   │   ├── Chapter_01_chg.md
+│   │   │   └── figures/  # Images, charts for this chapter
+│   │   └── Chapter_02/
+│   ├── FrontMatter/
+│   ├── BackMatter/
+│   │   └── Bibliography/ # Now subdirectory of BackMatter
+│   ├── Quotes/
+│   ├── Style/
+│   ├── _TOC_/
+│   ├── Inbox/
+│   ├── Drafts/           # Moved from root
+│   └── Exports/          # Moved from root
+├── Process/              # Framework (unchanged location)
+├── .claude/              # Configuration
+└── [config files at root]
+```
 
 ### Changed
-- **Simplified Installation Process**: Replaced complex installer with straightforward download + unzip + configure workflow
-- **New configure.md Script**: Intelligent configuration that handles git setup, remote connection, and verification
-- **Working Directory Detection**: configure.md uses `pwd` to verify actual directory, avoiding environment info issues
-- **Git Tracking Strategy**: Framework files now excluded from user repositories
-  - Only user content (Chapters/, TOC/, etc.) and user configuration tracked
-  - Framework files (Process/, documentation) ignored in .gitignore
-- **Installation Documentation**: Complete INSTALLATION.md with platform-specific instructions and troubleshooting
+- **Chapter Organization**: Each chapter now in own subdirectory
+  - Supports chapter-specific assets (images, figures, tables)
+  - Cleaner organization for large books
+  - Easier to manage chapter-related files
+- **Drafts Location**: Moved from root to `Manuscript/Drafts/`
+- **Exports Location**: Moved from root to `Manuscript/Exports/`
+- **Bibliography**: Now `Manuscript/BackMatter/Bibliography/` instead of separate
+- **TOC**: Renamed from `TOC/` to `_TOC_/` for better sorting
+- **All Prompts Updated**: Reflect new directory paths
 
 ### Added
-- **INSTALLATION.md**: Comprehensive installation guide with unzip instructions for Windows/macOS/Linux
-- **CHANGELOG.md**: Structured version history following Keep a Changelog format
-- **configure.md**: New configuration script replacing installer.md
-- **Remote Repository Options**: Support for GitHub, GitLab, and other git hosting
-  - Web UI instructions for beginners
-  - CLI commands (gh/gitlab) for developers
-  - Local-only option for users who prefer manual backups
-
-### Removed
-- **installer.md**: Replaced by simpler configure.md approach
-- **remote-install.md**: Remote installation method discontinued
-- **configuration.md**: Functionality merged into configure.md
+- Pre-configured `.claude/hooks.json` for auto-approval of git commands
+- `.claude/README.md` documenting hooks configuration
+- Clearer installation instructions for zip extraction
 
 ### Fixed
-- Working directory detection issues caused by environment info mismatch
-- User confusion between framework development files and book content files
-- Git repository clutter from tracking framework files that update with releases
+- Command references now use `claude` instead of non-existent `claude-code`
+- Extraction instructions clarify how to avoid creating subdirectory
+- Working directory detection using `pwd` instead of environment info
+
+### Migration Notes
+
+**For Existing Users:**
+
+This is a breaking change. To migrate from v3.x.x to 0.9.0:
+
+1. **Backup your work**: Create full project backup
+2. **Commit everything**: `git commit -am "Pre-migration backup"`
+3. **Manual restructure required**:
+   ```bash
+   mkdir Manuscript
+   mv Chapters Manuscript/
+   mv FrontMatter Manuscript/
+   mv BackMatter Manuscript/
+   mv Quotes Manuscript/
+   mv Style Manuscript/
+   mv TOC Manuscript/_TOC_/
+   mv Inbox Manuscript/
+   mv Drafts Manuscript/
+   mv Exports Manuscript/
+
+   # Restructure chapters into subdirectories
+   cd Manuscript/Chapters
+   for chapter in Chapter_*.md; do
+     name="${chapter%.md}"
+     mkdir -p "$name"
+     mv "$name.md" "$name/"
+     mv "${name}_chg.md" "$name/" 2>/dev/null || true
+   done
+
+   # Move Bibliography under BackMatter
+   cd ../BackMatter
+   mkdir -p Bibliography
+   # Move your bibliography files into Bibliography/
+   ```
+4. **Update framework**: Extract 0.9.0 zip with overwrite
+5. **Run configure.md**: Verify setup
+6. **Test prompts**: Verify all prompts work with new structure
+
+**Why Pre-release (0.9.0)?**
+
+This restructure represents a significant change. We're using 0.9.0 to indicate:
+- Framework is feature-complete
+- Directory structure is now finalized
+- Ready for testing before 1.0.0 stable release
+- Breaking change from 3.x.x series
+
+Version 1.0.0 will be released once this structure is validated by users.
 
 ---
 
-## [3.5.0] - 2025-11-18
+## Previous Versions (3.x.x series - deprecated)
 
-### Added
-- **New Installation Method**: Simplified single-method installation via manual download and unzip
-- **configure.md**: New configuration script for setup automation
-  - Automatic git repository initialization
-  - Optional remote repository connection (GitHub/GitLab)
-  - Support for both web UI and CLI (gh/gitlab) setup methods
-  - Verification of framework files
-  - Date confirmation workflow integration
-- **INSTALLATION.md**: Comprehensive installation guide with safety warnings
-- **CHANGELOG.md**: Version history tracking
-- **Improved .gitignore**: Framework files now excluded from user git tracking
-  - Only user content and configuration files tracked
-  - Framework files (Process/, system-instructions.md, etc.) ignored
+The 3.x.x version series used a flat directory structure at the project root.
+All releases and tags from that series have been removed to avoid confusion.
 
-### Changed
-- **Installation Process**: Now requires only download + unzip + configure
-- **Git Tracking Strategy**: Framework files ignored, only user content tracked
-- **Update Process**: Manual unzip with overwrite, then configure.md verification
-- **Configuration Workflow**: Git setup and remote connection now handled by configure.md
-
-### Removed
-- **installer.md**: Replaced by simpler configure.md approach
-- **remote-install.md**: Remote installation method discontinued
-- **configuration.md**: Functionality merged into new configure.md
-
-### Fixed
-- Working directory detection issues (configure.md now uses pwd verification)
-- Git tracking confusion between framework and user content
+Key features from 3.x.x that are retained in 0.9.0:
+- 10 Core Prompts for complete authoring workflow
+- 9 Professional Writing Styles with examples
+- Quote Management System with verification
+- Change Tracking with semantic versioning
+- Export to DOCX/PDF/EPUB formats
+- Consistency Checking across all content
+- Anti-Hallucination Guidelines for accuracy
+- Simplified installation (download + unzip + configure)
+- GitHub Actions for automated releases
 
 ---
-
-## [3.4.0] - 2025-11-17
-
-### Added
-- **Writing Style System**: 9 professionally curated writing styles
-  - Academic Authority
-  - Conversational Expert
-  - Narrative Storyteller
-  - Business Professional
-  - Technical Precision
-  - Investigative Journalist
-  - Practical Guide
-  - Inspirational Teacher
-  - Scientific Communicator
-- **Style Integration**:
-  - Prompt 1 (Initialize): Interactive style selection during setup
-  - Prompt 3 (Modify File): Automatic style consistency checking
-  - Prompt 6 (Consistency): Chapter-by-chapter style alignment
-  - Book-writing-assistant agent: Style-aware writing sessions
-- **Style Extensibility**:
-  - Framework-level style library (Process/Style_Examples.md)
-  - Project-level configuration (Style/Style_Guide.md)
-  - Custom style creation (Style/Custom_Styles.md)
-- **Style Documentation**:
-  - Complete voice, tone, pacing, and structure guidelines
-  - DO/DON'T examples for each style
-  - Sample passages (150-200 words) demonstrating each style
-
-### Changed
-- Enhanced QUICK_REFERENCE with style system workflows
-- Improved documentation structure
-
-### Fixed
-- Simplified deployment with GitHub Releases
-
----
-
-## [3.3.0] - 2025-11-10
-
-### Added
-- **Quote Management System**:
-  - Centralized quote tracking in Quotes/Chapter_Quotes.md
-  - Web search integration for quote verification
-  - Status codes (⏳ Pending, ⚠ Needs Citation, ✓ Verified)
-  - Automatic epigraph insertion during compilation
-- **Automatic Change Tracking Synchronization** (Prompt 10):
-  - Git diff analysis to detect manual edits
-  - Automatic _chg file updates
-  - Version history preservation
-
-### Changed
-- Anti-Hallucination Guidelines enhanced for quote verification
-- Prompt 3 (Modify File) now includes quote management
-- Prompt 5 (Compile) auto-inserts verified quotes as epigraphs
-
----
-
-## [3.2.0] - 2025-11-03
-
-### Added
-- **Prompt 9: Git Operations**:
-  - Commit, tag, branch, merge operations
-  - View history and diffs
-  - Push/pull to remote repositories
-  - Status checks
-- **Prompt 8: Progress Dashboard**:
-  - Comprehensive project metrics
-  - Word count tracking
-  - Completion percentages
-  - Recommendations for next actions
-
-### Changed
-- Improved git integration across all prompts
-- Enhanced error handling for git operations
-
----
-
-## [3.1.0] - 2025-10-27
-
-### Added
-- **Export System** (Prompt 7):
-  - DOCX export via Pandoc
-  - PDF export via LaTeX
-  - EPUB export for e-readers
-  - LaTeX export for advanced formatting
-- **Consistency Checker** (Prompt 6):
-  - Cross-chapter terminology tracking
-  - Character/entity consistency
-  - Timeline verification
-  - Style drift detection
-
-### Changed
-- Enhanced Prompt 5 (Compile) with export preparation
-- Improved validation reporting
-
----
-
-## [3.0.0] - 2025-10-20
-
-### Added
-- **Complete Framework Release**:
-  - 10 Execute Prompts for full authoring workflow
-  - Git version control integration
-  - Change tracking system with version history
-  - Anti-Hallucination Guidelines
-  - Modular file structure (chapters, front/back matter)
-  - Inbox integration for content processing
-  - Templates for all document types
-
-### Changed
-- Major restructure from prototype to production framework
-- Comprehensive documentation in Process/ directory
-
----
-
-## [2.x.x] - 2025-09-15 to 2025-10-19
-
-### Development Versions
-- Prototype iterations
-- Testing of core concepts
-- Workflow refinement
-
----
-
-## [1.0.0] - 2025-09-01
-
-### Added
-- Initial concept and proof of concept
-- Basic prompt structure
-- Git integration experiments
-
----
-
-**For detailed technical changes, see**: `Process/AI-Assisted_Nonfiction_Authoring_Process_chg.md`
 
 **Project Repository**: https://github.com/scooter-indie/author-nonfiction
 **Report Issues**: https://github.com/scooter-indie/author-nonfiction/issues

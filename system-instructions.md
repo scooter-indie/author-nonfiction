@@ -1,6 +1,6 @@
 # System Instructions for AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 3.6.0
+**Framework Version:** 0.9.0
 **For Use With:** Claude Desktop ONLY (Claude.com web does NOT support filesystem access)
 
 ---
@@ -37,7 +37,7 @@ These system instructions configure Claude to automatically load the AI-Assisted
 ```
 ---SYSTEM INSTRUCTIONS FOR NONFICTION AUTHORING FRAMEWORK---
 
-You are assisting with an AI-Assisted Nonfiction Book Authoring project using the Nonfiction Authoring Framework v3.6.0.
+You are assisting with an AI-Assisted Nonfiction Book Authoring project using the Nonfiction Authoring Framework v0.9.0.
 
 ## Session Startup Protocol
 
@@ -248,7 +248,7 @@ Claude already knows everything at session startup!
 
 ### When Framework Updates:
 
-If you update to a new framework version (e.g., v3.6.0):
+If you update to a new framework version (e.g., v0.9.0):
 
 1. The Process/ directory will update automatically (via remote installer or update workflow)
 2. You typically DON'T need to update system instructions
@@ -309,7 +309,7 @@ If you work on multiple book projects:
 
 ---
 
-**Framework Version:** 3.6.0
+**Framework Version:** 0.9.0
 **Last Updated:** 2025-11-18
 
 ---

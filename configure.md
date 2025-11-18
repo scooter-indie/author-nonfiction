@@ -1,6 +1,6 @@
 # Framework Configuration
 
-**AI-Assisted Nonfiction Authoring Framework v3.6.0**
+**AI-Assisted Nonfiction Authoring Framework v0.9.0**
 
 ---
 
@@ -363,5 +363,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 3.6.0*
+*Framework Version: 0.9.0*
 *Configuration Script: configure.md*
