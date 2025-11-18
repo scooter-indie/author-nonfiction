@@ -8,7 +8,8 @@
 
 Before you begin, ensure you have:
 
-1. **Claude Code installed** - Download from [Claude Code website](https://claude.com/claude-code)
+1. **Claude installed** (Claude Code CLI) - Download from [Claude Code website](https://claude.com/claude-code)
+   - Launch with `claude` command
 2. **Git installed** (optional but recommended) - Download from [git-scm.com](https://git-scm.com/)
 3. **Empty target directory** for your book project (e.g., `E:\Projects\my-book`)
 
@@ -122,15 +123,15 @@ my-book/
 
 ### Step 4: Run Configuration
 
-1. **Start Claude Code** in your project directory:
+1. **Start Claude** in your project directory:
    ```bash
    cd E:\Projects\my-book
-   claude-code
+   claude
    ```
 
 2. **Execute the configuration script**:
-   - In Claude Code, type: `execute configure.md`
-   - Or paste the contents of `configure.md` into Claude Code
+   - Type: `execute configure.md`
+   - Or paste the contents of `configure.md` into the chat
 
 3. **Follow the prompts**:
    - The configuration will set up git (if needed)
@@ -185,7 +186,7 @@ After installation, restart your terminal/command prompt and run `configure.md` 
 ### Claude Code doesn't see the framework files
 
 **Solution**: Verify you're in the correct directory:
-1. In Claude Code, ask: "What directory am I in?"
+1. Ask Claude: "What directory am I in?"
 2. Verify it matches your project directory
 3. If not, navigate to the correct directory
 

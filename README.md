@@ -49,8 +49,14 @@ unzip nonfiction-v3.5.0.zip
 
 ### 3. Run Configuration
 
-Start Claude Code in your project directory and execute:
+Start Claude in your project directory and execute:
 
+```bash
+cd E:\Projects\my-book
+claude
+```
+
+Then execute the configuration:
 ```
 execute configure.md
 ```
@@ -295,7 +301,8 @@ You can use this framework with both Claude Code and Claude Desktop:
 ## Requirements
 
 ### Essential
-- **Claude Code** - Download from https://claude.com/claude-code
+- **Claude** (Claude Code CLI) - Download from https://claude.com/claude-code
+  - Launch with `claude` command in your project directory
 
 ### Recommended
 - **Git** - Version control (https://git-scm.com/)
