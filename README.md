@@ -24,7 +24,31 @@ Think of it as a **complete writing environment** that combines:
 
 **Ready to start writing your book?**
 
-### Download and Install
+### Choose Your Installation Method
+
+#### Option 1: Remote Installation (Recommended for Claude Desktop/Web)
+
+**Best for:** Claude Desktop or Claude.com users who want automatic setup
+
+1. **Configure MCP Filesystem:** Follow `configuration.md` to set up file access
+2. **Add System Instructions:** Copy instructions from `system-instructions.md` to Claude settings
+3. **Run Remote Installer:**
+   - Start a new chat in Claude Desktop or Claude.com
+   - Say: "Install the nonfiction framework"
+   - Or copy and paste `remote-install.md` into chat
+4. **Framework Downloads Automatically:** Claude fetches from GitHub and sets up your project
+5. **Start Writing:** Execute "Prompt 1" to initialize your book project
+
+**What you need:**
+- `configuration.md` - MCP Filesystem setup guide
+- `system-instructions.md` - Auto-loading configuration
+- `remote-install.md` - Remote installation prompt
+
+**All files available in this repository**
+
+#### Option 2: Local Installation (Claude Code)
+
+**Best for:** Claude Code users who prefer manual download
 
 1. **Visit Releases:** https://github.com/scooter-indie/author-nonfiction/releases
 2. **Download:**
@@ -38,6 +62,9 @@ Think of it as a **complete writing environment** that combines:
    - The installer will guide you through initialization
    - You'll configure your book details, structure, and writing style
    - Then you can start writing immediately
+
+**What you need:**
+- `CLAUDE.md` - Session startup context (created by installer)
 
 ### What You Get
 
@@ -262,7 +289,8 @@ See `Process/AI-Assisted_Nonfiction_Authoring_Process_chg.md` for detailed chang
 ## Support
 
 **For Book Authors:**
-- **Installation Help:** See `installer.md` (included in release)
+- **Remote Installation:** See `remote-install.md`, `configuration.md`, `system-instructions.md`
+- **Local Installation:** See `installer.md` (included in release)
 - **Usage Questions:** See `QUICK_REFERENCE.md` (after installation)
 - **Issues/Bugs:** https://github.com/scooter-indie/author-nonfiction/issues
 
