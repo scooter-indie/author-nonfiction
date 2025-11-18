@@ -12,10 +12,9 @@ I will create a production release of the nonfiction authoring framework for dis
 
 1. Extracts version information from the current framework
 2. Creates a clean production build (no development files)
-3. Generates author-focused documentation
+3. Copies author-focused documentation files
 4. Packages everything into a versioned zip file
-5. Creates installer.md for distribution
-6. Creates a GitHub Release with all assets
+5. Creates a GitHub Release with zip asset
 
 **This prompt is EXCLUDED from production builds.**
 
@@ -65,38 +64,17 @@ I will create:
 }
 ```
 
-**`README.md`** (author-focused, ~100-150 lines):
-- What this framework is
-- Quick start: Run installer.md, then follow prompts
-- Overview: 10 prompts for different tasks
-- Next steps: Use Prompt 3 for daily revisions, Prompt 8 for progress
-- Link to QUICK_REFERENCE.md for detailed workflows
-- How to update framework (re-run installer.md)
-- Support and issues link
+**Files copied from repository root:**
+- `README.md` (already author-focused)
+- `INSTALLATION.md` (installation guide)
+- `CHANGELOG.md` (version history)
+- `CLAUDE.md` (framework context for Claude Code)
+- `configure.md` (configuration script)
+- `system-instructions.md` (Claude Desktop integration)
 
-**`.gitignore`** (book project template):
-```
-# Temporary files
-*.tmp
-*.bak
-~*
-
-# Editor files
-.vscode/
-.idea/
-*.swp
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Build artifacts
-build/
-dist/
-
-# Optional: Large compiled drafts
-# Drafts/Full_Draft_*.md
-```
+**`.gitignore`** (from Process/Templates/gitignore_template):
+- Copy `Process/Templates/gitignore_template` to `.gitignore`
+- This excludes framework files from user git tracking
 
 ### Step 4: Create Production Zip
 
@@ -105,82 +83,49 @@ I will:
 2. Calculate SHA256 checksum
 3. Verify zip integrity by listing contents
 
-### Step 5: Generate installer.md
-
-I will create `installer.md` with embedded version number and logic:
-
-```markdown
-# Nonfiction Framework Installer
-
-**Version:** {VERSION}
-**Release Date:** {DATE}
-
-## What This Does
-
-I will install the AI-Assisted Nonfiction Authoring Framework into your book project.
-
-**If this is a new project:** I'll set up git, push to remote, and launch initialization.
-**If updating existing project:** I'll update the framework files and track changes in git.
-
----
-
-## Prerequisites
-
-- You have downloaded `nonfiction-v{VERSION}.zip` to your project directory
-- For new projects: You have created an empty remote repository (GitHub/GitLab/Bitbucket)
-- For updates: Your current work is committed to git
-
----
-
-## Installation Process
-
-[Installer prompts user, detects new vs. update mode, executes accordingly]
-```
-
-### Step 6: Extract Release Notes
+### Step 5: Extract Release Notes
 
 I will:
-1. Read latest version entry from `Process/AI-Assisted_Nonfiction_Authoring_Process_chg.md`
+1. Read latest version entry from `CHANGELOG.md`
 2. Format as GitHub release notes
 3. Include:
    - Version highlights
    - Major changes
    - Breaking changes (if any)
-   - Link to full version history
+   - Link to full changelog
 
-### Step 7: Create Git Tag
+### Step 6: Create Git Tag
 
 I will:
 1. Create annotated git tag: `v{VERSION}`
 2. Tag message: Version number and brief description
 3. Push tag to remote
 
-### Step 8: Create GitHub Release
+### Step 7: Create GitHub Release
 
 I will execute:
 ```bash
 gh release create v{VERSION} \
   --title "Nonfiction Framework v{VERSION}" \
   --notes "$(cat release-notes.md)" \
-  nonfiction-v{VERSION}.zip \
-  installer.md
+  nonfiction-v{VERSION}.zip
 ```
 
 This creates a GitHub Release with:
 - Tag: `v{VERSION}`
 - Title: "Nonfiction Framework v{VERSION}"
-- Release notes from version history
-- Assets: zip file and installer.md
+- Release notes from CHANGELOG.md
+- Asset: zip file (contains configure.md, README.md, INSTALLATION.md, etc.)
 
-### Step 9: Verification
+### Step 8: Verification
 
 I will:
 1. Verify release appears at https://github.com/scooter-indie/author-nonfiction/releases
-2. Verify both assets are attached
-3. Verify download links work
+2. Verify zip asset is attached
+3. Verify download link works
 4. Clean up temporary build directory
 
-### Step 10: Report
+### Step 9: Report
 
 I will provide:
 - Release URL
@@ -194,8 +139,13 @@ I will provide:
 
 ### Root Level
 - `.nonfiction-manifest.json` (version tracking)
-- `README.md` (author-focused)
-- `.gitignore` (book project template)
+- `README.md` (author-focused, from repo root)
+- `INSTALLATION.md` (from repo root)
+- `CHANGELOG.md` (from repo root)
+- `CLAUDE.md` (from repo root)
+- `configure.md` (from repo root)
+- `system-instructions.md` (from repo root)
+- `.gitignore` (from Process/Templates/gitignore_template)
 
 ### .claude/
 - `agents/book-writing-assistant.md`
@@ -237,8 +187,7 @@ I will provide:
 - `README_FRAMEWORK.md` (framework developer README)
 - `.claude/settings.local.json`
 - `build/` directory
-
-**Note:** Current `README.md` will be renamed to `README_FRAMEWORK.md` for framework developers. Production builds get new author-focused `README.md`.
+- `.git/` directory (users initialize their own git repo via configure.md)
 
 ---
 

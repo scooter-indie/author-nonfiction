@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.6.0] - 2025-11-18
+
+### Changed
+- **Simplified Installation Process**: Replaced complex installer with straightforward download + unzip + configure workflow
+- **New configure.md Script**: Intelligent configuration that handles git setup, remote connection, and verification
+- **Working Directory Detection**: configure.md uses `pwd` to verify actual directory, avoiding environment info issues
+- **Git Tracking Strategy**: Framework files now excluded from user repositories
+  - Only user content (Chapters/, TOC/, etc.) and user configuration tracked
+  - Framework files (Process/, documentation) ignored in .gitignore
+- **Installation Documentation**: Complete INSTALLATION.md with platform-specific instructions and troubleshooting
+
+### Added
+- **INSTALLATION.md**: Comprehensive installation guide with unzip instructions for Windows/macOS/Linux
+- **CHANGELOG.md**: Structured version history following Keep a Changelog format
+- **configure.md**: New configuration script replacing installer.md
+- **Remote Repository Options**: Support for GitHub, GitLab, and other git hosting
+  - Web UI instructions for beginners
+  - CLI commands (gh/gitlab) for developers
+  - Local-only option for users who prefer manual backups
+
+### Removed
+- **installer.md**: Replaced by simpler configure.md approach
+- **remote-install.md**: Remote installation method discontinued
+- **configuration.md**: Functionality merged into configure.md
+
+### Fixed
+- Working directory detection issues caused by environment info mismatch
+- User confusion between framework development files and book content files
+- Git repository clutter from tracking framework files that update with releases
+
+---
+
 ## [3.5.0] - 2025-11-18
 
 ### Added

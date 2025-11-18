@@ -1,6 +1,6 @@
 # Installation Guide
 
-**AI-Assisted Nonfiction Authoring Framework v3.5.0**
+**AI-Assisted Nonfiction Authoring Framework v3.6.0**
 
 ---
 
@@ -18,7 +18,7 @@ Before you begin, ensure you have:
 
 ### Step 1: Download the Framework
 
-Download `nonfiction-v3.5.0.zip` from:
+Download `nonfiction-v3.6.0.zip` from:
 - **GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
 
 Save the zip file to your target directory.
@@ -28,7 +28,7 @@ Save the zip file to your target directory.
 #### For New Installations:
 
 **Windows (File Explorer):**
-1. Right-click `nonfiction-v3.5.0.zip`
+1. Right-click `nonfiction-v3.6.0.zip`
 2. Select "Extract All..."
 3. Choose your target directory as the destination
 4. Click "Extract"
@@ -36,13 +36,13 @@ Save the zip file to your target directory.
 **Windows (Command Line):**
 ```cmd
 cd E:\Projects\my-book
-tar -xf nonfiction-v3.5.0.zip
+tar -xf nonfiction-v3.6.0.zip
 ```
 
 **macOS/Linux:**
 ```bash
 cd /path/to/my-book
-unzip nonfiction-v3.5.0.zip
+unzip nonfiction-v3.6.0.zip
 ```
 
 #### For Updates (Overlaying Existing Installation):
@@ -52,7 +52,7 @@ unzip nonfiction-v3.5.0.zip
 2. **Create a backup** of your entire project directory
 
 **Windows (File Explorer):**
-1. Right-click `nonfiction-v3.5.0.zip`
+1. Right-click `nonfiction-v3.6.0.zip`
 2. Select "Extract All..."
 3. Choose your project directory
 4. When prompted about overwriting files, select **"Replace the files in the destination"** or **"Yes to All"**
@@ -60,13 +60,13 @@ unzip nonfiction-v3.5.0.zip
 **Windows (Command Line with Force Overwrite):**
 ```cmd
 cd E:\Projects\my-book
-tar -xf nonfiction-v3.5.0.zip --force-local
+tar -xf nonfiction-v3.6.0.zip --force-local
 ```
 
 **macOS/Linux (with overwrite):**
 ```bash
 cd /path/to/my-book
-unzip -o nonfiction-v3.5.0.zip
+unzip -o nonfiction-v3.6.0.zip
 ```
 
 The `-o` flag forces overwrite without prompting.
@@ -181,5 +181,5 @@ After installation, restart your terminal/command prompt and run `configure.md` 
 
 ---
 
-**Version**: 3.5.0
+**Version**: 3.6.0
 **Last Updated**: 2025-11-18
