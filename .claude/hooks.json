@@ -49,7 +49,12 @@
       "Bash(echo:*)",
       "Bash(wc:*)",
       "Bash(sort:*)",
-      "Bash(uniq:*)"
+      "Bash(uniq:*)",
+      "Bash(test:*)",
+      "Bash([:*)",
+      "Read(.nonfiction-manifest.json)",
+      "Edit(.nonfiction-manifest.json)",
+      "Write(.nonfiction-manifest.json)"
     ],
     "deny": [
       "Bash(rm -rf /:*)",

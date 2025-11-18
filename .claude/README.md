@@ -21,7 +21,11 @@ Pre-configured permissions that automatically allow common commands without prom
 - Management: `mkdir`, `rm`, `cp`, `mv`
 - Archives: `tar`, `zip`, `unzip`, `sha256sum`
 - Text processing: `wc`, `sort`, `uniq`
+- Testing: `test`, `[` (bash test commands)
 - GitHub CLI: `gh` (all operations)
+
+**Automatically allowed file edits:**
+- `.nonfiction-manifest.json` (framework version tracking)
 
 **Denied commands (for safety):**
 - Destructive: `rm -rf /`, `sudo`
