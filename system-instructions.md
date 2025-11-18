@@ -1,7 +1,7 @@
 # System Instructions for AI-Assisted Nonfiction Authoring Framework
 
 **Framework Version:** 3.5.0
-**For Use With:** Claude Desktop or Claude.com (web interface)
+**For Use With:** Claude Desktop ONLY (Claude.com web does NOT support filesystem access)
 
 ---
 
@@ -22,15 +22,11 @@ These system instructions configure Claude to automatically load the AI-Assisted
 5. Save settings
 6. Start a new chat session
 
-### For Claude.com (Web):
+### Claude.com (Web) is NOT Supported
 
-1. Log into Claude.com
-2. Click your profile icon → **Settings**
-3. Find **Custom Instructions** or **System Prompt** section
-4. Copy the entire "System Instructions" section below
-5. Paste into the custom instructions field
-6. Save settings
-7. Start a new chat session
+**Important:** Claude.com web interface does NOT support the MCP Filesystem connector due to browser security restrictions.
+
+**You must use Claude Desktop** to work with this framework. Download it from: https://claude.ai/download
 
 ---
 
@@ -223,7 +219,7 @@ Claude already knows everything at session startup!
 
 ### Test After Setup:
 
-1. **Add system instructions** to Claude Desktop/Web
+1. **Add system instructions** to Claude Desktop
 2. **Start a new chat session**
 3. **Say:** "Are you ready to work on my nonfiction book project?"
 
@@ -238,13 +234,13 @@ Claude already knows everything at session startup!
 1. MCP Filesystem connector not configured (see configuration.md)
 2. Filesystem connector doesn't have access to your project directory
 3. System instructions not saved properly
-4. Need to restart Claude Desktop or refresh Claude.com
+4. Need to restart Claude Desktop
 
 **Solutions:**
 - Verify MCP Filesystem connector is configured (see configuration.md)
 - Check that connector has read access to your project path
 - Re-save system instructions and start fresh chat
-- Restart Claude Desktop or refresh browser
+- Restart Claude Desktop
 
 ---
 
@@ -319,4 +315,4 @@ If you work on multiple book projects:
 ---
 
 *These system instructions enable hands-free framework loading at every session startup*
-*Copy the instructions section into Claude Desktop or Claude.com settings*
+*Copy the instructions section into Claude Desktop settings (Claude.com web NOT supported)*

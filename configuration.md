@@ -139,40 +139,53 @@ Add multiple paths to the args array:
 
 ## Configuration Steps for Claude.com (Web)
 
-**Note:** MCP support for Claude.com may vary. Check current availability at https://claude.ai/
+**IMPORTANT:** The MCP Filesystem connector is **NOT available** in Claude.com web interface.
 
-### Using Claude.com Interface
+### Why Filesystem Access Doesn't Work in Web Browsers
 
-1. **Log into Claude.com** (https://claude.ai/)
-2. **Access Settings:**
-   - Click your profile icon (top right)
-   - Select **Settings** or **Preferences**
-3. **Navigate to Integrations:**
-   - Look for **Integrations**, **MCP Servers**, or **Extensions** section
-   - This may be under **Advanced Settings**
-4. **Add Filesystem Connector:**
-   - Click **Add Integration** or **Connect Extension**
-   - Select **Filesystem** from available options
-   - Or search for "filesystem" in the integration list
-5. **Configure Access:**
-   - Enter your project directory path
-   - Grant permissions when prompted by your browser
-   - Note: Browser security may limit filesystem access
-6. **Save Settings:**
-   - Save the configuration
-   - Refresh your browser if needed
+Browser security restrictions prevent direct filesystem access from web applications. This is a fundamental security feature that cannot be bypassed.
 
-### Browser Limitations
+### Your Options for Using the Framework
 
-**Important:** Browser-based filesystem access has limitations:
-- May require browser extension or special permissions
-- Limited to certain browsers (Chrome, Edge work best)
-- Security restrictions may prevent full access
-- Consider using Claude Desktop for more reliable filesystem access
+If you want to use this framework, you have two options:
 
-**If filesystem connector is not available in Claude.com:**
-- Use Claude Desktop instead (recommended for full functionality)
-- Or use the local installation method with Claude Code
+#### Option 1: Use Claude Desktop (Recommended)
+
+**Advantages:**
+- Full MCP Filesystem support
+- Easy UI-based configuration
+- Automatic framework loading with system instructions
+- Complete access to all framework features
+
+**How to get it:**
+1. Download Claude Desktop from https://claude.ai/download
+2. Install on macOS, Windows, or Linux
+3. Follow the "Configuration Steps for Claude Desktop" section above
+
+#### Option 2: Use Claude Code
+
+**Advantages:**
+- Terminal-based, full filesystem access
+- Works with local or remote installation
+- Git integration built-in
+
+**How to get it:**
+1. Install Claude Code CLI tool
+2. Use local installation method (download zip + installer.md)
+3. Or use remote-install.md with Claude Code
+
+### Cannot Use Framework with Claude.com Web
+
+Unfortunately, the AI-Assisted Nonfiction Authoring Framework **requires filesystem access** to:
+- Read framework files from Process/ directory
+- Modify your book content files
+- Create chapters and supporting files
+- Execute git operations
+- Generate compiled manuscripts
+
+None of these operations are possible in a web browser environment.
+
+**Recommendation:** Download and use Claude Desktop for the best experience with this framework.
 
 ---
 

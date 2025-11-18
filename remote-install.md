@@ -3,7 +3,7 @@
 **Version:** 3.5.0
 **Release Date:** 2025-11-17
 
-**BEFORE PROCEEDING:** This installer is designed for use with Claude Desktop, Claude.com (web), or Claude Code with MCP Filesystem connector access.
+**BEFORE PROCEEDING:** This installer is designed for use with Claude Desktop or Claude Code with MCP Filesystem connector access. **Note:** Claude.com (web) does NOT support filesystem access and cannot use this installer.
 
 ---
 
@@ -27,9 +27,10 @@ I will install the AI-Assisted Nonfiction Authoring Framework in your target dir
 - A target directory where you want to create your book project
 - Internet connection to download from GitHub
 
-### For Claude Desktop/Claude.com Users:
+### For Claude Desktop Users:
 - MCP Filesystem connector must be configured (see configuration.md)
 - The filesystem connector must have access to your target directory
+- **Note:** Claude.com web does NOT support filesystem access - use Claude Desktop instead
 
 ### For Claude Code Users:
 - Git installed (for version control)
@@ -87,12 +88,13 @@ I will:
 
 ### Step 4: Create Interface-Specific Configuration
 
-**For Claude Desktop or Claude.com users:**
+**For Claude Desktop users:**
 
 I will create `system-instructions.md` in your target directory containing:
 - Instructions to load the Process/ directory on session startup
 - Guidance for executing prompts
 - MCP Filesystem connector usage notes
+- **Note:** Not applicable for Claude.com web (no filesystem support)
 
 **For Claude Code users:**
 
@@ -136,7 +138,7 @@ I will show you:
 
 ## After Installation
 
-### For Claude Desktop/Claude.com Users:
+### For Claude Desktop Users:
 
 **Next steps:**
 1. Configure MCP Filesystem connector (see `configuration.md`)
@@ -144,6 +146,8 @@ I will show you:
 3. Start a new chat session
 4. The framework will load automatically
 5. Execute: "Run Prompt 1" to initialize your book project
+
+**Note:** Claude.com web does NOT support this workflow - please use Claude Desktop
 
 ### For Claude Code Users:
 
@@ -225,5 +229,6 @@ I will show you:
 
 ---
 
-*This remote installer works with Claude Desktop, Claude.com, and Claude Code*
+*This remote installer works with Claude Desktop and Claude Code*
+*Claude.com web does NOT support filesystem access - use Claude Desktop instead*
 *For local Claude Code installation with downloaded zip, use installer.md instead*

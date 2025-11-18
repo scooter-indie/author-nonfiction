@@ -26,9 +26,11 @@ Think of it as a **complete writing environment** that combines:
 
 ### Choose Your Installation Method
 
-#### Option 1: Remote Installation (Recommended for Claude Desktop/Web)
+#### Option 1: Remote Installation (Recommended for Claude Desktop)
 
-**Best for:** Claude Desktop or Claude.com users who want automatic setup
+**Best for:** Claude Desktop users who want automatic setup
+
+**Note:** Claude.com web does NOT support filesystem access - you must use Claude Desktop
 
 1. **Configure MCP Filesystem:** Follow `configuration.md` to set up file access
 2. **Add System Instructions:** Copy instructions from `system-instructions.md` to Claude settings
