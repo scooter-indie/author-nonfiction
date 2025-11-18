@@ -62,11 +62,17 @@ I'll ask you what scope and types of checks you want, then analyze your content 
    - Note statistics used multiple times (check if consistent)
    - Verify citation consistency
 
-   **Tone/Voice Analysis:**
-   - Assess formality level across chapters
-   - Check person perspective (1st, 2nd, 3rd person)
+   **Writing Style Consistency (if Style/Style_Guide.md exists):**
+   - Load active style configuration from Style/Style_Guide.md
+   - Assess formality level across chapters vs. configured style
+   - Check person perspective consistency (1st, 2nd, 3rd person)
+   - Analyze paragraph length patterns vs. style guidelines
+   - Measure passive voice density if style discourages it
+   - Check technical term usage vs. accessibility requirements
+   - Identify chapters that drift from configured style
+   - Flag violations of style DO/DON'T guidelines
    - Note tense consistency (past, present, future)
-   - Identify outlier sections that don't match overall tone
+   - Assess tone alignment with configured tone
 
    **Quote/Epigraph Verification:**
    - Check Quotes/Chapter_Quotes.md for completeness
@@ -83,6 +89,7 @@ I'll ask you what scope and types of checks you want, then analyze your content 
    - **Suggestions**: Consider addressing (minor inconsistencies, improvements)
    - **Terminology Index**: All terms and usage patterns
    - **Cross-Reference Map**: All references and their validity
+   - **Writing Style Analysis**: Alignment with Style/Style_Guide.md (if exists)
    - **Quote Status Summary**: Verification status and missing attributions
 
 ---
@@ -92,7 +99,7 @@ I'll ask you what scope and types of checks you want, then analyze your content 
 The report will be organized by:
 - Priority (Critical → High → Medium → Low)
 - Location (Chapter and section where issue occurs)
-- Type (Terminology, Cross-reference, Style, Fact, Tone, Quote)
+- Type (Terminology, Cross-reference, Style, Fact, Writing Style, Quote)
 
 Example:
 ```markdown
@@ -104,6 +111,40 @@ Location: Chapters/Chapter_03_Methods.md:45
 
 ### Chapter 5, Section 1.2 (Fact Consistency)
 States "30% of employees" but Chapter 2 stated "25% of employees" for same metric.
+
+## Writing Style Analysis
+
+**Active Style:** Conversational Expert (FW_Conversational_Expert)
+**Overall Alignment:** Good (85% consistent)
+
+### Chapter-by-Chapter Style Consistency
+
+**Chapter 1:** ✓ Excellent alignment
+- Person: Consistent second person
+- Formality: Moderate informal (matches style)
+- Avg paragraph: 125 words (within 150 word guideline)
+
+**Chapter 3:** ⚠ Moderate drift
+- Person: Mixed (8 instances of first person, style uses second)
+- Formality: Slightly more formal than style
+- Avg paragraph: 142 words (within guideline)
+- Recommendation: Review first-person instances for intentionality
+
+**Chapter 5:** ⚠ Style violations
+- Paragraph length: 3 paragraphs exceed 200 words (guideline: 150 max)
+- Technical terms: "API", "OAuth", "JWT" used without explanation
+- Violates DON'T: "Assume knowledge of industry jargon"
+- Location: Chapters/Chapter_05_Implementation.md:78-145
+
+### Priority Recommendations
+
+**High Priority:**
+- Chapter 5: Add explanations for technical terms or simplify
+- Chapter 3: Decide on person (keep second person or update style guide)
+
+**Medium Priority:**
+- Chapter 5: Break long paragraphs into shorter ones
+- Chapter 7: Slightly more formal than style (minor)
 ```
 
 ---
