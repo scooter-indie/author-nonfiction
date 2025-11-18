@@ -119,16 +119,23 @@ Initialized book projects have this structure:
 ```
 [project-root]/
 ├── Process/ (framework files - read-only)
-├── Chapters/ (book chapter content)
-├── TOC/ (table of contents)
-├── FrontMatter/ (title, dedication, preface, etc.)
-├── BackMatter/ (appendices, bibliography, etc.)
-├── Quotes/ (chapter epigraph management)
-├── Style/ (writing style configuration)
-├── Inbox/ (content awaiting integration)
-├── Drafts/ (compiled manuscripts)
+├── Manuscript/ (all book content - main working directory)
+│   ├── Chapters/ (book chapters - each in own subdirectory)
+│   │   ├── Chapter_01/
+│   │   │   ├── Chapter_01.md
+│   │   │   ├── Chapter_01_chg.md
+│   │   │   └── figures/ (images, charts for this chapter)
+│   │   └── Chapter_02/
+│   ├── _TOC_/ (table of contents)
+│   ├── FrontMatter/ (title, dedication, preface, etc.)
+│   ├── BackMatter/ (appendices, bibliography, etc.)
+│   │   └── Bibliography/ (bibliography subdirectory)
+│   ├── Quotes/ (chapter epigraph management)
+│   ├── Style/ (writing style configuration)
+│   ├── Inbox/ (content awaiting integration)
+│   ├── Drafts/ (compiled manuscripts)
+│   └── Exports/ (exported DOCX/PDF/EPUB files)
 ├── Research/ (research materials)
-├── Assets/ (images, diagrams, etc.)
 ├── Project_Config.md (project settings)
 ├── Project_Metadata.md (book metadata)
 └── README.md (project overview)

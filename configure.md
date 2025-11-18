@@ -340,7 +340,7 @@ You can configure the remote later using Prompt 9 (Git Operations).
 ### What Gets Tracked in Git
 
 Your git repository will track:
-- ✅ **Your book content**: Chapters/, TOC/, FrontMatter/, BackMatter/, Quotes/
+- ✅ **Your book content**: Manuscript/ directory (Chapters/, _TOC_/, FrontMatter/, BackMatter/, Quotes/, Style/, Inbox/, Drafts/, Exports/)
 - ✅ **Your configuration**: Project_Config.md, Project_Metadata.md, Style_Guide.md
 - ✅ **Change tracking**: All _chg.md files
 - ✅ **Manifest**: .nonfiction-manifest.json (version tracking)
