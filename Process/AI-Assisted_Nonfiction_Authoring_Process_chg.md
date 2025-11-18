@@ -1,6 +1,6 @@
 # Change Tracking: AI-Assisted_Nonfiction_Authoring_Process.md
 
-**Document Version:** 3.4.0
+**Document Version:** 3.5.0
 **Target File:** Process/AI-Assisted_Nonfiction_Authoring_Process.md
 **Last Modified:** 2025-11-17
 **Status:** Active
@@ -8,6 +8,76 @@
 ---
 
 ## Version History (Most Recent First)
+
+### Version 3.5.0 - 2025-11-17 - Writing Style System Integration
+
+**Type:** Content Addition
+**Scope:** New Writing Style System section and multiple enhancements
+**Priority:** High
+**Rationale:** Comprehensive writing style management system with framework-level library and project-level configuration
+
+**Changes Made:**
+- Added comprehensive Writing Style System with framework and project extensibility
+- Created Process/Style_Examples.md with 9 professionally curated writing styles:
+  - FW_Academic_Authority
+  - FW_Conversational_Expert
+  - FW_Narrative_Storyteller
+  - FW_Business_Professional
+  - FW_Technical_Precision
+  - FW_Investigative_Journalist
+  - FW_Practical_Guide
+  - FW_Inspirational_Teacher
+  - FW_Scientific_Communicator
+- Created Style/ directory for project-level configuration:
+  - Style/Style_Guide.md for active style configuration
+  - Style/Custom_Styles.md for project-specific custom styles (optional)
+- Created Process/Templates/Style_Guide_Template.md for project style configuration
+- Created Process/Templates/Custom_Styles_Template.md for custom style creation
+- Updated Prompt 1: Initialize with interactive style selection workflow:
+  - Shows relevant styles based on target audience
+  - Allows framework style selection, customization, mixing, or custom definition
+  - Creates Style/Style_Guide.md during project initialization
+- Updated Prompt 3: Modify File with automatic style consistency checking:
+  - Loads active style from Style/Style_Guide.md
+  - Analyzes modified content for person, formality, paragraph length
+  - Checks against DO/DON'T guidelines
+  - Offers automatic corrections or manual review options
+- Updated Prompt 6: Consistency Checker with comprehensive style analysis:
+  - Chapter-by-chapter style alignment assessment
+  - Person perspective consistency checking
+  - Formality level analysis
+  - Paragraph length pattern analysis
+  - Technical term usage verification
+  - Priority recommendations for style drift
+- Enhanced book-writing-assistant agent with complete style integration:
+  - Session-start style loading from Style/Style_Guide.md
+  - Automatic style application to all writing assistance
+  - Gentle style drift detection with non-prescriptive suggestions
+  - Style-aware quote presentation and content generation
+- Added complete Writing Style System section to process document (lines 360-547):
+  - Overview of framework vs. project file locations
+  - Complete style descriptions and examples
+  - Style selection process documentation
+  - Custom style creation approaches
+  - Integration details with all prompts
+  - Style checking methodology
+  - Style evolution tracking
+  - Best practices for setup, writing, maintenance, collaboration
+- Updated directory structure to include Style/ directory
+- Updated Core Prompts count from 10 to 10 (style integrated into existing prompts)
+- Internal FW_ and CUSTOM_ prefixes for organization (hidden from user display)
+
+**Impact on Other Files:**
+- Created: Process/Style_Examples.md
+- Created: Process/Templates/Style_Guide_Template.md
+- Created: Process/Templates/Custom_Styles_Template.md
+- Updated: Process/Prompts/Prompt_1_Initialize.md (added style configuration workflow)
+- Updated: Process/Prompts/Prompt_3_Modify_File.md (added style consistency checking)
+- Updated: Process/Prompts/Prompt_6_Consistency.md (added style analysis)
+- Updated: .claude/agents/book-writing-assistant.md (added complete style integration)
+- Updated: Process/AI-Assisted_Nonfiction_Authoring_Process.md (added Writing Style System section)
+
+---
 
 ### Version 3.4.0 - 2025-11-17 - Quote Management and Change Tracking Enhancements
 

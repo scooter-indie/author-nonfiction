@@ -47,6 +47,36 @@
 
 ---
 
+## Writing Style System
+
+The framework includes a comprehensive writing style system with 9 curated professional styles:
+
+**Framework Styles Available:**
+- Academic Authority
+- Conversational Expert
+- Narrative Storyteller
+- Business Professional
+- Technical Precision
+- Investigative Journalist
+- Practical Guide
+- Inspirational Teacher
+- Scientific Communicator
+
+**How It Works:**
+1. **Prompt 1 (Initialize)** asks you to select a style during project setup
+2. Creates `Style/Style_Guide.md` with your active configuration
+3. **Prompt 3 (Modify File)** automatically checks modified content against your style
+4. **Prompt 6 (Consistency)** analyzes entire book for style alignment
+5. **Book-writing-assistant agent** applies your style to all writing assistance
+
+**Quick Actions:**
+- **Select style**: Use Prompt 1 during initialization
+- **Create custom style**: Edit `Style/Custom_Styles.md`
+- **Change your style**: Edit `Style/Style_Guide.md`
+- **Check style consistency**: Use Prompt 6 with style analysis
+
+---
+
 ## Common Workflows
 
 ### Daily Writing Session

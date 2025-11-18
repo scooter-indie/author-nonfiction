@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Process
 
-**Version:** 3.4.0
+**Version:** 3.5.0
 **Last Updated:** 2025-11-17
 **Purpose:** A comprehensive, systematic approach to authoring nonfiction books with AI assistance using Git version control
 
@@ -12,11 +12,12 @@
 2. [Directory Structure](#directory-structure)
 3. [File Naming Conventions](#file-naming-conventions)
 4. [Change Tracking System](#change-tracking-system)
-5. [Core Prompts](#core-prompts)
-6. [Workflow States](#workflow-states)
-7. [Quality Control](#quality-control)
-8. [Backup and Safety](#backup-and-safety)
-9. [Getting Started](#getting-started)
+5. [Writing Style System](#writing-style-system)
+6. [Core Prompts](#core-prompts)
+7. [Workflow States](#workflow-states)
+8. [Quality Control](#quality-control)
+9. [Backup and Safety](#backup-and-safety)
+10. [Getting Started](#getting-started)
 
 ---
 
@@ -96,6 +97,10 @@ All content files are in Markdown (`.md`) format with accompanying change tracki
 ├── Quotes/
 │   ├── Chapter_Quotes.md                # Chapter epigraphs with verification status
 │   └── Chapter_Quotes_chg.md            # Quote change tracking
+│
+├── Style/
+│   ├── Style_Guide.md                   # Active writing style configuration
+│   └── Custom_Styles.md                 # Optional: Custom style definitions
 │
 ├── Inbox/
 │   └── (New content awaiting integration)
@@ -349,6 +354,195 @@ Consider manually editing auto-generated entries to add:
 - Context about why changes were made
 - Notes about editorial feedback or review comments
 - Dependencies or related changes
+
+---
+
+## Writing Style System
+
+### Overview
+
+The Writing Style System helps authors define, maintain, and apply consistent voice, tone, and structure throughout their book. It provides:
+- **Framework library** of 9 professionally curated styles
+- **Project configuration** for active style
+- **Custom style creation** for specialized needs
+- **Automatic style checking** during writing and revision
+- **Style-aware AI assistance** via book-writing-assistant agent
+
+### File Locations
+
+**Framework Level (Process/):**
+- `Process/Style_Examples.md` - 9 curated framework styles with complete examples
+- `Process/Templates/Style_Guide_Template.md` - Template for project configuration
+- `Process/Templates/Custom_Styles_Template.md` - Template for custom styles
+
+**Project Level (Style/):**
+- `Style/Style_Guide.md` - Active style configuration for this book
+- `Style/Custom_Styles.md` - Optional custom style definitions (project-specific)
+
+### Framework Styles
+
+The framework provides 9 professionally curated styles:
+
+1. **Academic Authority** - Scholarly, research-based, third-person formal
+2. **Conversational Expert** - Business/professional, second-person accessible
+3. **Narrative Storyteller** - Memoir-adjacent, first-person with scenes
+4. **Business Professional** - Management/leadership, action-oriented
+5. **Technical Precision** - Technical guides, detailed and systematic
+6. **Investigative Journalist** - Exposés, evidence-based revelation
+7. **Practical Guide** - How-to, step-by-step instructional
+8. **Inspirational Teacher** - Personal development, motivational
+9. **Scientific Communicator** - Popular science, wonder with rigor
+
+Each style includes:
+- Voice characteristics (person, formality, sentence structure, vocabulary)
+- Tone description with sample phrases
+- Pacing guidelines (density, examples, breaks)
+- Structural approach (deductive/inductive/dialectical)
+- 150-200 word example passage
+- DO/DON'T lists
+
+### Style Selection Process
+
+**During Initialization (Prompt 1):**
+
+1. AI presents 3-4 relevant styles based on target audience
+2. Shows example passage from each style
+3. Author chooses or customizes
+4. Style/Style_Guide.md created with configuration
+5. Selection committed to git
+
+**Options available:**
+- Choose framework style as-is
+- Customize framework style
+- Mix characteristics from multiple styles
+- Define entirely custom style
+- Skip (configure later)
+
+### Style Configuration Structure
+
+**Style/Style_Guide.md contains:**
+- Selected style name (e.g., FW_Conversational_Expert)
+- Source (Framework Library or Custom)
+- Complete style characteristics
+- Quick reference DO/DON'T lists
+- Example passage
+- Style evolution tracking (version history of style changes)
+
+**Internal naming (not shown to users):**
+- Framework styles: FW_[Name] (e.g., FW_Academic_Authority)
+- Custom styles: CUSTOM_[Name] (e.g., CUSTOM_Medical_Journal)
+- Display: Clean descriptive names only (e.g., "Academic Authority")
+
+### Custom Styles
+
+**When to create custom styles:**
+- Framework styles don't fit specialized domain (medical, legal, technical)
+- Mixing characteristics from multiple framework styles
+- Industry-specific writing conventions
+- Unique voice not covered by framework
+
+**How to create:**
+1. Start with Process/Templates/Custom_Styles_Template.md
+2. Define style characteristics following same format as framework
+3. Save as Style/Custom_Styles.md
+4. Reference in Style/Style_Guide.md
+
+**Approaches:**
+- **From scratch**: Define all characteristics
+- **Extend framework**: Base on framework style + modifications
+- **Mix styles**: Combine voice/tone/structure from different styles
+
+### Integration with Prompts
+
+**Prompt 1 (Initialize):**
+- Interactive style selection during project setup
+- Shows relevant framework styles
+- Creates Style/ directory and Style_Guide.md
+
+**Prompt 3 (Modify File):**
+- Automatic style consistency check after modifications
+- Analyzes person, formality, paragraph length, terminology
+- Compares against DO/DON'T lists
+- Offers corrections or flags for review
+- Optional - can skip if needed
+
+**Prompt 6 (Consistency Check):**
+- Comprehensive style analysis across all chapters
+- Chapter-by-chapter alignment report
+- Identifies drift from configured style
+- Priority recommendations (High/Medium/Low)
+- Tracks formality, person, pacing, tone consistency
+
+**Book-Writing-Assistant Agent:**
+- Loads style at session start
+- Applies style to all writing assistance
+- Matches voice, tone, formality automatically
+- Gentle drift detection (not prescriptive)
+- Helps with style changes or custom creation
+
+### Style Checking
+
+**What gets checked:**
+- Person consistency (first/second/third)
+- Formality level alignment
+- Paragraph length vs. guidelines
+- Passive voice density (if style discourages)
+- Technical term usage vs. accessibility requirements
+- DO/DON'T guideline violations
+- Sentence complexity patterns
+- Tense consistency
+
+**When checked:**
+- During file modifications (Prompt 3)
+- Cross-chapter analysis (Prompt 6)
+- Real-time during agent writing sessions
+- Compilation consistency review
+
+**Response options:**
+- Apply automatic corrections
+- Review manually and fix
+- Skip - mark as intentional variation
+- Update style guide if preference evolved
+
+### Style Evolution
+
+**Tracking changes:**
+- Document in Style Evolution section of Style_Guide.md
+- Version style changes (1.0 → 2.0)
+- Note rationale for changes
+- Create migration plan for existing content
+
+**When style changes mid-project:**
+1. Update Style/Style_Guide.md
+2. Add version entry explaining change
+3. Run Prompt 6 to analyze existing content
+4. Decide: harmonize all chapters or keep variation
+5. Use Prompt 3 to apply style to priority chapters
+
+### Best Practices
+
+**Initial setup:**
+- Choose style during initialization (Prompt 1)
+- Review framework examples carefully
+- Pick style that matches natural writing voice
+- Test with sample paragraph before committing
+
+**During writing:**
+- Let style guide, not dictate
+- Intentional variations are okay
+- Document exceptions when needed
+- Update guide as voice evolves
+
+**Maintenance:**
+- Run Prompt 6 at 25%, 50%, 75% completion
+- Check style consistency before major milestones
+- Adjust guide to match reality (not vice versa)
+- Use style as aspiration, not rigid rules
+
+**With collaborators:**
+- Share Style/Style_Guide.md for alignment
+- Document project-specific conventions in Custom_Styles.md
+- Use style checking to maintain consistency across authors
 
 ---
 

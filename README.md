@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Process
 
-**Version:** 3.3.0
+**Version:** 3.5.0
 **Purpose:** A comprehensive, systematic framework for authoring nonfiction books with AI assistance using Git version control
 
 ---
@@ -9,10 +9,11 @@
 
 This repository contains the **process framework** for AI-assisted nonfiction book authoring. It provides:
 
-- 9 conversational Execute prompts for different authoring tasks
+- 10 conversational Execute prompts for different authoring tasks
 - Comprehensive directory structure and file naming conventions
 - Change tracking system with auto-archive workflow
 - Quote/epigraph management with verification tracking
+- Writing style system with curated library and project configuration
 - Anti-hallucination guidelines for AI assistants
 - Git-based version control workflow
 - Quality control and consistency checking
@@ -76,12 +77,12 @@ author-nonfiction/
 │   │   ├── Prompt_6_Consistency.md
 │   │   ├── Prompt_7_Export.md
 │   │   ├── Prompt_8_Dashboard.md
-│   │   └── Prompt_9_Git.md
+│   │   ├── Prompt_9_Git.md
+│   │   └── Prompt_10_Update_Change_Tracking.md
 │   ├── Templates/
-│   │   ├── Chapter_Quotes_Template.md
-│   │   └── Chapter_Quotes_chg_Template.md
-│   └── Archive/
-│       └── Old_Prompts_2025-11-17/
+│   │   ├── Style_Guide_Template.md
+│   │   └── Custom_Styles_Template.md
+│   └── Style_Examples.md
 │
 └── [Your book content will be created here by Prompt 1]
     ├── Project_Config.md
@@ -92,6 +93,7 @@ author-nonfiction/
     ├── FrontMatter/
     ├── BackMatter/
     ├── Quotes/
+    ├── Style/                     # Your active writing style configuration
     ├── Assets/
     ├── Research/
     ├── Inbox/
@@ -192,6 +194,7 @@ Future versions may include an update script:
 - `Process/Prompts/*.md` - Prompt files
 - `Process/AI-Assisted_Nonfiction_Authoring_Process.md` - Process documentation
 - `Process/Anti-Hallucination_Guidelines.md` - Guidelines
+- `Process/Style_Examples.md` - Framework style library
 - `Process/Templates/*.md` - Templates (your content uses instances, not templates)
 
 **Be careful with:**
@@ -202,6 +205,8 @@ Future versions may include an update script:
 - `Project_Config.md` - Your book's configuration
 - `Project_Metadata.md` - Your book's metadata
 - `USAGE_GUIDE.md` - Your book's usage guide
+- `Style/Style_Guide.md` - Your active style configuration
+- `Style/Custom_Styles.md` - Your custom style definitions (if exists)
 - Everything outside `Process/` - Your actual book content
 
 ### Checking Framework Version
@@ -303,7 +308,9 @@ The framework itself and all Process/ documentation files may be updated periodi
 
 See `Process/AI-Assisted_Nonfiction_Authoring_Process.md` for detailed version history.
 
-**Current Version:** 3.3.0
+**Current Version:** 3.5.0
+- v3.5.0: Writing style system with framework library and project configuration
+- v3.4.0: Quote management enhancements and automatic change tracking sync
 - v3.3.0: Refactored process document to eliminate duplication
 - v3.2.0: Added quote management system with verification tracking
 - v3.1.0: Execute-only prompts with _chg file workflow
