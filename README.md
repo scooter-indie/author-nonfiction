@@ -1,322 +1,339 @@
 # AI-Assisted Nonfiction Book Authoring Framework
 
-**Version:** 3.5.0
-**A Complete System for Writing Professional Nonfiction Books with AI Assistance**
+**Version 3.5.0**
+
+A complete system for writing professional nonfiction books with AI assistance using Claude Code.
 
 ---
 
 ## What Is This?
 
-This is a **production-ready framework** for authoring nonfiction books using AI assistance with Claude Code. It provides structured workflows, version control integration, and intelligent prompts that help you write, organize, revise, and publish high-quality nonfiction content.
+This is a **production-ready framework** for authoring nonfiction books with AI assistance. It provides structured workflows, version control integration, and intelligent prompts that help you write, organize, revise, and publish high-quality nonfiction content.
 
-Think of it as a **complete writing environment** that combines:
-- 📝 Structured authoring process with change tracking
-- 🤖 AI assistance through conversational prompts
-- 🎨 Professional writing style system (9 curated styles)
-- 📚 Quote/epigraph management with verification
-- 🔍 Quality control and consistency checking
-- 📦 Git-based version control
-- 🚀 Export to publication formats (DOCX, PDF, EPUB)
+### Key Features
 
----
-
-## For Book Authors
-
-**Ready to start writing your book?**
-
-### Choose Your Installation Method
-
-#### Option 1: Remote Installation (Recommended for Claude Desktop)
-
-**Best for:** Claude Desktop users who want automatic setup
-
-**Note:** Claude.com web does NOT support filesystem access - you must use Claude Desktop
-
-1. **Configure MCP Filesystem:** Follow `configuration.md` to set up file access
-2. **Add System Instructions:** Copy instructions from `system-instructions.md` to Claude settings
-3. **Run Remote Installer:**
-   - Start a new chat in Claude Desktop or Claude.com
-   - Say: "Install the nonfiction framework"
-   - Or copy and paste `remote-install.md` into chat
-4. **Framework Downloads Automatically:** Claude fetches from GitHub and sets up your project
-5. **Start Writing:** Execute "Prompt 1" to initialize your book project
-
-**What you need:**
-- `configuration.md` - MCP Filesystem setup guide
-- `system-instructions.md` - Auto-loading configuration
-- `remote-install.md` - Remote installation prompt
-
-**All files available in this repository**
-
-#### Option 2: Local Installation (Claude Code)
-
-**Best for:** Claude Code users who prefer manual download
-
-1. **Visit Releases:** https://github.com/scooter-indie/author-nonfiction/releases
-2. **Download:**
-   - `nonfiction-v3.5.0.zip` (latest version)
-   - `installer.md`
-3. **Install:**
-   - Place both files in your project directory
-   - Open `installer.md` in Claude Code
-   - Follow the prompts to set up your book project
-4. **Start Writing:**
-   - The installer will guide you through initialization
-   - You'll configure your book details, structure, and writing style
-   - Then you can start writing immediately
-
-**What you need:**
-- `CLAUDE.md` - Session startup context (created by installer)
-
-### What You Get
-
-**10 Conversational Prompts:**
-- **Prompt 1: Initialize** - Set up new book project
-- **Prompt 2: Add Chapter** - Create new chapters
-- **Prompt 3: Modify File** - Your daily revision tool
-- **Prompt 4: Integrate Inbox** - Process drafted content
-- **Prompt 5: Compile** - Generate full manuscript
-- **Prompt 6: Consistency** - Find issues and errors
-- **Prompt 7: Export** - Create DOCX/PDF/EPUB
-- **Prompt 8: Dashboard** - Track your progress
-- **Prompt 9: Git** - Version control operations
-- **Prompt 10: Update Change Tracking** - Sync change files
-
-**9 Professional Writing Styles:**
-- Academic Authority
-- Conversational Expert
-- Narrative Storyteller
-- Business Professional
-- Technical Precision
-- Investigative Journalist
-- Practical Guide
-- Inspirational Teacher
-- Scientific Communicator
-
-**Complete Support System:**
-- Change tracking with version history
-- Quote management with verification
-- Git version control with auto-commits
-- Anti-hallucination guidelines
-- Style consistency checking
-- Book-writing-assistant AI agent
-
-### Documentation
-
-Once installed, you'll have access to:
-- **Quick Reference:** `Process/Prompts/QUICK_REFERENCE.md` - Common workflows
-- **Complete Guide:** `Process/AI-Assisted_Nonfiction_Authoring_Process.md` - Full documentation
-- **Style Library:** `Process/Style_Examples.md` - All writing styles
-- **Author README:** `README.md` - Your getting started guide
+- 📝 **Structured Authoring Process** with change tracking and version history
+- 🤖 **AI Assistance** through 10 conversational prompts
+- 🎨 **Professional Writing Styles** - 9 curated styles plus custom style support
+- 📚 **Quote Management** with web search and verification system
+- 🔍 **Quality Control** - Consistency checking and validation
+- 📦 **Git Version Control** - Complete change tracking and backup
+- 🚀 **Export Formats** - DOCX, PDF, EPUB for publication
+- ✨ **Anti-Hallucination Guidelines** - Ensures AI accuracy and factual integrity
 
 ---
 
-## For Framework Developers
+## Quick Start
 
-**Want to contribute or customize the framework?**
+### 1. Download the Framework
 
-### Repository Structure
+Download `nonfiction-v3.5.0.zip` from:
 
-```
-author-nonfiction/
-├── README.md                           # This file
-├── README_FRAMEWORK.md                 # Framework developer guide
-├── .gitignore                          # Git ignore patterns
-│
-├── .claude/
-│   └── agents/
-│       └── book-writing-assistant.md   # AI writing assistant
-│
-├── Process/
-│   ├── AI-Assisted_Nonfiction_Authoring_Process.md
-│   ├── AI-Assisted_Nonfiction_Authoring_Process_chg.md
-│   ├── Anti-Hallucination_Guidelines.md
-│   ├── Anti-Hallucination_Guidelines_chg.md
-│   ├── Style_Examples.md               # 9 curated writing styles
-│   │
-│   ├── Prompts/
-│   │   ├── Prompt_1_Initialize.md through Prompt_10_*.md
-│   │   ├── Prompt_99_Build_Release.md  # Build production releases
-│   │   ├── QUICK_REFERENCE.md
-│   │   └── README.md (developer-focused)
-│   │
-│   └── Templates/
-│       ├── installer_template.md
-│       ├── README_AUTHORS_template.md
-│       ├── manifest_template.json
-│       ├── gitignore_template
-│       ├── Style_Guide_Template.md
-│       └── Custom_Styles_Template.md
-│
-└── Proposal/
-    ├── Deployment-Proposal.md
-    ├── Final_Style_System_Implementation.md
-    ├── Proposed Approach Style and Tone Menu System.md
-    └── Recommended_Style_and_Tone_Approach.md
+**GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
+
+Save it to your book project directory (e.g., `E:\Projects\my-book`).
+
+### 2. Extract the Framework
+
+Extract the zip file to your project directory:
+
+**Windows**:
+- Right-click `nonfiction-v3.5.0.zip` → "Extract All..."
+- Choose your project directory as the destination
+
+**macOS/Linux**:
+```bash
+cd /path/to/my-book
+unzip nonfiction-v3.5.0.zip
 ```
 
-### Development Workflow
+### 3. Run Configuration
 
-**Making Changes:**
-1. Clone this repository
-2. Make changes to framework files
-3. Update version in `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
-4. Document changes in `Process/AI-Assisted_Nonfiction_Authoring_Process_chg.md`
-5. Commit and push to main branch
+Start Claude Code in your project directory and execute:
 
-**Creating a Release:**
-1. Ensure all changes are committed and pushed
-2. Run `Process/Prompts/Prompt_99_Build_Release.md` in Claude Code
-3. This will:
-   - Create production zip (excludes `_chg` files, `Proposal/`, etc.)
-   - Generate `installer.md` with embedded version
-   - Create `README.md` for book authors
-   - Create `.nonfiction-manifest.json`
-   - Tag the release in git
-   - Publish GitHub Release with assets
+```
+execute configure.md
+```
 
-**Testing:**
-1. Download the release assets from GitHub
-2. Test installation in a clean directory
-3. Verify all prompts work correctly
-4. Check documentation accuracy
+The configuration will:
+- Set up git repository (if needed)
+- Connect to remote repository (optional)
+- Verify installation
+- Guide you to start writing
 
-### Key Principles
+### 4. Initialize Your Book
 
-**For Authors:**
-- Simple download and install (no git clone)
-- Conversational prompts (no complex syntax)
-- Auto-commit to git (safety by default)
-- Change tracking with rationale
-- Style-aware AI assistance
+After configuration, execute:
 
-**For Developers:**
-- Use `_chg.md` files for framework development
-- Excluded from production builds
-- Semantic versioning (Major.Minor.Patch)
-- Comprehensive version history
-- Clear separation: framework vs. book content
+```
+Execute Prompt 1
+```
 
-### Contributing
+This will ask you about your book and create the complete project structure.
 
-**Areas for Contribution:**
-- Additional curated writing styles
-- New prompt features
-- Documentation improvements
-- Bug fixes
-- Template enhancements
+### 5. Start Writing!
 
-**Process:**
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit pull request with clear description
+Use the framework's 10 prompts to write and manage your book:
+- **Prompt 3**: Modify content (your primary writing workflow)
+- **Prompt 6**: Check consistency
+- **Prompt 8**: View progress dashboard
+- **Prompt 5**: Compile full manuscript
+- And more...
 
-### File Naming Conventions
-
-**Framework Development:**
-- `*_chg.md` - Change tracking files (excluded from production)
-- `*_template.md` - Templates for generated files
-- `Prompt_N_*.md` - Execute prompts (1-10 for users, 99 for build)
-
-**Production Distribution:**
-- No `_chg.md` files
-- `README.md` is author-focused
-- `README_FRAMEWORK.md` for developers (not in production)
+**See**: `Process/Prompts/QUICK_REFERENCE.md` for complete workflow guide
 
 ---
 
-## Features at a Glance
+## Installation Guide
+
+For detailed installation instructions including updates and troubleshooting, see:
+
+**INSTALLATION.md** (included in the zip file)
+
+---
+
+## What's Included
+
+After extraction, your project contains:
+
+### Framework Files
+- `Process/` - Framework documentation, prompts, templates
+- `INSTALLATION.md` - Installation and update guide
+- `CLAUDE.md` - Framework context for Claude Code
+- `configure.md` - Configuration script
+- `system-instructions.md` - For Claude Desktop integration
+- `CHANGELOG.md` - Version history
+- `.claude/agents/book-writing-assistant.md` - AI writing assistant
+
+### Your Book (Created by Prompt 1)
+- `Chapters/` - Your chapter files
+- `TOC/` - Table of contents
+- `FrontMatter/` - Preface, introduction, etc.
+- `BackMatter/` - Appendices, bibliography, etc.
+- `Quotes/` - Quote and epigraph management
+- `Style/` - Writing style configuration
+- `Project_Config.md` - Book metadata
+- `Drafts/` - Compiled manuscripts
+- `Exports/` - Published formats
+
+---
+
+## The 10 Core Prompts
+
+Execute these prompts in Claude Code to manage your book:
+
+### Prompt 1: Initialize Project
+Create your book project structure with chapters, metadata, and configuration.
+
+### Prompt 2: Add New Chapter
+Insert a new chapter and automatically renumber existing chapters.
+
+### Prompt 3: Modify Content
+**PRIMARY WORKFLOW** - Revise chapters, quotes, front/back matter with change tracking.
+
+### Prompt 4: Integrate Inbox Content
+Process content from your Inbox/ directory into the book.
+
+### Prompt 5: Compile Manuscript
+Generate a single file containing your entire manuscript.
+
+### Prompt 6: Consistency Checker
+Check for terminology, timeline, and style consistency across all content.
+
+### Prompt 7: Export and Format
+Export to DOCX, PDF, EPUB, or LaTeX for publication.
+
+### Prompt 8: Progress Dashboard
+View comprehensive project metrics, word counts, and recommendations.
+
+### Prompt 9: Git Operations
+Commit, tag, branch, push, and manage version control.
+
+### Prompt 10: Update Change Tracking
+Synchronize _chg files with content changes from manual edits.
+
+**Full Documentation**: `Process/Prompts/QUICK_REFERENCE.md`
+
+---
+
+## Writing Style System
+
+The framework includes 9 professionally curated writing styles:
+
+1. **Academic Authority** - Scholarly, research-based
+2. **Conversational Expert** - Business/professional, accessible
+3. **Narrative Storyteller** - Memoir-adjacent, first-person
+4. **Business Professional** - Management/leadership focused
+5. **Technical Precision** - Technical guides, systematic
+6. **Investigative Journalist** - Evidence-based revelation
+7. **Practical Guide** - How-to, step-by-step
+8. **Inspirational Teacher** - Personal development, motivational
+9. **Scientific Communicator** - Popular science, wonder with rigor
+
+**Select your style during Prompt 1**, or create custom styles tailored to your voice.
+
+**Style Library**: `Process/Style_Examples.md`
+
+---
+
+## How It Works
 
 ### Change Tracking System
-- Every content file has a `_chg.md` companion
-- Version history with semantic versioning
-- Rewrite instructions for AI execution
-- Automatic archiving of completed changes
-- Full audit trail
 
-### Writing Style System
-- 9 professionally curated styles
-- Framework-level library + project-level configuration
-- Automatic style consistency checking
-- Custom style creation and mixing
-- Style drift detection with gentle suggestions
+Every content file has a corresponding `_chg.md` file:
 
-### Quote Management
-- Web search for quotations
-- Verification and attribution tracking
-- Status tracking (⏳ Pending, ⚠ Needs Citation, ✓ Verified)
-- Auto-insertion into compiled manuscripts
-- Book-writing-assistant agent integration
+1. **Write instructions** in the `_chg.md` file
+2. **Commit to git**
+3. **Execute Prompt 3**
+4. **AI reads instructions** and modifies content
+5. **AI archives instructions** to version history
+6. **AI commits changes** to git
+
+All changes are tracked with rationale, version numbers, and git history.
 
 ### Git Integration
-- All prompts auto-commit with descriptive messages
-- Tag milestones (first-draft, revised-draft, etc.)
-- Branch for experiments
-- Push to remote for cloud backup
-- Full rollback capability
 
-### Quality Control
-- Terminology consistency checking
-- Cross-reference validation
-- Style alignment analysis
-- Fact consistency verification
-- Broken reference detection
+All operations use git for version control:
+- Automatic commits before major operations
+- Descriptive commit messages with version info
+- Tags for milestones (25%, 50%, 75%, 100%)
+- Remote backup support (GitHub, GitLab, etc.)
 
-### Compilation & Export
-- Generate full manuscript drafts
-- Export to DOCX, PDF, EPUB
-- Include/exclude placeholders
-- Auto-generate table of contents
-- Insert verified quotes as epigraphs
+### Anti-Hallucination Guidelines
+
+**Critical rules** to prevent AI fabrication:
+- Never fabricate quotes, statistics, or citations
+- Mark uncertain content clearly
+- Verify facts before stating them
+- Use proper quote verification status (⏳/⚠/✓)
+- Never guess attributions
+
+**See**: `Process/Anti-Hallucination_Guidelines.md`
 
 ---
 
-## Version History
+## Common Workflows
 
-**Current Version:** 3.5.0 (November 17, 2025)
+### Daily Writing Session
+1. Start Claude Code → `configure.md` runs automatically (if configured)
+2. Review dashboard: `Execute Prompt 8`
+3. Write revision instructions in `_chg.md` files
+4. Execute `Prompt 3` for each file
+5. Commit and push: `Execute Prompt 9`
 
-- **v3.5.0:** Writing Style System with 9 curated styles and complete integration
-- **v3.4.0:** Quote management enhancements and automatic change tracking sync
-- **v3.3.0:** Refactored process document to eliminate duplication
-- **v3.2.0:** Quote management system with verification tracking
-- **v3.1.0:** Execute-only prompts with _chg file workflow
-- **v3.0.0:** Git-based version control, TOC import from Inbox
+### Weekly Review
+1. Check progress: `Prompt 8`
+2. Run consistency check: `Prompt 6`
+3. Compile manuscript: `Prompt 5`
+4. Fix issues: `Prompt 3`
+5. Commit and push: `Prompt 9`
 
-See `Process/AI-Assisted_Nonfiction_Authoring_Process_chg.md` for detailed changelog.
+### Milestone Workflow
+1. Verify progress: `Prompt 8`
+2. Full consistency check: `Prompt 6`
+3. Fix all issues: `Prompt 3`
+4. Compile final version: `Prompt 5`
+5. Create version tag: `Prompt 9`
+6. Push with tags: `Prompt 9`
+
+---
+
+## Updating the Framework
+
+To update to a newer framework version:
+
+1. **Commit all your work**: `git commit -am "Save work before update"`
+2. **Create backup** of your entire project directory
+3. **Download new version**: `nonfiction-vX.X.X.zip`
+4. **Extract with overwrite** to your project directory
+5. **Run configuration**: `execute configure.md`
+6. **Review changelog** displayed by configure script
+7. **Check consistency**: `Execute Prompt 6`
+
+Your book content is preserved - only framework files update.
+
+---
+
+## Optional: Claude Desktop Integration
+
+You can use this framework with both Claude Code and Claude Desktop:
+
+1. **Copy system instructions**:
+   - Open `system-instructions.md` from your project
+   - Copy entire contents
+
+2. **Create Claude Desktop project**:
+   - Open Claude Desktop
+   - Create new project for your book
+   - Paste system instructions into project settings
+
+3. **Use both interfaces**:
+   - **Claude Code**: File operations, git, automation
+   - **Claude Desktop**: Conversational writing, brainstorming
+
+---
+
+## Documentation
+
+### Essential Reading
+- `INSTALLATION.md` - Installation and update guide
+- `Process/Prompts/QUICK_REFERENCE.md` - Workflow quick reference
+- `Process/Anti-Hallucination_Guidelines.md` - Critical accuracy rules
+
+### Comprehensive Guides
+- `Process/AI-Assisted_Nonfiction_Authoring_Process.md` - Complete framework documentation
+- `Process/Style_Examples.md` - Writing style library with examples
+- `CHANGELOG.md` - Version history and release notes
+
+### Templates
+- `Process/Templates/Style_Guide_Template.md` - Style configuration
+- `Process/Templates/Custom_Styles_Template.md` - Custom style creation
+- `Process/Templates/README_AUTHORS_template.md` - Author documentation
+
+---
+
+## Requirements
+
+### Essential
+- **Claude Code** - Download from https://claude.com/claude-code
+
+### Recommended
+- **Git** - Version control (https://git-scm.com/)
+  - Windows: `winget install Git.Git`
+  - macOS: `brew install git`
+  - Linux: `sudo apt install git`
+
+### Optional
+- **Claude Desktop** - For conversational interface (https://claude.ai/)
+- **Pandoc** - For DOCX/PDF export (https://pandoc.org/)
+- **LaTeX** - For advanced PDF formatting (https://www.latex-project.org/)
 
 ---
 
 ## Support
 
-**For Book Authors:**
-- **Remote Installation:** See `remote-install.md`, `configuration.md`, `system-instructions.md`
-- **Local Installation:** See `installer.md` (included in release)
-- **Usage Questions:** See `QUICK_REFERENCE.md` (after installation)
-- **Issues/Bugs:** https://github.com/scooter-indie/author-nonfiction/issues
-
-**For Framework Developers:**
-- **Developer Guide:** `README_FRAMEWORK.md`
-- **Process Documentation:** `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
-- **Anti-Hallucination Rules:** `Process/Anti-Hallucination_Guidelines.md`
-- **Build Process:** `Process/Prompts/Prompt_99_Build_Release.md`
+- **Issues/Bugs**: https://github.com/scooter-indie/author-nonfiction/issues
+- **Releases**: https://github.com/scooter-indie/author-nonfiction/releases
+- **Discussions**: https://github.com/scooter-indie/author-nonfiction/discussions
 
 ---
 
 ## License
 
-This framework is designed to be downloaded and used for authoring nonfiction books. Use it freely for your book projects.
+This framework is released under the MIT License. See LICENSE file for details.
 
 ---
 
-## Quick Links
+## About
 
-- **Latest Release:** https://github.com/scooter-indie/author-nonfiction/releases/latest
-- **All Releases:** https://github.com/scooter-indie/author-nonfiction/releases
-- **Issues:** https://github.com/scooter-indie/author-nonfiction/issues
-- **Framework Repository:** https://github.com/scooter-indie/author-nonfiction
+**Framework Version**: 3.5.0
+**Release Date**: 2025-11-18
+**Repository**: https://github.com/scooter-indie/author-nonfiction
+
+Created to empower authors to write professional nonfiction books with AI assistance while maintaining complete creative control and ensuring factual accuracy.
 
 ---
 
-**Ready to write your book?** [Download the latest release](https://github.com/scooter-indie/author-nonfiction/releases/latest) and start today!
+**Ready to write your book? Download the framework and get started!**
+
+https://github.com/scooter-indie/author-nonfiction/releases/latest

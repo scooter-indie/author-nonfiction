@@ -1,3 +1,10 @@
+# Framework Files (Do Not Track - Updated on Framework Upgrades)
+Process/
+INSTALLATION.md
+CLAUDE.md
+system-instructions.md
+README.md
+
 # Temporary files
 *.tmp
 *.bak
@@ -24,6 +31,9 @@ dist/
 # Drafts/Full_Draft_*.docx
 # Drafts/Full_Draft_*.pdf
 
+# Optional: Exports directory (uncomment if you don't want to track exports)
+# Exports/
+
 # Optional: Research files that are too large
 # Research/Videos/
 # Research/Archives/
@@ -37,9 +47,9 @@ venv/
 env/
 ENV/
 
-# Installer files (auto-deleted, but just in case)
+# Installation files (after configuration completes)
 nonfiction-v*.zip
-installer.md
+configure.md
 
 # Local Claude settings (may contain personal tokens)
 .claude/settings.local.json

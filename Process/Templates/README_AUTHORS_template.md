@@ -180,12 +180,14 @@ All changes are tracked in git:
 
 When new framework versions are released:
 
-1. Visit: https://github.com/scooter-indie/author-nonfiction/releases
-2. Download latest `nonfiction-vX.Y.Z.zip` and `installer.md`
-3. Place both in your project root
-4. Run `installer.md` in Claude Code
-5. Installer detects update mode and applies changes
-6. Your book content is preserved; only framework files update
+1. **Commit your work**: `git commit -am "Save work before update"`
+2. **Create backup** of your entire project directory
+3. Visit: https://github.com/scooter-indie/author-nonfiction/releases
+4. Download latest `nonfiction-vX.Y.Z.zip`
+5. Extract with overwrite to your project root
+6. Run `execute configure.md` in Claude Code
+7. Review changelog and verify updates
+8. Your book content is preserved; only framework files update
 
 **Check your current version:**
 ```bash

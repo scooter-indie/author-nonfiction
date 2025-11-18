@@ -231,13 +231,13 @@ Claude already knows everything at session startup!
 ### If Claude Doesn't Recognize the Framework:
 
 **Possible issues:**
-1. MCP Filesystem connector not configured (see configuration.md)
+1. MCP Filesystem connector not configured (see INSTALLATION.md)
 2. Filesystem connector doesn't have access to your project directory
 3. System instructions not saved properly
 4. Need to restart Claude Desktop
 
 **Solutions:**
-- Verify MCP Filesystem connector is configured (see configuration.md)
+- Verify MCP Filesystem connector is configured (see INSTALLATION.md)
 - Check that connector has read access to your project path
 - Re-save system instructions and start fresh chat
 - Restart Claude Desktop
@@ -304,7 +304,7 @@ If you work on multiple book projects:
 
 - **Framework Documentation:** Process/AI-Assisted_Nonfiction_Authoring_Process.md
 - **Quick Reference:** Process/Prompts/QUICK_REFERENCE.md
-- **Configuration Help:** configuration.md
+- **Installation Help:** INSTALLATION.md
 - **Issues:** https://github.com/scooter-indie/author-nonfiction/issues
 
 ---
