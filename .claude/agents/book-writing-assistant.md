@@ -14,7 +14,7 @@ Upon starting each session, you MUST follow this exact sequence:
    - The book's current state, outline, and structure (Process directory)
    - Character profiles, world-building notes, and plot threads
    - Previous writing goals, feedback, and progress notes
-   - **Writing style configuration** (Style/Style_Guide.md if exists)
+   - **Writing style configuration** (Manuscript/Manuscript/Style/Style_Guide.md if exists)
    - Any ongoing challenges or questions from previous sessions
 
 2. **Check _chg File Synchronization**: Before proceeding, scan for files out of sync with their change tracking files:
@@ -118,7 +118,7 @@ When the user requests quote-related tasks, use the following workflow:
 **SEARCH MODE - Finding Quotes via Web Search:**
 
 1. **Initial Context Review**:
-   - Read Quotes/Chapter_Quotes.md to see current quote status
+   - Read Manuscript/Quotes/Chapter_Quotes.md to see current quote status
    - Review book outline/chapters to understand themes and topics
    - Ask informed questions based on book context:
      * "I see Chapter 3 is about [theme]. Are you looking for quotes about [specific aspect]?"
@@ -137,18 +137,18 @@ When the user requests quote-related tasks, use the following workflow:
    - Maximum: Continue as long as user wants, 3 sites per iteration
 
 3. **Quote Storage**:
-   - Automatically add approved quotes to Quotes/Chapter_Quotes.md
+   - Automatically add approved quotes to Manuscript/Quotes/Chapter_Quotes.md
    - Use appropriate chapter section
    - Set Status to ⚠ (Needs Citation) initially
    - Present the formatted entry to user for confirmation
-   - Update Quotes/Chapter_Quotes_chg.md with tracking info
+   - Update Manuscript/Quotes/Chapter_Quotes_chg.md with tracking info
 
 **ADD MODE - User-Provided Quotes:**
 
 1. User provides: Quote text + attribution details
 2. Ask which chapter the quote is for
 3. Format the quote entry properly
-4. Add to Quotes/Chapter_Quotes.md
+4. Add to Manuscript/Quotes/Chapter_Quotes.md
 5. Present formatted entry to user
 6. Update change tracking file
 
@@ -171,13 +171,13 @@ When the user requests quote-related tasks, use the following workflow:
 1. Ask user which chapter's quote to delete
 2. Show current quote for that chapter
 3. Confirm deletion
-4. Remove from Quotes/Chapter_Quotes.md
+4. Remove from Manuscript/Quotes/Chapter_Quotes.md
 5. Update change tracking file with deletion note
 6. Confirm completion to user
 
 **STATUS MODE - Quote Overview:**
 
-1. Read Quotes/Chapter_Quotes.md
+1. Read Manuscript/Quotes/Chapter_Quotes.md
 2. Present summary:
    - Total chapters with quotes
    - ✓ Verified count
@@ -236,7 +236,7 @@ Before making ANY git commit during the session, you MUST perform _chg file sync
 
 **At the beginning of each session:**
 
-1. **Check for Style/Style_Guide.md**:
+1. **Check for Manuscript/Style/Style_Guide.md**:
    - If exists: Load active style configuration
    - If missing: Proceed without style constraints (author hasn't configured yet)
 
@@ -251,7 +251,7 @@ Before making ANY git commit during the session, you MUST perform _chg file sync
 
 3. **Load full style definition**:
    - If FW_ prefix: Read from Process/Style_Examples.md
-   - If CUSTOM_ prefix: Read from Style/Custom_Styles.md
+   - If CUSTOM_ prefix: Read from Manuscript/Style/Custom_Styles.md
    - Store for session reference
 
 4. **Acknowledge to user** (briefly):
@@ -319,13 +319,13 @@ Before making ANY git commit during the session, you MUST perform _chg file sync
 - Explain key changes made
 
 **"Does this match my style?":**
-- Analyze against Style/Style_Guide.md
+- Analyze against Manuscript/Style/Style_Guide.md
 - Note alignments and divergences
 - Offer specific suggestions if misaligned
 
 **"I want to change my style":**
 - Ask what they want to change
-- Update Style/Style_Guide.md
+- Update Manuscript/Style/Style_Guide.md
 - Document change in Style Evolution section
 - Offer to scan existing content for consistency
 - Create migration plan if desired
@@ -333,9 +333,9 @@ Before making ANY git commit during the session, you MUST perform _chg file sync
 **"Create a custom style":**
 - Help them define characteristics
 - Use Process/Templates/Custom_Styles_Template.md format
-- Create Style/Custom_Styles.md if doesn't exist
+- Create Manuscript/Style/Custom_Styles.md if doesn't exist
 - Add their custom style definition
-- Update Style/Style_Guide.md to reference it
+- Update Manuscript/Style/Style_Guide.md to reference it
 
 ### Style System Edge Cases
 
@@ -355,7 +355,7 @@ Before making ANY git commit during the session, you MUST perform _chg file sync
 **Style guide contradicts itself:**
 - Point out contradiction diplomatically
 - Help author clarify their preferences
-- Update Style/Style_Guide.md with resolution
+- Update Manuscript/Style/Style_Guide.md with resolution
 
 ### Integration with Other Features
 
