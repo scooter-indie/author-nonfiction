@@ -160,9 +160,9 @@ I'll ask you which git operation you want to perform, then execute it with appro
 
 **Branch:** main
 **Uncommitted Changes:** 3 files modified
-  - Chapters/Chapter_05_Analysis.md
-  - Chapters/Chapter_05_Analysis_chg.md
-  - TOC/TOC.md
+  - Manuscript/Chapters/Chapter_05/Chapter_05_Analysis.md
+  - Manuscript/Chapters/Chapter_05/Chapter_05_Analysis_chg.md
+  - Manuscript/_TOC_/TOC.md
 
 **Unpushed Commits:** 2
   - a1b2c3d Update Chapter 05 v1.3.0

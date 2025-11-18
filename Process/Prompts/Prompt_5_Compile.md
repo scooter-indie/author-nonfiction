@@ -31,13 +31,13 @@ I'll use your default compilation settings (stored in `Project_Config.md`), or y
 
 1. **Validation**: Verify all files exist, check for missing cross-references
 
-2. **Read Chapter Quotes**: Load Quotes/Chapter_Quotes.md and prepare epigraphs
+2. **Read Chapter Quotes**: Load Manuscript/Quotes/Chapter_Quotes.md and prepare epigraphs
 
 3. **Assembly** in order:
-   - Front Matter (Title Page, Dedication, Acknowledgments, Foreword, Preface)
+   - Front Matter from Manuscript/FrontMatter/ (Title Page, Dedication, Acknowledgments, Foreword, Preface)
    - Table of Contents (auto-generated from headings)
-   - All Chapters (in numerical order, with epigraphs inserted)
-   - Back Matter (Appendices, Glossary, Bibliography, Index)
+   - All Chapters from Manuscript/Chapters/ (in numerical order, with epigraphs inserted)
+   - Back Matter from Manuscript/BackMatter/ (Appendices, Glossary, Bibliography, Index)
 
 4. **Processing**:
    - Strip change tracking metadata (unless you want it included)
@@ -76,7 +76,7 @@ I'll use your default compilation settings (stored in `Project_Config.md`), or y
    **Status:** [Draft/Review/Final]
    ```
 
-9. **Save**: `Drafts/Full_Draft_[YYYY-MM-DD]_v[version].md`
+9. **Save**: `Manuscript/Drafts/Full_Draft_[YYYY-MM-DD]_v[version].md`
 
 10. **Report**: Compilation statistics including:
     - Total word count
@@ -101,7 +101,7 @@ These can be updated in `Project_Config.md` or customized per compilation.
 
 ## Important Notes
 
-- **Original files unchanged**: Compilation creates a NEW file in Drafts/
+- **Original files unchanged**: Compilation creates a NEW file in Manuscript/Drafts/
 - **Placeholders**: Sections marked as `[PLACEHOLDER: Content pending]` if incomplete
 - **Not exported**: This creates a Markdown file. Use Prompt 7 for DOCX/PDF/EPUB export
 

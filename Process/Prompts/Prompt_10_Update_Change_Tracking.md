@@ -56,15 +56,15 @@ For each out-of-sync file, I'll:
 
 ```markdown
 Found 2 files out of sync with their _chg tracking files:
-- Chapters/Chapter_03_Methods.md
-- Quotes/Chapter_Quotes.md
+- Manuscript/Chapters/Chapter_03/Chapter_03_Methods.md
+- Manuscript/Quotes/Chapter_Quotes.md
 
-Updating Chapters/Chapter_03_Methods_chg.md:
+Updating Manuscript/Chapters/Chapter_03/Chapter_03_Methods_chg.md:
   Added Version 1.3.0 - 2025-11-17
   Type: Content Addition
   Summary: Added case study examples to Data Collection section
 
-Updating Quotes/Chapter_Quotes_chg.md:
+Updating Manuscript/Quotes/Chapter_Quotes_chg.md:
   Added Version 1.1.0 - 2025-11-17
   Type: Content Update
   Summary: Updated Chapter 5 quote with verified attribution

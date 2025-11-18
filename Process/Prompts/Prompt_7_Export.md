@@ -21,7 +21,7 @@ I'll use your default export settings (from `Project_Config.md`) or you can cust
 - ✓ Run Prompt 8 (Progress Dashboard) to verify completion
 - ✓ Resolved all `[CITATION NEEDED]` markers
 - ✓ Completed all placeholder sections
-- ✓ Verified all images are in Assets/ directory
+- ✓ Verified all images are in chapter figures/ directories (Manuscript/Chapters/Chapter_XX/figures/)
 
 ### Questions I'll ask:
 
@@ -86,7 +86,7 @@ I'll use your default export settings (from `Project_Config.md`) or you can cust
    - README with export information
    - Style files if applicable (LaTeX, custom DOCX styles)
 
-6. **Save to Export Directory**: `Exports/[YYYY-MM-DD]/`
+6. **Save to Export Directory**: `Manuscript/Exports/[YYYY-MM-DD]/`
 
 ---
 
@@ -106,7 +106,7 @@ These can be updated in `Project_Config.md` or customized per export.
 
 - **Export requires complete content**: Placeholder sections will be flagged
 - **Citation markers must be resolved**: All `[CITATION NEEDED]` should have proper citations
-- **Assets must exist**: Referenced images must be in Assets/ directory
+- **Assets must exist**: Referenced images must be in chapter figures/ directories or Research/Assets/
 - **This creates new files**: Original manuscript files are unchanged
 
 ---

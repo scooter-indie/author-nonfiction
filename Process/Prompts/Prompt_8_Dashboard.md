@@ -23,6 +23,7 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
 ### Then I'll:
 
 1. **Scan All Files**:
+   - Scan Manuscript/ directory structure (Chapters/, FrontMatter/, BackMatter/, Quotes/, etc.)
    - Read metadata from all content files
    - Parse all change tracking files
    - Analyze git repository state

@@ -62,8 +62,8 @@ I'll ask you what scope and types of checks you want, then analyze your content 
    - Note statistics used multiple times (check if consistent)
    - Verify citation consistency
 
-   **Writing Style Consistency (if Style/Style_Guide.md exists):**
-   - Load active style configuration from Style/Style_Guide.md
+   **Writing Style Consistency (if Manuscript/Style/Style_Guide.md exists):**
+   - Load active style configuration from Manuscript/Style/Style_Guide.md
    - Assess formality level across chapters vs. configured style
    - Check person perspective consistency (1st, 2nd, 3rd person)
    - Analyze paragraph length patterns vs. style guidelines
@@ -75,7 +75,7 @@ I'll ask you what scope and types of checks you want, then analyze your content 
    - Assess tone alignment with configured tone
 
    **Quote/Epigraph Verification:**
-   - Check Quotes/Chapter_Quotes.md for completeness
+   - Check Manuscript/Quotes/Chapter_Quotes.md for completeness
    - Flag chapters with Status ⏳ (pending quotes)
    - Verify all quotes have complete attribution (Author, Source, Year)
    - Check for missing bibliography references
@@ -89,7 +89,7 @@ I'll ask you what scope and types of checks you want, then analyze your content 
    - **Suggestions**: Consider addressing (minor inconsistencies, improvements)
    - **Terminology Index**: All terms and usage patterns
    - **Cross-Reference Map**: All references and their validity
-   - **Writing Style Analysis**: Alignment with Style/Style_Guide.md (if exists)
+   - **Writing Style Analysis**: Alignment with Manuscript/Style/Style_Guide.md (if exists)
    - **Quote Status Summary**: Verification status and missing attributions
 
 ---
@@ -107,7 +107,7 @@ Example:
 
 ### Chapter 3, Section 2.1 (Terminology)
 Reference to "Chapter 8" but book only has 7 chapters.
-Location: Chapters/Chapter_03_Methods.md:45
+Location: Manuscript/Chapters/Chapter_03/Chapter_03_Methods.md:45
 
 ### Chapter 5, Section 1.2 (Fact Consistency)
 States "30% of employees" but Chapter 2 stated "25% of employees" for same metric.
@@ -134,7 +134,7 @@ States "30% of employees" but Chapter 2 stated "25% of employees" for same metri
 - Paragraph length: 3 paragraphs exceed 200 words (guideline: 150 max)
 - Technical terms: "API", "OAuth", "JWT" used without explanation
 - Violates DON'T: "Assume knowledge of industry jargon"
-- Location: Chapters/Chapter_05_Implementation.md:78-145
+- Location: Manuscript/Chapters/Chapter_05/Chapter_05_Implementation.md:78-145
 
 ### Priority Recommendations
 

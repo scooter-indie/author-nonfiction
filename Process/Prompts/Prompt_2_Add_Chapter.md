@@ -8,8 +8,9 @@
 
 I will help you add a new chapter to your book, which includes:
 - Inserting the chapter at the correct position
-- Renumbering affected chapters
-- Creating new chapter files with change tracking
+- Renumbering affected chapter directories
+- Creating new chapter subdirectory with files and change tracking
+- Creating figures/ subdirectory for chapter images
 - Updating the TOC
 - Updating all cross-references
 - Committing changes to git
@@ -38,7 +39,7 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 6. What is the rationale for adding this chapter?
 
 **If From Inbox:**
-2. Which file in Inbox/ contains the chapter content?
+2. Which file in Manuscript/Inbox/ contains the chapter content?
 3. Where should it be positioned?
 4. Should I use the content as-is or create a placeholder with the content in Research/?
 
@@ -46,26 +47,29 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 
 1. Create git commit of current state (safety)
 2. Validate insertion point
-3. Analyze impact (which files need renumbering)
-4. Update TOC/TOC.md
-5. AI updates TOC/TOC_chg.md (you should NOT edit this file manually)
-6. Rename affected chapter files
-7. Create new chapter files (Chapter_XX.md and Chapter_XX_chg.md)
-8. Add new quote entry to Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
-9. Update Quotes/Chapter_Quotes_chg.md with addition note
-10. Update cross-references in all files
-11. Update Project_Config.md with new chapter count
-12. Create git commits for all changes
-13. Optionally tag if major milestone
-14. Generate impact report
+3. Analyze impact (which chapter directories need renumbering)
+4. Update Manuscript/_TOC_/TOC.md
+5. AI updates Manuscript/_TOC_/TOC_chg.md (you should NOT edit this file manually)
+6. Rename affected chapter directories in Manuscript/Chapters/
+7. Create new chapter subdirectory: Manuscript/Chapters/Chapter_XX/
+8. Create chapter files: Chapter_XX.md and Chapter_XX_chg.md
+9. Create empty figures/ subdirectory: Manuscript/Chapters/Chapter_XX/figures/
+10. Add new quote entry to Manuscript/Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
+11. Update Manuscript/Quotes/Chapter_Quotes_chg.md with addition note
+12. Update cross-references in all files
+13. Update Project_Config.md with new chapter count
+14. Create git commits for all changes
+15. Optionally tag if major milestone
+16. Generate impact report
 
 ---
 
 ## Important Notes
 
-- **TOC/TOC_chg.md is managed by the AI only** - Do not edit it manually
-- After initial project setup, do NOT place complete TOC files in Inbox/
+- **Manuscript/_TOC_/TOC_chg.md is managed by the AI only** - Do not edit it manually
+- After initial project setup, do NOT place complete TOC files in Manuscript/Inbox/
 - Individual chapter additions should use this prompt or Prompt 4
+- Each chapter gets its own subdirectory to support chapter-specific assets (images, figures, tables)
 
 ---
 

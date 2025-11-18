@@ -6,7 +6,7 @@
 
 ## What This Does
 
-I will process all files in your `Inbox/` directory and help you integrate them into the appropriate locations in your book project.
+I will process all files in your `Manuscript/Inbox/` directory and help you integrate them into the appropriate locations in your book project.
 
 ---
 
@@ -16,7 +16,7 @@ I'll scan the Inbox directory, analyze what you have, and work with you interact
 
 ### What I'll Do:
 
-1. **Scan Inbox/**: List all files and analyze their content
+1. **Scan Manuscript/Inbox/**: List all files and analyze their content
 
 2. **Identify file types**:
    - Regular content files (drafts, sections, chapters)
@@ -37,7 +37,7 @@ I'll scan the Inbox directory, analyze what you have, and work with you interact
    - Update change tracking files
    - Update cross-references if needed
    - Create git commits for changes
-   - Archive processed files to `Inbox/Processed_[date]/`
+   - Archive processed files to `Manuscript/Inbox/Processed_[date]/`
 
 6. **Generate report**: Summary of all actions taken
 
@@ -47,12 +47,12 @@ I'll scan the Inbox directory, analyze what you have, and work with you interact
 
 ### TOC Files After Initial Setup
 
-**After your project is initialized, I will REJECT entire TOC files placed in Inbox.**
+**After your project is initialized, I will REJECT entire TOC files placed in Manuscript/Inbox/.**
 
 Why? To maintain single source of truth:
 - Use **Prompt 2** to add individual chapters interactively
-- Use **Prompt 4** (this prompt) to integrate individual chapter content from Inbox
-- TOC/TOC_chg.md is AI-managed only - you should not edit it manually
+- Use **Prompt 4** (this prompt) to integrate individual chapter content from Manuscript/Inbox/
+- Manuscript/_TOC_/TOC_chg.md is AI-managed only - you should not edit it manually
 
 ### Integration Options
 
@@ -70,16 +70,17 @@ Depending on the file type, I may suggest:
 - Link to relevant chapters
 
 **For assets:**
-- Organize into Assets/Images/, Assets/Diagrams/, Assets/Tables/, etc.
+- Organize into chapter-specific figures/ directories (Manuscript/Chapters/Chapter_XX/figures/)
+- Or into Research/Assets/ for general project assets
 - Update references in content files
 
 ---
 
 ## Ready to Begin?
 
-I'll scan your Inbox/ directory now and show you what I find.
+I'll scan your Manuscript/Inbox/ directory now and show you what I find.
 
-**Scanning Inbox/...**
+**Scanning Manuscript/Inbox/...**
 
 ---
 

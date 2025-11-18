@@ -14,7 +14,7 @@ I will modify a content file based on instructions you've written in its corresp
 
 ### Your Workflow:
 
-1. **Edit the _chg file**: Open the change tracking file for the content you want to modify (e.g., `Chapters/Chapter_03_Methods_chg.md`)
+1. **Edit the _chg file**: Open the change tracking file for the content you want to modify (e.g., `Manuscript/Chapters/Chapter_03/Chapter_03_Methods_chg.md`)
 
 2. **Add instructions**: In the `[INSTRUCTIONS FOR THIS REVISION]` section, write what changes you want:
    ```markdown
@@ -34,7 +34,7 @@ I will modify a content file based on instructions you've written in its corresp
 
 **Questions I'll ask:**
 
-1. Which file should I modify? (e.g., `Chapters/Chapter_03_Methods.md`)
+1. Which file should I modify? (e.g., `Manuscript/Chapters/Chapter_03/Chapter_03_Methods.md`)
 2. Should I analyze the content before making changes? (Yes/No)
 
 **Then I'll:**
@@ -45,7 +45,7 @@ I will modify a content file based on instructions you've written in its corresp
 4. Check git status for uncommitted changes
 5. Optionally analyze content for consistency issues (if you said yes)
 6. Apply the specified modifications
-7. **Style consistency check**: Verify changes align with Style/Style_Guide.md (see below)
+7. **Style consistency check**: Verify changes align with Manuscript/Style/Style_Guide.md (see below)
 8. **Auto-archive**: Move completed instructions to Version History with proper version increment
 9. **Clear instructions section**: Leave it ready for your next revision
 10. Update file metadata (word count, status, etc.)
@@ -92,7 +92,7 @@ And the completed instructions are moved to Version History with version 1.X.0 o
 
 ### What I Check
 
-If `Style/Style_Guide.md` exists in your project, I'll automatically:
+If `Manuscript/Style/Style_Guide.md` exists in your project, I'll automatically:
 
 1. **Load your active style configuration**
    - Read selected style from Style_Guide.md
@@ -148,12 +148,12 @@ When style issues are detected:
 
 **Option 4: Update style guide**
 - If the "violation" reflects your evolved preference
-- Update Style/Style_Guide.md
+- Update Manuscript/Style/Style_Guide.md
 - Continue with modification
 
 ### Style Check is Optional
 
-- If no Style/Style_Guide.md exists, this step is skipped
+- If no Manuscript/Style/Style_Guide.md exists, this step is skipped
 - You can temporarily disable by saying "skip style check"
 - Useful when experimenting with different voices for specific sections
 
@@ -164,14 +164,14 @@ When style issues are detected:
 - **Single source of truth**: The _chg file contains your instructions
 - **Auto-archive**: I automatically move completed instructions to Version History
 - **Version increment**: I choose appropriate version number (Major.Minor.Patch)
-- **Style consistency**: I check against Style/Style_Guide.md if it exists
+- **Style consistency**: I check against Manuscript/Style/Style_Guide.md if it exists
 - **Git commit**: I create a commit with the changes and version info
 
 ---
 
 ## Ready to Begin?
 
-**Which file should I modify?** (Provide the path to the content file, e.g., `Chapters/Chapter_05_Analysis.md`)
+**Which file should I modify?** (Provide the path to the content file, e.g., `Manuscript/Chapters/Chapter_05/Chapter_05_Analysis.md`)
 
 ---
 

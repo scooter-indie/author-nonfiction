@@ -7,11 +7,11 @@
 ## What This Does
 
 I will help you create a new nonfiction book project from scratch, including:
-- Complete directory structure
+- Complete directory structure with Manuscript/ parent directory
 - Git repository initialization
 - Configuration files
 - Table of contents
-- Chapter placeholders with change tracking files
+- Chapter placeholders in subdirectories with change tracking files
 - Chapter quote (epigraph) management system
 - Front and back matter placeholders
 
@@ -36,18 +36,31 @@ I'll ask you a series of questions to gather the information needed to set up yo
 **Then I'll:**
 
 1. Parse existing TOC (if provided) or create from your input
-2. Create complete directory structure (including Quotes/ and Style/ directories)
+2. Create complete directory structure with Manuscript/ parent directory:
+   - Manuscript/Chapters/ (each chapter in own subdirectory)
+   - Manuscript/FrontMatter/
+   - Manuscript/BackMatter/ (with Bibliography/ subdirectory)
+   - Manuscript/Quotes/
+   - Manuscript/Style/
+   - Manuscript/_TOC_/
+   - Manuscript/Inbox/
+   - Manuscript/Drafts/
+   - Manuscript/Exports/
 3. Initialize git repository
-4. Generate configuration files (Project_Config.md, Project_Metadata.md, USAGE_GUIDE.md)
+4. Generate configuration files (Project_Config.md, Project_Metadata.md, USAGE_GUIDE.md) at root
 5. Configure writing style (interactive style selection)
-6. Create TOC/TOC.md and TOC/TOC_chg.md
-7. Generate chapter placeholder files with _chg files
-8. Create Quotes/Chapter_Quotes.md with placeholder entries for all chapters
-9. Create Quotes/Chapter_Quotes_chg.md for tracking quote changes
-10. Create front matter and back matter placeholders
-11. Commit everything to git with appropriate messages
-12. Tag as v1.0.0
-13. Provide confirmation report
+6. Create Manuscript/_TOC_/TOC.md and Manuscript/_TOC_/TOC_chg.md
+7. Generate chapter placeholder files in subdirectories with _chg files
+   - Each chapter: Manuscript/Chapters/Chapter_XX/Chapter_XX.md
+   - Change tracking: Manuscript/Chapters/Chapter_XX/Chapter_XX_chg.md
+   - Figures directory: Manuscript/Chapters/Chapter_XX/figures/ (empty, ready for images)
+8. Create Manuscript/Quotes/Chapter_Quotes.md with placeholder entries for all chapters
+9. Create Manuscript/Quotes/Chapter_Quotes_chg.md for tracking quote changes
+10. Create front matter and back matter placeholders in Manuscript/FrontMatter/ and Manuscript/BackMatter/
+11. Create Manuscript/BackMatter/Bibliography/ directory with placeholder files
+12. Commit everything to git with appropriate messages
+13. Tag as v1.0.0
+14. Provide confirmation report
 
 ---
 
@@ -98,7 +111,7 @@ You can:
 
 **Option E: Skip for now**
 - I'll set up a neutral default style
-- You can configure it later by editing Style/Style_Guide.md
+- You can configure it later by editing Manuscript/Style/Style_Guide.md
 
 ### Step 4: Confirm with Example
 
@@ -106,18 +119,18 @@ Once you've chosen, I'll:
 1. Show you a sample paragraph written in your selected style
 2. Ask if it feels right
 3. Make adjustments if needed
-4. Create Style/Style_Guide.md with your configuration
+4. Create Manuscript/Style/Style_Guide.md with your configuration
 
 ### What Gets Created
 
-**Style/Style_Guide.md** - Your active style configuration containing:
+**Manuscript/Style/Style_Guide.md** - Your active style configuration containing:
 - Selected style name and source
 - Complete style characteristics
 - DO/DON'T guidelines
 - Example passage for reference
 - Notes on how prompts will use this style
 
-**Style/Custom_Styles.md** (only if you create a custom style):
+**Manuscript/Style/Custom_Styles.md** (only if you create a custom style):
 - Your custom style definition
 - Can be reused in other projects
 - Can be modified over time
