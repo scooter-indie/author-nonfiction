@@ -4,6 +4,7 @@
 build/
 *.zip
 installer.md
+release-notes.md
 
 # Local Claude settings
 .claude/settings.local.json
