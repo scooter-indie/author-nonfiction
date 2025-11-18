@@ -34,9 +34,33 @@ For the Nonfiction Authoring Framework, this connector enables Claude to:
 
 ## Configuration Steps for Claude Desktop
 
-### Step 1: Locate the Configuration File
+### Easy Method: Using Claude Desktop Interface (Recommended)
 
-The MCP configuration file location varies by operating system:
+**This is the simplest way to set up the MCP Filesystem connector:**
+
+1. **Open Claude Desktop**
+2. **Go to Settings:**
+   - Click the settings icon (gear/cog) or menu
+   - Navigate to **Integrations** or **MCP Servers** section
+3. **Add Filesystem Connector:**
+   - Click **Add Server** or **Add Integration**
+   - Select **Filesystem** from available options
+   - Or search for "filesystem" in the integration list
+4. **Configure Directory Access:**
+   - Enter the path to your book project directory
+   - Example: `/Users/yourname/Documents/MyBook`
+   - Example (Windows): `C:\Users\YourName\Documents\MyBook`
+   - Grant permissions when prompted
+5. **Save and Restart:**
+   - Save the configuration
+   - Restart Claude Desktop if prompted
+6. **Verify:** See "Verifying Configuration" section below
+
+### Advanced Method: Manual Configuration File Editing
+
+**Only use this if the UI method doesn't work or you need advanced configuration:**
+
+#### Step 1: Locate the Configuration File
 
 **macOS:**
 ```
@@ -47,38 +71,15 @@ The MCP configuration file location varies by operating system:
 ```
 %APPDATA%\Claude\claude_desktop_config.json
 ```
-Or:
-```
-C:\Users\[YourUsername]\AppData\Roaming\Claude\claude_desktop_config.json
-```
 
 **Linux:**
 ```
 ~/.config/Claude/claude_desktop_config.json
 ```
 
-### Step 2: Open the Configuration File
+#### Step 2: Edit the Configuration File
 
-**Option A: Using a text editor**
-1. Navigate to the configuration file location
-2. Open `claude_desktop_config.json` in your preferred text editor
-3. If the file doesn't exist, create it
-
-**Option B: Using terminal/command line**
-
-**macOS/Linux:**
-```bash
-nano ~/Library/Application\ Support/Claude/claude_desktop_config.json
-```
-
-**Windows (PowerShell):**
-```powershell
-notepad "$env:APPDATA\Claude\claude_desktop_config.json"
-```
-
-### Step 3: Add Filesystem Connector Configuration
-
-**If the file is empty or new**, add this configuration:
+Open `claude_desktop_config.json` in a text editor and add:
 
 ```json
 {
@@ -95,54 +96,21 @@ notepad "$env:APPDATA\Claude\claude_desktop_config.json"
 }
 ```
 
-**If the file already has content**, add the filesystem entry to the existing `mcpServers` object:
+**Replace `/path/to/your/book/project` with your actual directory path.**
 
-```json
-{
-  "mcpServers": {
-    "existing-server": {
-      "command": "...",
-      "args": ["..."]
-    },
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/path/to/your/book/project"
-      ]
-    }
-  }
-}
-```
-
-### Step 4: Update the Path
-
-**Replace `/path/to/your/book/project` with your actual project directory path:**
-
-**macOS/Linux examples:**
-```json
-"args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/yourname/Documents/MyBook"]
-```
-```json
-"args": ["-y", "@modelcontextprotocol/server-filesystem", "~/Documents/MyBook"]
-```
-
-**Windows examples:**
-```json
-"args": ["-y", "@modelcontextprotocol/server-filesystem", "C:\\Users\\YourName\\Documents\\MyBook"]
-```
+**Windows example:**
 ```json
 "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:/Users/YourName/Documents/MyBook"]
 ```
 
-**Important for Windows:**
-- Use double backslashes `\\` OR forward slashes `/`
-- Both formats work in JSON
+**macOS/Linux example:**
+```json
+"args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/yourname/Documents/MyBook"]
+```
 
-### Step 5: Configure Multiple Projects (Optional)
+#### Step 3: Configure Multiple Projects (Optional)
 
-If you work on multiple book projects, you can add multiple paths:
+Add multiple paths to the args array:
 
 ```json
 {
@@ -153,32 +121,6 @@ If you work on multiple book projects, you can add multiple paths:
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "/Users/yourname/Documents/BookProject1",
-        "/Users/yourname/Documents/BookProject2",
-        "/Users/yourname/Documents/BookProject3"
-      ]
-    }
-  }
-}
-```
-
-Or use separate named servers:
-
-```json
-{
-  "mcpServers": {
-    "book-project-1": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/yourname/Documents/BookProject1"
-      ]
-    },
-    "book-project-2": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
         "/Users/yourname/Documents/BookProject2"
       ]
     }
@@ -186,39 +128,51 @@ Or use separate named servers:
 }
 ```
 
-### Step 6: Save and Restart
+#### Step 4: Save and Restart
 
-1. **Save** the configuration file
-2. **Quit** Claude Desktop completely (not just close the window)
-3. **Restart** Claude Desktop
-4. **Verify** the connector is active (see "Verifying Configuration" below)
+1. Save the configuration file
+2. Quit Claude Desktop completely
+3. Restart Claude Desktop
+4. Verify the connector is active
 
 ---
 
 ## Configuration Steps for Claude.com (Web)
 
-**Note:** MCP support for Claude.com may vary. Check current documentation at https://docs.anthropic.com/
+**Note:** MCP support for Claude.com may vary. Check current availability at https://claude.ai/
 
-### Step 1: Access MCP Settings
+### Using Claude.com Interface
 
-1. Log into Claude.com
-2. Click your profile icon (top right)
-3. Select **Settings**
-4. Look for **MCP Servers** or **Extensions** section
+1. **Log into Claude.com** (https://claude.ai/)
+2. **Access Settings:**
+   - Click your profile icon (top right)
+   - Select **Settings** or **Preferences**
+3. **Navigate to Integrations:**
+   - Look for **Integrations**, **MCP Servers**, or **Extensions** section
+   - This may be under **Advanced Settings**
+4. **Add Filesystem Connector:**
+   - Click **Add Integration** or **Connect Extension**
+   - Select **Filesystem** from available options
+   - Or search for "filesystem" in the integration list
+5. **Configure Access:**
+   - Enter your project directory path
+   - Grant permissions when prompted by your browser
+   - Note: Browser security may limit filesystem access
+6. **Save Settings:**
+   - Save the configuration
+   - Refresh your browser if needed
 
-### Step 2: Add Filesystem Connector
+### Browser Limitations
 
-**If available in the web interface:**
+**Important:** Browser-based filesystem access has limitations:
+- May require browser extension or special permissions
+- Limited to certain browsers (Chrome, Edge work best)
+- Security restrictions may prevent full access
+- Consider using Claude Desktop for more reliable filesystem access
 
-1. Click **Add MCP Server** or **Connect Extension**
-2. Select **Filesystem** from available options
-3. Enter your project directory path
-4. Grant permission when prompted
-5. Save settings
-
-**If not available in web interface:**
-
-MCP Filesystem may only be available in Claude Desktop. Consider using Claude Desktop for full framework functionality.
+**If filesystem connector is not available in Claude.com:**
+- Use Claude Desktop instead (recommended for full functionality)
+- Or use the local installation method with Claude Code
 
 ---
 
