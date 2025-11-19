@@ -7,6 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.9.1] - 2025-11-19
+
+### Added
+- **PROJECT_CONTEXT.md System**: Single file upload for Claude Desktop session resumption
+  - Auto-generated during Prompt 1 initialization
+  - Auto-updated by Prompts 3, 8, and 10
+  - Contains framework overview + project-specific state
+  - Upload to Files area in Claude Desktop with System Instructions
+- **Claude Desktop Workflow Documentation**: Complete guide in Process/Prompts/README.md
+  - System Instructions for Claude Desktop
+  - Workflow examples
+  - PROJECT_CONTEXT.md usage guide
+
+### Changed
+- **ALL 10 Prompts Now Desktop-Friendly** (95% compatibility):
+  - Prompt 1 (Initialize): HYBRID → DESKTOP-FRIENDLY
+  - Prompt 2 (Add Chapter): CLI-ONLY → DESKTOP-FRIENDLY (uses MCP move_file for directories)
+  - Prompt 3 (Modify File): Already Desktop-friendly
+  - Prompt 4 (Integrate Inbox): HYBRID → DESKTOP-FRIENDLY
+  - Prompt 5 (Compile): Already Desktop-ready (100%)
+  - Prompt 6 (Consistency): Already Desktop-ready (100%)
+  - Prompt 7 (Export): HYBRID → DESKTOP-FRIENDLY
+  - Prompt 8 (Dashboard): Already Desktop-friendly
+  - Prompt 9 (Git): CLI-ONLY → DESKTOP-FRIENDLY (provides commands to copy/paste)
+  - Prompt 10 (Update Change Tracking): Already Desktop-friendly
+
+### Fixed
+- Prompt 2 directory renaming now uses MCP Filesystem move_file instead of bash mv
+- Improved Desktop compatibility messaging across all prompts
+- Clarified git operation workflows for Desktop users
+
+### Technical
+- All file operations use MCP Filesystem connector
+- Git operations via Claude Code CLI (copy/paste commands)
+- Average 95% Desktop compatibility across all prompts
+
+---
+
 ## [0.9.0] - 2025-11-18 (Pre-release)
 
 ### Major Structural Changes
