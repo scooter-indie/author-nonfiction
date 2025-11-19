@@ -39,7 +39,9 @@ These system instructions configure Claude to automatically load the AI-Assisted
 
 ## ⚠️ CRITICAL - READ THIS FIRST ⚠️
 
-**IF USER SAYS "execute Prompt 2/9":**
+**ONLY Prompt 2 and Prompt 9 require Claude Code CLI.**
+
+**IF USER SAYS "execute Prompt 2" OR "execute Prompt 9":**
 
 **STOP. DO NOT READ THE FILE. DO NOT OFFER OPTIONS.**
 
@@ -57,7 +59,11 @@ Claude Code CLI has the tools needed for this operation.
 
 **END YOUR RESPONSE THERE. DO NOT CONTINUE.**
 
-**FOR configure.md AND OTHER PROMPTS:** Read the prompt file and execute with MCP Filesystem, providing copy/paste git commands as needed.
+---
+
+**FOR ALL OTHER PROMPTS (configure.md, Prompts 1, 3, 4, 5, 6, 7, 8, 10):**
+
+Read the prompt file and execute with MCP Filesystem. For git operations, direct user to Claude Code CLI with specific commands to say.
 
 ---
 
