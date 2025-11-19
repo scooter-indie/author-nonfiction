@@ -762,17 +762,68 @@ Run: git add [files] && git commit -m '[message]'
 
 ## Implementation Phases
 
+### Phase 0: Enforcement Rules Integration (CRITICAL - FIRST)
+**Estimated effort:** 1-2 days
+
+**MUST BE DONE FIRST - These are mandatory compliance rules**
+
+1. **Add enforcement references to ALL 10 prompts:**
+   - Add at top of each prompt:
+     ```markdown
+     **CRITICAL ENFORCEMENT:**
+     - RULE 1: All file modifications MUST update corresponding _chg files
+     - RULE 2: All Manuscript/ changes must go through appropriate prompts
+
+     See: ENFORCEMENT_RULES.md for complete details
+     ```
+
+2. **Add _chg update steps to workflow sections:**
+   - Prompts 1, 2, 3, 4, 10 explicitly document _chg updates
+   - Prompts 5, 6, 7, 8, 9 explicitly state "No _chg updates (read-only/export)"
+   - Include validation check before git commits
+
+3. **Update system-instructions.md:**
+   - Add CRITICAL ENFORCEMENT RULES section
+   - Reference ENFORCEMENT_RULES.md
+   - Include both Rule 1 and Rule 2 summaries
+
+4. **Add routing validation:**
+   - Each prompt includes check: "Is this the correct prompt for this operation?"
+   - If user attempted direct modification outside prompts, redirect
+
+5. **Test enforcement:**
+   - Verify Rule 1: All file modifications update _chg files
+   - Verify Rule 2: Direct modifications are rejected with routing guidance
+   - Validate git commits include both content and _chg files
+
+**Expected impact:**
+- Zero tolerance for change tracking violations
+- Consistent workflow routing
+- Improved data integrity
+
+**Deliverables:**
+- All 10 prompts updated with enforcement notices
+- system-instructions.md updated
+- Validation procedures in place
+
+---
+
 ### Phase 1: Foundation (High Priority)
 **Estimated effort:** 2-3 days
 
 1. Create `Process/_COMMON/` directory structure
 2. Extract and document:
-   - `01_Prompt_Structure_Template.md`
+   - `01_Prompt_Structure_Template.md` (includes enforcement rule references)
    - `02_Desktop_Compatibility_Module.md`
    - `03_Anti_Hallucination_Protocols.md`
-3. Update Prompts 1-3 to use new modules
-4. Test with real use cases
-5. Validate no functionality lost
+3. **NEW:** Create `14_Enforcement_Rules_Module.md`
+   - Standardized enforcement notice templates
+   - Routing response templates
+   - Validation check procedures
+4. Update Prompts 1-3 to use new modules
+5. Test with real use cases
+6. Validate no functionality lost
+7. **VALIDATE:** Enforcement rules properly integrated
 
 **Expected savings:** 400-500 lines
 
@@ -782,14 +833,17 @@ Run: git add [files] && git commit -m '[message]'
 **Estimated effort:** 3-4 days
 
 1. Create and document:
-   - `04_File_Operations_Library.md`
-   - `05_Git_Integration_Module.md`
-   - `06_Validation_Protocols.md`
+   - `04_File_Operations_Library.md` (includes mandatory _chg update steps)
+   - `05_Git_Integration_Module.md` (includes validation: both files in commit)
+   - `06_Validation_Protocols.md` (includes enforcement rule validation)
 2. Update Prompts 2, 3, 4, 9, 10 to use new modules
 3. Test file operations and git workflows
 4. Validate safety checks work
+5. **VALIDATE:** _chg files always updated with content files
 
 **Expected savings:** 500-600 lines
+
+**CRITICAL:** File Operations Library MUST enforce Rule 1 (auto _chg updates)
 
 ---
 
@@ -797,12 +851,13 @@ Run: git add [files] && git commit -m '[message]'
 **Estimated effort:** 2-3 days
 
 1. Create and document:
-   - `07_Quote_Management_System.md`
+   - `07_Quote_Management_System.md` (includes _chg update for Chapter_Quotes.md)
    - `08_Semantic_Versioning_Guide.md`
    - `10_Style_Consistency_Protocol.md`
 2. Update Prompts 1, 2, 3, 5, 6, 8, 10
 3. Test quote and version workflows
 4. Validate style checking
+5. **VALIDATE:** Quote updates tracked in Chapter_Quotes_chg.md
 
 **Expected savings:** 300-400 lines
 
@@ -813,12 +868,13 @@ Run: git add [files] && git commit -m '[message]'
 
 1. Create and document:
    - `09_Report_Templates.md`
-   - `11_Interactive_Patterns.md`
-   - `12_Workflow_Patterns.md`
+   - `11_Interactive_Patterns.md` (includes routing validation patterns)
+   - `12_Workflow_Patterns.md` (includes enforcement in all workflows)
    - `13_PROJECT_CONTEXT_Protocol.md`
 2. Update all 10 prompts for consistency
 3. Test interactive flows
 4. Validate reporting formats
+5. **VALIDATE:** Routing responses redirect to correct prompts
 
 **Expected savings:** 600-700 lines
 
@@ -827,21 +883,39 @@ Run: git add [files] && git commit -m '[message]'
 ### Phase 5: Documentation & Testing (Essential)
 **Estimated effort:** 2-3 days
 
-1. Create comprehensive `_COMMON/README.md`
+1. Create comprehensive `_COMMON/README.md` (includes enforcement rules section)
 2. Document module inclusion syntax
-3. Create module usage examples
+3. Create module usage examples (with enforcement rule examples)
 4. Test all 10 prompts end-to-end
-5. Update main framework documentation
-6. Migration guide for existing projects
+5. **CRITICAL:** Test enforcement rules:
+   - Attempt direct Manuscript/ modification → Should be rejected
+   - Modify file without updating _chg → Should fail validation
+   - Verify routing responses redirect properly
+6. Update main framework documentation
+7. Migration guide for existing projects
+8. **NEW:** Create enforcement compliance test suite
+
+**NEW DELIVERABLES:**
+- Enforcement rules compliance test suite
+- Validation checklist for each prompt
+- Examples of correct/incorrect enforcement
 
 ---
 
 ## Total Estimated Effort
 
-**Time:** 11-16 days (2-3 weeks)
+**Time:** 12-18 days (2.5-3.5 weeks)
+- Phase 0 (Enforcement): 1-2 days
+- Phase 1 (Foundation): 2-3 days
+- Phase 2 (Core Ops): 3-4 days
+- Phase 3 (Content): 2-3 days
+- Phase 4 (Reporting): 2-3 days
+- Phase 5 (Testing): 2-3 days
+
 **Lines saved:** 1,800-2,200 lines (50-60% reduction in duplication)
-**Prompts updated:** All 10
-**New modules created:** 13
+**Prompts updated:** All 10 (with enforcement rules first)
+**New modules created:** 14 (13 original + 1 enforcement module)
+**Enforcement rules:** 2 critical rules integrated throughout
 
 ---
 
@@ -852,24 +926,36 @@ Run: git add [files] && git commit -m '[message]'
 - ✅ Bug fixes propagate to all prompts automatically
 - ✅ Consistency enforced by shared modules
 - ✅ Easier to update when framework evolves
+- ✅ **NEW:** Enforcement rules integrated throughout (no violations possible)
 
 ### User Experience
 - ✅ More concise prompts (easier to read)
 - ✅ Consistent behavior across all prompts
 - ✅ Clearer separation of concerns
 - ✅ Better documentation structure
+- ✅ **NEW:** Reliable change tracking (no missing _chg entries)
+- ✅ **NEW:** Clear workflow routing (always use correct prompt)
 
 ### Development Velocity
 - ✅ Faster to create new prompts (use templates)
 - ✅ Faster to fix bugs (fix once, apply everywhere)
 - ✅ Easier to test (test modules independently)
 - ✅ Clearer architecture
+- ✅ **NEW:** Enforcement rules prevent common mistakes
 
 ### Code Quality
 - ✅ DRY principle applied
 - ✅ Modular design
 - ✅ Separation of concerns
 - ✅ Reusable components
+- ✅ **NEW:** Zero tolerance for data integrity violations
+
+### Data Integrity (NEW)
+- ✅ **100% change tracking compliance** (Rule 1 enforced)
+- ✅ **Consistent workflow routing** (Rule 2 enforced)
+- ✅ **Audit trail preservation** (every change documented)
+- ✅ **Rollback capability** (complete version history)
+- ✅ **User confidence** (framework works as documented)
 
 ---
 
@@ -905,15 +991,26 @@ Run: git add [files] && git commit -m '[message]'
 
 ### Quantitative
 - ✅ Reduce total prompt lines by 40-50% (from ~11,000 to ~6,000)
-- ✅ Create 13 reusable modules
+- ✅ Create 14 reusable modules (13 original + enforcement)
 - ✅ All 10 prompts refactored and tested
 - ✅ Zero functionality regressions
+- ✅ **NEW:** 100% enforcement rule compliance across all prompts
+- ✅ **NEW:** Zero _chg tracking violations in testing
 
 ### Qualitative
 - ✅ Prompts are easier to read and understand
 - ✅ Modules are well-documented with examples
 - ✅ New contributors can understand architecture
 - ✅ Future prompt creation is faster
+- ✅ **NEW:** Users receive clear routing guidance when needed
+- ✅ **NEW:** Change tracking is automatic and reliable
+
+### Enforcement Compliance (NEW)
+- ✅ **Rule 1:** Every file modification includes _chg update
+- ✅ **Rule 2:** All Manuscript/ changes routed through prompts
+- ✅ Validation tests pass for all 10 prompts
+- ✅ Routing responses redirect correctly
+- ✅ Git commits always include both content and _chg files
 
 ---
 
@@ -921,10 +1018,14 @@ Run: git add [files] && git commit -m '[message]'
 
 1. **Review this analysis** with stakeholders
 2. **Prioritize patterns** (if not all 15)
-3. **Create Phase 1 modules** (foundation)
-4. **Refactor Prompts 1-3** as proof of concept
-5. **Validate approach** before full rollout
-6. **Continue with Phases 2-5** if successful
+3. **CRITICAL:** **Execute Phase 0 FIRST** (enforcement rules integration)
+   - Update all 10 prompts with enforcement notices
+   - Update system-instructions.md
+   - Create validation procedures
+4. **Create Phase 1 modules** (foundation + enforcement module)
+5. **Refactor Prompts 1-3** as proof of concept
+6. **Validate approach** including enforcement compliance
+7. **Continue with Phases 2-5** if successful
 
 ---
 
@@ -935,10 +1036,22 @@ Run: git add [files] && git commit -m '[message]'
 - May want to create a **refactor branch** for development
 - Keep original prompts in **archive/** during transition
 - Add **REFACTOR_CHANGELOG.md** to track migration progress
+- **CRITICAL:** Phase 0 (enforcement) MUST be completed first before other phases
+- **IMPORTANT:** All phases must validate enforcement rule compliance
+
+---
+
+## Related Documents
+
+- **ENFORCEMENT_RULES.md** - Mandatory compliance rules (created 2025-11-19)
+  - Rule 1: Automatic _chg file updates
+  - Rule 2: Workflow routing through prompts
+  - Must be integrated in Phase 0
 
 ---
 
 **Delete or archive this file when refactoring is complete.**
 **Created:** 2025-11-19
+**Updated:** 2025-11-19 (added enforcement rules integration)
 **Framework Version:** 0.9.2
 **Target Version:** 0.10.0+
