@@ -53,6 +53,10 @@ Update the version number in these files:
 
    **Self-Update:** This file updates its own version numbers as part of the release process.
 
+6. `system-instructions.md`
+   - Line ~3: `**Framework Version:** X.X.X`
+   - Line ~440: `**Framework Version:** X.X.X` (footer)
+
 **CHANGELOG.md:**
 - Add new version entry at top with today's date
 - Follow this format:
@@ -160,7 +164,8 @@ This list helps verify all version references are updated:
 - `CLAUDE.md` - Header and footer version and date
 - `configure.md` - Header and footer version
 - `INSTALLATION.md` - All download links and references
-- `PREPARE_RELEASE.md` - This file's header version and date
+- `PREPARE_RELEASE.md` - This file's header and footer version and date
+- `system-instructions.md` - Header and footer version
 
 ### Generated During Installation
 - `.nonfiction-manifest.json` - Created by configure.md (frameworkVersion field)
