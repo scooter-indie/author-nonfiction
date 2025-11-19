@@ -65,7 +65,8 @@ jobs:
           # Remove all _chg.md files
           find . -name "*_chg.md" -delete
 
-          # Remove development-only files
+          # Remove development-only files (framework maintainer files)
+          rm -f PREPARE_RELEASE.md
           rm -f Process/Prompts/Prompt_99_Build_Release.md
           rm -f Process/Prompts/README.md
 
