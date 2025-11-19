@@ -1,13 +1,14 @@
 # Execute Prompt 2: Add New Chapter
 
-**CLI-ONLY:** Requires Claude Code CLI (directory renaming not reliable in Desktop)
+**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem + single copy/paste git commit at end
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
 **Claude Desktop Compatibility:**
-- ❌ Directory renaming requires bash `mv` commands
-- ❌ Git operations throughout workflow
-- 📋 Use Claude Code CLI for this prompt
+- ✅ All file/directory operations via MCP Filesystem (including move_file for renumbering)
+- ✅ Single git commit command provided as copy/paste at end
+- ✅ No bash commands required during execution
+- 📋 Works 95% in Desktop
 
 ---
 
