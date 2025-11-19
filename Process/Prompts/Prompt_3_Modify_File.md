@@ -261,6 +261,28 @@ When style issues are detected:
 
 ---
 
+## Git Commit Format (For Claude Desktop Users)
+
+When providing the git commit command at the end, format it like this:
+
+**For Claude Desktop users, provide:**
+
+Go to Claude Code CLI and say:
+```
+Run: git add [file-path] [file-path]_chg.md && git commit -m '[Description] v[version]
+
+[Details of changes made]
+
+🤖 Generated with Claude Desktop
+
+Co-Authored-By: Claude <noreply@anthropic.com>'
+```
+
+**The instruction "Go to Claude Code CLI and say:" must be OUTSIDE the code block.**
+**Only the command starting with "Run:" should be inside the code block.**
+
+---
+
 ## Ready to Begin?
 
 **Which file should I modify?** (Provide the path to the content file, e.g., `Manuscript/Chapters/Chapter_05/Chapter_05_Analysis.md`)

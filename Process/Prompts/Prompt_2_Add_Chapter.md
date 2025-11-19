@@ -81,6 +81,28 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 
 ---
 
+## Git Commit Format (For Claude Desktop Users)
+
+When providing the git commit command at the end, format it like this:
+
+**For Claude Desktop users, provide:**
+
+Go to Claude Code CLI and say:
+```
+Run: git add Manuscript/Chapters/Chapter_XX/ Manuscript/_TOC_/ Manuscript/Quotes/ Project_Config.md && git commit -m 'Add Chapter X: [Title]
+
+[Brief description of chapter content and purpose]
+
+🤖 Generated with Claude Desktop
+
+Co-Authored-By: Claude <noreply@anthropic.com>'
+```
+
+**The instruction "Go to Claude Code CLI and say:" must be OUTSIDE the code block.**
+**Only the command starting with "Run:" should be inside the code block.**
+
+---
+
 ## Ready to Begin?
 
 **How would you like to add the chapter: Interactively or from Inbox content?**

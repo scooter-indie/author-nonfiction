@@ -136,6 +136,28 @@ Use the dashboard to:
 
 ---
 
+## Git Commit Format (For Claude Desktop Users)
+
+When providing an optional git commit command at the end, format it like this:
+
+**For Claude Desktop users, provide:**
+
+Go to Claude Code CLI and say:
+```
+Run: git add PROJECT_CONTEXT.md && git commit -m 'Update project dashboard [date]
+
+Generated comprehensive progress report.
+
+🤖 Generated with Claude Desktop
+
+Co-Authored-By: Claude <noreply@anthropic.com>'
+```
+
+**The instruction "Go to Claude Code CLI and say:" must be OUTSIDE the code block.**
+**Only the command starting with "Run:" should be inside the code block.**
+
+---
+
 ## Ready to Begin?
 
 **Would you like a Summary or Detailed report?**

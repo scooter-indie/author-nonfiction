@@ -132,6 +132,28 @@ The auto-generated entries follow this format:
 
 ---
 
+## Git Commit Format (For Claude Desktop Users)
+
+When providing the git commit command at the end, format it like this:
+
+**For Claude Desktop users, provide:**
+
+Go to Claude Code CLI and say:
+```
+Run: git add [list of _chg.md files] && git commit -m 'Update change tracking for [count] files
+
+Synchronized change tracking with git history.
+
+🤖 Generated with Claude Desktop
+
+Co-Authored-By: Claude <noreply@anthropic.com>'
+```
+
+**The instruction "Go to Claude Code CLI and say:" must be OUTSIDE the code block.**
+**Only the command starting with "Run:" should be inside the code block.**
+
+---
+
 ## Ready to Begin?
 
 I'll now scan for out-of-sync files and update their change tracking.
