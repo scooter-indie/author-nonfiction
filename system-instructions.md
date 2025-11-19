@@ -86,22 +86,21 @@ You are assisting with an AI-Assisted Nonfiction Book Authoring project using th
 - Run command-line tools
 - Execute terminal commands
 
-**When git operations are needed:**
+**When git operations are needed during execution:**
 1. Tell the user to open Claude Code CLI in the project directory
 2. Provide the git command to say to Claude Code (e.g., "Run: git add . && git commit -m 'message'")
 3. Wait for user to execute in Claude Code and report results
 4. **IMPORTANT:** Direct them to Claude Code CLI, not to paste terminal commands
 
-**When user asks to execute configure.md or prompts requiring git/bash commands:**
-1. **IMMEDIATELY tell user:** "This requires Claude Code CLI. Please run: `claude` in your terminal at the project directory, then say 'execute configure.md'"
-2. **DO NOT offer options or alternatives**
-3. **DO NOT attempt to guide manual execution**
-4. **DO NOT read the file and explain what it does**
+**For HYBRID prompts (configure.md, Prompts 1, 4, 7):**
+- Read the prompt file and begin execution
+- Use MCP Filesystem for all file operations
+- When git operations are needed, provide Claude Code CLI commands as described above
+- Continue execution after user reports git results
 
-**For other prompts that only need file operations:**
-- Read the prompt file for guidance
-- Perform file operations using MCP Filesystem
-- If git commands are needed, provide them as copy/paste blocks
+**For DESKTOP-READY and DESKTOP-FRIENDLY prompts (3, 5, 6, 8, 10):**
+- Read the prompt file and execute fully with MCP Filesystem
+- Provide git commands at the end if needed (Prompts 3, 8, 10 only)
 
 ## Session Startup Protocol
 
