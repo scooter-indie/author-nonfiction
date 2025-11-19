@@ -2,7 +2,7 @@
 
 **HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
 
-**AI-Assisted Nonfiction Authoring Framework v0.9.1**
+**AI-Assisted Nonfiction Authoring Framework v0.9.2**
 
 **Claude Desktop Compatibility:**
 - ✅ All file verification via MCP Filesystem
@@ -79,7 +79,7 @@ I will:
 ```json
 {
   "framework": "AI-Assisted Nonfiction Authoring",
-  "frameworkVersion": "0.9.1",          // Current framework version
+  "frameworkVersion": "0.9.2",          // Current framework version
   "installedVersion": "0.9.0",          // First installation version (preserved)
   "installedDate": "2025-11-15",        // First installation date (preserved)
   "releaseDate": "2025-11-19",          // Latest release date
@@ -87,7 +87,7 @@ I will:
   "updateHistory": [                     // Track all updates
     {
       "from": "0.9.0",
-      "to": "0.9.1",
+      "to": "0.9.2",
       "date": "2025-11-19"
     }
   ]
@@ -414,5 +414,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.9.1*
+*Framework Version: 0.9.2*
 *Configuration Script: configure.md*

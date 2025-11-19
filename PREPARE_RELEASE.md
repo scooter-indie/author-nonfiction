@@ -1,6 +1,6 @@
 # Prepare Release
 
-**Current Framework Version:** 0.9.1
+**Current Framework Version:** 0.9.2
 **Last Updated:** 2025-11-19
 
 ---
@@ -239,7 +239,7 @@ If a release needs to be rolled back:
 1. Updates version to 0.10.0 in all files listed in Step 2
 2. Updates dates to today's date
 3. Adds CHANGELOG.md entry for 0.10.0
-4. Runs grep to verify no 0.9.1 references remain (except CHANGELOG history)
+4. Runs grep to verify no 0.9.2 references remain (except CHANGELOG history)
 5. Commits with message: "Update all documentation to version 0.10.0"
 6. Creates tag v0.10.0 with release notes
 7. Pushes tag
@@ -277,7 +277,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.9.1
+**Framework Version:** 0.9.2
 **Last Updated:** 2025-11-19
 
 *This file is for framework maintainers only - not included in release packages*

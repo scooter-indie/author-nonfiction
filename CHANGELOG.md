@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.9.2] - 2025-11-19
+
+### Added
+- **Active Anti-Hallucination Enforcement**: Mandatory ASK-FIRST verification protocol
+  - MANDATORY VERIFICATION PROTOCOL in system-instructions.md
+  - Anti-Hallucination Verification step in Prompt 3 workflow (step #7)
+  - Interactive prompts for examples, anecdotes, statistics, and quotes
+  - Content labeling system: REAL vs HYPOTHETICAL vs GENERIC vs [CITATION NEEDED]
+  - Verification notes added to Prompts 1, 4, and 5
+
+### Changed
+- **Anti-Hallucination Guidelines**: Moved from passive documentation to active enforcement
+  - "ASK FIRST - Don't Assume" now principle #1
+  - AI must ASK user before generating specific examples or claiming experiences
+  - Explicit FORBIDDEN FABRICATIONS list (specific people, fake statistics, unverified quotes)
+  - Updated CLAUDE.md with verification checklist
+  - Renumbered principles to avoid duplication
+
+### Fixed
+- **Hallucination Prevention**: Addresses fabricated examples like "Sarah, a consultant..." and false claims like "I hear from authors..."
+  - Requires explicit user confirmation for all specific examples
+  - Forces verification of statistics and quotes before inclusion
+  - Prevents AI from speaking on behalf of user's experiences
+
+### Technical
+- Anti-hallucination verification integrated into content generation workflow
+- Verification triggers before finalizing content in Prompt 3
+- All content-generating prompts now reference verification protocol
+
+---
+
 ## [0.9.1] - 2025-11-19
 
 ### Added
