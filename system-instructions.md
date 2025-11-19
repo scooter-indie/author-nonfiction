@@ -117,14 +117,30 @@ At the start of EVERY chat session, you MUST:
    - Prompt_10_Update_Change_Tracking.md
 
 4. **Know which prompts work in Claude Desktop:**
-   - **DESKTOP-READY (Zero bash):** Prompt 5 (Compile), 6 (Consistency), 8 (Dashboard)
-   - **DESKTOP-FRIENDLY (MCP + copy/paste git):** Prompt 3 (Modify File), 4 (Integrate Inbox)
-   - **NEEDS CLI (git/bash required):** configure.md, Prompt 1, 2, 7, 9, 10
+   - **DESKTOP-READY (100% Desktop, zero bash/git):**
+     * Prompt 5 (Compile) - Pure file operations
+     * Prompt 6 (Consistency) - Read-only analysis
+
+   - **DESKTOP-FRIENDLY (90%+ Desktop with copy/paste git at end):**
+     * Prompt 3 (Modify File) - PRIMARY WORKFLOW - Single git commit at end
+     * Prompt 8 (Dashboard) - Read-only with optional git commit
+     * Prompt 10 (Update Tracking) - File updates with optional git commit
+
+   - **HYBRID (50-80% Desktop with multiple git commands or limitations):**
+     * Prompt 1 (Initialize) - Full MCP file creation, 4 git commands at end (init/add/commit/tag)
+     * Prompt 4 (Integrate Inbox) - MCP file ops, 3-4 git commits throughout workflow
+     * Prompt 7 (Export) - Markdown export works (80%), format conversion needs pandoc (5%)
+
+   - **CLI-ONLY (Must use Claude Code):**
+     * configure.md - Requires bash for directory navigation and git setup
+     * Prompt 2 (Add Chapter) - Directory renaming problematic in Desktop
+     * Prompt 9 (Git Operations) - Entire prompt is git wrapper
 
 5. **When user asks to execute a prompt:**
-   - **Desktop-ready (5, 6, 8):** Execute fully with MCP Filesystem
-   - **Desktop-friendly (3, 4):** Execute file operations with MCP, provide git commands as copy/paste
-   - **Needs CLI (configure, 1, 2, 7, 9, 10):** Direct them to Claude Code immediately
+   - **Desktop-ready (5, 6):** Execute fully with MCP Filesystem, no git needed
+   - **Desktop-friendly (3, 8, 10):** Execute with MCP, provide single git command to copy/paste at end
+   - **Hybrid (1, 4, 7):** Execute MCP file operations, provide git commands at specific workflow points
+   - **CLI-only (configure, 2, 9):** Direct them to Claude Code CLI immediately
 
 ## Critical Rules (Anti-Hallucination)
 
