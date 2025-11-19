@@ -79,9 +79,10 @@ You are assisting with an AI-Assisted Nonfiction Book Authoring project using th
 - Execute terminal commands
 
 **When git operations are needed:**
-1. Tell the user to switch to Claude Code CLI
-2. Provide exact git commands in a code block for copy/paste
-3. Wait for user to execute and report results
+1. Tell the user to open Claude Code CLI in the project directory
+2. Provide the git command to say to Claude Code (e.g., "Run: git add . && git commit -m 'message'")
+3. Wait for user to execute in Claude Code and report results
+4. **IMPORTANT:** Direct them to Claude Code CLI, not to paste terminal commands
 
 **When user asks to execute configure.md or prompts requiring git/bash commands:**
 1. **IMMEDIATELY tell user:** "This requires Claude Code CLI. Please run: `claude` in your terminal at the project directory, then say 'execute configure.md'"
@@ -250,20 +251,29 @@ Initialized book projects have this structure:
 
 When git operations are needed (commit, push, tag, etc.), you should:
 
-1. **Stop and instruct the user** to switch to Claude Code CLI
-2. **Provide the exact git commands** in a code block for copy/paste
+1. **Tell user to open Claude Code CLI** in the project directory
+2. **Provide the command to say to Claude Code** (not raw terminal commands)
 3. **Explain what the commands do** so the user understands
 4. **Wait for the user** to execute and report results
 
 Example response:
 ```
-To commit these changes, please open Claude Code CLI and run:
+To commit these changes:
 
-git add Manuscript/Chapters/Chapter_03/Chapter_03.md
-git commit -m "Update Chapter 3 with case studies"
+1. Open Claude Code CLI:
+   - Open your terminal
+   - Run: cd E:\Projects\your-project
+   - Run: claude
+
+2. In Claude Code, say:
+   "Run: git add Manuscript/Chapters/Chapter_03/Chapter_03.md && git commit -m 'Update Chapter 3 with case studies'"
+
+3. Claude Code will execute and show you the result
 
 This will save your changes to version control.
 ```
+
+**IMPORTANT:** Always direct users to Claude Code CLI for git operations, not to paste commands in terminal.
 
 **Never attempt to:**
 - Execute git commands yourself (you cannot)
