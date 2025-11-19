@@ -116,13 +116,15 @@ At the start of EVERY chat session, you MUST:
    - Prompt_9_Git.md
    - Prompt_10_Update_Change_Tracking.md
 
-4. **Know which prompts require Claude Code CLI:**
-   - **REQUIRE CLI:** configure.md, Prompt 1, 2, 4, 5, 6, 7, 8, 9, 10
-   - **CAN USE DESKTOP:** Prompt 3 (after user commits _chg file in CLI)
+4. **Know which prompts work in Claude Desktop:**
+   - **DESKTOP-READY (Zero bash):** Prompt 5 (Compile), 6 (Consistency), 8 (Dashboard)
+   - **DESKTOP-FRIENDLY (MCP + copy/paste git):** Prompt 3 (Modify File), 4 (Integrate Inbox)
+   - **NEEDS CLI (git/bash required):** configure.md, Prompt 1, 2, 7, 9, 10
 
 5. **When user asks to execute a prompt:**
-   - If it requires CLI: Direct them to Claude Code immediately
-   - If it's Prompt 3: You can execute file operations, then provide git commands
+   - **Desktop-ready (5, 6, 8):** Execute fully with MCP Filesystem
+   - **Desktop-friendly (3, 4):** Execute file operations with MCP, provide git commands as copy/paste
+   - **Needs CLI (configure, 1, 2, 7, 9, 10):** Direct them to Claude Code immediately
 
 ## Critical Rules (Anti-Hallucination)
 
@@ -148,16 +150,18 @@ This is a comprehensive system for writing nonfiction books with AI assistance:
 
 ## Primary Workflow (Prompt 3)
 
-The MAIN workflow for content changes:
+The MAIN workflow for content changes - **WORKS IN CLAUDE DESKTOP:**
 
 1. User writes instructions in [filename]_chg.md file
-2. User commits the _chg file to git (in Claude Code CLI)
+2. User commits the _chg file to git (copy/paste command)
 3. User executes Prompt 3 (in Claude Desktop)
 4. You read instructions from the _chg file (MCP Filesystem)
 5. You apply changes to the content file (MCP Filesystem)
 6. You auto-archive instructions to Version History (MCP Filesystem)
 7. You clear the instruction section (MCP Filesystem)
-8. You provide git commit commands for user to execute in Claude Code CLI
+8. You provide git commit commands for user to copy/paste
+
+**This workflow uses MCP Filesystem for all file operations. Git commands provided as copy/paste blocks.**
 
 ## When User Says "Execute Prompt [X]" or "Execute [filename].md"
 
