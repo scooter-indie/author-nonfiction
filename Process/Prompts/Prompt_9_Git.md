@@ -1,6 +1,13 @@
 # Execute Prompt 9: Git Operations
 
+**CLI-ONLY:** Requires Claude Code CLI (entire prompt is git wrapper)
+
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+
+**Claude Desktop Compatibility:**
+- ❌ All operations require git execution
+- ❌ Cannot execute git commands in Desktop
+- 📋 Use Claude Code CLI for this prompt
 
 ---
 

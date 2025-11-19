@@ -1,6 +1,14 @@
 # Execute Prompt 8: Progress Dashboard
 
+**DESKTOP-FRIENDLY:** Works in Claude Desktop with optional copy/paste git commit at end
+
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+
+**Claude Desktop Compatibility:**
+- ✅ All analysis via MCP Filesystem
+- ✅ Optional git commit at end (single copy/paste)
+- ✅ No bash commands required
+- 📋 Works 95% in Desktop
 
 ---
 

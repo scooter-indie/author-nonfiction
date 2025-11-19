@@ -1,6 +1,14 @@
 # Execute Prompt 7: Export and Format
 
+**HYBRID:** Markdown export works in Desktop (80%), format conversion requires Claude Code CLI
+
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+
+**Claude Desktop Compatibility:**
+- ✅ Markdown export via MCP Filesystem (100%)
+- ❌ DOCX/PDF/EPUB require pandoc (CLI only)
+- ❌ Image optimization requires imagemagick (CLI only)
+- 📋 Markdown works 80% in Desktop, other formats need CLI
 
 ---
 

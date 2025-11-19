@@ -1,6 +1,14 @@
 # Execute Prompt 6: Consistency Checker
 
+**DESKTOP-READY:** 100% compatible with Claude Desktop (zero bash/git required)
+
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+
+**Claude Desktop Compatibility:**
+- ✅ Pure read-only file analysis via MCP Filesystem
+- ✅ No git commands required
+- ✅ No bash commands required
+- 📋 Works 100% in Desktop
 
 ---
 

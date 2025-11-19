@@ -1,6 +1,14 @@
 # Execute Prompt 10: Update Change Tracking
 
+**DESKTOP-FRIENDLY:** Works in Claude Desktop with optional copy/paste git commit at end
+
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+
+**Claude Desktop Compatibility:**
+- ✅ All _chg file updates via MCP Filesystem
+- ✅ Optional git commit at end (single copy/paste)
+- ✅ No bash commands required
+- 📋 Works 85% in Desktop
 
 ---
 

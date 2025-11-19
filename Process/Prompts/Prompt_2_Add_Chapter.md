@@ -1,6 +1,13 @@
 # Execute Prompt 2: Add New Chapter
 
+**CLI-ONLY:** Requires Claude Code CLI (directory renaming not reliable in Desktop)
+
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+
+**Claude Desktop Compatibility:**
+- ❌ Directory renaming requires bash `mv` commands
+- ❌ Git operations throughout workflow
+- 📋 Use Claude Code CLI for this prompt
 
 ---
 

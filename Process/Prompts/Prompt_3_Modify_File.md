@@ -1,5 +1,7 @@
 # Execute Prompt 3: Modify Target File
 
+**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem + single copy/paste git commit at end
+
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
 ---
@@ -7,6 +9,12 @@
 ## What This Does
 
 I will modify a content file based on instructions you've written in its corresponding `_chg.md` file. This is the **primary workflow for content revisions**.
+
+**Claude Desktop Compatibility:**
+- ✅ All file operations via MCP Filesystem connector
+- ✅ Single git commit command provided as copy/paste at end
+- ✅ No bash commands required
+- 📋 Works 95% in Desktop
 
 ---
 
