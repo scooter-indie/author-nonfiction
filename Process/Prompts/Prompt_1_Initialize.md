@@ -72,6 +72,16 @@ I'll ask you a series of questions to gather the information needed to set up yo
 
 ---
 
+## Anti-Hallucination Note
+
+**When generating any content during initialization** (style examples, sample passages, or placeholder content):
+- Follow the verification protocol detailed in Prompt 3's Anti-Hallucination Verification section
+- **ASK the user** before creating examples or claiming their experiences
+- **Use clear labels**: REAL (user-confirmed) vs HYPOTHETICAL vs GENERIC
+- **Never fabricate** specific people, statistics, or quotes
+
+---
+
 ## Writing Style Configuration
 
 **This step helps you choose or define the writing style for your book.**

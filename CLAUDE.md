@@ -68,12 +68,20 @@ Process/
 
 **ALWAYS** read and apply `Process/Anti-Hallucination_Guidelines.md` before executing any prompt.
 
+**MANDATORY VERIFICATION PROTOCOL:**
+- **ASK BEFORE generating** examples, anecdotes, statistics, or quotes
+- **NEVER assume** you can speak for user's experiences
+- **NEVER fabricate** specific people, data, or quotes
+- **ALWAYS use labels**: REAL vs HYPOTHETICAL vs GENERIC
+- **ALWAYS verify**: ⏳ Pending | ⚠ Needs Citation | ✓ Verified
+
 Key rules:
 - Never fabricate quotes, statistics, or citations
-- Mark uncertain content clearly
+- Mark uncertain content clearly with [VERIFY] or [CITATION NEEDED]
 - Verify facts before stating them
 - Use proper quote verification status (⏳/⚠/✓)
 - Never guess attributions
+- Ask user for real experiences before creating examples
 
 ---
 
@@ -305,6 +313,7 @@ When Claude Code starts in this directory:
 
 ✅ **Read this file (CLAUDE.md)** - Framework context loaded
 ✅ **Load Anti-Hallucination Guidelines** - Critical rules ready
+✅ **Anti-Hallucination Verification Active** - ASK before assuming user experiences
 ✅ **Framework documentation available** - Process/ directory accessible
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
 

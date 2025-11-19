@@ -152,15 +152,60 @@ At the start of EVERY chat session, you MUST:
    - **Hybrid (configure, 1, 4, 7):** Execute MCP file operations, provide git commands at specific workflow points
    - **CLI-only (2, 9):** Direct them to Claude Code CLI immediately
 
-## Critical Rules (Anti-Hallucination)
+## ANTI-HALLUCINATION ENFORCEMENT (CRITICAL)
 
-ALWAYS follow these rules from Process/Anti-Hallucination_Guidelines.md:
+**BEFORE generating ANY content with examples, anecdotes, statistics, or quotes:**
 
-- **NEVER fabricate quotes, statistics, or citations**
-- **NEVER guess attributions for quotes** - verify or mark as ⏳ Pending
-- **NEVER state facts you're uncertain about** - mark as [VERIFY]
-- **ALWAYS use proper quote verification status:** ⏳ Pending | ⚠ Needs Citation | ✓ Verified
-- **ALWAYS be explicit about uncertainty** - "I'm not certain" or "This needs verification"
+### MANDATORY VERIFICATION PROTOCOL
+
+1. **STOP and ASK the user** - Do NOT assume:
+   - ❌ "I can speak for the user's experiences"
+   - ❌ "I can create plausible examples"
+   - ❌ "I can state statistics without sources"
+   - ❌ "I can use quotes without verification"
+
+2. **For examples/anecdotes**, ASK:
+   > "This section needs an example about [topic]. Is this:
+   > - A) Based on YOUR real experience? (Tell me your story)
+   > - B) Should be HYPOTHETICAL? (I'll clearly label it 'Imagine...')
+   > - C) Should be GENERIC? (I'll use 'Many authors...' without specifics)"
+
+3. **For statistics/data**, ASK:
+   > "Do you have a verified source for this statistic, or should I:
+   > - A) Use a general statement ('Many...', 'Research suggests...')
+   > - B) Mark it [CITATION NEEDED] for later verification?"
+
+4. **For quotes**, ASK:
+   > "Do you have the source for this quote, or should I:
+   > - A) Mark it ⏳ Pending verification
+   > - B) Skip the quote entirely?"
+
+### FORBIDDEN FABRICATIONS
+
+**NEVER create:**
+- ❌ Specific people ("Sarah, a healthcare consultant...")
+- ❌ User's experiences ("I've worked with authors who...", "I hear that...")
+- ❌ Fake statistics ("47% of authors...", "Studies show...")
+- ❌ Unverified quotes (without source)
+- ❌ Specific companies, institutions, or case studies (unless user provides)
+
+### REQUIRED LABELS
+
+**ALWAYS use clear labels:**
+- ✅ "Based on your experience as [user-confirmed background]..."
+- ✅ "Consider a hypothetical scenario where..."
+- ✅ "Many authors face this challenge..." (generic)
+- ✅ "[CITATION NEEDED: statistic]" or "[VERIFY: claim]"
+- ✅ ⏳ Pending | ⚠ Needs Citation | ✓ Verified (for quotes)
+
+### VERIFICATION STATUS
+
+**Quote verification symbols (ALWAYS use):**
+- ⏳ Pending verification
+- ⚠ Needs proper citation
+- ✓ Verified with source
+
+**NEVER state facts you're uncertain about** - mark as [VERIFY] or ask user first
 
 ## Framework Overview
 

@@ -53,14 +53,19 @@ I will modify a content file based on instructions you've written in its corresp
 4. Check git status for uncommitted changes
 5. Optionally analyze content for consistency issues (if you said yes)
 6. Apply the specified modifications
-7. **Style consistency check**: Verify changes align with Manuscript/Style/Style_Guide.md (see below)
-8. **Auto-archive**: Move completed instructions to Version History with proper version increment
-9. **Clear instructions section**: Leave it ready for your next revision
-10. Update file metadata (word count, status, etc.)
-11. Validate for broken cross-references
-12. **Refresh PROJECT_CONTEXT.md**: Update if significant changes (new chapters, major version bump, or user requests)
-13. Create git commit with descriptive message including version
-14. Generate modification report
+7. **Anti-Hallucination Verification** (CRITICAL - see below):
+   - If content includes examples, anecdotes, or personal stories → ASK for real experience vs hypothetical
+   - If content includes statistics or data → REQUEST source or use placeholders
+   - If content includes quotes → REQUEST source or mark ⏳ Pending verification
+   - Show examples with clear labels before finalizing
+8. **Style consistency check**: Verify changes align with Manuscript/Style/Style_Guide.md (see below)
+9. **Auto-archive**: Move completed instructions to Version History with proper version increment
+10. **Clear instructions section**: Leave it ready for your next revision
+11. Update file metadata (word count, status, etc.)
+12. Validate for broken cross-references
+13. **Refresh PROJECT_CONTEXT.md**: Update if significant changes (new chapters, major version bump, or user requests)
+14. Create git commit with descriptive message including version
+15. Generate modification report
 
 ---
 
@@ -92,6 +97,84 @@ After I execute, this becomes:
 ```
 
 And the completed instructions are moved to Version History with version 1.X.0 or X.0.0 depending on scope.
+
+---
+
+## Anti-Hallucination Verification (CRITICAL)
+
+**This step prevents fabricated content from entering your book.**
+
+### When This Step Triggers
+
+I will pause and verify with you if the generated content contains:
+- **Personal stories or anecdotes** (e.g., "I've worked with authors who...", "In my experience...")
+- **Specific examples** (e.g., named people, companies, case studies)
+- **Statistics or percentages** (e.g., "47% of authors...", "Studies show...")
+- **Direct quotes** (e.g., attributed to named individuals)
+- **Claims about observations** (e.g., "I hear that...", "Authors tell me...")
+
+### What I'll Ask You
+
+**For examples/anecdotes:**
+> "This section includes [description of example]. Is this:
+> - A) Based on YOUR real experience? (I'll use it as written)
+> - B) Should be a HYPOTHETICAL scenario? (I'll add 'Imagine...' or 'Consider...')
+> - C) Should be GENERIC? (I'll use 'Many authors...' without specifics)"
+
+**For statistics/data:**
+> "This includes the statistic: '[statistic]'. Do you have:
+> - A) A verified source I should cite?
+> - B) Should I use a general statement instead? (e.g., 'Many...' or 'Research suggests...')
+> - C) Should I mark it [CITATION NEEDED] for you to verify later?"
+
+**For quotes:**
+> "This includes a quote from '[person]'. Do you have:
+> - A) The verified source? (I'll mark it ✓ Verified)
+> - B) Should I mark it ⏳ Pending for later verification?
+> - C) Should I remove the quote entirely?"
+
+### Content Labels I'll Use
+
+Before finalizing content, I'll show you examples with clear labels:
+
+✅ **REAL EXPERIENCE:**
+> "Based on my experience as a software engineer and manager, I noticed that version control tools built for code don't translate well to prose..."
+
+✅ **HYPOTHETICAL SCENARIO:**
+> "Imagine a healthcare consultant writing a book about patient communication. She might struggle with..."
+
+✅ **GENERIC STATEMENT:**
+> "Many nonfiction authors face challenges with version control when collaborating with editors..."
+
+✅ **CITATION NEEDED:**
+> "[CITATION NEEDED: Recent surveys suggest that approximately 60% of authors use Google Docs for manuscript version control]"
+
+✅ **PENDING VERIFICATION:**
+> ⏳ "The best preparation for tomorrow is doing your best today." — H. Jackson Brown Jr. (Source: TBD)
+
+❌ **NEVER FABRICATED:**
+> ~~"I've worked with dozens of authors who've told me..."~~ (Unless this is YOUR true experience)
+> ~~"Sarah, a healthcare consultant I know..."~~ (Unless Sarah is a real person you know)
+> ~~"Studies show that 73% of writers..."~~ (Unless you provide the study)
+
+### Your Options
+
+When I ask for verification, you can:
+
+1. **Confirm it's real**: "Yes, that's my actual experience"
+2. **Request changes**: "Make it hypothetical instead"
+3. **Provide source**: "The source is [book/article/URL]"
+4. **Mark for later**: "Mark it for citation later"
+5. **Remove it**: "Skip that example entirely"
+
+### Why This Matters
+
+**From your recent experience:**
+- Version 1.1.0: AI created "Sarah" (fabricated person) ❌
+- Version 1.2.0: AI claimed "frustrations I hear" (fabricated data) ❌
+- Version 1.3.0: AI used YOUR real background (authentic) ✅
+
+This verification step prevents those hallucinations by **asking you first** instead of assuming.
 
 ---
 

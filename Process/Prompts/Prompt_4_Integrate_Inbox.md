@@ -17,6 +17,17 @@ I will process all files in your `Manuscript/Inbox/` directory and help you inte
 
 ---
 
+## Anti-Hallucination Note
+
+**When integrating content from Inbox** that contains examples, anecdotes, statistics, or quotes:
+- Follow the verification protocol detailed in Prompt 3's Anti-Hallucination Verification section
+- **ASK the user** to verify examples/anecdotes before integration
+- **Request sources** for statistics and quotes before adding them
+- **Use clear labels**: REAL vs HYPOTHETICAL vs GENERIC vs [CITATION NEEDED]
+- **Never assume** inbox content reflects the user's real experiences without confirmation
+
+---
+
 ## How This Works
 
 I'll scan the Inbox directory, analyze what you have, and work with you interactively to integrate each item.

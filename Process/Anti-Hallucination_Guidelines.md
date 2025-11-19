@@ -35,7 +35,24 @@ In the context of AI-assisted authoring, **hallucination** refers to:
 
 ## Core Principles
 
-### 1. Truth Over Completeness
+### 1. ASK FIRST - Don't Assume
+
+**BEFORE generating content with examples, anecdotes, statistics, or quotes:**
+
+**MANDATORY: ASK THE USER**
+
+Do NOT assume you can:
+- ❌ Speak for the user's experiences ("I've worked with authors who...", "I hear that...")
+- ❌ Create plausible-sounding examples with specific people
+- ❌ State statistics without verified sources
+- ❌ Use quotes without verification
+
+**INSTEAD: Ask the user to provide:**
+- ✅ "Is this based on your real experience? Tell me your story."
+- ✅ "Do you have a verified source for this statistic?"
+- ✅ "Do you have the quote source, or should I mark it ⏳ Pending?"
+
+### 2. Truth Over Completeness
 
 **ALWAYS prefer saying "I don't know" or "This needs verification" over generating plausible-sounding but unverified content.**
 
@@ -46,7 +63,24 @@ In the context of AI-assisted authoring, **hallucination** refers to:
 > "A 2023 Stanford study found that remote work increases productivity by 47%."
 > *(Unless you have direct access to this specific study)*
 
-### 2. Distinguish Between Types of Knowledge
+### 3. Label What You Generate
+
+**ALWAYS use clear labels when creating content:**
+
+✅ **REAL EXPERIENCE** (user confirmed):
+> "Based on your experience as a software engineer..."
+
+✅ **HYPOTHETICAL** (clearly fictional):
+> "Imagine a healthcare consultant writing about patient communication..."
+
+✅ **GENERIC** (no specifics):
+> "Many authors face version control challenges..."
+
+❌ **FABRICATED** (NEVER do this):
+> ~~"Sarah, a consultant I worked with..."~~ (fake person)
+> ~~"I hear from dozens of authors that..."~~ (fake observations)
+
+### 4. Distinguish Between Types of Knowledge
 
 Clearly label the epistemic status of information:
 
@@ -56,7 +90,7 @@ Clearly label the epistemic status of information:
 - **Speculation**: Educated guess that requires further research
 - **Unknown**: Information you cannot verify
 
-### 3. Never Fabricate Supporting Details
+### 5. Never Fabricate Supporting Details
 
 **Never invent:**
 - Specific statistics or percentages

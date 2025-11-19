@@ -18,6 +18,17 @@ I will generate a single compiled Markdown file from all your current content, c
 
 ---
 
+## Anti-Hallucination Note
+
+**During compilation, I will NOT generate new content.** This prompt only assembles existing content from your files.
+
+However, if you request additions or modifications during compilation:
+- I'll follow the verification protocol detailed in Prompt 3's Anti-Hallucination Verification section
+- I'll **ASK first** before adding examples, anecdotes, statistics, or quotes
+- I'll use clear labels: REAL vs HYPOTHETICAL vs GENERIC vs [CITATION NEEDED]
+
+---
+
 ## How This Works
 
 I'll use your default compilation settings (stored in `Project_Config.md`), or you can customize them for this compilation.
