@@ -215,33 +215,33 @@ I will automatically execute the git commit with appropriate message.
 
 **For Claude Desktop users:**
 
-I will provide you with the git command to run in Claude Code CLI:
+I will provide you with the git command to run in Claude Code CLI.
 
 **For New Installations:**
-```
-Open Claude Code CLI and say:
 
-"Run: git add . && git commit -m 'Initialize nonfiction framework v0.9.0
+Open Claude Code CLI and say:
+```
+Run: git add . && git commit -m 'Initialize nonfiction framework v0.9.2
 
 🤖 Generated with Claude Desktop
 
-Co-Authored-By: Claude <noreply@anthropic.com>'"
+Co-Authored-By: Claude <noreply@anthropic.com>'
 ```
 
 **For Updates:**
-```
-Open Claude Code CLI and say:
 
-"Run: git add .nonfiction-manifest.json && git commit -m 'Update framework from v[old] to v0.9.0
+Open Claude Code CLI and say:
+```
+Run: git add .nonfiction-manifest.json && git commit -m 'Update framework from v[old] to v0.9.2
 
 See CHANGELOG.md for details.
 
 🤖 Generated with Claude Desktop
 
-Co-Authored-By: Claude <noreply@anthropic.com>'"
+Co-Authored-By: Claude <noreply@anthropic.com>'
 ```
 
-Verify commit succeeded with `git log -1`
+After running the command, verify commit succeeded with `git log -1`
 
 ### Step 9: Verify Book Writing Assistant
 
@@ -359,13 +359,14 @@ You have uncommitted changes in your repository:
 [show git status output]
 
 Before updating the framework, you MUST commit your work.
+```
 
 Open Claude Code CLI and say:
-
-"Run: git add . && git commit -m 'Save work before framework update'"
+```
+Run: git add . && git commit -m 'Save work before framework update'
+```
 
 Then run this configuration again.
-```
 
 ### Remote Connection Failed
 
