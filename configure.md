@@ -181,26 +181,36 @@ I will:
 
 ### Step 8: Create Git Commit
 
+**For Claude Code CLI users:**
+
+I will automatically execute the git commit with appropriate message.
+
+**For Claude Desktop users:**
+
+I will provide you with the git command to run in Claude Code CLI:
+
 **For New Installations:**
-```bash
-git add .
-git commit -m "Initialize nonfiction framework v3.5.0
+```
+Open Claude Code CLI and say:
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
+"Run: git add . && git commit -m 'Initialize nonfiction framework v0.9.0
 
-Co-Authored-By: Claude <noreply@anthropic.com>"
+🤖 Generated with Claude Desktop
+
+Co-Authored-By: Claude <noreply@anthropic.com>'"
 ```
 
 **For Updates:**
-```bash
-git add .nonfiction-manifest.json
-git commit -m "Update framework from v[old] to v3.5.0
+```
+Open Claude Code CLI and say:
+
+"Run: git add .nonfiction-manifest.json && git commit -m 'Update framework from v[old] to v0.9.0
 
 See CHANGELOG.md for details.
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
+🤖 Generated with Claude Desktop
 
-Co-Authored-By: Claude <noreply@anthropic.com>"
+Co-Authored-By: Claude <noreply@anthropic.com>'"
 ```
 
 Verify commit succeeded with `git log -1`
@@ -320,10 +330,11 @@ Or continue without git (not recommended - you'll have no version control).
 You have uncommitted changes in your repository:
 [show git status output]
 
-Before updating the framework, you MUST commit your work:
+Before updating the framework, you MUST commit your work.
 
-git add .
-git commit -m "Save work before framework update"
+Open Claude Code CLI and say:
+
+"Run: git add . && git commit -m 'Save work before framework update'"
 
 Then run this configuration again.
 ```
