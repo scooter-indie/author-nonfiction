@@ -65,10 +65,9 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 10. Add new quote entry to Manuscript/Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
 11. Update Manuscript/Quotes/Chapter_Quotes_chg.md with addition note
 12. Update cross-references in all files
-13. Update Project_Config.md with new chapter count
-14. Create git commits for all changes
-15. Optionally tag if major milestone
-16. Generate impact report
+13. Create git commit for all changes
+14. Optionally tag if major milestone
+15. Generate impact report
 
 ---
 
@@ -89,7 +88,7 @@ When providing the git commit command at the end, format it like this:
 
 Go to Claude Code CLI and say:
 ```
-Run: git add Manuscript/Chapters/Chapter_XX/ Manuscript/_TOC_/ Manuscript/Quotes/ Project_Config.md && git commit -m 'Add Chapter X: [Title]
+Run: git add Manuscript/Chapters/Chapter_XX/ Manuscript/_TOC_/ Manuscript/Quotes/ && git commit -m 'Add Chapter X: [Title]
 
 [Brief description of chapter content and purpose]
 
@@ -97,6 +96,10 @@ Run: git add Manuscript/Chapters/Chapter_XX/ Manuscript/_TOC_/ Manuscript/Quotes
 
 Co-Authored-By: Claude <noreply@anthropic.com>'
 ```
+
+**IMPORTANT:**
+- The TOC directory is `Manuscript/_TOC_/` (with underscores), not `Manuscript/TOC/`
+- Do NOT include `Project_Config.md` - chapter count is tracked in the TOC, not Project_Config.md
 
 **The instruction "Go to Claude Code CLI and say:" must be OUTSIDE the code block.**
 **Only the command starting with "Run:" should be inside the code block.**
