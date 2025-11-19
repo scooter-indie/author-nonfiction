@@ -1,6 +1,18 @@
 # Framework Configuration
 
+**HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
+
 **AI-Assisted Nonfiction Authoring Framework v0.9.0**
+
+**Claude Desktop Compatibility:**
+- ✅ All file verification via MCP Filesystem
+- ✅ All file operations via MCP Filesystem
+- ⚠️ Requires copy/paste git commands: init, add, commit, remote add
+- 📋 Works 70% in Desktop
+
+**Claude Code CLI users:**
+- ✅ Full automation with direct git execution
+- 📋 Works 100% in CLI
 
 ---
 

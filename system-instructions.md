@@ -39,7 +39,7 @@ These system instructions configure Claude to automatically load the AI-Assisted
 
 ## ⚠️ CRITICAL - READ THIS FIRST ⚠️
 
-**IF USER SAYS "execute configure.md" OR "execute Prompt 1/2/4/5/6/7/8/9/10":**
+**IF USER SAYS "execute Prompt 2/9":**
 
 **STOP. DO NOT READ THE FILE. DO NOT OFFER OPTIONS.**
 
@@ -50,12 +50,14 @@ This requires Claude Code CLI. Please:
 1. Open your terminal
 2. Run: cd [project-directory]
 3. Run: claude
-4. Then say: "execute configure.md"
+4. Then say: "execute Prompt [X]"
 
 Claude Code CLI has the tools needed for this operation.
 ```
 
 **END YOUR RESPONSE THERE. DO NOT CONTINUE.**
+
+**FOR configure.md AND OTHER PROMPTS:** Read the prompt file and execute with MCP Filesystem, providing copy/paste git commands as needed.
 
 ---
 
@@ -127,20 +129,20 @@ At the start of EVERY chat session, you MUST:
      * Prompt 10 (Update Tracking) - File updates with optional git commit
 
    - **HYBRID (50-80% Desktop with multiple git commands or limitations):**
+     * configure.md - MCP file ops, copy/paste git commands (init/add/commit/remote)
      * Prompt 1 (Initialize) - Full MCP file creation, 4 git commands at end (init/add/commit/tag)
      * Prompt 4 (Integrate Inbox) - MCP file ops, 3-4 git commits throughout workflow
      * Prompt 7 (Export) - Markdown export works (80%), format conversion needs pandoc (5%)
 
    - **CLI-ONLY (Must use Claude Code):**
-     * configure.md - Requires bash for directory navigation and git setup
      * Prompt 2 (Add Chapter) - Directory renaming problematic in Desktop
      * Prompt 9 (Git Operations) - Entire prompt is git wrapper
 
 5. **When user asks to execute a prompt:**
    - **Desktop-ready (5, 6):** Execute fully with MCP Filesystem, no git needed
    - **Desktop-friendly (3, 8, 10):** Execute with MCP, provide single git command to copy/paste at end
-   - **Hybrid (1, 4, 7):** Execute MCP file operations, provide git commands at specific workflow points
-   - **CLI-only (configure, 2, 9):** Direct them to Claude Code CLI immediately
+   - **Hybrid (configure, 1, 4, 7):** Execute MCP file operations, provide git commands at specific workflow points
+   - **CLI-only (2, 9):** Direct them to Claude Code CLI immediately
 
 ## Critical Rules (Anti-Hallucination)
 
