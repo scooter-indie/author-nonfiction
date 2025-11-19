@@ -55,7 +55,7 @@ I'll ask you a series of questions to gather the information needed to set up yo
    - Manuscript/Drafts/
    - Manuscript/Exports/
 3. Initialize git repository
-4. Generate configuration files (Project_Config.md, Project_Metadata.md, USAGE_GUIDE.md) at root
+4. Generate configuration files (Project_Config.md with `initialized: false`, Project_Metadata.md, USAGE_GUIDE.md) at root
 5. Configure writing style (interactive style selection)
 6. Create Manuscript/_TOC_/TOC.md and Manuscript/_TOC_/TOC_chg.md
 7. Generate chapter placeholder files in subdirectories with _chg files
@@ -68,7 +68,8 @@ I'll ask you a series of questions to gather the information needed to set up yo
 11. Create Manuscript/BackMatter/Bibliography/ directory with placeholder files
 12. Commit everything to git with appropriate messages
 13. Tag as v1.0.0
-14. Provide confirmation report
+14. **Set `initialized: true` in Project_Config.md** (marks successful completion)
+15. Provide confirmation report
 
 ---
 
@@ -142,6 +143,32 @@ Once you've chosen, I'll:
 - Your custom style definition
 - Can be reused in other projects
 - Can be modified over time
+
+---
+
+## Verification System
+
+**To check if initialization completed successfully:**
+
+After running Prompt 1, you can verify completion by checking:
+
+```
+Project_Config.md contains:
+initialized: true
+```
+
+**If Prompt 1 was interrupted or failed:**
+- `initialized` will still be `false`
+- You can ask Claude to "verify Prompt 1 completion"
+- Claude will check what's missing and complete the initialization
+
+**Verification command:** Say "verify initialization" or "check if Prompt 1 completed"
+
+Claude will:
+1. Read Project_Config.md to check `initialized` flag
+2. Verify all required files/directories exist
+3. Report what's complete and what's missing
+4. Offer to complete any missing steps
 
 ---
 
