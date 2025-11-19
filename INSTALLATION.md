@@ -4,12 +4,22 @@
 
 ---
 
+## Choose Your Installation Method
+
+This framework works with **both Claude Code CLI and Claude Desktop**. Choose the method that fits your workflow:
+
+- **Claude Code CLI** (Recommended): Full automation, git integration, terminal-based
+- **Claude Desktop** (Alternative): Visual interface, drag-and-drop files, copy/paste git commands
+
+---
+
 ## Prerequisites
 
 Before you begin, ensure you have:
 
-1. **Claude installed** (Claude Code CLI) - Download from [Claude Code website](https://claude.com/claude-code)
-   - Launch with `claude` command
+1. **Choose ONE:**
+   - **Claude Code CLI** - Download from [Claude Code website](https://claude.com/claude-code)
+   - **Claude Desktop** - Download from [Claude Desktop](https://claude.ai/download)
 2. **Git installed** (optional but recommended) - Download from [git-scm.com](https://git-scm.com/)
 3. **Empty target directory** for your book project (e.g., `E:\Projects\my-book`)
 
@@ -123,7 +133,13 @@ my-book/
 
 ### Step 4: Run Configuration
 
-1. **Start Claude** in your project directory:
+Choose your method:
+
+---
+
+#### METHOD A: Claude Code CLI (Recommended)
+
+1. **Start Claude Code** in your project directory:
    ```bash
    cd E:\Projects\my-book
    claude
@@ -131,39 +147,120 @@ my-book/
 
 2. **Execute the configuration script**:
    - Type: `execute configure.md`
-   - Or paste the contents of `configure.md` into the chat
+   - Claude will automatically read and execute the file
 
 3. **Follow the prompts**:
-   - The configuration will set up git (if needed)
+   - Configuration will set up git (if needed)
    - Ask about remote repository connection
    - Verify the installation
    - Create initial commit
 
-### Step 5: Start Writing
-
-After configuration completes:
-1. Review the available prompts listed by the assistant
-2. Execute `Prompt 1: Initialize` to set up your book project
-3. Begin writing!
+4. **Start writing**:
+   - Execute `Prompt 1: Initialize` to set up your book project
+   - Begin writing!
 
 ---
 
-## Optional: Claude Desktop Integration
+#### METHOD B: Claude Desktop
 
-If you also use Claude Desktop (in addition to Claude Code):
+1. **Start Claude Desktop**:
+   - Open Claude Desktop application
+   - Start a new chat
 
-1. **Copy system instructions**:
+2. **Configure MCP Filesystem** (if not already done):
+   - Go to Settings → MCP Servers
+   - Add Filesystem connector with access to your project directory
+   - See: https://docs.anthropic.com/claude/docs/mcp-filesystem
+
+3. **Execute the configuration script**:
+   - In the chat, type: `execute "E:\Projects\my-book\configure.md"`
+   - Replace `E:\Projects\my-book` with your actual project path
+   - Claude will read and execute the file via MCP Filesystem
+
+4. **Follow the prompts**:
+   - Configuration will guide you through setup
+   - When git commands are needed, Claude will provide them as copy/paste blocks
+   - Copy each command and run in your terminal/command prompt
+   - Return to Claude Desktop and report results
+
+5. **Set up System Instructions**:
+   - Go to Settings → Custom Instructions in Claude Desktop
    - Open `system-instructions.md` from your project directory
-   - Copy the entire contents
+   - Copy the section between the code fences (lines 40-356)
+   - Paste into Custom Instructions field
+   - Save
 
-2. **Create a new project in Claude Desktop**:
-   - Click "Projects" in Claude Desktop
-   - Create a new project for your book
-   - Paste the system instructions into the project settings
+6. **Start a new chat with framework context**:
+   - **IMPORTANT:** Start a NEW chat after setting system instructions
+   - Claude will automatically load the framework at session startup
+   - Execute `Prompt 1: Initialize` to set up your book project
 
-3. **Use both interfaces**:
-   - Claude Code: For file operations, git, and automation
-   - Claude Desktop: For conversational writing and brainstorming
+7. **Session resumption** (for future sessions):
+   - After Prompt 1 completes, a file called `PROJECT_CONTEXT.md` is created
+   - For subsequent sessions, start a new chat and say:
+     - `execute "E:\Projects\my-book\PROJECT_CONTEXT.md"`
+     - Replace with your actual path
+   - Claude will load your project context instantly
+
+---
+
+## Working with Claude Desktop
+
+### Execute Command Pattern
+
+Claude Desktop can execute framework files using the `execute` command with MCP Filesystem:
+
+```
+execute "E:\Projects\my-book\configure.md"
+execute "E:\Projects\my-book\PROJECT_CONTEXT.md"
+execute "E:\Projects\my-book\Process\Prompts\Prompt_3_Modify_File.md"
+```
+
+**Always use full absolute paths in quotes.**
+
+### Git Operations in Claude Desktop
+
+Claude Desktop cannot execute git commands directly. When git operations are needed:
+
+1. Claude will provide commands like:
+   ```
+   git add .
+   git commit -m "message"
+   git push
+   ```
+
+2. **Copy the command** and run in your terminal/command prompt:
+   ```bash
+   cd E:\Projects\my-book
+   git add .
+   git commit -m "message"
+   ```
+
+3. **Return to Claude Desktop** and report the result
+
+### PROJECT_CONTEXT.md - Session Resumption
+
+After you initialize your book project (Prompt 1), a `PROJECT_CONTEXT.md` file is created at your project root.
+
+**To resume work in a new session:**
+1. Start new chat in Claude Desktop
+2. Type: `execute "E:\Projects\my-book\PROJECT_CONTEXT.md"`
+3. Claude loads complete framework + project context instantly
+4. Continue working
+
+**PROJECT_CONTEXT.md auto-updates when:**
+- You run Prompt 3 (Modify File)
+- You run Prompt 8 (Dashboard)
+- You run Prompt 10 (Update Change Tracking)
+
+### Updating System Instructions
+
+**After framework updates (new versions):**
+1. Extract new framework zip (overlay existing)
+2. Open new `system-instructions.md`
+3. Copy updated instructions (lines 40-356)
+4. Update Custom Instructions in Claude Desktop Settings
+5. **Start NEW chat** for changes to take effect
 
 ---
 
@@ -196,7 +293,39 @@ After installation, restart your terminal/command prompt and run `configure.md` 
 1. Verify all files extracted correctly
 2. Check that `.claude/agents/book-writing-assistant.md` exists
 3. Ensure you have read/write permissions in the directory
-4. Try copying the contents of `configure.md` and pasting directly into Claude Code
+4. Try copying the contents of `configure.md` and pasting directly into Claude
+
+### Claude Desktop: "execute" command doesn't work
+
+**Solution**:
+1. Verify MCP Filesystem connector is configured (Settings → MCP Servers)
+2. Use full absolute paths in quotes: `execute "E:\Projects\my-book\configure.md"`
+3. Check path uses correct slashes for your OS (Windows: `\`, macOS/Linux: `/`)
+4. Verify the file exists at that exact path
+
+### Claude Desktop: System Instructions not taking effect
+
+**Solution**:
+1. Verify you copied the instructions from `system-instructions.md` (lines 40-356)
+2. Saved the Custom Instructions in Settings
+3. **Started a NEW chat** (existing chats don't reload instructions)
+4. Try closing and reopening Claude Desktop
+
+### Claude Desktop: PROJECT_CONTEXT.md not loading
+
+**Solution**:
+1. Verify file was created: Check if `PROJECT_CONTEXT.md` exists in your project root
+2. Use correct execute syntax: `execute "E:\Projects\my-book\PROJECT_CONTEXT.md"`
+3. Ensure MCP Filesystem has access to your project directory
+4. Try reading the file first: Ask Claude "Can you read E:\Projects\my-book\PROJECT_CONTEXT.md?"
+
+### Claude Desktop: Framework doesn't recognize it's Desktop mode
+
+**Solution**: System instructions should include the critical section about Claude Desktop limitations.
+1. Re-copy system instructions from `system-instructions.md`
+2. Look for "## CRITICAL: Claude Desktop Limitations" section (lines 74-104)
+3. Update Custom Instructions with complete text
+4. Start new chat
 
 ---
 
