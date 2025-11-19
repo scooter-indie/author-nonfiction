@@ -4,6 +4,14 @@
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
+**CRITICAL ENFORCEMENT:**
+- **RULE 1:** All file modifications MUST update corresponding _chg files
+- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
+
+See: `Process/ENFORCEMENT_RULES.md` for complete details
+
+**NOTE:** This prompt explicitly updates _chg files to sync them with content changes made outside the framework
+
 **Claude Desktop Compatibility:**
 - ✅ All _chg file updates via MCP Filesystem
 - ✅ Optional git commit at end (single copy/paste)

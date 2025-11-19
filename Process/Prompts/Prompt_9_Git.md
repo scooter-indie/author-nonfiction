@@ -4,6 +4,14 @@
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
+**CRITICAL ENFORCEMENT:**
+- **RULE 1:** All file modifications MUST update corresponding _chg files
+- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
+
+See: `Process/ENFORCEMENT_RULES.md` for complete details
+
+**NOTE:** This handles git operations only. No _chg updates are required (version control operations, does not modify content files)
+
 **Claude Desktop Compatibility:**
 - ✅ Interactive workflow in Desktop
 - ✅ Provides git commands to execute via Claude Code CLI
