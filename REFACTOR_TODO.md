@@ -985,6 +985,32 @@ Run: git add [files] && git commit -m '[message]'
 - Users still execute same prompts
 - No migration needed for existing projects
 
+### Risk 5: File Size Limitations in Claude Desktop
+**Issue:**
+- Prompt 5 (Compile) reads and combines all manuscript files into a single compiled draft
+- Large manuscripts (50,000+ words) may exceed Claude Desktop + MCP Filesystem limits
+- MCP Filesystem has performance degradation with very large file operations
+
+**Mitigation:**
+- **Document clearly:** Prompt 5 REQUIRES Claude Code CLI for large manuscripts
+- Update Prompt 5 header to include:
+  ```markdown
+  **IMPORTANT:** For manuscripts over 30,000 words, use Claude Code CLI instead of Claude Desktop.
+  Claude Desktop + MCP Filesystem may encounter performance issues or timeouts with large file operations.
+  ```
+- Add file size check to Prompt 5 workflow:
+  1. Calculate total manuscript size before compilation
+  2. If > 30,000 words, warn user to use Claude Code CLI
+  3. If in Claude Desktop and large file detected, provide clear instructions to switch
+- Update INSTALLATION.md to note Prompt 5 limitation
+- Consider future optimization: Compile in chunks if in Claude Desktop
+
+**Technical Details:**
+- MCP Filesystem is optimized for typical file sizes (< 10,000 lines)
+- Compiled manuscripts can be 50,000-100,000+ words (500-1000+ KB)
+- Claude Desktop has context window considerations
+- Claude Code CLI has better performance for large file operations
+
 ---
 
 ## Success Criteria
@@ -1038,6 +1064,9 @@ Run: git add [files] && git commit -m '[message]'
 - Add **REFACTOR_CHANGELOG.md** to track migration progress
 - **CRITICAL:** Phase 0 (enforcement) MUST be completed first before other phases
 - **IMPORTANT:** All phases must validate enforcement rule compliance
+- **TECHNICAL LIMITATION:** Prompt 5 (Compile) requires Claude Code CLI for large manuscripts (30,000+ words)
+  - Claude Desktop + MCP Filesystem cannot handle very large file operations efficiently
+  - Update Prompt 5 documentation during refactoring to clearly state this requirement
 
 ---
 
