@@ -65,16 +65,18 @@ I'll ask you a series of questions to gather the information needed to set up yo
 3. Initialize git repository (via Claude Code CLI if in Desktop)
 4. Generate configuration files (Project_Config.md with `initialized: false`, Project_Metadata.md, USAGE_GUIDE.md) at root
 5. Configure writing style (interactive style selection)
-6. Create Manuscript/_TOC_/TOC.md and Manuscript/_TOC_/TOC_chg.md (with all chapter entries)
-7. Create Manuscript/Quotes/Chapter_Quotes.md (with placeholder entries for all chapters)
-8. Create Manuscript/Quotes/Chapter_Quotes_chg.md for tracking quote changes
-9. Create front matter and back matter placeholders in Manuscript/FrontMatter/ and Manuscript/BackMatter/
-10. Create Manuscript/BackMatter/Bibliography/ directory with placeholder files
-11. **Generate PROJECT_CONTEXT.md** at project root for Claude Desktop session resumption
-12. Commit everything to git with appropriate messages (via Claude Code CLI if in Desktop)
-13. Tag as v1.0.0 (via Claude Code CLI if in Desktop)
-14. **Set `initialized: true` in Project_Config.md** (marks successful completion)
-15. Provide confirmation report with instructions to upload PROJECT_CONTEXT.md in Claude Desktop
+6. Create Manuscript/Style/Style_Guide.md with selected book-level style
+7. **Create Manuscript/Style/Style_Overrides.md** with hierarchical style registry (v0.10.1+)
+8. Create Manuscript/_TOC_/TOC.md and Manuscript/_TOC_/TOC_chg.md (with all chapter entries)
+9. Create Manuscript/Quotes/Chapter_Quotes.md (with placeholder entries for all chapters)
+10. Create Manuscript/Quotes/Chapter_Quotes_chg.md for tracking quote changes
+11. Create front matter and back matter placeholders in Manuscript/FrontMatter/ and Manuscript/BackMatter/
+12. Create Manuscript/BackMatter/Bibliography/ directory with placeholder files
+13. **Generate PROJECT_CONTEXT.md** at project root for Claude Desktop session resumption
+14. Commit everything to git with appropriate messages (via Claude Code CLI if in Desktop)
+15. Tag as v1.0.0 (via Claude Code CLI if in Desktop)
+16. **Set `initialized: true` in Project_Config.md** (marks successful completion)
+17. Provide confirmation report with instructions to upload PROJECT_CONTEXT.md in Claude Desktop
 
 **Note:** Chapter files are NOT created during initialization. Use **Prompt 2 (Add New Chapter)** to create each chapter on-demand. This keeps initialization fast (~5-10 seconds instead of ~30+ seconds).
 
@@ -149,17 +151,44 @@ Once you've chosen, I'll:
 
 ### What Gets Created
 
-**Manuscript/Style/Style_Guide.md** - Your active style configuration containing:
+**Manuscript/Style/Style_Guide.md** - Your book-level (global) style configuration containing:
 - Selected style name and source
 - Complete style characteristics
 - DO/DON'T guidelines
 - Example passage for reference
 - Notes on how prompts will use this style
 
+**Manuscript/Style/Style_Overrides.md** (NEW in v0.10.1+) - Hierarchical style registry:
+- Tracks all chapter-level and section-level style overrides
+- Shows style distribution across your book
+- Monitors override usage threshold (30%)
+- Documents style transitions between chapters/sections
+- **Always created during initialization** (even if no overrides yet)
+
 **Manuscript/Style/Custom_Styles.md** (only if you create a custom style):
 - Your custom style definition
 - Can be reused in other projects
 - Can be modified over time
+
+**About Hierarchical Styles (v0.10.1+):**
+
+Your book uses a three-level style system:
+```
+Book Style (Global Default in Style_Guide.md)
+  ↓ inherits
+Chapter Style (Optional - Chapter_XX_style.md)
+  ↓ inherits
+Section Style (Optional - HTML comments in content)
+```
+
+This allows you to:
+- Use one consistent style for most of your book (book-level)
+- Override specific chapters that need different styles (e.g., technical appendix, narrative case study)
+- Override specific sections within chapters (e.g., code examples, interviews, anecdotes)
+
+You'll configure overrides later using:
+- **Prompt 2** (Add Chapter) - can set chapter-level override when creating chapter
+- **Prompt 11** (Style Manager) - add/remove/analyze overrides anytime
 
 ---
 

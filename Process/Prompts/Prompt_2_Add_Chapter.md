@@ -51,6 +51,9 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 4. What is the estimated word count?
 5. What are the key topics to cover? (optional)
 6. What is the rationale for adding this chapter?
+7. **Does this chapter need a different style than the book-level style?** (v0.10.1+)
+   - If yes: Select override style and create Chapter_XX_style.md
+   - If no: Chapter inherits book-level style from Style_Guide.md
 
 **If From Inbox:**
 2. Which file in Manuscript/Inbox/ contains the chapter content?
@@ -67,13 +70,15 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 6. Rename affected chapter directories in Manuscript/Chapters/
 7. Create new chapter subdirectory: Manuscript/Chapters/Chapter_XX/
 8. Create chapter files: Chapter_XX.md and Chapter_XX_chg.md
-9. Create empty figures/ subdirectory: Manuscript/Chapters/Chapter_XX/figures/
-10. Add new quote entry to Manuscript/Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
-11. Update Manuscript/Quotes/Chapter_Quotes_chg.md with addition note
-12. Update cross-references in all files
-13. Create git commit for all changes
-14. Optionally tag if major milestone
-15. Generate impact report
+9. **If chapter-level style override selected:** Create Chapter_XX_style.md from template (v0.10.1+)
+10. **Update Manuscript/Style/Style_Overrides.md** with new chapter entry (v0.10.1+)
+11. Create empty figures/ subdirectory: Manuscript/Chapters/Chapter_XX/figures/
+12. Add new quote entry to Manuscript/Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
+13. Update Manuscript/Quotes/Chapter_Quotes_chg.md with addition note
+14. Update cross-references in all files
+15. Create git commit for all changes
+16. Optionally tag if major milestone
+17. Generate impact report (including style override impact if applicable)
 
 ---
 

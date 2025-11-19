@@ -103,6 +103,18 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
    - Chapter [XX]: [Status and what's needed]
    - Chapter [XX]: [Status and what's needed]
 
+   **Style Distribution (v0.10.1+)**
+   - Book-level style: [Style name from Style_Guide.md]
+   - Chapter overrides: [N] of [Total] chapters ([XX]%)
+   - Section overrides: [N] sections across [N] chapters
+   - Override threshold status: [Below/At/Above 30%]
+   - Style transitions detected: [N] chapter-level, [N] section-level
+   - Undocumented transitions: [N] (requires attention)
+
+   **Chapters with style overrides:**
+   - Chapter [XX]: [Override style name] ([Rationale if brief])
+   - Chapter [XX]: [Override style name]
+
    **Milestones**
    - [ ] First Draft Complete (25%)
    - [ ] Structural Edit Complete (50%)

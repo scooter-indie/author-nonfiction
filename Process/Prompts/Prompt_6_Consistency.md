@@ -78,13 +78,19 @@ I'll ask you what scope and types of checks you want, then analyze your content 
    - Note statistics used multiple times (check if consistent)
    - Verify citation consistency
 
-   **Writing Style Consistency (if Manuscript/Style/Style_Guide.md exists):**
-   - Load active style configuration from Manuscript/Style/Style_Guide.md
-   - Assess formality level across chapters vs. configured style
-   - Check person perspective consistency (1st, 2nd, 3rd person)
-   - Analyze paragraph length patterns vs. style guidelines
-   - Measure passive voice density if style discourages it
-   - Check technical term usage vs. accessibility requirements
+   **Hierarchical Writing Style Consistency (v0.10.1+):**
+   - Load book-level style from Manuscript/Style/Style_Guide.md
+   - Scan for chapter-level overrides (Chapter_XX_style.md files)
+   - Scan for section-level overrides (HTML comment markers)
+   - Load style override registry (Manuscript/Style/Style_Overrides.md)
+   - Resolve active style for each chapter/section using cascading inheritance
+   - Assess each section against its active style (not just book-level)
+   - Check person perspective consistency within each style context
+   - Analyze paragraph length patterns vs. active style guidelines
+   - Measure passive voice density per active style requirements
+   - Detect and analyze style transitions (chapter-to-chapter, section-to-section)
+   - Check override percentage vs. 30% threshold
+   - Validate documented transition strategies
    - Identify chapters that drift from configured style
    - Flag violations of style DO/DON'T guidelines
    - Note tense consistency (past, present, future)
@@ -128,39 +134,86 @@ Location: Manuscript/Chapters/Chapter_03/Chapter_03_Methods.md:45
 ### Chapter 5, Section 1.2 (Fact Consistency)
 States "30% of employees" but Chapter 2 stated "25% of employees" for same metric.
 
-## Writing Style Analysis
+## Hierarchical Writing Style Analysis (v0.10.1+)
 
-**Active Style:** Conversational Expert (FW_Conversational_Expert)
-**Overall Alignment:** Good (85% consistent)
+**Book-Level Style:** Conversational Expert
+**Chapter Overrides:** 2 (20%)
+**Section Overrides:** 3 sections across 2 chapters
+**Override Threshold:** ✓ Below 30%
 
-### Chapter-by-Chapter Style Consistency
+### Style Distribution Map
 
-**Chapter 1:** ✓ Excellent alignment
+| Chapter | Active Style | Source | Alignment |
+|---------|-------------|--------|-----------|
+| 01 | Conversational Expert | Book | ✓ Excellent |
+| 02 | Conversational Expert | Book (+ 1 section override) | ✓ Good |
+| 03 | Technical Precision | Chapter Override | ✓ Excellent |
+| 04 | Conversational Expert | Book | ⚠ Moderate drift |
+| 05 | Conversational Expert | Book (+ 2 section overrides) | ⚠ Violations |
+
+### Style Transition Analysis
+
+**Chapter-Level Transitions:** 4 detected
+
+⚠️ Chapter 02 → 03: Conversational Expert → Technical Precision
+- Severity: Medium
+- Documented strategy: Yes ✓
+- Transition quality: Smooth
+
+⚠️ Chapter 03 → 04: Technical Precision → Conversational Expert
+- Severity: Medium
+- Documented strategy: No ❌
+- Recommendation: Add transition strategy to Style_Overrides.md
+
+**Section-Level Transitions:** 6 detected across 2 chapters
+
+Chapter 02:
+✓ Line 145: Smooth transition into Technical Precision override
+⚠️ Line 230: Abrupt return to Conversational (add summary sentence)
+
+### Chapter-by-Chapter Consistency
+
+**Chapter 1:** ✓ Excellent alignment with Conversational Expert
 - Person: Consistent second person
 - Formality: Moderate informal (matches style)
 - Avg paragraph: 125 words (within 150 word guideline)
 
-**Chapter 3:** ⚠ Moderate drift
-- Person: Mixed (8 instances of first person, style uses second)
-- Formality: Slightly more formal than style
-- Avg paragraph: 142 words (within guideline)
-- Recommendation: Review first-person instances for intentionality
+**Chapter 3:** ✓ Excellent alignment with Technical Precision (chapter override)
+- Person: Consistent third person (matches override style)
+- Formality: Technical/formal (matches override)
+- Technical terms: Used appropriately for this style
+- Note: This is a chapter override - different style intentional
 
-**Chapter 5:** ⚠ Style violations
-- Paragraph length: 3 paragraphs exceed 200 words (guideline: 150 max)
-- Technical terms: "API", "OAuth", "JWT" used without explanation
-- Violates DON'T: "Assume knowledge of industry jargon"
-- Location: Manuscript/Chapters/Chapter_05/Chapter_05_Implementation.md:78-145
+**Chapter 4:** ⚠ Moderate drift from Conversational Expert
+- Person: Mixed (8 instances of first person, book style uses second)
+- Formality: Slightly more formal than book style
+- Avg paragraph: 142 words (within guideline)
+- Recommendation: Review first-person instances or consider chapter override
+
+**Chapter 5:** ⚠ Style violations in Conversational Expert sections
+- Base style (Conversational): ⚠ Issues detected
+  - Paragraph length: 3 paragraphs exceed 200 words (guideline: 150 max)
+  - Technical terms without explanation
+  - Location: Lines 1-88, 230-end
+- Section override (Technical Precision, Lines 89-229): ✓ Excellent
+  - Technical terms appropriate for this style
+  - No violations
+- Recommendation: Issues only in Conversational sections, not overrides
 
 ### Priority Recommendations
 
 **High Priority:**
-- Chapter 5: Add explanations for technical terms or simplify
-- Chapter 3: Decide on person (keep second person or update style guide)
+- Chapter 5: Add explanations for technical terms in Conversational sections (or extend Technical override)
+- Chapter 03→04: Document transition strategy in Style_Overrides.md
 
 **Medium Priority:**
-- Chapter 5: Break long paragraphs into shorter ones
-- Chapter 7: Slightly more formal than style (minor)
+- Chapter 5: Break long paragraphs in Conversational sections
+- Chapter 4: Decide on person consistency or add chapter override if intentional shift
+
+**Style System Health:**
+✅ Override usage healthy (20%, below 30% threshold)
+⚠️ 1 undocumented transition requires strategy
+✓ Most chapters align well with active styles
 ```
 
 ---

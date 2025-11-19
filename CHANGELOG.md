@@ -7,6 +7,107 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.10.1] - 2025-11-19
+
+### Added
+- **Hierarchical Style System**: Three-level cascading style inheritance
+  - Book-level style (global default in Style_Guide.md)
+  - Chapter-level overrides (optional Chapter_XX_style.md files)
+  - Section-level overrides (HTML comment markers in content)
+  - Cascading inheritance: Book → Chapter → Section
+- **NEW Prompt 11: Style Manager** (HYBRID compatibility)
+  - Add/remove chapter-level style overrides
+  - Scan and track section-level overrides
+  - Validate override registry consistency
+  - View style distribution across book
+  - Analyze style transitions for smoothness
+  - Change book-level style with impact analysis
+- **Style Override Registry**: `Manuscript/Style/Style_Overrides.md`
+  - Central tracking of all overrides (chapter and section)
+  - Style distribution analysis with 30% threshold monitoring
+  - Style transition map (chapter-to-chapter, section-to-section)
+  - Documented transition strategies for smooth reader experience
+  - Auto-maintained by Prompts 2, 3, 11
+- **New Templates**:
+  - `Process/Templates/Chapter_Style_Template.md` - Chapter-level override template
+  - `Process/Templates/Style_Overrides_Template.md` - Central registry template
+  - `Process/Testing/Hierarchical_Style_Testing_Checklist.md` - Manual testing guide
+
+### Changed
+- **Process/_COMMON/10_Style_Consistency_Protocol.md**: Updated for hierarchical system
+  - Added style resolution algorithm (section → chapter → book)
+  - Added transition detection (chapter-level and section-level)
+  - Added severity assessment (Low/Medium/High)
+  - Added override threshold warnings (30% guideline)
+  - Added validation error messages for all failure modes
+  - Expanded from ~300 lines to ~820 lines
+- **Prompt 1 (Initialize)**: Now creates Style_Overrides.md during initialization
+  - Always created (even if no overrides yet)
+  - Documents hierarchical style system to users
+  - Updated workflow steps (15 → 17 steps)
+- **Prompt 2 (Add Chapter)**: Added chapter-level style override option
+  - Question 7: "Does this chapter need a different style?"
+  - Creates Chapter_XX_style.md if override selected
+  - Updates Style_Overrides.md registry automatically
+  - Impact report includes style override information
+- **Prompt 3 (Modify File)**: Hierarchical style resolution for consistency checks
+  - Step 8 now resolves active style using cascading algorithm
+  - Checks section override markers first
+  - Checks chapter override file second
+  - Falls back to book-level style
+  - Reports active style source and inheritance chain
+  - Updated Style Consistency Check section with resolution examples
+- **Prompt 6 (Consistency)**: Comprehensive hierarchical style analysis
+  - Scans for all three levels of style configuration
+  - Builds style distribution map
+  - Detects chapter-to-chapter transitions
+  - Detects section-level transitions within chapters
+  - Assigns transition severity levels
+  - Checks for documented transition strategies
+  - Monitors 30% override threshold
+  - Updated example report to show hierarchical analysis
+- **Prompt 8 (Dashboard)**: Added style distribution section
+  - Shows book-level style
+  - Lists chapter override count and percentage
+  - Lists section override count
+  - Displays threshold status (below/at/above 30%)
+  - Shows transition counts
+  - Highlights undocumented transitions
+  - Lists chapters with overrides and rationales
+
+### Technical
+- **Token Footprint Analysis**: Estimated hierarchical system adds ~6,000 tokens
+  - Updated module: +650 tokens
+  - New Prompt 11: +3,250 tokens
+  - Prompt updates (1,2,3,6,8): +1,300 tokens
+  - New templates: +780 tokens
+  - Total framework (v0.10.1): ~71,000 tokens
+  - Per-prompt range: 7,000-12,000 tokens (before user content)
+- **Section Override Marker Syntax**: Simplified HTML comment format
+  - Start: `<!-- STYLE_OVERRIDE: StyleName -->`
+  - End: `<!-- END_STYLE_OVERRIDE -->`
+  - Validation: No nesting, must be properly closed, style must exist
+- **30% Threshold Guideline**: Warning when chapter overrides exceed 30%
+  - Indicates book-level style may not be appropriate
+  - Suggests re-evaluating book-level choice
+  - Encourages consistent majority style usage
+
+### Documentation
+- **Comprehensive updates** across all documentation files:
+  - CLAUDE.md: Added hierarchical style system overview
+  - INSTALLATION.md: Added style override capabilities section
+  - Process/AI-Assisted_Nonfiction_Authoring_Process.md: Detailed style hierarchy
+  - Process/Prompts/README.md: Added Prompt 11 documentation
+  - Process/Prompts/QUICK_REFERENCE.md: Added hierarchical style workflows
+  - Proposal/HIERARCHICAL_STYLE_SYSTEM.md: Complete system design proposal
+
+### Notes
+- **No Backward Compatibility Required**: Framework still in testing phase
+- **Testing Strategy**: Manual testing checklist with 8 test categories, 40+ test scenarios
+- **Design Rationale**: Allows consistent book-level style with targeted overrides for special chapters (technical appendices, narrative case studies) and sections (code examples, interviews, anecdotes)
+
+---
+
 ## [0.10.0] - 2025-11-19
 
 ### Added

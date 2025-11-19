@@ -64,7 +64,12 @@ I will modify a content file based on instructions you've written in its corresp
    - If content includes statistics or data → REQUEST source or use placeholders
    - If content includes quotes → REQUEST source or mark ⏳ Pending verification
    - Show examples with clear labels before finalizing
-8. **Style consistency check**: Verify changes align with Manuscript/Style/Style_Guide.md (see below)
+8. **Hierarchical style consistency check** (v0.10.1+): Resolve and apply active style (see below)
+   - Check for section override markers in content
+   - Check for chapter override file (Chapter_XX_style.md)
+   - Fall back to book-level (Style_Guide.md)
+   - Report active style source
+   - Verify changes align with active style
 9. **Auto-archive**: Move completed instructions to Version History with proper version increment
 10. **Clear instructions section**: Leave it ready for your next revision
 11. Update file metadata (word count, status, etc.)
@@ -184,20 +189,45 @@ This verification step prevents those hallucinations by **asking you first** ins
 
 ---
 
-## Style Consistency Check
+## Hierarchical Style Consistency Check (v0.10.1+)
 
-**After applying your modifications, I'll verify style alignment with your configured writing style.**
+**After applying your modifications, I'll resolve the active style using the hierarchical system and verify alignment.**
 
-### What I Check
+### Step 1: Resolve Active Style
 
-If `Manuscript/Style/Style_Guide.md` exists in your project, I'll automatically:
+I'll determine which style applies to the modified content using cascading inheritance:
 
-1. **Load your active style configuration**
-   - Read selected style from Style_Guide.md
-   - Extract DO/DON'T guidelines
-   - Note voice, tone, and pacing parameters
+1. **Check for section-level override**:
+   - Scan content for `<!-- STYLE_OVERRIDE: StyleName -->` markers
+   - If modification is within override markers → use that style
 
-2. **Analyze modified/added content for:**
+2. **Check for chapter-level override**:
+   - Look for `Chapter_XX_style.md` in the chapter directory
+   - If exists → use chapter override style
+
+3. **Fall back to book-level style**:
+   - Load `Manuscript/Style/Style_Guide.md`
+   - Use book-level default style
+
+**I'll report which style is active and why:**
+```
+Active Style: Technical Precision (chapter override)
+Source: Manuscript/Chapters/Chapter_05/Chapter_05_style.md
+Inheritance: Chapter override (not using book-level Conversational Expert)
+```
+
+### Step 2: Load Active Style Configuration
+
+From the resolved style source, I'll extract:
+- Style name and characteristics
+- DO/DON'T guidelines
+- Voice, tone, and pacing parameters
+
+### Step 3: Analyze Modified Content
+
+Using the active style configuration, I'll check:
+
+1. **Content analysis:**
    - **Person consistency**: First/second/third person usage
    - **Formality level**: Matches configured formality
    - **Paragraph length**: Checks against style guidelines (if specified)
@@ -205,7 +235,7 @@ If `Manuscript/Style/Style_Guide.md` exists in your project, I'll automatically:
    - **Terminology**: Technical terms explained when style requires it
    - **Passive voice**: Flags excessive use if style discourages it
 
-3. **Compare against DO/DON'T lists**
+2. **Compare against DO/DON'T lists**
    - Check for violations of style DON'Ts
    - Verify adherence to style DOs
 

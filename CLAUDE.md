@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.10.0
+**Framework Version:** 0.10.1
 **Session Context Document for Claude Code**
 
 ---
@@ -144,7 +144,7 @@ Claude will read the appropriate prompt file and execute it.
 
 ---
 
-## 10 Core Prompts
+## 11 Core Prompts (v0.10.1+)
 
 ### Prompt 1: Initialize Project Structure
 **Purpose:** Create new book project from scratch
@@ -196,11 +196,51 @@ Claude will read the appropriate prompt file and execute it.
 **When:** After manual edits, before milestones, weekly maintenance
 **Output:** Updated _chg files with version history
 
+### Prompt 11: Style Manager (NEW in v0.10.1)
+**Purpose:** Manage hierarchical style system (book/chapter/section overrides)
+**When:** Adding/removing style overrides, analyzing distribution, validating registry
+**Output:** Updated override registry, style analysis reports, validated consistency
+
 ---
 
 ## Writing Style System
 
-The framework includes 9 professionally curated writing styles:
+### Hierarchical Style System (v0.10.1+)
+
+The framework uses a three-level cascading style inheritance system:
+
+```
+Book Style (Global Default)
+  ↓ inherits
+Chapter Style (Optional Override)
+  ↓ inherits
+Section Style (Optional Override)
+```
+
+**Three Levels:**
+
+1. **Book-Level Style** (configured in `Manuscript/Style/Style_Guide.md`)
+   - Your global default style for the entire book
+   - Selected during Prompt 1 (Initialize)
+   - Applies to all content unless overridden
+
+2. **Chapter-Level Overrides** (optional `Chapter_XX_style.md` files)
+   - Override book style for specific chapters
+   - Useful for technical appendices, narrative case studies, etc.
+   - Created via Prompt 2 (Add Chapter) or Prompt 11 (Style Manager)
+
+3. **Section-Level Overrides** (HTML comment markers in content)
+   - Override for specific sections within chapters
+   - Format: `<!-- STYLE_OVERRIDE: StyleName -->...</content>...<!-- END_STYLE_OVERRIDE -->`
+   - Useful for code examples, interviews, anecdotes
+
+**Central Registry:**
+- `Manuscript/Style/Style_Overrides.md` tracks all overrides
+- Shows style distribution across your book
+- Monitors 30% override threshold (guideline for appropriate book-level choice)
+- Documents style transitions for smooth reader experience
+
+**9 Framework Styles Available:**
 
 1. **Academic Authority** - Scholarly, research-based
 2. **Conversational Expert** - Business/professional, accessible
@@ -212,7 +252,13 @@ The framework includes 9 professionally curated writing styles:
 8. **Inspirational Teacher** - Personal development, motivational
 9. **Scientific Communicator** - Popular science, wonder with rigor
 
-**During Prompt 1 (Initialize):** You'll select or customize a writing style for your book.
+**How to Use:**
+- **Prompt 1** (Initialize): Select book-level style, creates Style_Overrides.md
+- **Prompt 2** (Add Chapter): Optionally set chapter-level override when creating chapter
+- **Prompt 3** (Modify File): Automatically applies active style using cascading resolution
+- **Prompt 6** (Consistency): Analyzes style distribution and transitions
+- **Prompt 8** (Dashboard): Shows style distribution summary
+- **Prompt 11** (Style Manager): Add/remove/analyze overrides, validate registry
 
 **Location:** `Process/Style_Examples.md` contains complete style definitions with examples.
 
@@ -328,7 +374,7 @@ When Claude Code starts in this directory:
 
 ---
 
-**Framework Version:** 0.10.0
+**Framework Version:** 0.10.1
 **Last Updated:** 2025-11-19
 
 ---
