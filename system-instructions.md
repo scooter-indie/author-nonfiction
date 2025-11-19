@@ -1,6 +1,6 @@
 # System Instructions for AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.9.2
+**Framework Version:** 0.10.0
 **For Use With:** Claude Desktop ONLY (Claude.com web does NOT support filesystem access)
 
 ---
@@ -482,8 +482,8 @@ If you work on multiple book projects:
 
 ---
 
-**Framework Version:** 0.9.2
-**Last Updated:** 2025-11-18
+**Framework Version:** 0.10.0
+**Last Updated:** 2025-11-19
 
 ---
 
