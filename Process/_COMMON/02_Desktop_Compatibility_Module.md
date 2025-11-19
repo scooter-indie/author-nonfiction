@@ -107,9 +107,7 @@ Run: git add [files] && git commit -m '[message]'
 - Prompt 2: Add New Chapter
 - Prompt 3: Modify Target File
 - Prompt 4: Integrate Content from Inbox
-- Prompt 7: Export and Format
 - Prompt 8: Progress Dashboard (optional git)
-- Prompt 9: Git Operations (provides commands)
 - Prompt 10: Update Change Tracking
 
 ---
@@ -163,6 +161,8 @@ Claude Code CLI is optimized for file-heavy operations like {OPERATION_TYPE}.
 
 **Current Prompts:**
 - Prompt 5: Compile Complete Manuscript
+- Prompt 7: Export and Format (requires pandoc for DOCX/PDF/EPUB)
+- Prompt 9: Git Operations (direct git execution)
 
 ---
 
@@ -254,9 +254,9 @@ For each prompt, verify:
 | 4 | DESKTOP-FRIENDLY | 95% | End | No |
 | 5 | CLI-ONLY | 0% | N/A | N/A |
 | 6 | DESKTOP-READY | 100% | No | No |
-| 7 | DESKTOP-FRIENDLY | 95% | Optional | Yes (pandoc) |
+| 7 | CLI-ONLY | 0% | N/A | Yes (pandoc) |
 | 8 | DESKTOP-FRIENDLY | 95% | Optional | No |
-| 9 | DESKTOP-FRIENDLY | 95% | Yes (all) | No |
+| 9 | CLI-ONLY | 0% | N/A | Yes (git) |
 | 10 | DESKTOP-FRIENDLY | 95% | Optional | No |
 
 ---
