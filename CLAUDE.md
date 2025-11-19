@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.9.0
+**Framework Version:** 0.9.1
 **Session Context Document for Claude Code**
 
 ---
@@ -319,8 +319,8 @@ When Claude Code starts in this directory:
 
 ---
 
-**Framework Version:** 0.9.0
-**Last Updated:** 2025-11-18
+**Framework Version:** 0.9.1
+**Last Updated:** 2025-11-19
 
 ---
 
