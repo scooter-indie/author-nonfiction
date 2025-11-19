@@ -1,6 +1,8 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem (git via Claude Code CLI)
+**HYBRID:** Works in both Claude Desktop and Claude Code CLI with mixed interaction.
+
+This prompt performs substantial work in Desktop (creating all files and directories) but requires multiple CLI interactions for git operations throughout the initialization process.
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
@@ -12,9 +14,9 @@ See: `Process/ENFORCEMENT_RULES.md` for complete details
 
 **Claude Desktop Compatibility:**
 - ✅ All interactive questions work in Desktop
-- ✅ All file creation via MCP Filesystem
-- ✅ Git operations via Claude Code CLI (copy/paste 4 commands at end)
-- 📋 Works 95% in Desktop
+- ✅ All file/directory creation via MCP Filesystem
+- ⚠️ Git operations via Claude Code CLI (copy/paste multiple commands during setup)
+- 📋 Works 70% in Desktop (hybrid workflow)
 
 ---
 

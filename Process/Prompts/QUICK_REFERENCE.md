@@ -6,19 +6,24 @@
 - ✅ **Prompt 6** - Consistency checks (read-only analysis)
 
 ### DESKTOP-FRIENDLY (95%+ Desktop - Single git command at end)
-- ✅ **Prompt 2** - Add new chapter (file operations + git at end)
+- ✅ **Prompt 2** - Add new chapter
 - ✅ **Prompt 3** - Modify file (PRIMARY WORKFLOW)
 - ✅ **Prompt 4** - Integrate Inbox content
 - ✅ **Prompt 8** - Progress dashboard
 - ✅ **Prompt 10** - Update change tracking
 
+### HYBRID (50-80% Desktop - Multiple CLI interactions)
+- ⚡ **Prompt 1** - Initialize project (file creation in Desktop, git via CLI throughout)
+
 ### CLI-ONLY (Must use Claude Code CLI)
-- 🔧 **Prompt 1** - Initialize project (git operations throughout)
 - 🔧 **Prompt 5** - Compile manuscript (bulk file operations)
 - 🔧 **Prompt 7** - Export to DOCX/PDF/EPUB (requires pandoc)
 - 🔧 **Prompt 9** - Git operations (direct git commands)
 
-**Note:** DESKTOP-FRIENDLY prompts work in Claude Desktop but provide a git command to copy/paste into Claude Code CLI at the end.
+**Notes:**
+- **DESKTOP-FRIENDLY** prompts work in Claude Desktop, provide single git command at end
+- **HYBRID** prompts work in both environments with multiple back-and-forth interactions
+- **CLI-ONLY** prompts must be run entirely in Claude Code CLI
 
 ---
 

@@ -15,6 +15,7 @@ This module defines the three compatibility levels for prompts when used with Cl
 ## Compatibility Levels
 
 ### Level 1: DESKTOP-READY (100%)
+**Percentage:** 100%
 
 **Definition:** Works completely in Claude Desktop with zero CLI interaction required.
 
@@ -47,6 +48,7 @@ This module defines the three compatibility levels for prompts when used with Cl
 ---
 
 ### Level 2: DESKTOP-FRIENDLY (95%)
+**Percentage:** 95%
 
 **Definition:** Works in Claude Desktop with single copy/paste git commit at the end.
 
@@ -103,7 +105,6 @@ Run: git add [files] && git commit -m '[message]'
 ```
 
 **Current Prompts:**
-- Prompt 1: Initialize Project Structure
 - Prompt 2: Add New Chapter
 - Prompt 3: Modify Target File
 - Prompt 4: Integrate Content from Inbox
@@ -112,7 +113,59 @@ Run: git add [files] && git commit -m '[message]'
 
 ---
 
-### Level 3: CLI-ONLY
+### Level 3: HYBRID (50-80%)
+**Percentage:** 50-80%
+
+**Definition:** Works in both Claude Desktop and Claude Code CLI with mixed interaction throughout the process.
+
+**Characteristics:**
+- Substantial file operations via MCP Filesystem in Desktop
+- Multiple CLI interactions required during execution (not just at end)
+- User switches between Desktop and CLI multiple times
+- Git operations interspersed throughout workflow
+- More complex than DESKTOP-FRIENDLY, less restrictive than CLI-ONLY
+
+**Header Format:**
+```markdown
+**HYBRID:** Works in both Claude Desktop and Claude Code CLI with mixed interaction.
+
+{SPECIFIC_WORKFLOW_DESCRIPTION}
+
+**BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+
+**Claude Desktop Compatibility:**
+- ✅ Interactive questions work in Desktop
+- ✅ File operations via MCP Filesystem
+- ⚠️ Git operations via Claude Code CLI (multiple commands throughout)
+- 📋 Works {PERCENTAGE}% in Desktop (hybrid workflow)
+```
+
+**Example (Prompt 1 - Initialize):**
+```markdown
+**HYBRID:** Works in both Claude Desktop and Claude Code CLI with mixed interaction.
+
+This prompt performs substantial work in Desktop (creating all files and directories) but requires multiple CLI interactions for git operations throughout the initialization process.
+
+**Claude Desktop Compatibility:**
+- ✅ All interactive questions work in Desktop
+- ✅ All file/directory creation via MCP Filesystem
+- ⚠️ Git operations via Claude Code CLI (copy/paste multiple commands during setup)
+- 📋 Works 70% in Desktop (hybrid workflow)
+```
+
+**Current Prompts:**
+- Prompt 1: Initialize Project Structure (70% Desktop, multiple git operations throughout)
+
+**When to Use HYBRID:**
+- Process requires multiple git operations at different stages
+- Mix of Desktop file work and CLI git/bash commands
+- User needs flexibility to switch between environments
+- Not suitable for pure Desktop or pure CLI workflow
+
+---
+
+### Level 4: CLI-ONLY (0%)
+**Percentage:** 0%
 
 **Definition:** MUST be run in Claude Code CLI. Does not work in Claude Desktop.
 
@@ -179,8 +232,15 @@ Claude Code CLI is optimized for file-heavy operations like {OPERATION_TYPE}.
 **Use DESKTOP-FRIENDLY when:**
 - File modifications required
 - Single git commit at end
-- Optional external tool usage (pandoc, etc.)
+- No external tool dependencies
 - Most interactive workflows
+
+**Use HYBRID when:**
+- Multiple git operations at different stages
+- Mix of Desktop file work and CLI commands
+- User switches between Desktop and CLI throughout
+- Setup/initialization workflows
+- Complex multi-step processes
 
 **Use CLI-ONLY when:**
 - Reading 10+ files
@@ -188,6 +248,8 @@ Claude Code CLI is optimized for file-heavy operations like {OPERATION_TYPE}.
 - Batch processing operations
 - Performance-critical tasks
 - Complex file I/O patterns
+- Requires external tools (pandoc, imagemagick)
+- Direct git command execution
 
 ### Compatibility Testing Checklist
 
@@ -203,9 +265,16 @@ For each prompt, verify:
 **DESKTOP-FRIENDLY:**
 - [ ] File operations use MCP Filesystem
 - [ ] Git commands only at end (copy/paste format)
-- [ ] External tool commands provided as copy/paste
+- [ ] No external tool dependencies
 - [ ] No bash execution during workflow
 - [ ] Single manual step at completion
+
+**HYBRID:**
+- [ ] Desktop portions use MCP Filesystem
+- [ ] Multiple CLI interactions clearly marked
+- [ ] Workflow description explains when to switch
+- [ ] Percentage estimate provided (50-80%)
+- [ ] User understands back-and-forth pattern
 
 **CLI-ONLY:**
 - [ ] Clear rationale provided
@@ -248,7 +317,7 @@ For each prompt, verify:
 
 | Prompt | Level | Compatibility | Git | External Tools |
 |--------|-------|---------------|-----|----------------|
-| 1 | DESKTOP-FRIENDLY | 95% | End | No |
+| 1 | HYBRID | 70% | Multiple | No |
 | 2 | DESKTOP-FRIENDLY | 95% | End | No |
 | 3 | DESKTOP-FRIENDLY | 95% | End | No |
 | 4 | DESKTOP-FRIENDLY | 95% | End | No |
