@@ -985,31 +985,49 @@ Run: git add [files] && git commit -m '[message]'
 - Users still execute same prompts
 - No migration needed for existing projects
 
-### Risk 5: File Size Limitations in Claude Desktop
+### Risk 5: File Operations in Claude Desktop - Prompt 5 Always Requires CLI
 **Issue:**
 - Prompt 5 (Compile) reads and combines all manuscript files into a single compiled draft
-- Large manuscripts (50,000+ words) may exceed Claude Desktop + MCP Filesystem limits
-- MCP Filesystem has performance degradation with very large file operations
+- This operation involves reading multiple large files and writing one very large output file
+- MCP Filesystem operations are not optimized for this type of bulk file processing
+- Even small manuscripts (10,000+ words) can cause performance issues
+
+**Decision:**
+- **Prompt 5 ALWAYS requires Claude Code CLI** - regardless of manuscript size
+- This is not a limitation, it's the correct tool for the job
+- Claude Code CLI is designed for file-heavy operations
+- Claude Desktop is designed for interactive content creation
 
 **Mitigation:**
-- **Document clearly:** Prompt 5 REQUIRES Claude Code CLI for large manuscripts
-- Update Prompt 5 header to include:
+- **Update Prompt 5 compatibility header:**
   ```markdown
-  **IMPORTANT:** For manuscripts over 30,000 words, use Claude Code CLI instead of Claude Desktop.
-  Claude Desktop + MCP Filesystem may encounter performance issues or timeouts with large file operations.
-  ```
-- Add file size check to Prompt 5 workflow:
-  1. Calculate total manuscript size before compilation
-  2. If > 30,000 words, warn user to use Claude Code CLI
-  3. If in Claude Desktop and large file detected, provide clear instructions to switch
-- Update INSTALLATION.md to note Prompt 5 limitation
-- Consider future optimization: Compile in chunks if in Claude Desktop
+  **CLI-ONLY:** This prompt MUST be run in Claude Code CLI, not Claude Desktop.
 
-**Technical Details:**
-- MCP Filesystem is optimized for typical file sizes (< 10,000 lines)
-- Compiled manuscripts can be 50,000-100,000+ words (500-1000+ KB)
-- Claude Desktop has context window considerations
-- Claude Code CLI has better performance for large file operations
+  Compilation involves reading all manuscript files and writing a large compiled draft.
+  Claude Code CLI is optimized for these bulk file operations.
+  ```
+- If user attempts to execute Prompt 5 in Claude Desktop:
+  ```markdown
+  ❌ This prompt requires Claude Code CLI.
+
+  Prompt 5 (Compile) performs bulk file operations that are best handled
+  by Claude Code CLI, regardless of manuscript size.
+
+  To compile your manuscript:
+  1. Open terminal in your project directory
+  2. Run: claude
+  3. Say: "Execute Prompt 5"
+
+  Claude Code CLI is optimized for file-heavy operations like compilation.
+  ```
+- Update INSTALLATION.md to list Prompt 5 as CLI-only
+- Update all documentation references to Prompt 5 Desktop compatibility
+
+**Technical Rationale:**
+- Compilation is a batch operation, not interactive editing
+- Reading 10-50 files and writing 1 large file is CLI's strength
+- Desktop excels at single-file interactive modifications (Prompt 3)
+- Clear separation of concerns: Desktop = create, CLI = compile
 
 ---
 
@@ -1064,9 +1082,10 @@ Run: git add [files] && git commit -m '[message]'
 - Add **REFACTOR_CHANGELOG.md** to track migration progress
 - **CRITICAL:** Phase 0 (enforcement) MUST be completed first before other phases
 - **IMPORTANT:** All phases must validate enforcement rule compliance
-- **TECHNICAL LIMITATION:** Prompt 5 (Compile) requires Claude Code CLI for large manuscripts (30,000+ words)
-  - Claude Desktop + MCP Filesystem cannot handle very large file operations efficiently
-  - Update Prompt 5 documentation during refactoring to clearly state this requirement
+- **IMPORTANT:** Prompt 5 (Compile) is CLI-ONLY - always requires Claude Code CLI regardless of manuscript size
+  - This is the correct tool for bulk file operations (reading all manuscript files, writing large compiled draft)
+  - Update Prompt 5 compatibility header from DESKTOP-READY to CLI-ONLY during refactoring
+  - Clear separation: Desktop = interactive content creation, CLI = batch operations like compilation
 
 ---
 
