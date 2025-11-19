@@ -59,14 +59,42 @@ I will verify these files exist:
 
 If any are missing, I'll report the issue and stop.
 
-### Step 3: Detect Installation Type
+### Step 3: Detect Installation Type and Create/Update Manifest
 
 I will:
-1. Read `.nonfiction-manifest.json`
-2. Check if `installedVersion` exists:
-   - **Not found or null** → New Installation
-   - **Found** → Update Installation
-3. Proceed with appropriate workflow
+1. Check if `.nonfiction-manifest.json` exists in project root
+2. **If manifest does NOT exist:**
+   - Read `Process/Templates/manifest_template.json`
+   - Create `.nonfiction-manifest.json` from template
+   - This is a **New Installation**
+3. **If manifest DOES exist:**
+   - Read existing `.nonfiction-manifest.json`
+   - Preserve `installedVersion` and `installedDate` (installation history)
+   - Update only `frameworkVersion` and `releaseDate` from template
+   - Add current update to `updateHistory` array
+   - This is an **Update Installation**
+4. Proceed with appropriate workflow
+
+**Manifest Structure:**
+```json
+{
+  "framework": "AI-Assisted Nonfiction Authoring",
+  "frameworkVersion": "0.9.1",          // Current framework version
+  "installedVersion": "0.9.0",          // First installation version (preserved)
+  "installedDate": "2025-11-15",        // First installation date (preserved)
+  "releaseDate": "2025-11-19",          // Latest release date
+  "releaseUrl": "https://...",
+  "updateHistory": [                     // Track all updates
+    {
+      "from": "0.9.0",
+      "to": "0.9.1",
+      "date": "2025-11-19"
+    }
+  ]
+}
+```
+
+**IMPORTANT:** The manifest file is NEVER included in release zips. It is created/updated by configure.md to preserve installation history.
 
 ### Step 4: Git Status Check (Updates Only)
 

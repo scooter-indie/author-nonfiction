@@ -76,9 +76,9 @@ jobs:
           # Remove local settings (user-specific)
           rm -f .claude/settings.local.json
 
-      - name: Generate manifest
+      - name: Create manifest template (not the actual manifest)
         run: |
-          cat > build/temp/.nonfiction-manifest.json <<EOF
+          cat > build/temp/Process/Templates/manifest_template.json <<EOF
           {
             "framework": "AI-Assisted Nonfiction Authoring",
             "frameworkVersion": "${{ steps.version.outputs.version }}",
@@ -88,6 +88,7 @@ jobs:
             "releaseUrl": "https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.version }}"
           }
           EOF
+          echo "Manifest template created - configure.md will generate actual manifest"
 
       - name: Copy gitignore template
         run: cp Process/Templates/gitignore_template build/temp/.gitignore
