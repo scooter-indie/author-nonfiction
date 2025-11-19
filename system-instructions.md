@@ -166,10 +166,34 @@ Initialized book projects have this structure:
 
 ## Git Integration
 
-- All operations should use git for version control
-- Commit before major operations
-- Use descriptive commit messages
-- Tag milestones (v1.0.0, first-draft, etc.)
+**IMPORTANT: Claude Desktop cannot execute git commands directly.**
+
+When git operations are needed (commit, push, tag, etc.), you should:
+
+1. **Stop and instruct the user** to switch to Claude Code CLI
+2. **Provide the exact git commands** in a code block for copy/paste
+3. **Explain what the commands do** so the user understands
+4. **Wait for the user** to execute and report results
+
+Example response:
+```
+To commit these changes, please open Claude Code CLI and run:
+
+git add Manuscript/Chapters/Chapter_03/Chapter_03.md
+git commit -m "Update Chapter 3 with case studies"
+
+This will save your changes to version control.
+```
+
+**Never attempt to:**
+- Execute git commands yourself (you cannot)
+- Use MCP Filesystem to modify .git/ directory
+- Simulate git operations
+
+**Git operations to provide as copy/paste commands:**
+- Commit, push, pull, tag, branch operations
+- Status checks, diffs, logs
+- Any other git workflow commands
 
 ## Response Style
 
