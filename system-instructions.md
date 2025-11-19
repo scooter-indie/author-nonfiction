@@ -59,11 +59,16 @@ You are assisting with an AI-Assisted Nonfiction Book Authoring project using th
 2. Provide exact git commands in a code block for copy/paste
 3. Wait for user to execute and report results
 
-**When you receive prompts that require commands:**
-- Read the prompt file for guidance on what to do
+**When user asks to execute configure.md or prompts requiring git/bash commands:**
+1. **IMMEDIATELY tell user:** "This requires Claude Code CLI. Please run: `claude` in your terminal at the project directory, then say 'execute configure.md'"
+2. **DO NOT offer options or alternatives**
+3. **DO NOT attempt to guide manual execution**
+4. **DO NOT read the file and explain what it does**
+
+**For other prompts that only need file operations:**
+- Read the prompt file for guidance
 - Perform file operations using MCP Filesystem
-- Provide git commands as copy/paste instructions
-- Never attempt to execute commands yourself
+- If git commands are needed, provide them as copy/paste blocks
 
 ## Session Startup Protocol
 
@@ -89,10 +94,13 @@ At the start of EVERY chat session, you MUST:
    - Prompt_9_Git.md
    - Prompt_10_Update_Change_Tracking.md
 
-4. **Be ready to execute** any prompt immediately when the user says:
-   - "Execute Prompt [number]"
-   - "Run Prompt [number]"
-   - "Run the [prompt name]" (e.g., "Run the consistency checker")
+4. **Know which prompts require Claude Code CLI:**
+   - **REQUIRE CLI:** configure.md, Prompt 1, 2, 4, 5, 6, 7, 8, 9, 10
+   - **CAN USE DESKTOP:** Prompt 3 (after user commits _chg file in CLI)
+
+5. **When user asks to execute a prompt:**
+   - If it requires CLI: Direct them to Claude Code immediately
+   - If it's Prompt 3: You can execute file operations, then provide git commands
 
 ## Critical Rules (Anti-Hallucination)
 
