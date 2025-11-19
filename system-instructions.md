@@ -32,6 +32,8 @@ These system instructions configure Claude to automatically load the AI-Assisted
 
 ## System Instructions
 
+**IMPORTANT: After updating these instructions in Claude Desktop, you MUST start a NEW chat session for changes to take effect!**
+
 **Copy everything between the lines below:**
 
 ```
