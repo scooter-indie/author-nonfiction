@@ -45,7 +45,7 @@ I'll ask you a series of questions to gather the information needed to set up yo
 
 1. Parse existing TOC (if provided) or create from your input
 2. Create complete directory structure with Manuscript/ parent directory:
-   - Manuscript/Chapters/ (each chapter in own subdirectory)
+   - Manuscript/Chapters/ (empty, ready for chapters)
    - Manuscript/FrontMatter/
    - Manuscript/BackMatter/ (with Bibliography/ subdirectory)
    - Manuscript/Quotes/
@@ -54,22 +54,20 @@ I'll ask you a series of questions to gather the information needed to set up yo
    - Manuscript/Inbox/
    - Manuscript/Drafts/
    - Manuscript/Exports/
-3. Initialize git repository
+3. Initialize git repository (via Claude Code CLI if in Desktop)
 4. Generate configuration files (Project_Config.md with `initialized: false`, Project_Metadata.md, USAGE_GUIDE.md) at root
 5. Configure writing style (interactive style selection)
-6. Create Manuscript/_TOC_/TOC.md and Manuscript/_TOC_/TOC_chg.md
-7. Generate chapter placeholder files in subdirectories with _chg files
-   - Each chapter: Manuscript/Chapters/Chapter_XX/Chapter_XX.md
-   - Change tracking: Manuscript/Chapters/Chapter_XX/Chapter_XX_chg.md
-   - Figures directory: Manuscript/Chapters/Chapter_XX/figures/ (empty, ready for images)
-8. Create Manuscript/Quotes/Chapter_Quotes.md with placeholder entries for all chapters
-9. Create Manuscript/Quotes/Chapter_Quotes_chg.md for tracking quote changes
-10. Create front matter and back matter placeholders in Manuscript/FrontMatter/ and Manuscript/BackMatter/
-11. Create Manuscript/BackMatter/Bibliography/ directory with placeholder files
-12. Commit everything to git with appropriate messages
-13. Tag as v1.0.0
-14. **Set `initialized: true` in Project_Config.md** (marks successful completion)
-15. Provide confirmation report
+6. Create Manuscript/_TOC_/TOC.md and Manuscript/_TOC_/TOC_chg.md (with all chapter entries)
+7. Create Manuscript/Quotes/Chapter_Quotes.md (with placeholder entries for all chapters)
+8. Create Manuscript/Quotes/Chapter_Quotes_chg.md for tracking quote changes
+9. Create front matter and back matter placeholders in Manuscript/FrontMatter/ and Manuscript/BackMatter/
+10. Create Manuscript/BackMatter/Bibliography/ directory with placeholder files
+11. Commit everything to git with appropriate messages (via Claude Code CLI if in Desktop)
+12. Tag as v1.0.0 (via Claude Code CLI if in Desktop)
+13. **Set `initialized: true` in Project_Config.md** (marks successful completion)
+14. Provide confirmation report
+
+**Note:** Chapter files are NOT created during initialization. Use **Prompt 2 (Add New Chapter)** to create each chapter on-demand. This keeps initialization fast (~5-10 seconds instead of ~30+ seconds).
 
 ---
 
@@ -169,6 +167,26 @@ Claude will:
 2. Verify all required files/directories exist
 3. Report what's complete and what's missing
 4. Offer to complete any missing steps
+
+---
+
+## Next Steps After Initialization
+
+Once Prompt 1 completes successfully (`initialized: true`):
+
+1. **Add your first chapter:**
+   - Execute **Prompt 2 (Add New Chapter)**
+   - This creates Chapter_01 with placeholder and change tracking files
+   - Repeat for each chapter you want to create
+
+2. **Start writing:**
+   - Use **Prompt 3 (Modify File)** to write content in your chapters
+   - This is your primary daily workflow
+
+3. **Check progress:**
+   - Use **Prompt 8 (Dashboard)** to see project status
+
+**Note:** You don't need to create all chapters upfront. Create them as you're ready to write them. This keeps the project nimble and fast.
 
 ---
 
