@@ -1,14 +1,14 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**HYBRID:** Works mostly in Claude Desktop with 4 copy/paste git commands at end
+**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem (git via Claude Code CLI)
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
 **Claude Desktop Compatibility:**
 - ✅ All interactive questions work in Desktop
 - ✅ All file creation via MCP Filesystem
-- ⚠️ Requires 4 git commands at end: init, add, commit, tag v1.0.0
-- 📋 Works 80% in Desktop
+- ✅ Git operations via Claude Code CLI (copy/paste 4 commands at end)
+- 📋 Works 95% in Desktop
 
 ---
 

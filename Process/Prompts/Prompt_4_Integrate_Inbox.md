@@ -1,13 +1,13 @@
 # Execute Prompt 4: Integrate Content from Inbox
 
-**HYBRID:** Works in Claude Desktop with 3-4 copy/paste git commands throughout
+**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem (git via Claude Code CLI)
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
 **Claude Desktop Compatibility:**
-- ✅ All file operations via MCP Filesystem
-- ⚠️ Requires 3-4 git commits at workflow checkpoints
-- 📋 Works 70% in Desktop
+- ✅ All file operations via MCP Filesystem (read, write, move_file)
+- ✅ Git operations via Claude Code CLI (copy/paste commands at checkpoints)
+- 📋 Works 95% in Desktop
 
 ---
 
