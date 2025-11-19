@@ -9,6 +9,8 @@
 
 This document provides Claude Code with the necessary context about the AI-Assisted Nonfiction Authoring Framework at session startup. When you begin a Claude Code session in this directory, Claude will read this file to understand the framework and be ready to execute prompts immediately.
 
+**For Claude Desktop Users:** After running Prompt 1 (Initialize), a `PROJECT_CONTEXT.md` file is created in your book project root. Upload that file to Claude Desktop's Files area (not pasted as text) along with the System Instructions from `Process/Prompts/README.md` for seamless session resumption with full project context.
+
 ---
 
 ## Framework Overview

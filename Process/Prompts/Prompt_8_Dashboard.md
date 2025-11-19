@@ -61,6 +61,8 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
    - Back matter status
    - Overall completion percentage
 
+5. **Refresh PROJECT_CONTEXT.md**: Automatically update with latest project state for Claude Desktop session resumption
+
    **Chapter Status Table**
    | Chapter | Title | Status | Words | Target | % |
    |---------|-------|--------|-------|--------|---|

@@ -58,8 +58,9 @@ I will modify a content file based on instructions you've written in its corresp
 9. **Clear instructions section**: Leave it ready for your next revision
 10. Update file metadata (word count, status, etc.)
 11. Validate for broken cross-references
-12. Create git commit with descriptive message including version
-13. Generate modification report
+12. **Refresh PROJECT_CONTEXT.md**: Update if significant changes (new chapters, major version bump, or user requests)
+13. Create git commit with descriptive message including version
+14. Generate modification report
 
 ---
 

@@ -62,10 +62,11 @@ I'll ask you a series of questions to gather the information needed to set up yo
 8. Create Manuscript/Quotes/Chapter_Quotes_chg.md for tracking quote changes
 9. Create front matter and back matter placeholders in Manuscript/FrontMatter/ and Manuscript/BackMatter/
 10. Create Manuscript/BackMatter/Bibliography/ directory with placeholder files
-11. Commit everything to git with appropriate messages (via Claude Code CLI if in Desktop)
-12. Tag as v1.0.0 (via Claude Code CLI if in Desktop)
-13. **Set `initialized: true` in Project_Config.md** (marks successful completion)
-14. Provide confirmation report
+11. **Generate PROJECT_CONTEXT.md** at project root for Claude Desktop session resumption
+12. Commit everything to git with appropriate messages (via Claude Code CLI if in Desktop)
+13. Tag as v1.0.0 (via Claude Code CLI if in Desktop)
+14. **Set `initialized: true` in Project_Config.md** (marks successful completion)
+15. Provide confirmation report with instructions to upload PROJECT_CONTEXT.md in Claude Desktop
 
 **Note:** Chapter files are NOT created during initialization. Use **Prompt 2 (Add New Chapter)** to create each chapter on-demand. This keeps initialization fast (~5-10 seconds instead of ~30+ seconds).
 
@@ -174,16 +175,24 @@ Claude will:
 
 Once Prompt 1 completes successfully (`initialized: true`):
 
-1. **Add your first chapter:**
+1. **For Claude Desktop users:**
+   - **IMPORTANT:** A file called `PROJECT_CONTEXT.md` has been created in your project root
+   - When starting a new Claude Desktop session:
+     - Upload `PROJECT_CONTEXT.md` to the chat
+     - Paste the System Instructions (see Process/Prompts/README.md)
+     - Claude will have complete context about your book project
+   - This enables seamless session resumption without re-explaining your project
+
+2. **Add your first chapter:**
    - Execute **Prompt 2 (Add New Chapter)**
    - This creates Chapter_01 with placeholder and change tracking files
    - Repeat for each chapter you want to create
 
-2. **Start writing:**
+3. **Start writing:**
    - Use **Prompt 3 (Modify File)** to write content in your chapters
    - This is your primary daily workflow
 
-3. **Check progress:**
+4. **Check progress:**
    - Use **Prompt 8 (Dashboard)** to see project status
 
 **Note:** You don't need to create all chapters upfront. Create them as you're ready to write them. This keeps the project nimble and fast.

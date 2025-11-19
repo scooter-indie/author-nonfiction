@@ -358,11 +358,127 @@ All prompts automatically reference `Process/Anti-Hallucination_Guidelines.md` t
 
 ---
 
+## Using with Claude Desktop
+
+### PROJECT_CONTEXT.md File
+
+After running **Prompt 1 (Initialize)**, a file called `PROJECT_CONTEXT.md` is created in your project root. This file contains complete framework and project context for seamless session resumption in Claude Desktop.
+
+**When to use:**
+- Starting a new Claude Desktop chat session
+- Resuming work after a break
+- Switching between different book projects
+
+**How to use:**
+1. Open Claude Desktop
+2. Start a new chat
+3. **Upload `PROJECT_CONTEXT.md` to the Files area** (drag-and-drop or click to browse)
+4. Paste the System Instructions into the message area (see below)
+5. Send the message
+6. Claude will have complete context about your project and framework
+
+**IMPORTANT:** Upload the file to the Files area, do NOT copy/paste its contents into the System Instructions.
+
+### System Instructions for Claude Desktop
+
+Copy and paste these instructions when starting a Claude Desktop session:
+
+```
+You are assisting with the AI-Assisted Nonfiction Authoring Framework.
+
+IMPORTANT: The user has uploaded PROJECT_CONTEXT.md as a file. Read this file immediately to load complete framework and project context.
+
+CRITICAL RULES:
+1. Read and apply Process/Anti-Hallucination_Guidelines.md before every response
+2. Never fabricate quotes, statistics, or citations
+3. Mark uncertain content with ⚠️
+4. Use quote verification status: ⏳ Pending | ⚠ Needs Citation | ✓ Verified
+5. Use change tracking workflow for all content modifications
+6. Commit to git before major operations
+7. Update PROJECT_CONTEXT.md after significant changes (via Prompts 3, 8)
+
+PRIMARY WORKFLOWS:
+- Prompt 3: All content modifications (chapters, quotes, front/back matter)
+- Prompt 8: Progress dashboard and status checks
+- Prompt 6: Consistency checking at milestones
+
+CHANGE TRACKING WORKFLOW:
+1. User writes instructions in [filename]_chg.md
+2. User commits _chg file
+3. Execute Prompt 3
+4. Read instructions from _chg file
+5. Apply changes to content file
+6. Auto-archive instructions to Version History
+7. Clear instruction section
+8. Commit to git with version info
+
+EXECUTE PROMPTS:
+When user says "Execute Prompt X" or "Run Prompt X":
+- Read the appropriate file from Process/Prompts/
+- Follow the prompt's workflow exactly
+- Apply all anti-hallucination rules
+- Update PROJECT_CONTEXT.md if changes are significant
+
+FILE ACCESS:
+All prompts and documentation are in Process/ directory:
+- Process/Prompts/Prompt_[1-10]_*.md
+- Process/Anti-Hallucination_Guidelines.md
+- Process/Style_Examples.md
+- Process/AI-Assisted_Nonfiction_Authoring_Process.md
+
+IMPORTANT: PROJECT_CONTEXT.md contains your current book project state. Reference it for:
+- Book title, author, and metadata
+- Current table of contents
+- Writing style configuration
+- Recent changes and pending work
+- Project-specific conventions
+```
+
+### Keeping PROJECT_CONTEXT.md Current
+
+The file is automatically updated by:
+- **Prompt 3** (after significant content changes)
+- **Prompt 8** (when running dashboard)
+- **Prompt 10** (after change tracking sync)
+
+**Manual refresh:** Say "Update PROJECT_CONTEXT.md" or run Prompt 8
+
+### Claude Desktop Workflow Example
+
+**Starting a new session:**
+```
+User: [Uploads PROJECT_CONTEXT.md to Files area]
+User: [Pastes System Instructions above in message]
+User: What should I work on today?
+
+Claude: [Reads PROJECT_CONTEXT.md file]
+Based on your project status, you have 3 chapters with pending _chg instructions:
+- Chapter_05_Results_chg.md
+- Chapter_07_Discussion_chg.md
+- Quotes/Chapter_Quotes_chg.md
+
+Would you like me to execute Prompt 3 for any of these files?
+```
+
+**Continuing work:**
+```
+User: Execute Prompt 3 for Chapter 05
+
+Claude: [Reads Prompt_3_Modify_File.md]
+I'll modify Chapter_05_Results.md based on the instructions in Chapter_05_Results_chg.md...
+[Executes workflow]
+[Updates PROJECT_CONTEXT.md with changes]
+Done! Chapter 05 updated to version 1.3.0.
+```
+
+---
+
 ## Getting Help
 
 - **Process documentation**: `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
 - **Quick reference**: `Process/Prompts/QUICK_REFERENCE.md`
 - **Anti-hallucination rules**: `Process/Anti-Hallucination_Guidelines.md`
+- **Claude Desktop setup**: See "Using with Claude Desktop" section above
 
 ---
 
