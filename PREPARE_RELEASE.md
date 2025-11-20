@@ -230,7 +230,10 @@ Check that the release includes:
 - ✅ `nonfiction-vX.X.X.zip` artifact
 - ✅ SHA256 checksum
 - ✅ Changelog from CHANGELOG.md
-- ✅ Installation instructions
+- ✅ Installation instructions (dual-path for Claude Code + Claude Desktop)
+  - ✅ Option A: Claude Code CLI (recommended)
+  - ✅ Option B: Claude Desktop with system-instructions.md setup
+  - ✅ IMPORTANT note about Custom Instructions BEFORE configure.md
 
 ---
 
