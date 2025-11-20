@@ -1,4 +1,4 @@
-# Execute Prompt 5: Compile Complete Manuscript
+# Execute Prompt 7: Compile Complete Manuscript
 
 **CLI-ONLY:** This prompt MUST be run in Claude Code CLI, not Claude Desktop.
 

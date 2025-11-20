@@ -1,4 +1,4 @@
-# Execute Prompt 8: Progress Dashboard
+# Execute Prompt 10: Progress Dashboard
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with optional copy/paste git commit at end
 

@@ -1,4 +1,4 @@
-# Execute Prompt 3: Modify Target File
+# Execute Prompt 3: Change by Chg
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem + single copy/paste git commit at end
 

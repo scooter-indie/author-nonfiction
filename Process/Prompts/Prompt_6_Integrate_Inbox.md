@@ -1,4 +1,4 @@
-# Execute Prompt 4: Integrate Content from Inbox
+# Execute Prompt 6: Integrate Inbox
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem (git via Claude Code CLI)
 

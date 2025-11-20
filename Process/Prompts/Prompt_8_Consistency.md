@@ -1,4 +1,4 @@
-# Execute Prompt 6: Consistency Checker
+# Execute Prompt 8: Consistency Checker
 
 **DESKTOP-READY:** 100% compatible with Claude Desktop (zero bash/git required)
 

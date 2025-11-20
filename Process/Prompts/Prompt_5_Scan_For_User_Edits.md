@@ -1,4 +1,4 @@
-# Execute Prompt 10: Update Change Tracking
+# Execute Prompt 5: Scan For User Edits
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with optional copy/paste git commit at end
 
