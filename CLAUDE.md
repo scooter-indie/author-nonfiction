@@ -45,14 +45,17 @@ Process/
 │   ├── QUICK_REFERENCE.md                           # Workflow quick reference
 │   ├── Prompt_1_Initialize.md                       # Create new book project
 │   ├── Prompt_2_Add_Chapter.md                      # Add chapters
-│   ├── Prompt_3_Modify_File.md                      # Primary revision workflow
-│   ├── Prompt_4_Integrate_Inbox.md                  # Process inbox content
-│   ├── Prompt_5_Compile.md                          # Generate full manuscript
-│   ├── Prompt_6_Consistency.md                      # Check consistency
-│   ├── Prompt_7_Export.md                           # Export to DOCX/PDF/EPUB
-│   ├── Prompt_8_Dashboard.md                        # Progress dashboard
-│   ├── Prompt_9_Git.md                              # Git operations
-│   └── Prompt_10_Update_Change_Tracking.md          # Sync change tracking
+│   ├── Prompt_3_Change_by_Chg.md                    # Automated revision workflow
+│   ├── Prompt_4_Interactive_Change.md               # Conversational editing workflow
+│   ├── Prompt_5_Scan_For_User_Edits.md              # Sync change tracking
+│   ├── Prompt_6_Integrate_Inbox.md                  # Process inbox content
+│   ├── Prompt_7_Compile.md                          # Generate full manuscript
+│   ├── Prompt_8_Consistency.md                      # Check consistency
+│   ├── Prompt_9_Export.md                           # Export to DOCX/PDF/EPUB
+│   ├── Prompt_10_Dashboard.md                       # Progress dashboard
+│   ├── Prompt_11_Style_Manager.md                   # Style override management
+│   ├── Prompt_12_Git_Operations.md                  # Git operations
+│   └── Prompt_13_AI_Detection_Analysis.md           # Check authentic voice
 └── Templates/
     ├── Style_Guide_Template.md                      # Style configuration template
     ├── Custom_Styles_Template.md                    # Custom style template
@@ -101,20 +104,20 @@ If this is your first time using the framework:
    - Follow interactive setup
 
 3. **Start writing:**
-   - Use `Process/Prompts/Prompt_3_Modify_File.md` for all content changes
-   - Track progress with `Process/Prompts/Prompt_8_Dashboard.md`
-   - Check consistency with `Process/Prompts/Prompt_6_Consistency.md`
+   - Use `Process/Prompts/Prompt_3_Change_by_Chg.md` (automated) or `Prompt_4_Interactive_Change.md` (conversational) for all content changes
+   - Track progress with `Process/Prompts/Prompt_10_Dashboard.md`
+   - Check consistency with `Process/Prompts/Prompt_8_Consistency.md`
 
 ### Continuing Existing Project
 
 If you already have a book project initialized:
 
 1. **Quick status check:**
-   - Execute: `Process/Prompts/Prompt_8_Dashboard.md`
+   - Execute: `Process/Prompts/Prompt_10_Dashboard.md`
 
 2. **Resume writing:**
-   - Write instructions in your `_chg.md` files
-   - Execute: `Process/Prompts/Prompt_3_Modify_File.md`
+   - Write instructions in your `_chg.md` files (or use interactive editing)
+   - Execute: `Process/Prompts/Prompt_3_Change_by_Chg.md` (automated) or `Prompt_4_Interactive_Change.md` (conversational)
 
 3. **Regular maintenance:**
    - Weekly: Run Prompt 10 (Dashboard)
@@ -126,7 +129,7 @@ If you already have a book project initialized:
 
 ### Method 1: Copy and Paste (Recommended)
 
-1. Open the prompt file (e.g., `Process/Prompts/Prompt_3_Modify_File.md`)
+1. Open the prompt file (e.g., `Process/Prompts/Prompt_3_Change_by_Chg.md`)
 2. Copy the entire contents
 3. Paste into Claude Code
 4. Answer any questions Claude asks
