@@ -2,7 +2,24 @@
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem + single copy/paste git commit at end
 
-**BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+**FIRST ACTION - MANDATORY:**
+Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
+
+**CRITICAL ENFORCEMENT:**
+- **RULE 1:** All file modifications MUST update corresponding _chg files
+- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
+
+See: `Process/ENFORCEMENT_RULES.md` for complete details
+
+**DATE CONFIRMATION REQUIRED:**
+- **USE CONFIRMED_DATE from session startup** (see CLAUDE.md Date Confirmation Protocol)
+- **NEVER use raw `<env>` date** without confirmation
+- Pass confirmed date to any spawned agents: "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
+
+**AGENT INSTRUCTIONS:**
+When spawning agents (using Task tool), include in agent prompt:
+- "FIRST ACTION: Read Process/Anti-Hallucination_Guidelines.md before proceeding."
+- "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
 
 **Claude Desktop Compatibility:**
 - ✅ All file/directory operations via MCP Filesystem (including move_file for renumbering)
@@ -45,6 +62,9 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 4. What is the estimated word count?
 5. What are the key topics to cover? (optional)
 6. What is the rationale for adding this chapter?
+7. **Does this chapter need a different style than the book-level style?** (v0.10.1+)
+   - If yes: Select override style and create Chapter_XX_style.md
+   - If no: Chapter inherits book-level style from Style_Guide.md
 
 **If From Inbox:**
 2. Which file in Manuscript/Inbox/ contains the chapter content?
@@ -57,25 +77,32 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 2. Validate insertion point
 3. Analyze impact (which chapter directories need renumbering)
 4. Update Manuscript/_TOC_/TOC.md
+   - **Preserve warning header:** "⚠️ WARNING: This file is managed by Prompts 1 and 2. Direct edits may be overwritten. Use Prompt 2 to add/reorder chapters."
+   - Add new chapter entry in correct position
+   - Update numbering for affected chapters
 5. AI updates Manuscript/_TOC_/TOC_chg.md (you should NOT edit this file manually)
 6. Rename affected chapter directories in Manuscript/Chapters/
 7. Create new chapter subdirectory: Manuscript/Chapters/Chapter_XX/
 8. Create chapter files: Chapter_XX.md and Chapter_XX_chg.md
-9. Create empty figures/ subdirectory: Manuscript/Chapters/Chapter_XX/figures/
-10. Add new quote entry to Manuscript/Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
-11. Update Manuscript/Quotes/Chapter_Quotes_chg.md with addition note
-12. Update cross-references in all files
-13. Create git commit for all changes
-14. Optionally tag if major milestone
-15. Generate impact report
+9. **If chapter-level style override selected:** Create Chapter_XX_style.md from template (v0.10.1+)
+10. **Update Manuscript/Style/Style_Overrides.md** with new chapter entry (v0.10.1+)
+11. Create empty figures/ subdirectory: Manuscript/Chapters/Chapter_XX/figures/
+12. Add new quote entry to Manuscript/Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
+13. Update Manuscript/Quotes/Chapter_Quotes_chg.md with addition note
+14. Update cross-references in all files
+15. Create git commit for all changes
+16. Optionally tag if major milestone
+17. Generate impact report (including style override impact if applicable)
 
 ---
 
 ## Important Notes
 
+- **Manuscript/_TOC_/TOC.md has a warning header** at the top to remind users not to edit directly
 - **Manuscript/_TOC_/TOC_chg.md is managed by the AI only** - Do not edit it manually
 - After initial project setup, do NOT place complete TOC files in Manuscript/Inbox/
 - Individual chapter additions should use this prompt or Prompt 4
+- If users need to reorder chapters, they should use Prompt 2 to insert at new position (future: Prompt 12 for chapter reordering)
 - Each chapter gets its own subdirectory to support chapter-specific assets (images, figures, tables)
 
 ---

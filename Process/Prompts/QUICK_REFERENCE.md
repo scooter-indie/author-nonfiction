@@ -1,5 +1,32 @@
 # Quick Reference Guide - Execute Prompts
 
+## Claude Desktop vs. Claude Code CLI Compatibility
+
+### DESKTOP-READY (100% Claude Desktop - No CLI needed)
+- ✅ **Prompt 6** - Consistency checks (read-only analysis)
+
+### DESKTOP-FRIENDLY (95%+ Desktop - Single git command at end)
+- ✅ **Prompt 2** - Add new chapter
+- ✅ **Prompt 3** - Modify file (PRIMARY WORKFLOW)
+- ✅ **Prompt 4** - Integrate Inbox content
+- ✅ **Prompt 8** - Progress dashboard
+- ✅ **Prompt 10** - Update change tracking
+
+### HYBRID (50-80% Desktop - Multiple CLI interactions)
+- ⚡ **Prompt 1** - Initialize project (file creation in Desktop, git via CLI throughout)
+
+### CLI-ONLY (Must use Claude Code CLI)
+- 🔧 **Prompt 5** - Compile manuscript (bulk file operations)
+- 🔧 **Prompt 7** - Export to DOCX/PDF/EPUB (requires pandoc)
+- 🔧 **Prompt 9** - Git operations (direct git commands)
+
+**Notes:**
+- **DESKTOP-FRIENDLY** prompts work in Claude Desktop, provide single git command at end
+- **HYBRID** prompts work in both environments with multiple back-and-forth interactions
+- **CLI-ONLY** prompts must be run entirely in Claude Code CLI
+
+---
+
 ## At a Glance
 
 | Prompt | Purpose | When to Use | Interaction Level |
@@ -14,6 +41,7 @@
 | 8 | Dashboard | Check progress | Minimal - summary or detailed |
 | 9 | Git Operations | Version control | Medium - varies by operation |
 | 10 | Update Change Tracking | Sync _chg files | Minimal - automatic scan |
+| 11 | Style Manager | Manage style overrides | Medium - operations vary |
 
 ---
 
@@ -45,9 +73,19 @@
 → **Prompt 9: Git** - Commit, tag, push, status, etc.
 → **Prompt 10: Update Change Tracking** - Sync _chg files with changes
 
+### Style Management (NEW in v0.10.1)
+→ **Prompt 11: Style Manager** - Add/remove/analyze style overrides
+- Add chapter-level style override
+- Remove chapter-level override
+- Scan section-level overrides
+- Validate override registry
+- View style distribution
+- Analyze transitions
+- Change book-level style
+
 ---
 
-## Writing Style System
+## Writing Style System - Hierarchical (v0.10.1+)
 
 The framework includes a comprehensive writing style system with 9 curated professional styles:
 
@@ -62,18 +100,33 @@ The framework includes a comprehensive writing style system with 9 curated profe
 - Inspirational Teacher
 - Scientific Communicator
 
+**Hierarchical System (v0.10.1):**
+```
+Book Style (Global Default in Style_Guide.md)
+  ↓ inherits
+Chapter Style (Optional - Chapter_XX_style.md)
+  ↓ inherits
+Section Style (Optional - HTML comments)
+```
+
 **How It Works:**
-1. **Prompt 1 (Initialize)** asks you to select a style during project setup
-2. Creates `Manuscript/Style/Style_Guide.md` with your active configuration
-3. **Prompt 3 (Modify File)** automatically checks modified content against your style
-4. **Prompt 6 (Consistency)** analyzes entire book for style alignment
-5. **Book-writing-assistant agent** applies your style to all writing assistance
+1. **Prompt 1 (Initialize)**: Select book-level style, creates Style_Guide.md and Style_Overrides.md
+2. **Prompt 2 (Add Chapter)**: Optionally set chapter-level override when creating chapter
+3. **Prompt 3 (Modify File)**: Automatically resolves active style (section → chapter → book) and applies it
+4. **Prompt 6 (Consistency)**: Analyzes distribution, transitions, and alignment across all levels
+5. **Prompt 8 (Dashboard)**: Shows style distribution summary and override percentage
+6. **Prompt 11 (Style Manager)**: Add/remove overrides, analyze transitions, validate registry
+7. **Book-writing-assistant agent**: Applies active style to all writing assistance
 
 **Quick Actions:**
-- **Select style**: Use Prompt 1 during initialization
+- **Select book-level style**: Use Prompt 1 during initialization
+- **Add chapter override**: Prompt 2 (when creating chapter) or Prompt 11
+- **Add section override**: Use HTML markers `<!-- STYLE_OVERRIDE: StyleName -->` in content
 - **Create custom style**: Edit `Manuscript/Style/Custom_Styles.md`
-- **Change your style**: Edit `Manuscript/Style/Style_Guide.md`
-- **Check style consistency**: Use Prompt 6 with style analysis
+- **Change book-level style**: Prompt 11 → Change Book-Level Style (with impact analysis)
+- **View distribution**: Prompt 8 (Dashboard) or Prompt 11 → View Distribution
+- **Analyze transitions**: Prompt 11 → Analyze Transitions
+- **Check consistency**: Prompt 6 with hierarchical style analysis
 
 ---
 

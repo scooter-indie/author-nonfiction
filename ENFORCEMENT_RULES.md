@@ -2,7 +2,7 @@
 
 **Status:** Active Rules - Must Be Enforced
 **Created:** 2025-11-19
-**Framework Version:** 0.9.2+
+**Framework Version:** 0.10.1+
 
 ---
 
@@ -635,5 +635,5 @@ Executes Prompt 2 to add new Chapter 4
 
 **Status:** ACTIVE - MUST BE ENFORCED
 **Created:** 2025-11-19
-**Framework Version:** 0.9.2+
+**Framework Version:** 0.10.1+
 **Applies To:** All current and future prompts

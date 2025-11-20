@@ -1,14 +1,23 @@
 # Execute Prompt 7: Export and Format
 
-**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem (format conversion via Claude Code CLI)
+**CLI-ONLY:** This prompt requires Claude Code CLI for format conversion (pandoc, imagemagick).
+
+Exporting to DOCX/PDF/EPUB requires external tools (pandoc) that are best run via CLI. While Markdown export could work in Desktop, the full export workflow is optimized for CLI.
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
-**Claude Desktop Compatibility:**
-- ✅ Markdown export via MCP Filesystem (100%)
-- ✅ DOCX/PDF/EPUB conversion via Claude Code CLI (copy/paste pandoc commands)
-- ✅ Image optimization via Claude Code CLI (copy/paste imagemagick commands)
-- 📋 Works 95% in Desktop
+**CRITICAL ENFORCEMENT:**
+- **RULE 1:** All file modifications MUST update corresponding _chg files
+- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
+
+See: `Process/ENFORCEMENT_RULES.md` for complete details
+
+**NOTE:** This is an export operation. No _chg updates are required (creates formatted exports, does not modify source files)
+
+**DATE CONFIRMATION REQUIRED:**
+- **USE CONFIRMED_DATE from session startup** (see CLAUDE.md Date Confirmation Protocol)
+- **NEVER use raw `<env>` date** without confirmation
+- Pass confirmed date to any spawned agents: "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
 
 ---
 

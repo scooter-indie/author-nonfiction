@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Framework
 
-**Version 0.9.0**
+**Version 0.10.3**
 
 A complete system for writing professional nonfiction books with AI assistance using Claude Code.
 
@@ -13,7 +13,7 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 ### Key Features
 
 - 📝 **Structured Authoring Process** with change tracking and version history
-- 🤖 **AI Assistance** through 10 conversational prompts
+- 🤖 **AI Assistance** through 11 conversational prompts
 - 🎨 **Professional Writing Styles** - 9 curated styles plus custom style support
 - 📚 **Quote Management** with web search and verification system
 - 🔍 **Quality Control** - Consistency checking and validation
@@ -27,7 +27,7 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 
 ### 1. Download the Framework
 
-Download `nonfiction-v0.9.0.zip` from:
+Download `nonfiction-v0.10.3.zip` from:
 
 **GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
 
@@ -38,13 +38,13 @@ Save it to your book project directory (e.g., `E:\Projects\my-book`).
 Extract the zip file to your project directory:
 
 **Windows**:
-- Right-click `nonfiction-v3.5.0.zip` → "Extract All..."
+- Right-click `nonfiction-v0.10.3.zip` → "Extract All..."
 - Choose your project directory as the destination
 
 **macOS/Linux**:
 ```bash
 cd /path/to/my-book
-unzip nonfiction-v3.5.0.zip
+unzip nonfiction-v0.10.3.zip
 ```
 
 ### 3. Run Configuration
@@ -79,7 +79,7 @@ This will ask you about your book and create the complete project structure.
 
 ### 5. Start Writing!
 
-Use the framework's 10 prompts to write and manage your book:
+Use the framework's 11 prompts to write and manage your book:
 - **Prompt 3**: Modify content (your primary writing workflow)
 - **Prompt 6**: Check consistency
 - **Prompt 8**: View progress dashboard
@@ -124,7 +124,7 @@ After extraction, your project contains:
 
 ---
 
-## The 10 Core Prompts
+## The 11 Core Prompts
 
 Execute these prompts in Claude Code to manage your book:
 
@@ -157,6 +157,9 @@ Commit, tag, branch, push, and manage version control.
 
 ### Prompt 10: Update Change Tracking
 Synchronize _chg files with content changes from manual edits.
+
+### Prompt 11: Style Manager
+Manage hierarchical style system with book/chapter/section overrides.
 
 **Full Documentation**: `Process/Prompts/QUICK_REFERENCE.md`
 
@@ -333,8 +336,8 @@ This framework is released under the MIT License. See LICENSE file for details.
 
 ## About
 
-**Framework Version**: 0.9.0
-**Release Date**: 2025-11-18
+**Framework Version**: 0.10.3
+**Release Date**: 2025-11-20
 **Repository**: https://github.com/scooter-indie/author-nonfiction
 
 Created to empower authors to write professional nonfiction books with AI assistance while maintaining complete creative control and ensuring factual accuracy.

@@ -2,7 +2,7 @@
 
 **HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
 
-**AI-Assisted Nonfiction Authoring Framework v0.9.2**
+**AI-Assisted Nonfiction Authoring Framework v0.10.3**
 
 **Claude Desktop Compatibility:**
 - ✅ All file verification via MCP Filesystem
@@ -79,7 +79,7 @@ I will:
 ```json
 {
   "framework": "AI-Assisted Nonfiction Authoring",
-  "frameworkVersion": "0.9.2",          // Current framework version
+  "frameworkVersion": "0.10.1",          // Current framework version
   "installedVersion": "0.9.0",          // First installation version (preserved)
   "installedDate": "2025-11-15",        // First installation date (preserved)
   "releaseDate": "2025-11-19",          // Latest release date
@@ -90,6 +90,10 @@ I will:
       "to": "0.9.2",
       "date": "2025-11-19"
     }
+  ],
+  "appliedMigrations": [                 // Track applied migrations
+    "migration_0.9.0_to_0.9.2",
+    "migration_0.10.0_to_0.10.1"
   ]
 }
 ```
@@ -103,6 +107,184 @@ For updates, I will:
 2. Check for uncommitted changes
 3. **If found**: Stop and warn you to commit first
 4. **If clean**: Proceed with update
+
+### Step 4.5: Apply Migrations (Updates Only)
+
+**This step only runs when updating from an older version.**
+
+**Important: Migrations are applied in version order.** If you skip multiple versions (e.g., 0.10.0 → 0.11.1), all intermediate migrations will be applied sequentially:
+- 0.10.0 → 0.10.1
+- 0.10.1 → 0.11.0
+- 0.11.0 → 0.11.1
+
+This ensures your project structure is updated correctly through each version's changes.
+
+I will:
+1. Read `.nonfiction-migrations.json` to get available migrations
+2. Read `.nonfiction-manifest.json` to check:
+   - Current `installedVersion` or `frameworkVersion`
+   - `appliedMigrations` array (list of already-applied migration IDs)
+3. Determine which migrations need to be applied:
+   - Find user's current version (from manifest)
+   - Find all migrations from current version to new version
+   - **Sort migrations in chronological order** (by version sequence)
+   - Filter out already-applied migrations (check `appliedMigrations` array)
+   - **Apply ALL pending migrations in order**
+4. For each pending migration (in version order):
+   - Display what will change and why
+   - **AUTOMATICALLY apply the migration** (migrations are NOT optional)
+   - Execute each change in the migration
+5. For each change within a migration:
+   - Attempt to apply automatically
+   - **If fails**: Ask "Migration step failed. (retry/abort)"
+     - retry: Try again
+     - abort: Stop entire process (user must fix before continuing)
+   - Track successful changes
+6. Track applied migrations in `.nonfiction-manifest.json`
+7. If any steps failed and user chose abort:
+   - Display manual fix instructions immediately
+   - Create `MANUAL_MIGRATION_STEPS.md` in project root
+   - List all steps that need manual intervention
+   - **STOP configuration** - user must fix issues before proceeding
+
+**IMPORTANT: Migrations are NOT optional.** Framework upgrades require project structure updates to function correctly. If you encounter migration failures, you must resolve them before continuing.
+
+**Supported Change Types:**
+
+1. **`rename`**: Rename file or directory
+   - Example: README.md → FW_README.md
+
+2. **`delete`**: Delete file or directory
+   - Example: Remove obsolete configuration file
+
+3. **`gitignore_add`**: Add pattern to .gitignore
+   - Example: Add FW_README.md to .gitignore
+
+4. **`gitignore_remove`**: Remove pattern from .gitignore
+   - Example: Remove README.md from .gitignore
+
+5. **`add_to_config`**: Add/update setting in Project_Config.md
+   - Example: Add `prompt_9_verbose: true`
+
+6. **`update_content`**: Find and replace content in file
+   - Example: Update deprecated setting names
+
+**Example Migration Flow (Single Version Jump):**
+
+```
+User's current version: 0.10.0
+Framework version: 0.10.1
+
+Found 1 pending migration: migration_0.10.0_to_0.10.1
+
+──────────────────────────────────────────
+Applying Migration: Separate framework README from user README
+Changes: 3 steps (rename, gitignore_add, gitignore_remove)
+
+Step 1/3: Rename README.md → FW_README.md
+✓ Success
+
+Step 2/3: Add FW_README.md to .gitignore
+✓ Success
+
+Step 3/3: Remove README.md from .gitignore
+✓ Success
+
+✓ Migration applied successfully!
+```
+
+**Example Migration Flow (Multi-Version Jump):**
+
+```
+User's current version: 0.10.0
+Framework version: 0.11.1
+
+Found 3 pending migrations:
+1. migration_0.10.0_to_0.10.1 (3 changes)
+2. migration_0.10.1_to_0.11.0 (2 changes)
+3. migration_0.11.0_to_0.11.1 (1 change)
+
+Applying all migrations in order...
+
+────────────────────────────────────────
+Migration 1/3: migration_0.10.0_to_0.10.1
+Description: Separate framework README from user README
+Changes: 3 steps
+
+Step 1/3: Rename README.md → FW_README.md
+✓ Success
+
+Step 2/3: Add FW_README.md to .gitignore
+✓ Success
+
+Step 3/3: Remove README.md from .gitignore
+✓ Success
+
+✓ Migration 1/3 completed
+
+────────────────────────────────────────
+Migration 2/3: migration_0.10.1_to_0.11.0
+Description: Update Project_Config.md with new settings
+Changes: 2 steps
+
+Step 1/2: Add prompt_11_verbose setting to Project_Config.md
+✓ Success
+
+Step 2/2: Update gitignore with new patterns
+✓ Success
+
+✓ Migration 2/3 completed
+
+────────────────────────────────────────
+Migration 3/3: migration_0.11.0_to_0.11.1
+Description: Minor configuration updates
+Changes: 1 step
+
+Step 1/1: Update deprecated setting name
+✓ Success
+
+✓ Migration 3/3 completed
+
+────────────────────────────────────────
+All migrations completed successfully!
+Applied: 3 migrations (6 total changes)
+```
+
+**If Steps Fail:**
+
+```
+Step 1/3: Rename README.md → FW_README.md
+❌ Failed: README.md not found
+
+Migration step failed. (retry/abort)
+You: retry
+
+[Attempting again...]
+❌ Failed: README.md not found
+
+Migration step failed. (retry/abort)
+You: abort
+
+──────────────────────────────────────────
+⚠️ MIGRATION ABORTED
+
+Configuration cannot continue until migration issues are resolved.
+
+Manual steps saved to: MANUAL_MIGRATION_STEPS.md
+
+REQUIRED ACTIONS:
+
+1. Check if README.md exists
+   - If it contains framework docs, rename to FW_README.md
+   - If it contains YOUR book docs, leave as README.md
+
+2. After fixing, run configure.md again
+   - Migrations will resume from where they failed
+
+❌ Configuration stopped. Fix issues and re-run configure.md.
+```
+
+**Note:** Migrations are mandatory. If a migration fails, you must resolve the issue before the framework can continue. This ensures your project structure remains compatible with the new framework version.
 
 ### Step 5: Git Repository Setup
 
@@ -221,7 +403,7 @@ I will provide you with the git command to run in Claude Code CLI.
 
 Open Claude Code CLI and say:
 ```
-Run: git add . && git commit -m 'Initialize nonfiction framework v0.9.2
+Run: git add . && git commit -m 'Initialize nonfiction framework v0.10.0
 
 🤖 Generated with Claude Desktop
 
@@ -232,7 +414,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 Open Claude Code CLI and say:
 ```
-Run: git add .nonfiction-manifest.json && git commit -m 'Update framework from v[old] to v0.9.2
+Run: git add .nonfiction-manifest.json && git commit -m 'Update framework from v[old] to v0.10.0
 
 See CHANGELOG.md for details.
 
@@ -415,5 +597,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.9.2*
+*Framework Version: 0.10.3*
 *Configuration Script: configure.md*

@@ -42,15 +42,40 @@ I will:
 3. Extract version history from `Process/AI-Assisted_Nonfiction_Authoring_Process_chg.md`
 4. Confirm version with you before proceeding
 
-### Step 2: Create Build Directory
+### Step 2: Verify Migration Configuration
+
+Before creating the build, I will verify the migration system:
+
+1. **Check `.nonfiction-migrations.json` exists:**
+   - Verify file is present in repository root
+   - Read and validate JSON structure
+
+2. **Validate migrations for this release:**
+   - Check if there are migrations from previous version to current version
+   - Verify all migrations have required fields: `id`, `fromVersion`, `toVersion`, `date`, `description`, `changes`
+   - Verify each change has: `type`, `reason`, `manualSteps`
+   - Confirm all referenced files exist (e.g., files to rename, .gitignore patterns)
+
+3. **Check migration change types:**
+   - Verify only supported change types are used: `rename`, `delete`, `gitignore_add`, `gitignore_remove`, `add_to_config`, `update_content`
+   - Warn if any unsupported types are present
+
+4. **Confirm with user:**
+   - If migrations exist for this release: "This release includes X migration(s). Have you tested them with configure.md?"
+   - If no migrations: "This release has no migrations. Is this correct?"
+
+**This step ensures migrations are properly configured before distribution.**
+
+### Step 3: Create Build Directory
 
 I will:
 1. Create temporary build directory: `build/nonfiction-v{VERSION}/`
 2. Copy framework files to build directory (see inclusion list below)
-3. Verify no `_chg.md` files are included
-4. Verify no development files are included
+3. **Copy `.nonfiction-migrations.json` to build root** (migration rules)
+4. Verify no `_chg.md` files are included
+5. Verify no development files are included
 
-### Step 3: Generate Production Files
+### Step 4: Generate Production Files
 
 I will create:
 
@@ -76,14 +101,14 @@ I will create:
 - Copy `Process/Templates/gitignore_template` to `.gitignore`
 - This excludes framework files from user git tracking
 
-### Step 4: Create Production Zip
+### Step 5: Create Production Zip
 
 I will:
 1. Create `nonfiction-v{VERSION}.zip` containing the build directory contents
 2. Calculate SHA256 checksum
 3. Verify zip integrity by listing contents
 
-### Step 5: Extract Release Notes
+### Step 6: Extract Release Notes
 
 I will:
 1. Read latest version entry from `CHANGELOG.md`
@@ -94,14 +119,14 @@ I will:
    - Breaking changes (if any)
    - Link to full changelog
 
-### Step 6: Create Git Tag
+### Step 7: Create Git Tag
 
 I will:
 1. Create annotated git tag: `v{VERSION}`
 2. Tag message: Version number and brief description
 3. Push tag to remote
 
-### Step 7: Create GitHub Release
+### Step 8: Create GitHub Release
 
 I will execute:
 ```bash
@@ -117,7 +142,7 @@ This creates a GitHub Release with:
 - Release notes from CHANGELOG.md
 - Asset: zip file (contains configure.md, README.md, INSTALLATION.md, etc.)
 
-### Step 8: Verification
+### Step 9: Verification
 
 I will:
 1. Verify release appears at https://github.com/scooter-indie/author-nonfiction/releases
@@ -125,7 +150,7 @@ I will:
 3. Verify download link works
 4. Clean up temporary build directory
 
-### Step 9: Report
+### Step 10: Report
 
 I will provide:
 - Release URL
@@ -138,7 +163,8 @@ I will provide:
 ## Files Included in Production Zip
 
 ### Root Level
-- `.nonfiction-manifest.json` (version tracking)
+- `.nonfiction-manifest.json` (version tracking - generated, not from template)
+- `.nonfiction-migrations.json` (migration rules for upgrades)
 - `README.md` (author-focused, from repo root)
 - `INSTALLATION.md` (from repo root)
 - `CHANGELOG.md` (from repo root)

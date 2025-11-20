@@ -1,14 +1,23 @@
 # Execute Prompt 5: Compile Complete Manuscript
 
-**DESKTOP-READY:** 100% compatible with Claude Desktop (zero bash/git required)
+**CLI-ONLY:** This prompt MUST be run in Claude Code CLI, not Claude Desktop.
+
+Compilation involves reading all manuscript files and writing a large compiled draft. Claude Code CLI is optimized for these bulk file operations, regardless of manuscript size.
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
-**Claude Desktop Compatibility:**
-- ✅ Pure file operations via MCP Filesystem
-- ✅ No git commands required
-- ✅ No bash commands required
-- 📋 Works 100% in Desktop
+**CRITICAL ENFORCEMENT:**
+- **RULE 1:** All file modifications MUST update corresponding _chg files
+- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
+
+See: `Process/ENFORCEMENT_RULES.md` for complete details
+
+**NOTE:** This is a read-only compilation operation. No _chg updates are required (drafts are generated, source files are not modified)
+
+**DATE CONFIRMATION REQUIRED:**
+- **USE CONFIRMED_DATE from session startup** (see CLAUDE.md Date Confirmation Protocol)
+- **NEVER use raw `<env>` date** without confirmation
+- Pass confirmed date to any spawned agents: "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
 
 ---
 

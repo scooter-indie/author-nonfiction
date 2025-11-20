@@ -2,7 +2,18 @@
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem (git via Claude Code CLI)
 
-**BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+**FIRST ACTION - MANDATORY:**
+Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
+
+**CRITICAL ENFORCEMENT:**
+- **RULE 1:** All file modifications MUST update corresponding _chg files
+- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
+
+See: `Process/ENFORCEMENT_RULES.md` for complete details
+
+**AGENT INSTRUCTIONS:**
+When spawning agents (using Task tool), include in agent prompt:
+- "FIRST ACTION: Read Process/Anti-Hallucination_Guidelines.md before proceeding."
 
 **Claude Desktop Compatibility:**
 - ✅ All file operations via MCP Filesystem (read, write, move_file)

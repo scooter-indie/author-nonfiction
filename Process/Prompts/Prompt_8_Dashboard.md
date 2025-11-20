@@ -4,6 +4,14 @@
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
+**CRITICAL ENFORCEMENT:**
+- **RULE 1:** All file modifications MUST update corresponding _chg files
+- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
+
+See: `Process/ENFORCEMENT_RULES.md` for complete details
+
+**NOTE:** This is mostly a read-only analysis operation. Updates PROJECT_CONTEXT.md (no _chg required for this file)
+
 **Claude Desktop Compatibility:**
 - ✅ All analysis via MCP Filesystem
 - ✅ Optional git commit at end (single copy/paste)
@@ -94,6 +102,18 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
    **Chapters needing quote work:**
    - Chapter [XX]: [Status and what's needed]
    - Chapter [XX]: [Status and what's needed]
+
+   **Style Distribution (v0.10.1+)**
+   - Book-level style: [Style name from Style_Guide.md]
+   - Chapter overrides: [N] of [Total] chapters ([XX]%)
+   - Section overrides: [N] sections across [N] chapters
+   - Override threshold status: [Below/At/Above 30%]
+   - Style transitions detected: [N] chapter-level, [N] section-level
+   - Undocumented transitions: [N] (requires attention)
+
+   **Chapters with style overrides:**
+   - Chapter [XX]: [Override style name] ([Rationale if brief])
+   - Chapter [XX]: [Override style name]
 
    **Milestones**
    - [ ] First Draft Complete (25%)

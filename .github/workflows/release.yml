@@ -58,6 +58,9 @@ jobs:
           # Copy root documentation files
           cp README.md INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md build/temp/
 
+          # Copy migration configuration (CRITICAL for framework upgrades)
+          cp .nonfiction-migrations.json build/temp/
+
       - name: Remove development files
         run: |
           cd build/temp
@@ -129,13 +132,31 @@ jobs:
           echo "" >> release-notes-temp.md
           echo "## 📥 Installation" >> release-notes-temp.md
           echo "" >> release-notes-temp.md
-          echo "1. Download \`nonfiction-v$VERSION.zip\` from this release" >> release-notes-temp.md
-          echo "2. Extract to your book project directory" >> release-notes-temp.md
-          echo "3. Start Claude Code in that directory" >> release-notes-temp.md
-          echo "4. Execute \`configure.md\` to set up" >> release-notes-temp.md
-          echo "5. Execute \`Prompt 1\` to initialize your book project" >> release-notes-temp.md
+          echo "**Choose your installation method:**" >> release-notes-temp.md
           echo "" >> release-notes-temp.md
-          echo "See \`INSTALLATION.md\` (in the zip) for detailed instructions." >> release-notes-temp.md
+          echo "### Option A: Claude Code CLI (Recommended)" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "1. Download \`nonfiction-v$VERSION.zip\`" >> release-notes-temp.md
+          echo "2. Extract to your book project directory" >> release-notes-temp.md
+          echo "3. Open terminal in that directory" >> release-notes-temp.md
+          echo "4. Run: \`claude\`" >> release-notes-temp.md
+          echo "5. Say: \`execute configure.md\`" >> release-notes-temp.md
+          echo "6. Say: \`execute Prompt 1\` to initialize your book" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "### Option B: Claude Desktop" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "1. Download \`nonfiction-v$VERSION.zip\`" >> release-notes-temp.md
+          echo "2. Extract to your book project directory" >> release-notes-temp.md
+          echo "3. **IMPORTANT:** Configure Claude Desktop Custom Instructions:" >> release-notes-temp.md
+          echo "   - Open \`system-instructions.md\` from the extracted files" >> release-notes-temp.md
+          echo "   - Copy the section between the code fences (lines 40-356)" >> release-notes-temp.md
+          echo "   - Paste into Settings → Custom Instructions in Claude Desktop" >> release-notes-temp.md
+          echo "   - Save and start a NEW chat" >> release-notes-temp.md
+          echo "4. In Claude Desktop chat: \`execute \"[full-path]\\configure.md\"\`" >> release-notes-temp.md
+          echo "5. Follow prompts (copy/paste git commands when needed)" >> release-notes-temp.md
+          echo "6. Say: \`execute Prompt 1\` to initialize your book" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "**📖 See \`INSTALLATION.md\` (in the zip) for detailed instructions.**" >> release-notes-temp.md
 
           # Add checksum
           echo "" >> release-notes-temp.md

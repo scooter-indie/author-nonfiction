@@ -26,7 +26,9 @@ Prompts/
 ├── Prompt_6_Consistency.md
 ├── Prompt_7_Export.md
 ├── Prompt_8_Dashboard.md
-└── Prompt_9_Git.md
+├── Prompt_9_Git.md
+├── Prompt_10_Update_Change_Tracking.md
+└── Prompt_11_Style_Manager.md
 ```
 
 ---
@@ -209,6 +211,32 @@ Prompts/
 **Note**: The book-writing-assistant agent runs this automatically at session start and before commits
 
 **Output**: Updated _chg files with new version history entries
+
+---
+
+### 11. Prompt_11_Style_Manager.md (NEW in v0.10.1)
+**Purpose**: Manage hierarchical style system (book/chapter/section overrides)
+
+**When to use**: Adding/removing style overrides, analyzing distribution, validating registry
+
+**Interaction**: Menu-driven with 7 operations:
+1. Add chapter override
+2. Remove chapter override
+3. Scan section overrides
+4. Validate override registry
+5. View style distribution
+6. Analyze transitions
+7. Change book-level style
+
+**Hierarchical system**: Book style → Chapter overrides → Section overrides (cascading inheritance)
+
+**Registry**: Auto-maintains `Manuscript/Style/Style_Overrides.md` with distribution and transitions
+
+**Threshold**: Warns when chapter overrides exceed 30%
+
+**Compatibility**: HYBRID (Desktop for single-file ops, CLI for multi-file scans)
+
+**Output**: Updated override registry, style analysis reports, validated consistency
 
 ---
 

@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.9.2
+**Framework Version:** 0.10.3
 **Session Context Document for Claude Code**
 
 ---
@@ -144,7 +144,7 @@ Claude will read the appropriate prompt file and execute it.
 
 ---
 
-## 10 Core Prompts
+## 11 Core Prompts (v0.10.1+)
 
 ### Prompt 1: Initialize Project Structure
 **Purpose:** Create new book project from scratch
@@ -196,11 +196,81 @@ Claude will read the appropriate prompt file and execute it.
 **When:** After manual edits, before milestones, weekly maintenance
 **Output:** Updated _chg files with version history
 
+### Prompt 11: Style Manager (NEW in v0.10.1)
+**Purpose:** Manage hierarchical style system (book/chapter/section overrides)
+**When:** Adding/removing style overrides, analyzing distribution, validating registry
+**Output:** Updated override registry, style analysis reports, validated consistency
+
+---
+
+## Quick Compatibility Reference
+
+**When asked "list prompts", use this accurate classification:**
+
+### DESKTOP-READY (100% - No CLI needed)
+- **Prompt 6:** Consistency Checker - Read-only analysis
+
+### DESKTOP-FRIENDLY (95% - Single git command at end)
+- **Prompt 2:** Add New Chapter - Uses MCP Filesystem for all operations including directory renaming
+- **Prompt 3:** Modify Target File - PRIMARY workflow
+- **Prompt 4:** Integrate Content from Inbox
+- **Prompt 8:** Progress Dashboard
+- **Prompt 10:** Update Change Tracking
+
+### HYBRID (50-80% - Mixed Desktop/CLI interaction)
+- **Prompt 1:** Initialize Project Structure - File creation in Desktop, git via CLI throughout
+- **Prompt 11:** Style Manager - Single-file ops in Desktop, multi-file scans better in CLI
+
+### CLI-ONLY (0% - Must use Claude Code CLI)
+- **Prompt 5:** Compile Complete Manuscript - Bulk file operations
+- **Prompt 7:** Export and Format - Requires pandoc for DOCX/PDF/EPUB
+- **Prompt 9:** Git Operations - Direct git command execution
+
+**Key Points:**
+- Prompt 2 is **DESKTOP-FRIENDLY** (not CLI-ONLY) - MCP Filesystem handles directory operations
+- Prompt 3 is the **PRIMARY** daily workflow (DESKTOP-FRIENDLY)
+- Prompt 11 is **HYBRID** - use Desktop for simple ops, CLI for validation/scanning
+
 ---
 
 ## Writing Style System
 
-The framework includes 9 professionally curated writing styles:
+### Hierarchical Style System (v0.10.1+)
+
+The framework uses a three-level cascading style inheritance system:
+
+```
+Book Style (Global Default)
+  ↓ inherits
+Chapter Style (Optional Override)
+  ↓ inherits
+Section Style (Optional Override)
+```
+
+**Three Levels:**
+
+1. **Book-Level Style** (configured in `Manuscript/Style/Style_Guide.md`)
+   - Your global default style for the entire book
+   - Selected during Prompt 1 (Initialize)
+   - Applies to all content unless overridden
+
+2. **Chapter-Level Overrides** (optional `Chapter_XX_style.md` files)
+   - Override book style for specific chapters
+   - Useful for technical appendices, narrative case studies, etc.
+   - Created via Prompt 2 (Add Chapter) or Prompt 11 (Style Manager)
+
+3. **Section-Level Overrides** (HTML comment markers in content)
+   - Override for specific sections within chapters
+   - Format: `<!-- STYLE_OVERRIDE: StyleName -->...</content>...<!-- END_STYLE_OVERRIDE -->`
+   - Useful for code examples, interviews, anecdotes
+
+**Central Registry:**
+- `Manuscript/Style/Style_Overrides.md` tracks all overrides
+- Shows style distribution across your book
+- Monitors 30% override threshold (guideline for appropriate book-level choice)
+- Documents style transitions for smooth reader experience
+
+**9 Framework Styles Available:**
 
 1. **Academic Authority** - Scholarly, research-based
 2. **Conversational Expert** - Business/professional, accessible
@@ -212,7 +282,13 @@ The framework includes 9 professionally curated writing styles:
 8. **Inspirational Teacher** - Personal development, motivational
 9. **Scientific Communicator** - Popular science, wonder with rigor
 
-**During Prompt 1 (Initialize):** You'll select or customize a writing style for your book.
+**How to Use:**
+- **Prompt 1** (Initialize): Select book-level style, creates Style_Overrides.md
+- **Prompt 2** (Add Chapter): Optionally set chapter-level override when creating chapter
+- **Prompt 3** (Modify File): Automatically applies active style using cascading resolution
+- **Prompt 6** (Consistency): Analyzes style distribution and transitions
+- **Prompt 8** (Dashboard): Shows style distribution summary
+- **Prompt 11** (Style Manager): Add/remove/analyze overrides, validate registry
 
 **Location:** `Process/Style_Examples.md` contains complete style definitions with examples.
 
@@ -315,7 +391,57 @@ When Claude Code starts in this directory:
 ✅ **Load Anti-Hallucination Guidelines** - Critical rules ready
 ✅ **Anti-Hallucination Verification Active** - ASK before assuming user experiences
 ✅ **Framework documentation available** - Process/ directory accessible
+✅ **CONFIRM DATE WITH USER** - See Date Confirmation Protocol below
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
+
+---
+
+## Date Confirmation Protocol
+
+**CRITICAL: Date must be confirmed at every session startup to prevent incorrect dates in files.**
+
+### Session Startup Procedure
+
+1. **At the start of every Claude Code session**, before any other interaction:
+   - Display the date from `<env>`: "Today's date is [YYYY-MM-DD]. Is this correct?"
+   - Wait for user confirmation
+
+2. **If user confirms date is correct:**
+   - Store confirmed date in session context as: `CONFIRMED_DATE=[YYYY-MM-DD]`
+   - Use this date for ALL operations during the session
+
+3. **If user says date is incorrect:**
+   - Ask: "What is the correct date? (YYYY-MM-DD format)"
+   - Store user-provided date as: `CONFIRMED_DATE=[YYYY-MM-DD]`
+   - Use this date for ALL operations during the session
+
+### Date Format
+
+- **Always use ISO format:** `YYYY-MM-DD` (e.g., `2025-11-20`)
+- This format is used for:
+  - Filenames: `Full_Draft_2025-11-20_v1.0.0.md`
+  - Directory names: `Exports/2025-11-20/`
+  - Chapter creation metadata
+  - Git commit messages
+  - Dashboard reports
+
+### Passing Date to Agents
+
+**When spawning agents (using Task tool):**
+- Agents automatically inherit the confirmed date from the parent session context
+- Include explicit instruction in agent prompt: "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
+- Never allow agents to use unchecked `<env>` dates
+
+### Prompts That Write Dates
+
+The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
+
+- **Prompt 1 (Initialize):** Creates initial project structure with date metadata
+- **Prompt 2 (Add Chapter):** Writes chapter creation date
+- **Prompt 5 (Compile):** Creates `Full_Draft_[date]_v[version].md`
+- **Prompt 7 (Export):** Creates `Exports/[date]/` directory
+
+**All date-writing prompts have been updated with explicit reminders to use CONFIRMED_DATE.**
 
 ---
 
@@ -328,8 +454,8 @@ When Claude Code starts in this directory:
 
 ---
 
-**Framework Version:** 0.9.2
-**Last Updated:** 2025-11-19
+**Framework Version:** 0.10.3
+**Last Updated:** 2025-11-20
 
 ---
 
