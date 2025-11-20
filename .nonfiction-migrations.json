@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "description": "Migration rules for AI-Assisted Nonfiction Authoring Framework upgrades",
+  "migrations": [
+    {
+      "id": "migration_0.10.1_to_0.10.2",
+      "fromVersion": "0.10.1",
+      "toVersion": "0.10.2",
+      "date": "2025-11-20",
+      "description": "Separate framework README from user's project README and update gitignore",
+      "changes": [
+        {
+          "type": "rename",
+          "from": "README.md",
+          "to": "FW_README.md",
+          "reason": "Separate framework README from user's project README",
+          "manualSteps": [
+            "1. Check if README.md exists in your project root",
+            "2. If it exists and contains framework documentation, rename it to FW_README.md",
+            "3. If it exists and contains YOUR book project documentation, leave it as README.md (skip this step)"
+          ]
+        },
+        {
+          "type": "gitignore_add",
+          "pattern": "FW_README.md",
+          "reason": "Don't track framework README in user's book project",
+          "manualSteps": [
+            "1. Open .gitignore in your project root",
+            "2. Add a new line: FW_README.md",
+            "3. Save the file"
+          ]
+        },
+        {
+          "type": "gitignore_remove",
+          "pattern": "README.md",
+          "reason": "Allow user's README.md to be tracked in git",
+          "manualSteps": [
+            "1. Open .gitignore in your project root",
+            "2. Find the line containing 'README.md' (may be a pattern like '*.md' or exact match)",
+            "3. Remove or comment out that line",
+            "4. Save the file"
+          ]
+        }
+      ]
+    }
+  ],
+  "changeTypes": {
+    "rename": {
+      "description": "Rename a file or directory",
+      "requiredFields": ["from", "to", "reason"],
+      "optionalFields": ["manualSteps"]
+    },
+    "delete": {
+      "description": "Delete a file or directory",
+      "requiredFields": ["path", "reason"],
+      "optionalFields": ["manualSteps", "confirmRequired"]
+    },
+    "gitignore_add": {
+      "description": "Add pattern to .gitignore",
+      "requiredFields": ["pattern", "reason"],
+      "optionalFields": ["manualSteps"]
+    },
+    "gitignore_remove": {
+      "description": "Remove pattern from .gitignore",
+      "requiredFields": ["pattern", "reason"],
+      "optionalFields": ["manualSteps"]
+    },
+    "add_to_config": {
+      "description": "Add or update setting in Project_Config.md",
+      "requiredFields": ["key", "value", "reason"],
+      "optionalFields": ["manualSteps", "overwriteIfExists"]
+    },
+    "update_content": {
+      "description": "Update content in a file (find/replace)",
+      "requiredFields": ["file", "find", "replace", "reason"],
+      "optionalFields": ["manualSteps", "regex"]
+    }
+  },
+  "notes": [
+    "This file is part of the framework and tracks all migration rules.",
+    "It is tracked in the framework repository but excluded from user projects (.gitignore).",
+    "Applied migrations are tracked in .nonfiction-manifest.json",
+    "Migration IDs should be unique and descriptive.",
+    "Always provide manualSteps for cases where automation fails.",
+    "IMPORTANT: Migrations are applied in version order (fromVersion → toVersion).",
+    "If user skips versions (e.g., 0.10.0 → 0.11.1), ALL intermediate migrations are applied sequentially.",
+    "Migration array order in this file should match version sequence for clarity."
+  ]
+}

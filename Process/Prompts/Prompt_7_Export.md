@@ -14,6 +14,11 @@ See: `Process/ENFORCEMENT_RULES.md` for complete details
 
 **NOTE:** This is an export operation. No _chg updates are required (creates formatted exports, does not modify source files)
 
+**DATE CONFIRMATION REQUIRED:**
+- **USE CONFIRMED_DATE from session startup** (see CLAUDE.md Date Confirmation Protocol)
+- **NEVER use raw `<env>` date** without confirmation
+- Pass confirmed date to any spawned agents: "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
+
 ---
 
 ## What This Does

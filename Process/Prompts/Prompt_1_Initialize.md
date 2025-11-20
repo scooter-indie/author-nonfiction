@@ -4,13 +4,24 @@
 
 This prompt performs substantial work in Desktop (creating all files and directories) but requires multiple CLI interactions for git operations throughout the initialization process.
 
-**BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+**FIRST ACTION - MANDATORY:**
+Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
 - **RULE 2:** All Manuscript/ changes must go through appropriate prompts
 
 See: `Process/ENFORCEMENT_RULES.md` for complete details
+
+**DATE CONFIRMATION REQUIRED:**
+- **USE CONFIRMED_DATE from session startup** (see CLAUDE.md Date Confirmation Protocol)
+- **NEVER use raw `<env>` date** without confirmation
+- Pass confirmed date to any spawned agents: "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
+
+**AGENT INSTRUCTIONS:**
+When spawning agents (using Task tool), include in agent prompt:
+- "FIRST ACTION: Read Process/Anti-Hallucination_Guidelines.md before proceeding."
+- "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
 
 **Claude Desktop Compatibility:**
 - ✅ All interactive questions work in Desktop
@@ -63,7 +74,7 @@ I'll ask you a series of questions to gather the information needed to set up yo
    - Manuscript/Drafts/
    - Manuscript/Exports/
 3. Initialize git repository (via Claude Code CLI if in Desktop)
-4. Generate configuration files (Project_Config.md with `initialized: false`, Project_Metadata.md, USAGE_GUIDE.md) at root
+4. Generate configuration files (Project_Config.md with `initialized: false` and `prompt_9_verbose: true`, Project_Metadata.md, USAGE_GUIDE.md) at root
 5. Configure writing style (interactive style selection)
 6. Create Manuscript/Style/Style_Guide.md with selected book-level style
 7. **Create Manuscript/Style/Style_Overrides.md** with hierarchical style registry (v0.10.1+)

@@ -129,6 +129,45 @@ grep -r "OLD_VERSION" --include="*.md" --include="*.json" . | grep -v ".git" | g
 
 If any unexpected references found, update them.
 
+### Step 4.5: Verify Migration Configuration
+
+**Check that `.nonfiction-migrations.json` exists and is properly configured:**
+
+1. **Verify file exists:**
+   ```bash
+   ls -la .nonfiction-migrations.json
+   ```
+
+2. **Check migration entries are up to date:**
+   - Read `.nonfiction-migrations.json`
+   - Verify the latest migration entry matches the new version
+   - If releasing 0.10.1, there should be a migration from 0.10.0 → 0.10.1
+   - If no changes need migrations this release, that's fine (not every release requires migrations)
+
+3. **Validate migration structure:**
+   - Each migration must have: `id`, `fromVersion`, `toVersion`, `date`, `description`, `changes`
+   - Each change must have: `type`, `reason`, `manualSteps`
+   - Verify all referenced files in migrations actually exist (e.g., README.md for rename operations)
+
+4. **Check .gitignore configuration:**
+   ```bash
+   # Framework .gitignore should NOT exclude migrations file
+   grep ".nonfiction-migrations.json" .gitignore
+   # (Should return no results - file should be tracked in framework repo)
+
+   # User project .gitignore template SHOULD exclude migrations file
+   grep ".nonfiction-migrations.json" Process/Templates/gitignore_template
+   # (Should find it - file should NOT be tracked in user projects)
+   ```
+   - Framework: `.nonfiction-migrations.json` should be tracked (versioned with framework)
+   - User projects: `.nonfiction-migrations.json` should be in .gitignore (it's a framework file)
+
+**If migrations are needed for this release:**
+- Ensure they're documented in `.nonfiction-migrations.json` BEFORE tagging
+- Test the migration with `configure.md` on a test project
+- Verify all change types work correctly
+- Confirm manual steps are clear and accurate
+
 ### Step 5: Commit Version Updates
 
 ```bash
@@ -249,6 +288,8 @@ Before creating a release, verify:
 - [ ] **README.md reviewed** for prompt counts, version numbers, download links
 - [ ] **CHANGELOG.md reviewed** for complete, accurate release notes
 - [ ] **system-instructions.md reviewed** for correct compatibility classifications
+- [ ] **`.nonfiction-migrations.json` verified** with correct migrations for this release
+- [ ] **Migration testing completed** if migrations are included in this release
 - [ ] All version numbers updated consistently across 8 files
 - [ ] No uncommitted changes in repository
 - [ ] GitHub Actions workflow is functioning

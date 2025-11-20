@@ -2,13 +2,24 @@
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem + single copy/paste git commit at end
 
-**BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+**FIRST ACTION - MANDATORY:**
+Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
 - **RULE 2:** All Manuscript/ changes must go through appropriate prompts
 
 See: `Process/ENFORCEMENT_RULES.md` for complete details
+
+**DATE CONFIRMATION REQUIRED:**
+- **USE CONFIRMED_DATE from session startup** (see CLAUDE.md Date Confirmation Protocol)
+- **NEVER use raw `<env>` date** without confirmation
+- Pass confirmed date to any spawned agents: "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
+
+**AGENT INSTRUCTIONS:**
+When spawning agents (using Task tool), include in agent prompt:
+- "FIRST ACTION: Read Process/Anti-Hallucination_Guidelines.md before proceeding."
+- "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
 
 **Claude Desktop Compatibility:**
 - ✅ All file/directory operations via MCP Filesystem (including move_file for renumbering)

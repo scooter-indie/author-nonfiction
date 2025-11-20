@@ -4,6 +4,7 @@ INSTALLATION.md
 CLAUDE.md
 system-instructions.md
 README.md
+.nonfiction-migrations.json
 
 # Temporary files
 *.tmp

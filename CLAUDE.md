@@ -391,7 +391,57 @@ When Claude Code starts in this directory:
 ✅ **Load Anti-Hallucination Guidelines** - Critical rules ready
 ✅ **Anti-Hallucination Verification Active** - ASK before assuming user experiences
 ✅ **Framework documentation available** - Process/ directory accessible
+✅ **CONFIRM DATE WITH USER** - See Date Confirmation Protocol below
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
+
+---
+
+## Date Confirmation Protocol
+
+**CRITICAL: Date must be confirmed at every session startup to prevent incorrect dates in files.**
+
+### Session Startup Procedure
+
+1. **At the start of every Claude Code session**, before any other interaction:
+   - Display the date from `<env>`: "Today's date is [YYYY-MM-DD]. Is this correct?"
+   - Wait for user confirmation
+
+2. **If user confirms date is correct:**
+   - Store confirmed date in session context as: `CONFIRMED_DATE=[YYYY-MM-DD]`
+   - Use this date for ALL operations during the session
+
+3. **If user says date is incorrect:**
+   - Ask: "What is the correct date? (YYYY-MM-DD format)"
+   - Store user-provided date as: `CONFIRMED_DATE=[YYYY-MM-DD]`
+   - Use this date for ALL operations during the session
+
+### Date Format
+
+- **Always use ISO format:** `YYYY-MM-DD` (e.g., `2025-11-20`)
+- This format is used for:
+  - Filenames: `Full_Draft_2025-11-20_v1.0.0.md`
+  - Directory names: `Exports/2025-11-20/`
+  - Chapter creation metadata
+  - Git commit messages
+  - Dashboard reports
+
+### Passing Date to Agents
+
+**When spawning agents (using Task tool):**
+- Agents automatically inherit the confirmed date from the parent session context
+- Include explicit instruction in agent prompt: "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
+- Never allow agents to use unchecked `<env>` dates
+
+### Prompts That Write Dates
+
+The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
+
+- **Prompt 1 (Initialize):** Creates initial project structure with date metadata
+- **Prompt 2 (Add Chapter):** Writes chapter creation date
+- **Prompt 5 (Compile):** Creates `Full_Draft_[date]_v[version].md`
+- **Prompt 7 (Export):** Creates `Exports/[date]/` directory
+
+**All date-writing prompts have been updated with explicit reminders to use CONFIRMED_DATE.**
 
 ---
 
@@ -405,7 +455,7 @@ When Claude Code starts in this directory:
 ---
 
 **Framework Version:** 0.10.1
-**Last Updated:** 2025-11-19
+**Last Updated:** 2025-11-20
 
 ---
 
