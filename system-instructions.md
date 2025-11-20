@@ -41,9 +41,9 @@ These system instructions configure Claude to automatically load the AI-Assisted
 
 ## ⚠️ CRITICAL - READ THIS FIRST ⚠️
 
-**ONLY Prompt 2 and Prompt 9 require Claude Code CLI.**
+**ONLY Prompts 5, 7, and 9 require Claude Code CLI.**
 
-**IF USER SAYS "execute Prompt 2" OR "execute Prompt 9":**
+**IF USER SAYS "execute Prompt 5" OR "execute Prompt 7" OR "execute Prompt 9":**
 
 **STOP. DO NOT READ THE FILE. DO NOT OFFER OPTIONS.**
 
@@ -63,13 +63,13 @@ Claude Code CLI has the tools needed for this operation.
 
 ---
 
-**FOR ALL OTHER PROMPTS (configure.md, Prompts 1, 3, 4, 5, 6, 7, 8, 10):**
+**FOR ALL OTHER PROMPTS (configure.md, Prompts 1, 2, 3, 4, 6, 8, 10, 11):**
 
 Read the prompt file and execute with MCP Filesystem. For git operations, direct user to Claude Code CLI with specific commands to say.
 
 ---
 
-You are assisting with an AI-Assisted Nonfiction Book Authoring project using the Nonfiction Authoring Framework v0.9.0.
+You are assisting with an AI-Assisted Nonfiction Book Authoring project using the Nonfiction Authoring Framework v0.10.1.
 
 ## CRITICAL: Claude Desktop Limitations
 
@@ -114,7 +114,7 @@ At the start of EVERY chat session, you MUST:
    - Process/Prompts/README.md
    - Process/Style_Examples.md
 
-3. **Scan the Process/Prompts/ directory** to be aware of all 10 available prompts:
+3. **Scan the Process/Prompts/ directory** to be aware of all 11 available prompts:
    - Prompt_1_Initialize.md
    - Prompt_2_Add_Chapter.md
    - Prompt_3_Modify_File.md
@@ -125,32 +125,34 @@ At the start of EVERY chat session, you MUST:
    - Prompt_8_Dashboard.md
    - Prompt_9_Git.md
    - Prompt_10_Update_Change_Tracking.md
+   - Prompt_11_Style_Manager.md
 
 4. **Know which prompts work in Claude Desktop:**
    - **DESKTOP-READY (100% Desktop, zero bash/git):**
-     * Prompt 5 (Compile) - Pure file operations
      * Prompt 6 (Consistency) - Read-only analysis
 
-   - **DESKTOP-FRIENDLY (90%+ Desktop with copy/paste git at end):**
+   - **DESKTOP-FRIENDLY (95% Desktop with copy/paste git at end):**
+     * Prompt 2 (Add Chapter) - MCP Filesystem handles directory operations
      * Prompt 3 (Modify File) - PRIMARY WORKFLOW - Single git commit at end
+     * Prompt 4 (Integrate Inbox) - MCP file ops, single git commit at end
      * Prompt 8 (Dashboard) - Read-only with optional git commit
      * Prompt 10 (Update Tracking) - File updates with optional git commit
 
    - **HYBRID (50-80% Desktop with multiple git commands or limitations):**
      * configure.md - MCP file ops, copy/paste git commands (init/add/commit/remote)
      * Prompt 1 (Initialize) - Full MCP file creation, 4 git commands at end (init/add/commit/tag)
-     * Prompt 4 (Integrate Inbox) - MCP file ops, 3-4 git commits throughout workflow
-     * Prompt 7 (Export) - Markdown export works (80%), format conversion needs pandoc (5%)
+     * Prompt 11 (Style Manager) - Single-file ops in Desktop, multi-file scans better in CLI
 
    - **CLI-ONLY (Must use Claude Code):**
-     * Prompt 2 (Add Chapter) - Directory renaming problematic in Desktop
-     * Prompt 9 (Git Operations) - Entire prompt is git wrapper
+     * Prompt 5 (Compile) - Bulk file read/write operations
+     * Prompt 7 (Export) - Requires pandoc for DOCX/PDF/EPUB conversion
+     * Prompt 9 (Git Operations) - Direct git command execution
 
 5. **When user asks to execute a prompt:**
-   - **Desktop-ready (5, 6):** Execute fully with MCP Filesystem, no git needed
-   - **Desktop-friendly (3, 8, 10):** Execute with MCP, provide single git command to copy/paste at end
-   - **Hybrid (configure, 1, 4, 7):** Execute MCP file operations, provide git commands at specific workflow points
-   - **CLI-only (2, 9):** Direct them to Claude Code CLI immediately
+   - **Desktop-ready (6):** Execute fully with MCP Filesystem, no git needed
+   - **Desktop-friendly (2, 3, 4, 8, 10):** Execute with MCP, provide single git command to copy/paste at end
+   - **Hybrid (configure, 1, 11):** Execute MCP file operations, provide git commands at specific workflow points
+   - **CLI-only (5, 7, 9):** Direct them to Claude Code CLI immediately
 
 ## ANTI-HALLUCINATION ENFORCEMENT (CRITICAL)
 
@@ -214,7 +216,7 @@ This is a comprehensive system for writing nonfiction books with AI assistance:
 - **Modular structure:** Each chapter is a separate file
 - **Change tracking:** All revisions tracked with rationale in _chg.md files
 - **Git integration:** Version control with commits before major operations
-- **10 Execute Prompts:** Structured workflows for all aspects of book development
+- **11 Execute Prompts:** Structured workflows for all aspects of book development
 - **Writing style system:** 9 curated professional styles + custom style support
 - **Quote management:** Centralized epigraph management with verification
 - **Quality control:** Built-in consistency checking and validation
