@@ -785,6 +785,412 @@ After v0.11.0 implementation, all should reference:
 
 ---
 
-**Status:** Ready for implementation
+## Additional Prompts for v0.11.0 (Expanded Scope)
+
+**Decision:** Include Prompts 14 and 15 in v0.11.0 (making it 15 prompts total instead of 13)
+
+**User Requirements Captured:** 2025-11-20
+
+### Prompt 14: Visual_Content_Suggester
+
+**Purpose:** Analyze chapter content and suggest visual aids, then create text-based placeholders with descriptions
+
+**Workflow:**
+
+1. **Ask:** "Which chapters to analyze?" (specific chapters or "all")
+
+2. **Scan content for visual opportunities:**
+   - Complex concepts needing diagrams
+   - Data/statistics needing tables or charts
+   - Processes needing flowcharts
+   - Examples needing screenshots/photos
+   - Comparisons needing comparison tables
+   - Timelines needing visual representation
+
+3. **Generate suggestions report:**
+   - Specific placement recommendations (after which paragraph)
+   - Type of visual (diagram, table, chart, photo, screenshot)
+   - Purpose and caption suggestion
+   - Complexity level (simple/moderate/complex)
+
+4. **Create visual assets:**
+   - **Generate text-based diagrams/tables** using markdown/ASCII art
+   - **Include description** of what the visual represents
+   - Save to `Chapter_XX/figures/` directory (not inline in chapter)
+   - Insert references in chapter content (e.g., `[See: figures/fig_03_01_survey_comparison.md]`)
+
+5. **Create/update figures registry:**
+   - Auto-maintain `Chapter_XX/figures/README.md`
+   - Track all figure files with metadata:
+     - Type (table, flowchart, diagram, etc.)
+     - Status (📝 Text-based or 🖼️ Professional image)
+     - Location, references, creation date
+     - Replacement priority
+
+6. **Update tracking:**
+   - Update chapter _chg file with figure additions
+   - Commit changes to git
+
+**Example Output:**
+
+```markdown
+Chapter_03/figures/fig_03_01_survey_comparison.md:
+
+# Figure 3.1: Survey Method Comparison
+
+| Method | Cost | Response Rate | Best Use Case |
+|--------|------|---------------|---------------|
+| Email  | Low  | 15-25%       | Large samples |
+| Phone  | High | 60-80%       | In-depth data |
+| Online | Low  | 20-40%       | Quick feedback|
+
+**Description:** Comparison table showing trade-offs between survey methods
+in terms of cost, typical response rates, and optimal use cases.
+
+**Replacement Note:** This text-based table can be replaced with a professional
+graphic by saving an image file with the same name (fig_03_01_survey_comparison.png)
+and updating the reference in Chapter_03.md.
+```
+
+Chapter_03.md insertion (line 145):
+```markdown
+[See: figures/fig_03_01_survey_comparison.md]
+```
+
+Chapter_03/figures/README.md:
+```markdown
+### fig_03_01_survey_comparison
+- **Type:** Table
+- **Status:** 📝 Text-based (markdown table)
+- **Location:** figures/fig_03_01_survey_comparison.md
+- **Referenced in:** Chapter_03.md (line 145)
+- **Description:** Comparison of survey methods
+- **Created:** 2025-11-20 by Prompt 14
+- **Replace with:** Professional table graphic recommended
+```
+
+**Rationale for Separate Files:**
+- User can easily replace text-based diagrams with professional images
+- Version control friendly (image updates don't clutter chapter history)
+- Modular and reusable across chapters
+- Mirrors professional publishing workflows
+
+**Compatibility:** CLI-ONLY (bulk analysis across multiple chapters) or HYBRID (single chapter in Desktop)
+
+**Integration:**
+- Works alongside Prompt 4 (Interactive_Change)
+- Placeholders refined via Prompt 3 (Change_by_Chg)
+- Assets tracked in existing `figures/` subdirectories
+- Prompt 8 (Consistency) reports on visual content status
+
+**Process/_COMMON Modules Used:**
+- Module 01: Prompt Structure Template
+- Module 02: Desktop Compatibility (CLI-ONLY or HYBRID)
+- Module 03: Anti-Hallucination Level 2 (may generate example content)
+- Module 04: File Operations (create figure files, update chapters)
+- Module 05: Git Integration (commit format)
+- Module 06: Validation Protocols (verify placement)
+- Module 08: Semantic Versioning (version increments)
+- Module 09: Report Templates (analysis reports)
+- Module 11: Interactive Patterns (user questions)
+- Module 14: Enforcement Rules (_chg file updates)
+- **NEW Module 15:** Visual_Asset_Management_Protocol (see below)
+
+---
+
+### Prompt 15: Citation_Finder
+
+**Purpose:** Analyze chapter content, find valid references to support claims, and auto-insert citations with pending verification status
+
+**Workflow:**
+
+1. **Ask:** "Which chapters to analyze for citation opportunities?"
+
+2. **Scan for statements needing citations:**
+   - Statistical claims
+   - Historical facts
+   - Theoretical frameworks
+   - Best practices assertions
+   - Case study references
+   - Quote attributions (coordinate with Anti-Hallucination Guidelines)
+
+3. **Search for valid references using WebSearch:**
+   - Find peer-reviewed academic papers
+   - Locate authoritative professional publications
+   - Verify publication dates and authors
+   - **NEVER fabricate citations** (Anti-Hallucination Level 3)
+
+4. **Auto-insert citations with ⏳ Pending status:**
+   - Insert citation marker in chapter content: `[Author2023]⏳`
+   - Add full citation to `BackMatter/Bibliography/Chapter_XX_References.md`
+   - Mark as ⏳ Pending (user must verify access and accuracy)
+   - Include relevance score and rationale
+
+5. **Generate citation report:**
+   - Flag uncited claims with suggested sources
+   - Provide full citation information
+   - Show relevance score (how well source supports claim)
+   - Format in book's chosen citation style (APA, Chicago, MLA)
+
+6. **Update tracking:**
+   - Update chapter _chg file with citation additions
+   - Update Bibliography _chg file
+   - Commit changes to git
+
+7. **Prompt user for verification:**
+   - Offer to review citations via Prompt 4 (Interactive_Change)
+   - User updates status: ⏳ → ✓ (verified) or ❌ (rejected)
+
+**Example Output:**
+
+Original text in Chapter_02.md (line 234):
+```markdown
+Remote work increased productivity by 13% during 2020-2021.
+```
+
+Updated text:
+```markdown
+Remote work increased productivity by 13% during 2020-2021 [Bloom2023]⏳.
+```
+
+BackMatter/Bibliography/Chapter_02_References.md:
+```markdown
+## Pending Citations (⏳ User Must Verify)
+
+**[Bloom2023]⏳**
+- **Full Citation:** Bloom, N., Liang, J., Roberts, J., & Ying, Z. J. (2023).
+  Does working from home work? Evidence from a Chinese experiment.
+  *American Economic Review*, 113(1), 123-156.
+- **Why Suggested:** Directly supports productivity claim with empirical data
+- **Relevance Score:** 95%
+- **DOI:** 10.1257/aer.20201834
+- **Status:** ⏳ Pending - User must verify access and accuracy
+- **Added by:** Prompt 15: Citation_Finder (2025-11-20)
+
+**USER ACTION REQUIRED:**
+1. Verify you can access this source
+2. Confirm it supports the claim accurately
+3. Update status: ⏳ → ✓ (verified) or ❌ (rejected)
+```
+
+Chapter_02_chg.md:
+```markdown
+### v1.3.2 (2025-11-20) - AUTO: Citation additions
+**Changes:**
+- Added citation [Bloom2023]⏳ for remote work productivity claim (line 234)
+- Added to Bibliography/Chapter_02_References.md as Pending
+
+**Rationale:** Prompt 15 identified uncited statistical claim
+**Status:** ⏳ Pending user verification
+```
+
+**Anti-Hallucination Integration (CRITICAL):**
+- **NEVER fabricate citations** - only suggest sources found via WebSearch
+- Use WebSearch to verify all sources actually exist
+- Mark ALL citations as ⏳ Pending until user confirms access
+- Flag any uncertain attributions with ⚠ Needs Verification
+- Follow verification protocol from Anti-Hallucination_Guidelines.md
+- Coordinate with Module 07 (Quote Management) for quote citations
+
+**Compatibility:** CLI-ONLY (requires WebSearch tool, bulk file operations)
+
+**Integration:**
+- Updates existing Bibliography/ structure
+- Works with Quote verification system (Module 07)
+- Feeds into Prompt 8 (Consistency) - reports citation status
+- User verifies via Prompt 4 (Interactive_Change)
+- Similar to quote workflow: ⏳ Pending → ✓ Verified → ❌ Rejected
+
+**Process/_COMMON Modules Used:**
+- Module 01: Prompt Structure Template
+- Module 02: Desktop Compatibility (CLI-ONLY)
+- Module 03: Anti-Hallucination Level 3 (NEVER fabricate citations)
+- Module 04: File Operations (update chapters, bibliography)
+- Module 05: Git Integration (commit format)
+- Module 06: Validation Protocols (verify before inserting)
+- Module 07: Quote Management System (similar verification workflow)
+- Module 08: Semantic Versioning (version increments)
+- Module 09: Report Templates (citation reports)
+- Module 11: Interactive Patterns (user questions)
+- Module 14: Enforcement Rules (_chg file updates)
+- **NEW Module 16:** Citation_Management_Protocol (see below)
+
+---
+
+### Integration with Prompt 8 (Consistency Checker)
+
+**Enhancement:** Prompt 8 should automatically report on visual and citation status (but NOT invoke Prompts 14 or 15).
+
+**Example addition to Prompt 8 output:**
+
+```markdown
+## Visual Content Status
+- Chapter 1: 3 visuals present (2 🖼️ images, 1 📝 text-based)
+- Chapter 2: ⚠ No visuals found (complex data discussed - consider Prompt 14)
+- Chapter 3: 2 visuals present (both 📝 text-based - consider upgrading)
+
+## Citation Status
+- Chapter 1: 12 citations (5 ✓ verified, 7 ⏳ pending)
+- Chapter 2: ⚠ 3 uncited statistical claims found (run Prompt 15 to find sources)
+- Chapter 3: 8 citations (all ✓ verified)
+
+**Recommendations:**
+- Run Prompt 14 for Chapter 2 to add visual aids
+- Run Prompt 15 for Chapter 2 to find citations for uncited claims
+- Verify 7 pending citations in Chapter 1
+```
+
+Then user decides whether to run Prompts 14 or 15 based on this report.
+
+---
+
+### New Process/_COMMON Modules for v0.11.0
+
+To support Prompts 14 and 15 and follow DRY principles:
+
+#### Module 15: Visual_Asset_Management_Protocol.md
+
+**Purpose:** Standardized workflow for managing visual assets (figures, diagrams, tables)
+
+**Contents:**
+- Figure registry format (`figures/README.md` template)
+- Asset naming conventions (e.g., `fig_XX_YY_description.md`)
+- Placeholder creation templates
+- Text-based diagram formats:
+  - Markdown tables
+  - ASCII flowcharts
+  - Mermaid diagrams (if supported)
+  - Simple ASCII art diagrams
+- Status indicators: 📝 Text-based, 🖼️ Professional image
+- Replacement workflow (text → professional image)
+- Reference insertion patterns
+- Integration with chapter content
+
+**Used by:**
+- Prompt 14: Visual_Content_Suggester (primary user)
+- Prompt 8: Consistency (report on visual status)
+- Prompt 3: Change_by_Chg (when updating figures)
+
+---
+
+#### Module 16: Citation_Management_Protocol.md
+
+**Purpose:** Standardized workflow for managing citations and bibliography
+
+**Contents:**
+- Citation status workflow: ⏳ Pending → ✓ Verified → ❌ Rejected
+- WebSearch verification procedure (Anti-Hallucination compliant)
+- Citation format templates:
+  - APA (American Psychological Association)
+  - Chicago (Author-Date and Notes-Bibliography)
+  - MLA (Modern Language Association)
+  - Harvard
+  - IEEE (for technical works)
+- Bibliography file structure and organization
+- Citation marker insertion patterns
+- Integration with Module 07 (Quote Management) - shared verification status
+- Relevance scoring system (how well source supports claim)
+- DOI/URL verification protocols
+- Pending citation review workflow
+
+**Used by:**
+- Prompt 15: Citation_Finder (primary user)
+- Prompt 8: Consistency (report on citation status)
+- Prompt 3: Change_by_Chg (when updating citations)
+- Prompt 7: Compile (format citations for export)
+
+---
+
+### Updated Prompt Count for v0.11.0
+
+**Original plan:** 13 prompts (Prompts 1-13)
+
+**Expanded plan:** 15 prompts (Prompts 1-15)
+
+**Complete structure:**
+1. Prompt 1: Initialize
+2. Prompt 2: Add_Chapter
+3. Prompt 3: Change_by_Chg
+4. Prompt 4: Interactive_Change (NEW)
+5. Prompt 5: Scan_For_User_Edits
+6. Prompt 6: Integrate_Inbox
+7. Prompt 7: Compile
+8. Prompt 8: Consistency
+9. Prompt 9: Export
+10. Prompt 10: Dashboard
+11. Prompt 11: Style_Manager
+12. Prompt 12: Git_Operations
+13. Prompt 13: AI_Detection_Analysis (NEW)
+14. **Prompt 14: Visual_Content_Suggester (NEW)**
+15. **Prompt 15: Citation_Finder (NEW)**
+
+**Total new modules:** 16 modules (Modules 1-14 exist, adding Modules 15-16)
+
+---
+
+### Implementation Priority for v0.11.0
+
+**Phase 1: Core Refactor** (Original scope)
+- Rename prompts 3-11
+- Create Prompt 4: Interactive_Change
+- Create Prompt 13: AI_Detection_Analysis
+- Update all documentation (7 files)
+- Natural language intent recognition
+
+**Phase 2: Content Enhancement** (Expanded scope)
+- Create Module 15: Visual_Asset_Management_Protocol
+- Create Module 16: Citation_Management_Protocol
+- Create Prompt 14: Visual_Content_Suggester
+- Create Prompt 15: Citation_Finder
+- Enhance Prompt 8 (Consistency) with visual/citation reporting
+- Update documentation for 15 prompts (not 13)
+
+**Estimated additional time:**
+- Module 15: 2-3 hours
+- Module 16: 2-3 hours
+- Prompt 14: 4-5 hours (including testing)
+- Prompt 15: 5-6 hours (WebSearch integration, Anti-Hallucination compliance)
+- Prompt 8 enhancements: 1-2 hours
+- Documentation updates: +2 hours (15 vs 13 prompts)
+
+**Total additional time:** 16-21 hours
+**Original estimate:** 15-20 hours
+**New total estimate:** 31-41 hours for complete v0.11.0
+
+---
+
+### User Decisions Captured
+
+**Question 1:** Visual asset creation approach
+**Answer:** C with descriptions - Generate text-based diagrams/tables AND include description
+
+**Question 2:** Citation insertion approach
+**Answer:** C - Auto-insert with ⏳ Pending status, add to Bibliography, prompt user for verification
+
+**Question 3:** Usage frequency
+**Answer:** C - Both prompts equally useful
+
+**Question 4:** Separate or combined prompts
+**Answer:** A - Keep separate (Prompt 14 and Prompt 15 distinct)
+
+**Question 5:** Prompt 8 integration
+**Answer:** A - Prompt 8 reports status but does NOT invoke Prompts 14/15
+
+**Question 6:** Figure placement
+**Answer:** B - Separate files in `figures/` directory (allows easy replacement)
+
+**Question 7:** Figures registry
+**Answer:** A - Auto-maintain registry for all chapters
+
+**Question 8:** Version/timeline
+**Answer:** B - Include in v0.11.0 (becomes 15 prompts total)
+
+**Additional requirement:** Use Process/_COMMON modules, do not duplicate functionality
+
+---
+
+**Status:** Ready for implementation (expanded scope)
 **Assigned to:** [To be determined]
 **Target completion:** [To be determined]
+**Total prompts in v0.11.0:** 15 (was 13, added Prompts 14 & 15)
+**Total modules in v0.11.0:** 16 (was 14, adding Modules 15 & 16)
