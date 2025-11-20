@@ -77,6 +77,9 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 2. Validate insertion point
 3. Analyze impact (which chapter directories need renumbering)
 4. Update Manuscript/_TOC_/TOC.md
+   - **Preserve warning header:** "⚠️ WARNING: This file is managed by Prompts 1 and 2. Direct edits may be overwritten. Use Prompt 2 to add/reorder chapters."
+   - Add new chapter entry in correct position
+   - Update numbering for affected chapters
 5. AI updates Manuscript/_TOC_/TOC_chg.md (you should NOT edit this file manually)
 6. Rename affected chapter directories in Manuscript/Chapters/
 7. Create new chapter subdirectory: Manuscript/Chapters/Chapter_XX/
@@ -95,9 +98,11 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 
 ## Important Notes
 
+- **Manuscript/_TOC_/TOC.md has a warning header** at the top to remind users not to edit directly
 - **Manuscript/_TOC_/TOC_chg.md is managed by the AI only** - Do not edit it manually
 - After initial project setup, do NOT place complete TOC files in Manuscript/Inbox/
 - Individual chapter additions should use this prompt or Prompt 4
+- If users need to reorder chapters, they should use Prompt 2 to insert at new position (future: Prompt 12 for chapter reordering)
 - Each chapter gets its own subdirectory to support chapter-specific assets (images, figures, tables)
 
 ---

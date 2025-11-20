@@ -79,6 +79,7 @@ I'll ask you a series of questions to gather the information needed to set up yo
 6. Create Manuscript/Style/Style_Guide.md with selected book-level style
 7. **Create Manuscript/Style/Style_Overrides.md** with hierarchical style registry (v0.10.1+)
 8. Create Manuscript/_TOC_/TOC.md and Manuscript/_TOC_/TOC_chg.md (with all chapter entries)
+   - **IMPORTANT:** Include warning at top of TOC.md: "⚠️ WARNING: This file is managed by Prompts 1 and 2. Direct edits may be overwritten. Use Prompt 2 to add/reorder chapters."
 9. Create Manuscript/Quotes/Chapter_Quotes.md (with placeholder entries for all chapters)
 10. Create Manuscript/Quotes/Chapter_Quotes_chg.md for tracking quote changes
 11. Create front matter and back matter placeholders in Manuscript/FrontMatter/ and Manuscript/BackMatter/
