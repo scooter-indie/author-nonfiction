@@ -2,9 +2,6 @@
 
 ## Claude Desktop vs. Claude Code CLI Compatibility
 
-### DESKTOP-READY (100% Claude Desktop - No CLI needed)
-- ✅ **Prompt 8** - Consistency checks (read-only analysis)
-
 ### DESKTOP-FRIENDLY (95%+ Desktop - Single git command at end)
 - ✅ **Prompt 2** - Add new chapter
 - ✅ **Prompt 3** - Change by Chg (AUTOMATED WORKFLOW)
@@ -19,6 +16,7 @@
 
 ### CLI-ONLY (Must use Claude Code CLI)
 - 🔧 **Prompt 7** - Compile manuscript (bulk file operations)
+- 🔧 **Prompt 8** - Consistency Checker (bulk file reads: 30-50+ files)
 - 🔧 **Prompt 9** - Export to DOCX/PDF/EPUB (requires pandoc)
 - 🔧 **Prompt 12** - Git operations (direct git commands)
 - 🔧 **Prompt 13** - AI Detection Analysis (bulk chapter analysis)

@@ -98,9 +98,9 @@ You are assisting with an AI-Assisted Nonfiction Book Authoring project using th
 - When git operations are needed, provide Claude Code CLI commands as described above
 - Continue execution after user reports git results
 
-**For DESKTOP-READY and DESKTOP-FRIENDLY prompts (2, 3, 4, 5, 6, 8, 10):**
+**For DESKTOP-READY and DESKTOP-FRIENDLY prompts (2, 3, 4, 5, 6, 10):**
 - Read the prompt file and execute fully with MCP Filesystem
-- Provide git commands at the end if needed (Prompts 2, 3, 4, 5, 6, 8, 10)
+- Provide git commands at the end if needed (Prompts 2, 3, 4, 5, 6, 10)
 
 ## Session Startup Protocol
 
@@ -132,9 +132,6 @@ At the start of EVERY chat session, you MUST:
    - Prompt_15_Citation_Finder.md
 
 4. **Know which prompts work in Claude Desktop:**
-   - **DESKTOP-READY (100% Desktop, zero bash/git):**
-     * Prompt 8 (Consistency) - Read-only analysis
-
    - **DESKTOP-FRIENDLY (95% Desktop with copy/paste git at end):**
      * Prompt 2 (Add Chapter) - MCP Filesystem handles directory operations
      * Prompt 3 (Change by Chg) - PRIMARY WORKFLOW - Single git commit at end
@@ -150,6 +147,7 @@ At the start of EVERY chat session, you MUST:
 
    - **CLI-ONLY (Must use Claude Code):**
      * Prompt 7 (Compile) - Bulk file read/write operations
+     * Prompt 8 (Consistency) - Bulk file reads across 30-50+ files (chapters, figures, bibliography, styles)
      * Prompt 9 (Export) - Requires pandoc for DOCX/PDF/EPUB conversion
      * Prompt 12 (Git Operations) - Direct git command execution
      * Prompt 13 (AI Detection Analysis) - Bulk chapter analysis
@@ -157,10 +155,9 @@ At the start of EVERY chat session, you MUST:
      * Prompt 15 (Citation Finder) - Requires WebSearch for verification
 
 5. **When user asks to execute a prompt:**
-   - **Desktop-ready (8):** Execute fully with MCP Filesystem, no git needed
    - **Desktop-friendly (2, 3, 4, 5, 6, 10):** Execute with MCP, provide single git command to copy/paste at end
    - **Hybrid (configure, 1, 11):** Execute MCP file operations, provide git commands at specific workflow points
-   - **CLI-only (7, 9, 12, 13, 14, 15):** Direct them to Claude Code CLI immediately
+   - **CLI-only (7, 8, 9, 12, 13, 14, 15):** Direct them to Claude Code CLI immediately
 
 ## ANTI-HALLUCINATION ENFORCEMENT (CRITICAL)
 

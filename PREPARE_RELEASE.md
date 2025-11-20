@@ -108,13 +108,12 @@ Update the version number in these files:
 - Check that Added/Changed/Fixed/Technical sections are complete
 
 **3C. Review system-instructions.md:**
-- Verify compatibility classifications are correct (as of v0.11.0 Phase 2+):
-  - CLI-ONLY: Prompts 7, 9, 12, 13, 14, 15
+- Verify compatibility classifications are correct (as of v0.11.1+):
+  - CLI-ONLY: Prompts 7, 8, 9, 12, 13, 14, 15
   - DESKTOP-FRIENDLY: Prompts 2, 3, 4, 5, 6, 10
   - HYBRID: configure.md, Prompts 1, 11
-  - DESKTOP-READY: Prompt 8
 - Check all 15 prompts are listed (lines ~117-132)
-- Verify critical section (lines ~42-66) has correct CLI-ONLY prompts (7, 9, 12, 13, 14, 15)
+- Verify critical section (lines ~42-66) has correct CLI-ONLY prompts (7, 8, 9, 12, 13, 14, 15)
 - Check version numbers in header and footer
 
 ### Step 4: Verify All Updates
@@ -330,7 +329,7 @@ If a release needs to be rolled back:
 2. Updates dates to today's date
 3. **Reviews README.md** for prompt counts ("15 prompts" as of v0.11.0 Phase 2), download links, features
 4. **Reviews CHANGELOG.md** entry for 0.11.0 completeness
-5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 7,9,12,13,14,15 as of v0.11.0 Phase 2)
+5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 7,8,9,12,13,14,15 as of v0.11.1+)
 6. Runs grep to verify no 0.10.3 references remain (except CHANGELOG history)
 7. Commits with message: "Update all documentation to version 0.11.0"
 8. Creates tag v0.11.0 with release notes from CHANGELOG.md

@@ -237,9 +237,6 @@ Claude will read the appropriate prompt file and execute it.
 
 **When asked "list prompts", use this accurate classification:**
 
-### DESKTOP-READY (100% - No CLI needed)
-- **Prompt 8:** Consistency Checker - Read-only analysis
-
 ### DESKTOP-FRIENDLY (95% - Single git command at end)
 - **Prompt 2:** Add New Chapter - Uses MCP Filesystem for all operations including directory renaming
 - **Prompt 3:** Change by Chg - Automated _chg file execution
@@ -254,6 +251,7 @@ Claude will read the appropriate prompt file and execute it.
 
 ### CLI-ONLY (0% - Must use Claude Code CLI)
 - **Prompt 7:** Compile Complete Manuscript - Bulk file operations
+- **Prompt 8:** Consistency Checker - Bulk file reads (30-50+ files across chapters, figures, bibliography, styles)
 - **Prompt 9:** Export and Format - Requires pandoc for DOCX/PDF/EPUB
 - **Prompt 12:** Git Operations - Direct git command execution
 - **Prompt 13:** AI Detection Analysis - Bulk chapter analysis (NEW)
@@ -265,8 +263,9 @@ Claude will read the appropriate prompt file and execute it.
   - Prompt 3: You write instructions manually → Execute
   - Prompt 4: Interactive conversation → AI writes instructions → Optionally execute
 - Prompt 2 is **DESKTOP-FRIENDLY** (not CLI-ONLY) - MCP Filesystem handles directory operations
+- Prompt 8 is **CLI-ONLY** - scans 30-50+ files for full consistency analysis
 - Prompt 11 is **HYBRID** - use Desktop for simple ops, CLI for validation/scanning
-- Prompts 13, 14, 15 are **CLI-ONLY** - require bulk analysis or WebSearch
+- Prompts 7, 8, 9, 12, 13, 14, 15 are **CLI-ONLY** - require bulk operations, WebSearch, or system tools
 
 ---
 

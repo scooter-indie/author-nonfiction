@@ -1,6 +1,6 @@
 # Execute Prompt 8: Consistency Checker
 
-**DESKTOP-READY:** 100% compatible with Claude Desktop (zero bash/git required)
+**CLI-ONLY:** Requires Claude Code CLI for bulk file operations
 
 **BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
@@ -12,11 +12,11 @@ See: `Process/ENFORCEMENT_RULES.md` for complete details
 
 **NOTE:** This is a read-only analysis operation. No _chg updates are required (reports findings only, does not modify files)
 
-**Claude Desktop Compatibility:**
-- ✅ Pure read-only file analysis via MCP Filesystem
-- ✅ No git commands required
-- ✅ No bash commands required
-- 📋 Works 100% in Desktop
+**Why CLI-ONLY:**
+- Scans 30-50+ files for comprehensive analysis (all chapters, figures, bibliography, style files)
+- Bulk read operations are inefficient in Claude Desktop MCP
+- Much faster and more reliable in Claude Code CLI with direct file access
+- Consistency checking across large projects requires efficient file I/O
 
 ---
 
