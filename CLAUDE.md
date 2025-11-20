@@ -117,8 +117,8 @@ If you already have a book project initialized:
    - Execute: `Process/Prompts/Prompt_3_Modify_File.md`
 
 3. **Regular maintenance:**
-   - Weekly: Run Prompt 8 (Dashboard)
-   - At milestones: Run Prompt 6 (Consistency)
+   - Weekly: Run Prompt 10 (Dashboard)
+   - At milestones: Run Prompt 8 (Consistency)
 
 ---
 
@@ -137,14 +137,14 @@ If you already have a book project initialized:
 Simply say to Claude:
 - "Execute Prompt 1" or "Run Prompt 1"
 - "Execute Prompt 3 to modify Chapter 5"
-- "Run the consistency checker" (Prompt 6)
-- "Show me the dashboard" (Prompt 8)
+- "Run the consistency checker" (Prompt 8)
+- "Show me the dashboard" (Prompt 10)
 
 Claude will read the appropriate prompt file and execute it.
 
 ---
 
-## 11 Core Prompts (v0.10.1+)
+## 13 Core Prompts (v0.11.0+)
 
 ### Prompt 1: Initialize Project Structure
 **Purpose:** Create new book project from scratch
@@ -156,50 +156,63 @@ Claude will read the appropriate prompt file and execute it.
 **When:** Need to insert a new chapter
 **Output:** New chapter files, renumbered existing chapters, updated TOC
 
-### Prompt 3: Modify Target File
-**Purpose:** PRIMARY workflow for all content revisions
-**When:** Any content changes (chapters, quotes, front/back matter)
+### Prompt 3: Change by Chg
+**Purpose:** Execute instructions from _chg files (automated workflow)
+**When:** You've written instructions in _chg file and want them applied
 **Output:** Modified content, updated change tracking, git commit
+**Note:** For interactive editing, use Prompt 4 instead
 
-### Prompt 4: Integrate Content from Inbox
+### Prompt 4: Interactive Change (NEW in v0.11.0)
+**Purpose:** Conversational editing that writes instructions to _chg files
+**When:** You want to discuss changes interactively before applying
+**Output:** Instructions written to _chg file, optionally execute Prompt 3
+**Note:** Alternative to manually writing _chg instructions
+
+### Prompt 5: Scan For User Edits
+**Purpose:** Detect manual edits and synchronize _chg files
+**When:** After manual edits, before milestones, weekly maintenance
+**Output:** Updated _chg files with version history
+
+### Prompt 6: Integrate Inbox
 **Purpose:** Process files from Inbox/ directory
 **When:** Have content, references, or assets to integrate
 **Output:** Integrated content, archived inbox items
 
-### Prompt 5: Compile Complete Manuscript
+### Prompt 7: Compile Complete Manuscript
 **Purpose:** Generate single file with entire manuscript
 **When:** Review entire book, prepare for editing
 **Output:** `Drafts/Full_Draft_[date]_v[version].md`
 
-### Prompt 6: Consistency Checker
+### Prompt 8: Consistency Checker
 **Purpose:** Check for consistency issues across all content
 **When:** Weekly, at milestones, before compilation/export
 **Output:** Comprehensive report with Critical/Warning/Suggestion categories
 
-### Prompt 7: Export and Format
+### Prompt 9: Export and Format
 **Purpose:** Export to DOCX, PDF, EPUB, LaTeX
 **When:** Preparing for publication or submission
 **Output:** Formatted files in `Exports/[date]/` directory
 
-### Prompt 8: Progress Dashboard
+### Prompt 10: Progress Dashboard
 **Purpose:** Generate progress report and project status
 **When:** Weekly check-ins, after major changes
 **Output:** Comprehensive dashboard with metrics and recommendations
 
-### Prompt 9: Git Operations
+### Prompt 11: Style Manager
+**Purpose:** Manage hierarchical style system (book/chapter/section overrides)
+**When:** Adding/removing style overrides, analyzing distribution, validating registry
+**Output:** Updated override registry, style analysis reports, validated consistency
+
+### Prompt 12: Git Operations
 **Purpose:** Perform git version control operations
 **When:** Commit, tag, branch, view history, push/pull
 **Output:** Git operation result and next recommendations
 
-### Prompt 10: Update Change Tracking
-**Purpose:** Synchronize _chg files with content changes
-**When:** After manual edits, before milestones, weekly maintenance
-**Output:** Updated _chg files with version history
-
-### Prompt 11: Style Manager (NEW in v0.10.1)
-**Purpose:** Manage hierarchical style system (book/chapter/section overrides)
-**When:** Adding/removing style overrides, analyzing distribution, validating registry
-**Output:** Updated override registry, style analysis reports, validated consistency
+### Prompt 13: AI Detection Analysis (NEW in v0.11.0)
+**Purpose:** Analyze chapters for AI-generated text indicators
+**When:** After drafting, before milestones, when concerned about authenticity
+**Output:** Authenticity scores, flagged passages, rewriting suggestions
+**Note:** Helps ensure content sounds authentically yours
 
 ---
 
@@ -208,28 +221,33 @@ Claude will read the appropriate prompt file and execute it.
 **When asked "list prompts", use this accurate classification:**
 
 ### DESKTOP-READY (100% - No CLI needed)
-- **Prompt 6:** Consistency Checker - Read-only analysis
+- **Prompt 8:** Consistency Checker - Read-only analysis
 
 ### DESKTOP-FRIENDLY (95% - Single git command at end)
 - **Prompt 2:** Add New Chapter - Uses MCP Filesystem for all operations including directory renaming
-- **Prompt 3:** Modify Target File - PRIMARY workflow
-- **Prompt 4:** Integrate Content from Inbox
-- **Prompt 8:** Progress Dashboard
-- **Prompt 10:** Update Change Tracking
+- **Prompt 3:** Change by Chg - Automated _chg file execution
+- **Prompt 4:** Interactive Change - Conversational editing workflow (NEW)
+- **Prompt 5:** Scan For User Edits - Detect manual changes
+- **Prompt 6:** Integrate Inbox - Process inbox files
+- **Prompt 10:** Progress Dashboard - Status reports
 
 ### HYBRID (50-80% - Mixed Desktop/CLI interaction)
 - **Prompt 1:** Initialize Project Structure - File creation in Desktop, git via CLI throughout
 - **Prompt 11:** Style Manager - Single-file ops in Desktop, multi-file scans better in CLI
 
 ### CLI-ONLY (0% - Must use Claude Code CLI)
-- **Prompt 5:** Compile Complete Manuscript - Bulk file operations
-- **Prompt 7:** Export and Format - Requires pandoc for DOCX/PDF/EPUB
-- **Prompt 9:** Git Operations - Direct git command execution
+- **Prompt 7:** Compile Complete Manuscript - Bulk file operations
+- **Prompt 9:** Export and Format - Requires pandoc for DOCX/PDF/EPUB
+- **Prompt 12:** Git Operations - Direct git command execution
+- **Prompt 13:** AI Detection Analysis - Bulk chapter analysis (NEW)
 
 **Key Points:**
+- Prompts 3 & 4 are both **DESKTOP-FRIENDLY** workflows - choose based on preference
+  - Prompt 3: You write instructions manually → Execute
+  - Prompt 4: Interactive conversation → AI writes instructions → Optionally execute
 - Prompt 2 is **DESKTOP-FRIENDLY** (not CLI-ONLY) - MCP Filesystem handles directory operations
-- Prompt 3 is the **PRIMARY** daily workflow (DESKTOP-FRIENDLY)
 - Prompt 11 is **HYBRID** - use Desktop for simple ops, CLI for validation/scanning
+- Prompt 13 is **CLI-ONLY** - requires bulk file analysis
 
 ---
 
@@ -285,9 +303,9 @@ Section Style (Optional Override)
 **How to Use:**
 - **Prompt 1** (Initialize): Select book-level style, creates Style_Overrides.md
 - **Prompt 2** (Add Chapter): Optionally set chapter-level override when creating chapter
-- **Prompt 3** (Modify File): Automatically applies active style using cascading resolution
-- **Prompt 6** (Consistency): Analyzes style distribution and transitions
-- **Prompt 8** (Dashboard): Shows style distribution summary
+- **Prompt 3** (Change by Chg): Automatically applies active style using cascading resolution
+- **Prompt 8** (Consistency): Analyzes style distribution and transitions
+- **Prompt 10** (Dashboard): Shows style distribution summary
 - **Prompt 11** (Style Manager): Add/remove/analyze overrides, validate registry
 
 **Location:** `Process/Style_Examples.md` contains complete style definitions with examples.
@@ -335,7 +353,7 @@ The framework includes centralized quote/epigraph management:
 - Tags for milestones
 - Remote backup recommended
 
-**Git operations via Prompt 9:**
+**Git operations via Prompt 12:**
 - Commit, tag, branch, merge
 - View history and diffs
 - Push/pull to remote
@@ -346,26 +364,27 @@ The framework includes centralized quote/epigraph management:
 ## Quick Reference: Common Workflows
 
 ### Daily Writing Session
-1. Run Prompt 8 → Dashboard
+1. Run Prompt 10 → Dashboard
 2. Work on content
-3. Write revision instructions in _chg files
-4. Run Prompt 3 for each file
-5. Run Prompt 9 → Push
+3. Write revision instructions in _chg files (or use Prompt 4 for interactive editing)
+4. Run Prompt 3 for each file (or Prompt 4 handles execution automatically)
+5. Run Prompt 12 → Push
 
 ### Weekly Review
-1. Prompt 8 → Dashboard
-2. Prompt 6 → Consistency Check
-3. Prompt 5 → Compile manuscript
-4. Fix issues using Prompt 3
-5. Prompt 9 → Commit and push
+1. Prompt 10 → Dashboard
+2. Prompt 8 → Consistency Check
+3. Prompt 7 → Compile manuscript
+4. Fix issues using Prompt 3 or Prompt 4
+5. Prompt 12 → Commit and push
 
 ### Milestone Workflow (25%, 50%, 75%, 100%)
-1. Prompt 8 → Verify progress
-2. Prompt 6 → Full consistency check
-3. Fix all issues using Prompt 3
-4. Prompt 5 → Compile final version
-5. Prompt 9 → Create tag (e.g., v1.0.0)
-6. Prompt 9 → Push with tags
+1. Prompt 10 → Verify progress
+2. Prompt 8 → Full consistency check
+3. Prompt 13 → AI Detection Analysis (check authenticity)
+4. Fix all issues using Prompt 3 or Prompt 4
+5. Prompt 7 → Compile final version
+6. Prompt 12 → Create tag (e.g., v1.0.0)
+7. Prompt 12 → Push with tags
 
 ---
 
@@ -438,8 +457,8 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 - **Prompt 1 (Initialize):** Creates initial project structure with date metadata
 - **Prompt 2 (Add Chapter):** Writes chapter creation date
-- **Prompt 5 (Compile):** Creates `Full_Draft_[date]_v[version].md`
-- **Prompt 7 (Export):** Creates `Exports/[date]/` directory
+- **Prompt 7 (Compile):** Creates `Full_Draft_[date]_v[version].md`
+- **Prompt 9 (Export):** Creates `Exports/[date]/` directory
 
 **All date-writing prompts have been updated with explicit reminders to use CONFIRMED_DATE.**
 
