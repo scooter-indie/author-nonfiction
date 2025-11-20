@@ -7,6 +7,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.10.2] - 2025-11-20
+
+### Added
+- **Automated Migration System** for framework upgrades
+  - `.nonfiction-migrations.json` with migration rules and change types
+  - Multi-version migration support with sequential application (e.g., 0.10.0 → 0.11.1 applies all intermediate migrations)
+  - Six change types: `rename`, `delete`, `gitignore_add`, `gitignore_remove`, `add_to_config`, `update_content`
+  - Applied migrations tracked in `.nonfiction-manifest.json` to prevent re-execution
+  - Step 4.5 in configure.md for automated migration execution
+  - Interactive user prompts: apply/skip/abort with retry logic
+  - Automatic generation of `MANUAL_MIGRATION_STEPS.md` for failed changes
+  - First migration (0.10.0 → 0.10.1): README.md → FW_README.md, .gitignore updates
+
+- **Date Confirmation Protocol** for accurate date usage
+  - Session startup date verification in CLAUDE.md
+  - User confirms date at start: "Today's date is YYYY-MM-DD. Is this correct?"
+  - `CONFIRMED_DATE` passed to all spawned agents
+  - Prevents incorrect dates in chapter creation and file generation
+  - Updated Prompts 1, 2, 5, 7 with date reminder sections
+
+- **Mandatory Anti-Hallucination Enforcement**
+  - "FIRST ACTION - MANDATORY" requirement in Prompts 1, 2, 3, 4
+  - Claude must use Read tool to read `Process/Anti-Hallucination_Guidelines.md` before ANY actions
+  - Agent instructions to read guidelines before proceeding
+  - Ensures ASK FIRST protocol is applied consistently
+
+- **Prompt 9 (Git Operations) Enhancements**
+  - Detailed answer examples for all 7 git operations
+  - 8 full dialogue example interactions showing Q&A flow
+  - Verbose mode preference with opt-out system: `prompt_9_verbose: true/false` in Project_Config.md
+  - User can answer "never ask again" to disable detailed explanations
+  - Comprehensive user guidance for commit messages, tags, branches, etc.
+
+### Changed
+- **Migration file tracking**
+  - `.nonfiction-migrations.json` tracked in framework repository (not in .gitignore)
+  - User projects exclude `.nonfiction-migrations.json` (added to gitignore_template)
+- **Release preparation process**
+  - PREPARE_RELEASE.md Step 4.5: Verify migration configuration
+  - Prompt_99_Build_Release.md Step 2: Verify and include migrations in build
+- **manifest_template.json**: Added `appliedMigrations: []` array
+- **Project_Config.md template**: Added `prompt_9_verbose: true` setting (Prompt 1 creates it)
+
+### Technical
+- Migration system fully integrated into configure.md, PREPARE_RELEASE.md, and Prompt_99_Build_Release.md
+- Version ordering logic for sequential migration application
+- .gitignore properly configured: migrations tracked in framework, excluded from user projects
+- Comprehensive documentation with single-version and multi-version migration examples
+
+---
+
 ## [0.10.1] - 2025-11-19
 
 ### Added
