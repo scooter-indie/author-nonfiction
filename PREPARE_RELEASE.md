@@ -168,6 +168,10 @@ If any unexpected references found, update them.
 - Verify all change types work correctly
 - Confirm manual steps are clear and accurate
 
+**CRITICAL: Verify migrations file will be included in release:**
+- Check that `.github/workflows/release.yml` copies `.nonfiction-migrations.json` to build/temp/
+- This file MUST be included in release zip for upgrade migrations to work
+
 ### Step 5: Commit Version Updates
 
 ```bash

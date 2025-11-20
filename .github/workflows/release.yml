@@ -58,6 +58,9 @@ jobs:
           # Copy root documentation files
           cp README.md INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md build/temp/
 
+          # Copy migration configuration (CRITICAL for framework upgrades)
+          cp .nonfiction-migrations.json build/temp/
+
       - name: Remove development files
         run: |
           cd build/temp
