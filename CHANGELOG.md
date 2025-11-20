@@ -7,6 +7,90 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.11.0] - 2025-11-20
+
+### Added
+- **Prompt 4: Interactive Change** - Conversational editing workflow that writes instructions to _chg files
+  - Interactive dialogue for discussing changes before applying
+  - Writes formatted instructions to _chg files
+  - Optionally executes Prompt 3 to apply changes immediately
+  - DESKTOP-FRIENDLY compatibility (95% - single git commit at end)
+- **Prompt 13: AI Detection Analysis** - Analyze chapters for AI-generated text indicators
+  - Scans for repetitive patterns, generic transitions, and AI text markers
+  - Generates authenticity scores per chapter (1-10 scale)
+  - Provides rewriting suggestions to improve human voice
+  - CLI-ONLY compatibility (bulk chapter analysis)
+- **Prompt 14: Visual Content Suggester** - Create and manage visual assets
+  - Analyzes chapters for visual opportunities (diagrams, tables, charts)
+  - Creates text-based visuals (markdown tables, ASCII diagrams)
+  - Saves to `figures/` subdirectories with registry tracking
+  - Auto-maintains `figures/README.md` for each chapter
+  - Tracks replacement priority (📝 text-based → 🖼️ professional upgrade path)
+  - CLI-ONLY/HYBRID compatibility
+- **Prompt 15: Citation Finder** - WebSearch-based citation discovery and insertion
+  - Scans for uncited statistical claims and facts
+  - Uses WebSearch to find real academic sources
+  - Auto-inserts citations with ⏳ Pending status
+  - Updates Bibliography with full citation details
+  - Strictest anti-hallucination compliance (Level 3 - NEVER fabricate)
+  - CLI-ONLY compatibility (requires WebSearch tool)
+- **Module 15: Visual_Asset_Management_Protocol** - Standardized figure management system
+  - Status codes: 📝 text-based vs 🖼️ professional images
+  - Figure registry format and metadata standards
+  - Upgrade path from text-based to professional graphics
+- **Module 16: Citation_Management_Protocol** - Citation verification workflow
+  - Status codes: ⏳ Pending | ✓ Verified | ❌ Rejected
+  - WebSearch verification procedures
+  - Integration with Anti-Hallucination Guidelines
+- **Natural Language Intent Recognition** - Conversational prompt invocation
+  - Added to book-writing-assistant.md for Claude Code CLI
+  - Supports phrases like "I want to modify chapter 4" → triggers Prompt 4
+  - Works for all 15 prompts with natural variations
+
+### Changed
+- **Prompt Structure: 11→15 prompts** (expanded framework)
+  - OLD Prompt 3 → NEW Prompt 3: Change_by_Chg (renamed, clarified purpose)
+  - OLD Prompt 4 → NEW Prompt 6: Integrate_Inbox
+  - OLD Prompt 5 → NEW Prompt 7: Compile
+  - OLD Prompt 6 → NEW Prompt 8: Consistency
+  - OLD Prompt 7 → NEW Prompt 9: Export
+  - OLD Prompt 8 → NEW Prompt 10: Dashboard
+  - OLD Prompt 9 → NEW Prompt 12: Git_Operations
+  - OLD Prompt 10 → NEW Prompt 5: Scan_For_User_Edits (repositioned for workflow logic)
+  - Prompt 11: Style_Manager (unchanged)
+- **Prompt 3: Change_by_Chg** - Clarified as automated _chg file execution only
+  - No interactive elements (moved to Prompt 4)
+  - References Prompt 4 for conversational editing
+- **Prompt 8: Consistency Checker** - Enhanced with visual and citation status reporting
+  - Reports on figures/ directories (📝 vs 🖼️ distribution)
+  - Reports on Bibliography files (⏳/✓/❌ citation status)
+  - Recommends when to run Prompts 14 and 15
+  - Identifies chapters lacking visuals or citations
+- **Compatibility Classifications** - Updated for 15-prompt structure
+  - CLI-ONLY: Prompts 7, 9, 12, 13, 14, 15 (6 prompts)
+  - DESKTOP-FRIENDLY: Prompts 2, 3, 4, 5, 6, 10 (6 prompts)
+  - HYBRID: configure.md, Prompts 1, 11 (2 prompts + config)
+  - DESKTOP-READY: Prompt 8 (1 prompt - 100% no CLI)
+- **Documentation** - All 7 core documentation files updated
+  - README.md: 11→15 prompts, updated compatibility tables
+  - CLAUDE.md: Updated prompt listings and workflow examples
+  - system-instructions.md: Updated CLI-ONLY lists, compatibility info
+  - PREPARE_RELEASE.md: Updated for 15-prompt verification
+  - Process/Prompts/QUICK_REFERENCE.md: Complete overhaul for dual workflows
+  - Process/Prompts/README.md: Added new prompt descriptions
+  - Process/AI-Assisted_Nonfiction_Authoring_Process.md: 1541 lines updated
+
+### Technical
+- **Development in 2 phases:**
+  - Phase 1: Core Refactor (13-prompt structure) - Tagged v0.11.0-phase1
+  - Phase 2: Content Enhancement (15-prompt structure) - Tagged v0.11.0-phase2
+- **Total commits:** 25 (13 Phase 1 + 12 Phase 2)
+- **Branch:** v_0.11.0 (merged to main for release)
+- **Total modules:** 16 (added Modules 15-16)
+- **All cross-references updated** across prompts and documentation
+
+---
+
 ## [0.10.3] - 2025-11-20
 
 ### Fixed
