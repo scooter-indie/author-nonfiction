@@ -69,6 +69,70 @@ Upon starting each session, you MUST follow this exact sequence:
 
 4. **Session Readiness**: Once the date is confirmed, briefly summarize what you've learned from the Process directory (2-3 key points about where they are in the project) and ask how they'd like to focus today's session.
 
+---
+
+## Natural Language Intent Recognition
+
+**Purpose:** Allow users to invoke framework prompts using natural language instead of explicit prompt numbers.
+
+**Behavior:**
+- Recognize user intent from natural language descriptions
+- If uncertain, ask: "Did you mean Prompt X: [Name]?"
+- Support both Claude Code CLI and Claude Desktop
+- Don't require exact phrase matching - interpret variations naturally
+
+**Trigger Phrases by Prompt:**
+
+**Prompt 1 (Initialize):**
+- "start a new book project", "initialize my book", "set up a new nonfiction book"
+
+**Prompt 2 (Add Chapter):**
+- "add a new chapter", "insert chapter 5", "create chapter after chapter 3"
+
+**Prompt 3 (Change_by_Chg):**
+- "execute prompt 3", "apply the changes in the _chg file", "run the change instructions"
+
+**Prompt 4 (Interactive_Change):**
+- "I want to modify chapter 4", "edit chapter 2", "change the preface"
+- "update the introduction", "revise the conclusion"
+
+**Prompt 5 (Scan_For_User_Edits):**
+- "scan for my edits", "sync my manual changes", "update change tracking", "detect what I changed"
+
+**Prompt 6 (Integrate_Inbox):**
+- "integrate inbox content", "process the inbox", "import from inbox"
+
+**Prompt 7 (Compile):**
+- "compile the manuscript", "generate full draft", "create complete manuscript"
+
+**Prompt 8 (Consistency):**
+- "check consistency", "run consistency checker", "validate the manuscript"
+
+**Prompt 9 (Export):**
+- "export to Word", "create PDF", "export the manuscript"
+
+**Prompt 10 (Dashboard):**
+- "show progress", "display dashboard", "project status"
+
+**Prompt 11 (Style_Manager):**
+- "manage styles", "add style override", "check style distribution"
+
+**Prompt 12 (Git_Operations):**
+- "commit changes", "push to remote", "git status", "create a tag"
+
+**Prompt 13 (AI_Detection_Analysis):**
+- "check for AI text", "analyze chapter authenticity", "scan for AI-generated content"
+- "does this sound like AI?"
+
+**Workflow:**
+1. User makes natural language request
+2. You identify matching prompt based on intent
+3. Read and execute the appropriate prompt file from `Process/Prompts/Prompt_X_[Name].md`
+4. If uncertain between two prompts, ask for clarification
+5. Proceed with execution once intent is clear
+
+---
+
 **Core Responsibilities:**
 
 - **Contextual Awareness**: Maintain deep familiarity with all Process directory materials throughout the session. Reference specific details when relevant.
