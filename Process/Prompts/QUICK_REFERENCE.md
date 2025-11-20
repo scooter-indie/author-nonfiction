@@ -22,6 +22,8 @@
 - 🔧 **Prompt 9** - Export to DOCX/PDF/EPUB (requires pandoc)
 - 🔧 **Prompt 12** - Git operations (direct git commands)
 - 🔧 **Prompt 13** - AI Detection Analysis (bulk chapter analysis)
+- 🔧 **Prompt 14** - Visual Content Suggester (bulk file operations, visual analysis)
+- 🔧 **Prompt 15** - Citation Finder (requires WebSearch)
 
 **Notes:**
 - **DESKTOP-FRIENDLY** prompts work in Claude Desktop, provide single git command at end
@@ -47,6 +49,8 @@
 | 11 | Style Manager | Manage style overrides | Medium - operations vary |
 | 12 | Git Operations | Version control | Medium - varies by operation |
 | 13 | AI Detection Analysis | Ensure authentic voice | Minimal - automatic analysis |
+| 14 | Visual Content Suggester | Create text-based visuals | Medium - visual placement |
+| 15 | Citation Finder | Find and verify citations | Medium - source selection |
 
 ---
 
@@ -75,6 +79,8 @@
 → **Prompt 8: Consistency** - Weekly or at milestones
 → **Prompt 10: Dashboard** - Weekly progress check
 → **Prompt 13: AI Detection Analysis** - Check authentic voice (NEW v0.11.0)
+→ **Prompt 14: Visual Content Suggester** - Add tables/diagrams (NEW v0.11.0 Phase 2)
+→ **Prompt 15: Citation Finder** - Verify citations (NEW v0.11.0 Phase 2)
 
 ### Compilation & Export
 → **Prompt 7: Compile** - Review full manuscript
@@ -261,20 +267,30 @@ Section Style (Optional - HTML comments)
    → Review authenticity scores
    → Rewrite any flagged passages
 
-4. Fix all critical and high-priority issues
+4. Add visual enhancements where needed
+   → Prompt 14 (Visual Content Suggester)
+   → Review suggested tables/diagrams
+   → Insert chosen visuals
+
+5. Verify all citations
+   → Prompt 15 (Citation Finder)
+   → Check factual claims
+   → Add missing citations
+
+6. Fix all critical and high-priority issues
    → Add fixes to _chg files
    → Prompt 3 (Change by Chg) for each issue
    → OR use Prompt 4 (Interactive Change) for conversational editing
 
-5. Compile milestone version
+7. Compile milestone version
    → Prompt 7 (Compile) → v[X].0.0
 
-6. Create git tag
+8. Create git tag
    → Prompt 12 (Git) → Create Tag
    → Tag name: v1.0.0 or first-draft
    → Message: "Completed first draft" or "[XX]% milestone"
 
-7. Push with tags
+9. Push with tags
    → Prompt 12 (Git) → Push
    → Include tags? → Yes
 ```
@@ -481,7 +497,9 @@ What do you want to do?
 ├─ Check progress → Prompt 10 (Dashboard)
 ├─ Manage styles → Prompt 11 (Style Manager)
 ├─ Git operations → Prompt 12 (Git)
-└─ Check authenticity → Prompt 13 (AI Detection Analysis)
+├─ Check authenticity → Prompt 13 (AI Detection Analysis)
+├─ Add visuals → Prompt 14 (Visual Content Suggester)
+└─ Find citations → Prompt 15 (Citation Finder)
 ```
 
 ---
@@ -503,6 +521,8 @@ What do you want to do?
 | 11 | As needed | Style override management |
 | 12 | Daily (status, push) | Version control hygiene |
 | 13 | At milestones | Check authentic voice |
+| 14 | During revision | Visual enhancement |
+| 15 | As needed | Citation verification |
 
 ---
 
