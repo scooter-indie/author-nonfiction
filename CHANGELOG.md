@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.10.3] - 2025-11-20
+
+### Fixed
+- **CRITICAL:** `.nonfiction-migrations.json` was missing from v0.10.2 release package
+  - Users upgrading from 0.10.1 to 0.10.2 had no migration rules available
+  - Migration system could not function without this file
+  - Fixed: `.github/workflows/release.yml` now explicitly copies migrations file to release
+  - Added verification step to `PREPARE_RELEASE.md` to prevent recurrence
+
+### Changed
+- **Release workflow** (`.github/workflows/release.yml`)
+  - Added explicit copy step for `.nonfiction-migrations.json`
+  - Enhanced installation instructions with dual-path (Claude Code + Claude Desktop)
+  - Added IMPORTANT note about system-instructions.md setup for Claude Desktop users
+- **Release preparation** (`PREPARE_RELEASE.md`)
+  - Added CRITICAL verification: migrations file must be in release zip
+  - Enhanced Step 8 with dual-path installation verification checklist
+
+### Technical
+- All users should upgrade from 0.10.2 to 0.10.3 to get working migration system
+- v0.10.2 migration (README.md → FW_README.md) will now work correctly
+
+---
+
 ## [0.10.2] - 2025-11-20
 
 ### Added
