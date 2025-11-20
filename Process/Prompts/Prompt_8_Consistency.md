@@ -218,22 +218,133 @@ Chapter 02:
 
 ---
 
+## Visual Content Status
+
+**Scan `figures/` directories in chapters for visual asset inventory.**
+
+**Example output:**
+```
+### Visual Asset Summary
+
+**Total Figures:** 12 across 5 chapters
+- 📝 Text-based: 8 (67%)
+- 🖼️ Professional images: 4 (33%)
+
+### Chapter-by-Chapter Visual Status
+
+**Chapter 1:** 3 visuals present
+- 2 🖼️ professional images (fig_01_01_architecture.png, fig_01_02_workflow.png)
+- 1 📝 text-based table (fig_01_03_comparison.md)
+- Status: ✓ Good visual coverage
+
+**Chapter 2:** ⚠ No visuals found
+- Content indicators: Complex data discussed (lines 145-230), statistical claims
+- Process descriptions (lines 300-350) could benefit from flowchart
+- Recommendation: Run Prompt 14 (Visual Content Suggester)
+
+**Chapter 3:** 5 visuals present
+- All 📝 text-based (markdown tables and ASCII diagrams)
+- Status: ⚠ Consider upgrading text-based to professional graphics
+- Replacement priority (from registry): 2 High, 2 Medium, 1 Low
+- Recommendation: Upgrade fig_03_01 and fig_03_02 (High priority)
+
+**Chapter 4:** 2 visuals present
+- 1 🖼️ professional image
+- 1 📝 text-based
+- Status: ✓ Good coverage
+
+**Chapter 5:** 2 visuals present
+- 1 🖼️ professional image
+- 1 📝 text-based
+- Status: ✓ Adequate coverage
+```
+
+**Recommendations:**
+- Run Prompt 14 for Chapter 2 to add visual aids
+- Consider upgrading High priority text-based visuals in Chapter 3
+- Overall visual density: 2.4 figures per chapter (target: 2-4)
+
+---
+
+## Citation Status
+
+**Scan `BackMatter/Bibliography/Chapter_XX_References.md` files for citation verification status.**
+
+**Example output:**
+```
+### Citation Summary
+
+**Total Citations:** 48 across 5 chapters
+- ✓ Verified: 32 (67%)
+- ⏳ Pending verification: 14 (29%)
+- ❌ Rejected: 2 (4%)
+
+### Chapter-by-Chapter Citation Status
+
+**Chapter 1:** 12 citations
+- ✓ Verified: 8 (67%)
+- ⏳ Pending: 4 (33%)
+- Status: ⚠ Moderate - 4 citations need verification
+- Action: Verify pending citations before milestone
+
+**Chapter 2:** ⚠ Citation issues detected
+- ✓ Verified: 5 citations
+- ⏳ Pending: 2 citations
+- ❌ No citations: 3 uncited statistical claims found
+  - Line 145: "Remote work increased productivity by 13%"
+  - Line 230: "65% of employees prefer hybrid model"
+  - Line 367: "Studies show 40% reduction in commute time"
+- Recommendation: Run Prompt 15 (Citation Finder) for Chapter 2
+
+**Chapter 3:** 8 citations (all ✓ verified)
+- Status: ✓ Excellent - All citations verified and accessible
+
+**Chapter 4:** 15 citations
+- ✓ Verified: 10 (67%)
+- ⏳ Pending: 5 (33%)
+- Status: ⚠ Moderate - 5 citations need verification
+
+**Chapter 5:** 10 citations
+- ✓ Verified: 9 (90%)
+- ⏳ Pending: 1 (10%)
+- Status: ✓ Good - Nearly complete
+```
+
+**Citation Quality Indicators:**
+- Overall verification rate: 67% (target: >90% before publication)
+- Uncited statistical claims: 3 found
+- Broken DOI/URL links: 0 (excellent)
+- Missing bibliographic info: 1 (Chapter 4, citation needs full details)
+
+**Recommendations:**
+- Verify 14 pending (⏳) citations across all chapters
+- Run Prompt 15 for Chapter 2 to find sources for 3 uncited claims
+- Complete bibliographic info for 1 citation in Chapter 4
+- Target: 100% verification before final milestone
+
+---
+
 ## What to Do With Results
 
 Use the report to:
 1. Identify issues that need fixing
-2. Use **Prompt 3** to modify files and fix problems
-3. Re-run Consistency Checker after fixes
-4. Run before major milestones (25%, 50%, 75%, 100% completion)
+2. Use **Prompt 3 or 4** to modify files and fix problems
+3. Use **Prompt 14** to add visual content where recommended
+4. Use **Prompt 15** to find citations for uncited claims
+5. Verify pending (⏳) citations via Prompt 3 or 4
+6. Upgrade text-based visuals (📝 → 🖼️) as needed
+7. Re-run Consistency Checker after fixes
+8. Run before major milestones (25%, 50%, 75%, 100% completion)
 
 ---
 
 ## Recommended Frequency
 
-- **Weekly**: During active writing
-- **At milestones**: 25%, 50%, 75% completion
-- **Before compilation**: Prior to using Prompt 5
-- **Before export**: Prior to using Prompt 7
+- **Weekly**: During active writing (checks all areas including visual/citation status)
+- **At milestones**: 25%, 50%, 75% completion (comprehensive check)
+- **Before compilation**: Prior to using Prompt 7
+- **Before export**: Prior to using Prompt 9 (final visual/citation verification)
+- **After Prompt 14/15**: Re-run to verify visual/citation improvements
 
 ---
 
