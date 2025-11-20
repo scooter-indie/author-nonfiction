@@ -705,6 +705,86 @@ If issues are discovered after deployment:
 
 ---
 
+## Documentation Files Requiring Updates
+
+**Research completed:** 2025-11-20
+
+When implementing this refactor for v0.11.0, the following documentation files MUST be updated to reflect the new 13-prompt structure:
+
+### Critical Updates (11→13 prompts, renumbered structure)
+
+1. **CLAUDE.md** (lines 147-233)
+   - Update section "11 Core Prompts" → "13 Core Prompts"
+   - Add Prompt 4: Interactive_Change description
+   - Renumber Prompts 4-9 → 6-12
+   - Add Prompt 13: AI_Detection_Analysis description
+   - Update "Quick Compatibility Reference" with new prompt numbers
+   - Update CLI-ONLY list: Prompts 5,7,9 → 7,9,12
+
+2. **system-instructions.md** (lines 42-66)
+   - Update CLI-ONLY check: "Prompt 5" OR "Prompt 7" OR "Prompt 9" → "Prompt 7" OR "Prompt 9" OR "Prompt 12"
+   - Update DESKTOP/HYBRID list: "Prompts 1, 2, 3, 4, 6, 8, 10, 11" → "Prompts 1, 2, 3, 4, 5, 6, 8, 10, 11"
+   - Update HYBRID prompts: "Prompts 1, 4, 7" → "Prompts 1, 6, 9"
+
+3. **PREPARE_RELEASE.md** (lines 37, 96-117, 331, 357)
+   - Update all "11 prompts" → "13 prompts"
+   - Update CLI-ONLY list: "Prompts 5, 7, 9" → "Prompts 7, 9, 12, 13"
+   - Update DESKTOP-FRIENDLY list with renumbered prompts
+   - Update HYBRID list: "Prompts 1, 11" → "Prompts 1, 6, 9, 11"
+   - Update verification checklist for 13 prompts
+
+4. **README.md** (lines 16, 82-89, 127-246)
+   - Update "11 conversational prompts" → "13 conversational prompts"
+   - Update "The 11 Core Prompts" → "The 13 Core Prompts"
+   - Add Prompt 4 description (Interactive editing)
+   - Renumber all prompts 4-11 → 6-13
+   - Update workflow examples with new prompt numbers
+
+5. **Process/Prompts/QUICK_REFERENCE.md** (lines 1-84)
+   - Update compatibility tables with new prompt numbers
+   - Update "At a Glance" table (11→13 rows)
+   - Add Prompt 4: Interactive_Change
+   - Renumber Prompts 4-11 → 6-13
+   - Add Prompt 13: AI_Detection_Analysis
+   - Update CLI-ONLY: Prompts 5,7,9 → 7,9,12,13
+
+6. **Process/Prompts/README.md** (lines 15-32, 69-200+)
+   - Update directory contents listing (add Prompt 4, Prompt 13, renumber)
+   - Update "Available Prompts" section (13 prompts)
+   - Renumber all prompt descriptions
+   - Add new Prompt 4 and Prompt 13 descriptions
+
+7. **Process/AI-Assisted_Nonfiction_Authoring_Process.md** (various lines)
+   - Update all prompt number references throughout
+   - Add documentation for Prompt 4 workflow
+   - Add documentation for Prompt 13 analysis
+   - Update cross-references to renumbered prompts
+
+### Version References
+
+All files currently reference:
+- "11 prompts" or "11 Core Prompts"
+- Prompt numbers 1-11
+- CLI-ONLY: Prompts 5, 7, 9
+
+After v0.11.0 implementation, all should reference:
+- "13 prompts" or "13 Core Prompts"
+- Prompt numbers 1-13
+- CLI-ONLY: Prompts 7, 9, 12, 13
+- DESKTOP-FRIENDLY: Prompts 2, 3, 4, 5, 8, 10
+- HYBRID: Prompts 1, 6, 11
+- DESKTOP-READY: Prompt 8
+
+### Implementation Notes
+
+- **Update documentation AFTER implementing prompt files** (not before)
+- Use find/replace carefully - many prompt numbers appear in examples
+- Test all cross-references after renumbering
+- Update CHANGELOG.md with comprehensive v0.11.0 entry
+- Consider adding migration for any config files referencing prompt numbers
+
+---
+
 **Status:** Ready for implementation
 **Assigned to:** [To be determined]
 **Target completion:** [To be determined]
