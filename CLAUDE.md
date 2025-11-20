@@ -203,6 +203,36 @@ Claude will read the appropriate prompt file and execute it.
 
 ---
 
+## Quick Compatibility Reference
+
+**When asked "list prompts", use this accurate classification:**
+
+### DESKTOP-READY (100% - No CLI needed)
+- **Prompt 6:** Consistency Checker - Read-only analysis
+
+### DESKTOP-FRIENDLY (95% - Single git command at end)
+- **Prompt 2:** Add New Chapter - Uses MCP Filesystem for all operations including directory renaming
+- **Prompt 3:** Modify Target File - PRIMARY workflow
+- **Prompt 4:** Integrate Content from Inbox
+- **Prompt 8:** Progress Dashboard
+- **Prompt 10:** Update Change Tracking
+
+### HYBRID (50-80% - Mixed Desktop/CLI interaction)
+- **Prompt 1:** Initialize Project Structure - File creation in Desktop, git via CLI throughout
+- **Prompt 11:** Style Manager - Single-file ops in Desktop, multi-file scans better in CLI
+
+### CLI-ONLY (0% - Must use Claude Code CLI)
+- **Prompt 5:** Compile Complete Manuscript - Bulk file operations
+- **Prompt 7:** Export and Format - Requires pandoc for DOCX/PDF/EPUB
+- **Prompt 9:** Git Operations - Direct git command execution
+
+**Key Points:**
+- Prompt 2 is **DESKTOP-FRIENDLY** (not CLI-ONLY) - MCP Filesystem handles directory operations
+- Prompt 3 is the **PRIMARY** daily workflow (DESKTOP-FRIENDLY)
+- Prompt 11 is **HYBRID** - use Desktop for simple ops, CLI for validation/scanning
+
+---
+
 ## Writing Style System
 
 ### Hierarchical Style System (v0.10.1+)
