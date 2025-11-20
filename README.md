@@ -13,7 +13,7 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 ### Key Features
 
 - 📝 **Structured Authoring Process** with change tracking and version history
-- 🤖 **AI Assistance** through 13 conversational prompts
+- 🤖 **AI Assistance** through 15 conversational prompts
 - 🎨 **Professional Writing Styles** - 9 curated styles plus custom style support
 - 📚 **Quote Management** with web search and verification system
 - 🔍 **Quality Control** - Consistency checking and validation
@@ -79,7 +79,7 @@ This will ask you about your book and create the complete project structure.
 
 ### 5. Start Writing!
 
-Use the framework's 13 prompts to write and manage your book:
+Use the framework's 15 prompts to write and manage your book:
 - **Prompt 3**: Change by Chg (automated workflow from _chg files)
 - **Prompt 4**: Interactive Change (conversational editing)
 - **Prompt 8**: Check consistency
@@ -125,7 +125,7 @@ After extraction, your project contains:
 
 ---
 
-## The 13 Core Prompts
+## The 15 Core Prompts
 
 Execute these prompts in Claude Code to manage your book:
 
@@ -167,6 +167,12 @@ Commit, tag, branch, push, and manage version control.
 
 ### Prompt 13: AI Detection Analysis
 Analyze chapters for AI-generated text indicators and ensure authentic voice.
+
+### Prompt 14: Visual Content Suggester
+Analyze chapters and create text-based visuals (tables, diagrams, flowcharts) to enhance understanding.
+
+### Prompt 15: Citation Finder
+Find and insert citations with WebSearch verification for factual accuracy.
 
 **Full Documentation**: `Process/Prompts/QUICK_REFERENCE.md`
 
