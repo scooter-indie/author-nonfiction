@@ -213,7 +213,7 @@ Claude Desktop can execute framework files using the `execute` command with MCP 
 ```
 execute "E:\Projects\my-book\configure.md"
 execute "E:\Projects\my-book\PROJECT_CONTEXT.md"
-execute "E:\Projects\my-book\Process\Prompts\Prompt_3_Modify_File.md"
+execute "E:\Projects\my-book\Process\Prompts\Prompt_3_Change_by_Chg.md"
 ```
 
 **Always use full absolute paths in quotes.**
