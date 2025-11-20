@@ -28,24 +28,32 @@ Store as: `NEW_VERSION`
 Update the version number in these files:
 
 **Critical Files (MUST update):**
-1. `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
+1. `README.md` (root level)
+   - Line ~3: `**Version X.X.X**`
+   - Line ~30: Download link: `nonfiction-vX.X.X.zip`
+   - Line ~41-47: Extract instructions: `nonfiction-vX.X.X.zip`
+   - Line ~336: `**Framework Version**: X.X.X`
+   - Line ~337: `**Release Date**: YYYY-MM-DD`
+   - Review entire file for outdated prompt counts ("10 prompts" vs "11 prompts")
+
+2. `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
    - Line ~3: `**Version:** X.X.X`
    - Line ~4: `**Last Updated:** YYYY-MM-DD`
 
-2. `CLAUDE.md`
+3. `CLAUDE.md`
    - Line ~3: `**Framework Version:** X.X.X`
    - Line ~322: `**Framework Version:** X.X.X`
    - Line ~323: `**Last Updated:** YYYY-MM-DD`
 
-3. `configure.md`
+4. `configure.md`
    - Line ~5: `**AI-Assisted Nonfiction Authoring Framework vX.X.X**`
-   - Line ~389: `*Framework Version: X.X.X*`
+   - Line ~418: `*Framework Version: X.X.X*`
 
-4. `INSTALLATION.md`
+5. `INSTALLATION.md`
    - All references to `vX.X.X` or `X.X.X`
    - Download links: `nonfiction-vX.X.X.zip`
 
-5. `PREPARE_RELEASE.md` (this file)
+6. `PREPARE_RELEASE.md` (this file)
    - Line ~3: `**Current Framework Version:** X.X.X`
    - Line ~4: `**Last Updated:** YYYY-MM-DD`
    - Line ~end: `**Framework Version:** X.X.X` (footer)
@@ -53,9 +61,10 @@ Update the version number in these files:
 
    **Self-Update:** This file updates its own version numbers as part of the release process.
 
-6. `system-instructions.md`
+7. `system-instructions.md`
    - Line ~3: `**Framework Version:** X.X.X`
-   - Line ~440: `**Framework Version:** X.X.X` (footer)
+   - Line ~487: `**Framework Version:** X.X.X` (footer)
+   - Line ~488: `**Last Updated:** YYYY-MM-DD` (footer)
 
 **CHANGELOG.md:**
 - Add new version entry at top with today's date
@@ -79,7 +88,36 @@ Update the version number in these files:
 ---
 ```
 
-### Step 3: Verify All Updates
+### Step 3: Review Critical Files for Content Updates
+
+**IMPORTANT:** Before proceeding to version verification, manually review these files for outdated content:
+
+**3A. Review README.md:**
+- Check all prompt counts (should be "11 prompts", not "10 prompts")
+- Verify download links match new version
+- Check "The 10 Core Prompts" section - should list all 11 prompts
+- Verify "What's Included" section lists current features
+- Check "Writing Style System" description is current
+- Verify footer version and date
+
+**3B. Review CHANGELOG.md:**
+- Verify new version entry added at top
+- Check that all major changes are documented
+- Ensure version entry format is consistent
+- Verify date is correct (YYYY-MM-DD)
+- Check that Added/Changed/Fixed/Technical sections are complete
+
+**3C. Review system-instructions.md:**
+- Verify compatibility classifications are correct:
+  - CLI-ONLY: Prompts 5, 7, 9
+  - DESKTOP-FRIENDLY: Prompts 2, 3, 4, 8, 10
+  - HYBRID: configure.md, Prompts 1, 11
+  - DESKTOP-READY: Prompt 6
+- Check all 11 prompts are listed (lines ~117-128)
+- Verify critical section (lines ~42-62) has correct CLI-ONLY prompts
+- Check version numbers in header and footer
+
+### Step 4: Verify All Updates
 
 Run this grep command to find any remaining old version references:
 
@@ -91,18 +129,20 @@ grep -r "OLD_VERSION" --include="*.md" --include="*.json" . | grep -v ".git" | g
 
 If any unexpected references found, update them.
 
-### Step 4: Commit Version Updates
+### Step 5: Commit Version Updates
 
 ```bash
 git add -A
 git commit -m "Update all documentation to version X.X.X
 
 UPDATED:
+- README.md (root level)
 - Process/AI-Assisted_Nonfiction_Authoring_Process.md
 - CLAUDE.md
 - configure.md
 - INSTALLATION.md
 - PREPARE_RELEASE.md
+- system-instructions.md
 - CHANGELOG.md
 
 Prepared for vX.X.X release.
@@ -114,7 +154,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git push
 ```
 
-### Step 5: Create and Push Tag
+### Step 6: Create and Push Tag
 
 ```bash
 # Delete existing tag if it exists (for re-releases)
@@ -131,7 +171,7 @@ git tag -a vX.X.X -m "Release vX.X.X: [Brief Description]
 git push --tags
 ```
 
-### Step 6: Monitor GitHub Actions
+### Step 7: Monitor GitHub Actions
 
 ```bash
 # Wait for workflow to start
@@ -144,7 +184,7 @@ gh run list --limit 1
 gh release view vX.X.X
 ```
 
-### Step 7: Verify Release Assets
+### Step 8: Verify Release Assets
 
 Check that the release includes:
 - ✅ Release page created on GitHub
@@ -160,12 +200,13 @@ Check that the release includes:
 This list helps verify all version references are updated:
 
 ### Framework Documentation
+- `README.md` - Root level readme (header, footer, download links, prompt counts)
 - `Process/AI-Assisted_Nonfiction_Authoring_Process.md` - Header version and date
 - `CLAUDE.md` - Header and footer version and date
 - `configure.md` - Header and footer version
 - `INSTALLATION.md` - All download links and references
 - `PREPARE_RELEASE.md` - This file's header and footer version and date
-- `system-instructions.md` - Header and footer version
+- `system-instructions.md` - Header and footer version, compatibility classifications
 
 ### Generated During Installation
 - `.nonfiction-manifest.json` - Created by configure.md (frameworkVersion field)
@@ -205,9 +246,10 @@ Follow semantic versioning (https://semver.org/):
 Before creating a release, verify:
 
 - [ ] All prompts tested and working
-- [ ] Documentation reviewed for accuracy
-- [ ] CHANGELOG.md updated with all changes
-- [ ] All version numbers updated consistently
+- [ ] **README.md reviewed** for prompt counts, version numbers, download links
+- [ ] **CHANGELOG.md reviewed** for complete, accurate release notes
+- [ ] **system-instructions.md reviewed** for correct compatibility classifications
+- [ ] All version numbers updated consistently across 8 files
 - [ ] No uncommitted changes in repository
 - [ ] GitHub Actions workflow is functioning
 - [ ] Previous release (if any) completed successfully
@@ -231,20 +273,22 @@ If a release needs to be rolled back:
 
 ---
 
-## Example: Releasing v0.10.0
+## Example: Releasing v0.10.1
 
-**User:** "Prepare release 0.10.0"
+**User:** "Prepare release 0.10.1"
 
 **Claude:**
-1. Updates version to 0.10.0 in all files listed in Step 2
+1. Updates version to 0.10.1 in all 8 files listed in Step 2
 2. Updates dates to today's date
-3. Adds CHANGELOG.md entry for 0.10.0
-4. Runs grep to verify no 0.9.2 references remain (except CHANGELOG history)
-5. Commits with message: "Update all documentation to version 0.10.0"
-6. Creates tag v0.10.0 with release notes
-7. Pushes tag
-8. Monitors GitHub Actions
-9. Verifies release created successfully
+3. **Reviews README.md** for prompt counts ("11 prompts" not "10"), download links, features
+4. **Reviews CHANGELOG.md** entry for 0.10.1 completeness
+5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 5,7,9)
+6. Runs grep to verify no 0.10.0 references remain (except CHANGELOG history)
+7. Commits with message: "Update all documentation to version 0.10.1"
+8. Creates tag v0.10.1 with release notes from CHANGELOG.md
+9. Pushes tag
+10. Monitors GitHub Actions
+11. Verifies release created successfully with nonfiction-v0.10.1.zip
 
 ---
 
@@ -252,12 +296,21 @@ If a release needs to be rolled back:
 
 **Check current version in files:**
 ```bash
-grep -h "Version:" Process/AI-Assisted_Nonfiction_Authoring_Process.md CLAUDE.md configure.md PREPARE_RELEASE.md | head -5
+grep -h "Version:" README.md Process/AI-Assisted_Nonfiction_Authoring_Process.md CLAUDE.md configure.md PREPARE_RELEASE.md system-instructions.md | head -8
 ```
 
 **Find all version references:**
 ```bash
-grep -r "0\.9\.1" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md"
+grep -r "0\.10\.0" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md"
+```
+
+**Review critical files for content:**
+```bash
+# Check README.md for "10 prompts" vs "11 prompts"
+grep -n "10.*[Pp]rompts" README.md
+
+# Check system-instructions.md for compatibility
+grep -n "CLI-ONLY\|DESKTOP-FRIENDLY\|HYBRID\|DESKTOP-READY" system-instructions.md
 ```
 
 **List recent releases:**
