@@ -55,7 +55,9 @@ Process/
 │   ├── Prompt_10_Dashboard.md                       # Progress dashboard
 │   ├── Prompt_11_Style_Manager.md                   # Style override management
 │   ├── Prompt_12_Git_Operations.md                  # Git operations
-│   └── Prompt_13_AI_Detection_Analysis.md           # Check authentic voice
+│   ├── Prompt_13_AI_Detection_Analysis.md           # Check authentic voice
+│   ├── Prompt_14_Visual_Content_Suggester.md        # Text-based visuals
+│   └── Prompt_15_Citation_Finder.md                 # Web-verified citations
 └── Templates/
     ├── Style_Guide_Template.md                      # Style configuration template
     ├── Custom_Styles_Template.md                    # Custom style template
@@ -147,7 +149,7 @@ Claude will read the appropriate prompt file and execute it.
 
 ---
 
-## 13 Core Prompts (v0.11.0+)
+## 15 Core Prompts (v0.11.0+)
 
 ### Prompt 1: Initialize Project Structure
 **Purpose:** Create new book project from scratch
@@ -217,6 +219,18 @@ Claude will read the appropriate prompt file and execute it.
 **Output:** Authenticity scores, flagged passages, rewriting suggestions
 **Note:** Helps ensure content sounds authentically yours
 
+### Prompt 14: Visual Content Suggester (NEW in v0.11.0 Phase 2)
+**Purpose:** Analyze chapters and create text-based visuals (tables, diagrams, flowcharts)
+**When:** After drafting content, during revision, when explanations need visual support
+**Output:** Markdown tables, ASCII diagrams, structured data displays
+**Note:** Enhances understanding without requiring graphics software
+
+### Prompt 15: Citation Finder (NEW in v0.11.0 Phase 2)
+**Purpose:** Find and insert citations with WebSearch verification
+**When:** Adding factual claims, statistics, or expert quotes; verifying existing citations
+**Output:** Properly formatted citations with source verification
+**Note:** Ensures accurate attribution and findable sources
+
 ---
 
 ## Quick Compatibility Reference
@@ -243,6 +257,8 @@ Claude will read the appropriate prompt file and execute it.
 - **Prompt 9:** Export and Format - Requires pandoc for DOCX/PDF/EPUB
 - **Prompt 12:** Git Operations - Direct git command execution
 - **Prompt 13:** AI Detection Analysis - Bulk chapter analysis (NEW)
+- **Prompt 14:** Visual Content Suggester - Bulk file operations and visual analysis (NEW Phase 2)
+- **Prompt 15:** Citation Finder - Requires WebSearch for verification (NEW Phase 2)
 
 **Key Points:**
 - Prompts 3 & 4 are both **DESKTOP-FRIENDLY** workflows - choose based on preference
@@ -250,7 +266,7 @@ Claude will read the appropriate prompt file and execute it.
   - Prompt 4: Interactive conversation → AI writes instructions → Optionally execute
 - Prompt 2 is **DESKTOP-FRIENDLY** (not CLI-ONLY) - MCP Filesystem handles directory operations
 - Prompt 11 is **HYBRID** - use Desktop for simple ops, CLI for validation/scanning
-- Prompt 13 is **CLI-ONLY** - requires bulk file analysis
+- Prompts 13, 14, 15 are **CLI-ONLY** - require bulk analysis or WebSearch
 
 ---
 
