@@ -566,7 +566,7 @@ Each style includes:
 
 ## Core Prompts
 
-The AI-Assisted Nonfiction Authoring Process includes 13 core prompts for different aspects of book development. Each prompt is a conversational interface stored in `Process/Prompts/`.
+The AI-Assisted Nonfiction Authoring Process includes 15 core prompts for different aspects of book development. Each prompt is a conversational interface stored in `Process/Prompts/`.
 
 **How to use:** Copy a prompt file and paste into Claude Code. The AI will guide you through the process interactively.
 
@@ -869,6 +869,57 @@ Analyzes chapters for AI-generated text indicators and provides authenticity sco
 **Note:** This is a diagnostic tool, not a judgment - it helps ensure your content sounds authentically yours rather than generically AI-generated
 
 **See:** `Process/Prompts/Prompt_13_AI_Detection_Analysis.md` for execution
+
+---
+
+### Prompt 14: Visual Content Suggester
+
+Analyzes chapters and creates text-based visuals (tables, diagrams, flowcharts) to enhance understanding without requiring graphics software.
+
+**When to use:** After drafting content, during revision, when explanations need visual support
+
+**Key features:**
+- Scans chapters for concepts that benefit from visualization
+- Creates Markdown tables for comparisons and data
+- Generates ASCII diagrams for flowcharts and timelines
+- Formats structured lists for process steps and hierarchies
+- Suggests code blocks for formatted data displays
+- All visuals are text-based and version-control friendly
+- Easy to customize and maintain
+
+**Interaction:** AI analyzes chapters and presents suggested visuals with placement recommendations
+
+**Output:** Suggested visuals in Markdown format, ready to insert into content files
+
+**Note:** Enhances reader comprehension with visuals that integrate seamlessly into Markdown workflow
+
+**See:** `Process/Prompts/Prompt_14_Visual_Content_Suggester.md` for execution
+
+---
+
+### Prompt 15: Citation Finder
+
+Finds and inserts citations with WebSearch verification to ensure accurate attribution and source availability.
+
+**When to use:** Adding factual claims, statistics, or expert quotes; verifying existing citations
+
+**Key features:**
+- Scans content for uncited claims that need attribution
+- Uses WebSearch to find authoritative sources
+- Validates source credibility and accessibility
+- Checks for working URLs
+- Formats citations consistently (APA, MLA, Chicago, etc.)
+- Adds citations to content inline
+- Updates bibliography automatically
+- Prevents citation fabrication through verification
+
+**Interaction:** AI asks which claims need citations or scans entire chapters for uncited content
+
+**Output:** Properly formatted citations with verified sources, added to content and bibliography
+
+**Note:** Ensures factual accuracy and proper attribution while preventing hallucinated citations
+
+**See:** `Process/Prompts/Prompt_15_Citation_Finder.md` for execution
 
 ---
 
