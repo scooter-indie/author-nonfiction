@@ -93,9 +93,9 @@ Update the version number in these files:
 **IMPORTANT:** Before proceeding to version verification, manually review these files for outdated content:
 
 **3A. Review README.md:**
-- Check all prompt counts (should be "13 prompts" as of v0.11.0+)
+- Check all prompt counts (should be "15 prompts" as of v0.11.0 Phase 2+)
 - Verify download links match new version
-- Check "The 13 Core Prompts" section - should list all 13 prompts
+- Check "The 15 Core Prompts" section - should list all 15 prompts
 - Verify "What's Included" section lists current features
 - Check "Writing Style System" description is current
 - Verify footer version and date
@@ -108,12 +108,12 @@ Update the version number in these files:
 - Check that Added/Changed/Fixed/Technical sections are complete
 
 **3C. Review system-instructions.md:**
-- Verify compatibility classifications are correct (as of v0.11.0+):
-  - CLI-ONLY: Prompts 7, 9, 12, 13
+- Verify compatibility classifications are correct (as of v0.11.0 Phase 2+):
+  - CLI-ONLY: Prompts 7, 9, 12, 13, 14, 15
   - DESKTOP-FRIENDLY: Prompts 2, 3, 4, 5, 6, 10
   - HYBRID: configure.md, Prompts 1, 11
   - DESKTOP-READY: Prompt 8
-- Check all 13 prompts are listed (lines ~117-130)
+- Check all 15 prompts are listed (lines ~117-132)
 - Verify critical section (lines ~42-62) has correct CLI-ONLY prompts
 - Check version numbers in header and footer
 
@@ -328,9 +328,9 @@ If a release needs to be rolled back:
 **Claude:**
 1. Updates version to 0.10.1 in all 8 files listed in Step 2
 2. Updates dates to today's date
-3. **Reviews README.md** for prompt counts ("13 prompts" as of v0.11.0+), download links, features
+3. **Reviews README.md** for prompt counts ("15 prompts" as of v0.11.0 Phase 2+), download links, features
 4. **Reviews CHANGELOG.md** entry for 0.10.1 completeness
-5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 7,9,12,13 as of v0.11.0+)
+5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 7,9,12,13,14,15 as of v0.11.0 Phase 2+)
 6. Runs grep to verify no 0.10.0 references remain (except CHANGELOG history)
 7. Commits with message: "Update all documentation to version 0.10.1"
 8. Creates tag v0.10.1 with release notes from CHANGELOG.md
@@ -354,7 +354,7 @@ grep -r "0\.10\.0" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md"
 
 **Review critical files for content:**
 ```bash
-# Check README.md for outdated prompt counts (should be 13 as of v0.11.0+)
+# Check README.md for outdated prompt counts (should be 15 as of v0.11.0 Phase 2+)
 grep -n "[0-9][0-9].*[Pp]rompts" README.md
 
 # Check system-instructions.md for compatibility
