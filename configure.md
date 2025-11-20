@@ -132,21 +132,22 @@ I will:
    - **Apply ALL pending migrations in order**
 4. For each pending migration (in version order):
    - Display what will change and why
-   - Ask: "Apply this migration? (yes/skip/abort all)"
-   - If yes: Execute each change in the migration
-   - If skip: Mark as skipped, continue to next migration
-   - If abort: Stop migration process
+   - **AUTOMATICALLY apply the migration** (migrations are NOT optional)
+   - Execute each change in the migration
 5. For each change within a migration:
    - Attempt to apply automatically
-   - **If fails**: Ask "Migration step failed. (retry/skip/abort)"
+   - **If fails**: Ask "Migration step failed. (retry/abort)"
      - retry: Try again
-     - skip: Mark for manual fix, continue
-     - abort: Stop entire migration process
+     - abort: Stop entire process (user must fix before continuing)
+   - Track successful changes
 6. Track applied migrations in `.nonfiction-manifest.json`
-7. If any steps were skipped or failed:
+7. If any steps failed and user chose abort:
    - Display manual fix instructions immediately
    - Create `MANUAL_MIGRATION_STEPS.md` in project root
    - List all steps that need manual intervention
+   - **STOP configuration** - user must fix issues before proceeding
+
+**IMPORTANT: Migrations are NOT optional.** Framework upgrades require project structure updates to function correctly. If you encounter migration failures, you must resolve them before continuing.
 
 **Supported Change Types:**
 
@@ -176,11 +177,9 @@ Framework version: 0.10.1
 
 Found 1 pending migration: migration_0.10.0_to_0.10.1
 
-Migration: Separate framework README from user README
+──────────────────────────────────────────
+Applying Migration: Separate framework README from user README
 Changes: 3 steps (rename, gitignore_add, gitignore_remove)
-
-Apply this migration? (yes/skip/abort all)
-You: yes
 
 Step 1/3: Rename README.md → FW_README.md
 ✓ Success
@@ -191,7 +190,7 @@ Step 2/3: Add FW_README.md to .gitignore
 Step 3/3: Remove README.md from .gitignore
 ✓ Success
 
-Migration applied successfully!
+✓ Migration applied successfully!
 ```
 
 **Example Migration Flow (Multi-Version Jump):**
@@ -205,15 +204,12 @@ Found 3 pending migrations:
 2. migration_0.10.1_to_0.11.0 (2 changes)
 3. migration_0.11.0_to_0.11.1 (1 change)
 
-Migrations will be applied in order.
+Applying all migrations in order...
 
 ────────────────────────────────────────
 Migration 1/3: migration_0.10.0_to_0.10.1
 Description: Separate framework README from user README
 Changes: 3 steps
-
-Apply this migration? (yes/skip/abort all)
-You: yes
 
 Step 1/3: Rename README.md → FW_README.md
 ✓ Success
@@ -231,9 +227,6 @@ Migration 2/3: migration_0.10.1_to_0.11.0
 Description: Update Project_Config.md with new settings
 Changes: 2 steps
 
-Apply this migration? (yes/skip/abort all)
-You: yes
-
 Step 1/2: Add prompt_11_verbose setting to Project_Config.md
 ✓ Success
 
@@ -246,9 +239,6 @@ Step 2/2: Update gitignore with new patterns
 Migration 3/3: migration_0.11.0_to_0.11.1
 Description: Minor configuration updates
 Changes: 1 step
-
-Apply this migration? (yes/skip/abort all)
-You: yes
 
 Step 1/1: Update deprecated setting name
 ✓ Success
@@ -266,23 +256,35 @@ Applied: 3 migrations (6 total changes)
 Step 1/3: Rename README.md → FW_README.md
 ❌ Failed: README.md not found
 
-Migration step failed. (retry/skip/abort)
-You: skip
+Migration step failed. (retry/abort)
+You: retry
 
-Step marked for manual fix. Continuing...
+[Attempting again...]
+❌ Failed: README.md not found
 
-[After all migrations complete]
+Migration step failed. (retry/abort)
+You: abort
 
-⚠️ Some migration steps require manual intervention.
+──────────────────────────────────────────
+⚠️ MIGRATION ABORTED
+
+Configuration cannot continue until migration issues are resolved.
 
 Manual steps saved to: MANUAL_MIGRATION_STEPS.md
 
-Please review and complete these steps:
+REQUIRED ACTIONS:
 
 1. Check if README.md exists
    - If it contains framework docs, rename to FW_README.md
    - If it contains YOUR book docs, leave as README.md
+
+2. After fixing, run configure.md again
+   - Migrations will resume from where they failed
+
+❌ Configuration stopped. Fix issues and re-run configure.md.
 ```
+
+**Note:** Migrations are mandatory. If a migration fails, you must resolve the issue before the framework can continue. This ensures your project structure remains compatible with the new framework version.
 
 ### Step 5: Git Repository Setup
 
