@@ -59,12 +59,17 @@
       "README.md"
     ],
     "Process/Templates": [
+      "About_Author_template.md",
       "Chapter_Style_Template.md",
+      "Copyright_template.md",
       "Custom_Styles_Template.md",
+      "Image_Registry_template.md",
       "PROJECT_CONTEXT_template.md",
+      "Project_Config_template.md",
       "README_AUTHORS_template.md",
       "Style_Guide_Template.md",
       "Style_Overrides_Template.md",
+      "epub-style.css",
       "gitignore_template",
       "manifest_template.json",
       "framework_files_manifest.json"

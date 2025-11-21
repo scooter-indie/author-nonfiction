@@ -75,7 +75,10 @@ I'll ask you a series of questions to gather the information needed to set up yo
    - Manuscript/Exports/
    - Manuscript/images/ (unified visual asset directory, v0.12.0+)
 3. Initialize git repository (via Claude Code CLI if in Desktop)
-4. Generate configuration files (Project_Config.md with `initialized: false` and `prompt_9_verbose: true`, Project_Metadata.md, USAGE_GUIDE.md) at root
+4. Copy configuration template and generate files:
+   - Copy Process/Templates/Project_Config_template.md → Project_Config.md (set initialized: false, framework version, date)
+   - Generate Project_Metadata.md with book details
+   - Generate USAGE_GUIDE.md with quick start instructions
 5. Configure writing style (interactive style selection)
 6. Create Manuscript/Style/Style_Guide.md with selected book-level style
 7. **Create Manuscript/Style/Style_Overrides.md** with hierarchical style registry (v0.10.1+)
