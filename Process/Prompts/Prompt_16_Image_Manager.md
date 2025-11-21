@@ -1,6 +1,6 @@
 # Prompt 16: Image Manager
 
-**Version:** 0.12.5
+**Version:** 0.12.6
 **Last Updated:** 2025-11-21
 **Compatibility:** Claude Code CLI only (requires file operations, image handling)
 
@@ -10,7 +10,7 @@
 
 Manage actual images (photos, screenshots, charts, graphics) in your book manuscript. This prompt works alongside Prompt 15 (Visual Content Suggester) to provide complete visual asset management.
 
-**VISUAL SYSTEM VERSION:** v0.12.5 - Unified directory structure
+**VISUAL SYSTEM VERSION:** v0.12.6 - Unified directory structure
 - **Location:** `Manuscript/images/` (single flat directory)
 - **Naming:** `fig-XX-YY-description.ext` (hyphens, not underscores)
 - **Registry:** `Manuscript/images/Image_Registry.md` (unified, not per-chapter)
@@ -1182,7 +1182,7 @@ Next steps:
 
 ## Version History
 
-**v0.12.5** (2025-11-21)
+**v0.12.6** (2025-11-21)
 - Initial creation of Prompt 16 (Image Manager)
 - Four operating modes: Add, Upgrade, Scan, Validate
 - Unified visual system integration with Prompt 15
@@ -1247,5 +1247,5 @@ Integration:
 
 ---
 
-🤖 **This prompt is part of the AI-Assisted Nonfiction Authoring Framework v0.12.5**
+🤖 **This prompt is part of the AI-Assisted Nonfiction Authoring Framework v0.12.6**
 📖 **For help:** See `Process/Prompts/README.md` or `Process/AI-Assisted_Nonfiction_Authoring_Process.md`

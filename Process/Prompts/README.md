@@ -33,7 +33,7 @@ Prompts/
 ├── Prompt_13_AI_Detection_Analysis.md (v0.11.0)
 ├── Prompt_14_Citation_Finder.md (v0.11.0)
 ├── Prompt_15_Visual_Content_Suggester.md (v0.11.0)
-└── Prompt_16_Image_Manager.md (NEW in v0.12.5)
+└── Prompt_16_Image_Manager.md (NEW in v0.12.6)
 ```
 
 ---
@@ -333,7 +333,7 @@ Prompts/
 - Structured lists (process steps, hierarchies)
 - Code blocks (formatted data displays)
 
-**Location**: All visuals created in `Manuscript/images/` (unified directory, v0.12.5+)
+**Location**: All visuals created in `Manuscript/images/` (unified directory, v0.12.6+)
 
 **Note**: Enhances understanding without requiring graphics software; creates text-based placeholders
 
@@ -341,7 +341,7 @@ Prompts/
 
 ---
 
-### 16. Prompt_16_Image_Manager.md (NEW in v0.12.5)
+### 16. Prompt_16_Image_Manager.md (NEW in v0.12.6)
 **Purpose**: Manage professional images and visual assets
 
 **When to use**: Adding photos/charts/graphics, upgrading text-based visuals, validating image references

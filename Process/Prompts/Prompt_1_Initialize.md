@@ -1,6 +1,6 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**Version:** 0.12.5
+**Version:** 0.12.6
 **Compatibility:** HYBRID (Desktop Q&A → CLI execution)
 
 **Workflow:**
@@ -33,7 +33,7 @@ Creates a complete nonfiction book project structure:
 - Git repository
 - Initial commit and v1.0.0 tag
 
-**New in v0.12.5:**
+**New in v0.12.6:**
 - ⚡ **Faster initialization** - Template-based USAGE_GUIDE.md with sed substitution
 - 📁 **Centralized config** - All JSON configs in `.config/` directory
 - 🔧 **Bash script automation** - Structure creation via `scripts/init.sh`
@@ -125,7 +125,7 @@ Creates a complete nonfiction book project structure:
   ],
   "style": "[selected style name]",
   "createdDate": "[CONFIRMED_DATE in YYYY-MM-DD format]",
-  "frameworkVersion": "0.12.5"
+  "frameworkVersion": "0.12.6"
 }
 ```
 
@@ -139,7 +139,7 @@ Creates a complete nonfiction book project structure:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.5",
+  "frameworkVersion": "0.12.6",
   "createdDate": "[CONFIRMED_DATE]",
   "lastModified": "[CONFIRMED_DATE]"
 }
@@ -187,7 +187,7 @@ Creates a complete nonfiction book project structure:
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Framework installation manifest",
-  "frameworkVersion": "0.12.5",
+  "frameworkVersion": "0.12.6",
   "installedDate": "[CONFIRMED_DATE]",
   "lastUpdated": "[CONFIRMED_DATE]",
   "installationMethod": "Prompt 1",
@@ -240,7 +240,7 @@ bash scripts/init.sh .config/init.json
 **Expected output:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nonfiction Framework Initialization Script v0.12.5
+Nonfiction Framework Initialization Script v0.12.6
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Validating preconditions...
@@ -459,7 +459,7 @@ git commit -m "Initialize book project: [title from init.json]
 
 - Created [X]-chapter structure
 - Selected writing style: [style name]
-- Initialized with framework v0.12.5
+- Initialized with framework v0.12.6
 - Created on [CONFIRMED_DATE]
 
 🤖 Generated with Claude Code
@@ -473,7 +473,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git tag -a v1.0.0 -m "Initial project structure for [title]
 
 [X] chapters planned
-Framework v0.12.5
+Framework v0.12.6
 Initialized [CONFIRMED_DATE]"
 ```
 
@@ -489,7 +489,7 @@ Set `initialized: true` and update `lastModified`:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.5",
+  "frameworkVersion": "0.12.6",
   "createdDate": "[original date]",
   "lastModified": "[CONFIRMED_DATE]"
 }
@@ -519,7 +519,7 @@ Book: [title]
 Author: [author]
 Chapters: [X]
 Style: [style name]
-Framework: v0.12.5
+Framework: v0.12.6
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -637,5 +637,5 @@ Which option?
 
 ---
 
-**Version:** 0.12.5
+**Version:** 0.12.6
 **Last Updated:** 2025-11-21

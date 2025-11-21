@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.6] - 2025-11-21
+
+### Added
+- **scripts/generate-usage-guide.sh** - Bash script for USAGE_GUIDE.md generation
+  - Takes 5 parameters (title, author, date, chapter count, style)
+  - Replaces 6 separate sed commands with single script call
+  - Handles special character escaping (/, &, \) safely
+  - Validates parameters and template existence
+  - Documented in scripts/README.md
+
+- **Process/Templates/USAGE_GUIDE_template.md** - Template for user project quick start guide
+  - Static content with {{PLACEHOLDER}} markers
+  - Populated by generate-usage-guide.sh during Prompt 1
+  - 5 placeholders: BOOK_TITLE, AUTHOR_NAME, INIT_DATE, CHAPTER_COUNT, STYLE_NAME
+
+### Changed
+- **Prompt_1_Initialize.md** - Optimization and realism improvements
+  - Removed all time estimates (misleading "~5-10 seconds" claims)
+  - Updated to use generate-usage-guide.sh script
+  - Changed "10x faster" to "Faster initialization" (no specific timing)
+  - Removed "Time elapsed" from completion report
+  - Removed execution time comparison from footer
+
+### Technical
+- **Release Type:** PATCH (performance optimization + accurate expectations)
+- **Breaking Change:** No
+- **Performance:** Template-based USAGE_GUIDE.md generation (faster than AI)
+- **User Experience:** Removed misleading time estimates for realistic expectations
+
+---
+
 ## [0.12.5] - 2025-11-21
 
 ### Fixed
