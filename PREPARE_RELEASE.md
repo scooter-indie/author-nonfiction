@@ -210,8 +210,8 @@ The manifest lists all framework files that should exist in a clean installation
 **Example manifest structure:**
 ```json
 {
-  "version": "0.11.1",
-  "generatedDate": "2025-11-20",
+  "version": "0.12.0",
+  "generatedDate": "2025-11-21",
   "files": {
     "root": ["INSTALLATION.md", "CLAUDE.md", ...],
     "Process": ["AI-Assisted_Nonfiction_Authoring_Process.md", ...],

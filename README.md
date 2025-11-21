@@ -361,8 +361,8 @@ This framework is released under the MIT License. See LICENSE file for details.
 
 ## About
 
-**Framework Version**: 0.11.1
-**Release Date**: 2025-11-20
+**Framework Version**: 0.12.0
+**Release Date**: 2025-11-21
 **Repository**: https://github.com/scooter-indie/author-nonfiction
 
 Created to empower authors to write professional nonfiction books with AI assistance while maintaining complete creative control and ensuring factual accuracy.

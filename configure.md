@@ -765,5 +765,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.11.1*
+*Framework Version: 0.12.0*
 *Configuration Script: configure.md*

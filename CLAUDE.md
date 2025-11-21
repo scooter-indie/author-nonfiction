@@ -498,8 +498,8 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
-**Framework Version:** 0.11.1
-**Last Updated:** 2025-11-20
+**Framework Version:** 0.12.0
+**Last Updated:** 2025-11-21
 
 ---
 
