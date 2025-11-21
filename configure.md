@@ -468,14 +468,17 @@ Then I'll:
 
 ### Step 7: Export Tool Discovery
 
-I will automatically detect available export tools using the detection script.
+Now I'll check what export tools are available on your system. This determines which export formats Prompt 9 can produce.
 
 **Note:** Git was already verified in Step 2. This script will re-confirm git and detect pandoc/typst for export functionality (Prompt 9).
 
-**Run tool detection:**
-```bash
-bash scripts/detect-tools.sh .config/manifest.json
-```
+**To run the tool detection:**
+
+1. **Open Claude Code CLI** in your project directory
+2. **In Claude Code, say:**
+   ```
+   Run: bash scripts/detect-tools.sh .config/manifest.json
+   ```
 
 **The script will:**
 1. Re-confirm git availability (already verified in Step 2)
