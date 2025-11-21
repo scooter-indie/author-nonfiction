@@ -52,6 +52,8 @@
       "Bash(uniq:*)",
       "Bash(test:*)",
       "Bash([:*)",
+      "Bash(pandoc *)",
+      "Bash(typst *)",
       "Read(.nonfiction-manifest.json)",
       "Edit(.nonfiction-manifest.json)",
       "Write(.nonfiction-manifest.json)"
