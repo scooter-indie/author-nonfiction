@@ -130,15 +130,17 @@ If any unexpected references found, update them.
 
 ### Step 4.5: Verify Migration Configuration
 
-**Check that `.nonfiction-migrations.json` exists and is properly configured:**
+**Check that migrations configuration exists and is properly configured:**
 
 1. **Verify file exists:**
    ```bash
    ls -la .nonfiction-migrations.json
+   ls -la Process/Templates/.config/migrations.json
    ```
 
 2. **Check migration entries are up to date:**
-   - Read `.nonfiction-migrations.json`
+   - Read `.nonfiction-migrations.json` (root - for framework development)
+   - Template at `Process/Templates/.config/migrations.json` copied to user projects
    - Verify the latest migration entry matches the new version
    - If releasing 0.10.1, there should be a migration from 0.10.0 → 0.10.1
    - If no changes need migrations this release, that's fine (not every release requires migrations)
@@ -154,12 +156,12 @@ If any unexpected references found, update them.
    grep ".nonfiction-migrations.json" .gitignore
    # (Should return no results - file should be tracked in framework repo)
 
-   # User project .gitignore template SHOULD exclude migrations file
-   grep ".nonfiction-migrations.json" Process/Templates/gitignore_template
-   # (Should find it - file should NOT be tracked in user projects)
+   # User project .gitignore template SHOULD exclude .config directory
+   grep ".config/" Process/Templates/gitignore_template
+   # (Should find it - .config/ is a framework-managed directory)
    ```
-   - Framework: `.nonfiction-migrations.json` should be tracked (versioned with framework)
-   - User projects: `.nonfiction-migrations.json` should be in .gitignore (it's a framework file)
+   - Framework: `.nonfiction-migrations.json` tracked at root for development
+   - User projects: `.config/migrations.json` copied from template, excluded in .gitignore
 
 **If migrations are needed for this release:**
 - Ensure they're documented in `.nonfiction-migrations.json` BEFORE tagging
@@ -167,9 +169,10 @@ If any unexpected references found, update them.
 - Verify all change types work correctly
 - Confirm manual steps are clear and accurate
 
-**CRITICAL: Verify migrations file will be included in release:**
-- Check that `.github/workflows/release.yml` copies `.nonfiction-migrations.json` to build/temp/
-- This file MUST be included in release zip for upgrade migrations to work
+**CRITICAL: Verify config templates will be included in release:**
+- Check that `.github/workflows/release.yml` copies `Process/Templates/.config/` to build
+- `.config/migrations.json` template MUST be included in release zip
+- All 5 .config templates must be present (init, project, metadata, manifest, migrations)
 
 ### Step 4.6: Generate Framework Files Manifest
 
@@ -183,6 +186,7 @@ The manifest lists all framework files that should exist in a clean installation
    find Process -type f | sort > /tmp/process_files.txt
    ls -1 INSTALLATION.md CLAUDE.md configure.md system-instructions.md .gitignore .nonfiction-migrations.json 2>/dev/null > /tmp/root_files.txt
    find .claude -type f | sort > /tmp/claude_files.txt
+   find scripts -type f | sort > /tmp/scripts_files.txt
    ```
 
 2. **Update `Process/Templates/framework_files_manifest.json`:**
@@ -321,8 +325,12 @@ This list helps verify all version references are updated:
 - `PREPARE_RELEASE.md` - This file's header and footer version and date
 - `system-instructions.md` - Header and footer version, compatibility classifications
 
-### Generated During Installation
-- `.nonfiction-manifest.json` - Created by configure.md (frameworkVersion field)
+### Generated During Installation (v0.12.1+)
+- `.config/init.json` - Created by Prompt 1 Q&A session
+- `.config/project.json` - Created by Prompt 1 (replaces Project_Config.md)
+- `.config/metadata.json` - Created by Prompt 1 (replaces Project_Metadata.md)
+- `.config/manifest.json` - Created by configure.md (replaces .nonfiction-manifest.json)
+- `.config/migrations.json` - Copied from template during initialization
 
 ### Release Artifacts
 - `CHANGELOG.md` - New version entry added
