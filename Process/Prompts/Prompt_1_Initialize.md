@@ -1,6 +1,6 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**Version:** 0.12.3
+**Version:** 0.12.4
 **Compatibility:** HYBRID (Desktop Q&A → CLI execution)
 
 **Workflow:**
@@ -33,7 +33,7 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
 - Git repository
 - Initial commit and v1.0.0 tag
 
-**New in v0.12.3:**
+**New in v0.12.4:**
 - ⚡ **10x faster** (~5-10 seconds vs ~30-60 seconds)
 - 📁 **Centralized config** - All JSON configs in `.config/` directory
 - 🔧 **Bash script automation** - Structure creation via `scripts/init.sh`
@@ -125,7 +125,7 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
   ],
   "style": "[selected style name]",
   "createdDate": "[CONFIRMED_DATE in YYYY-MM-DD format]",
-  "frameworkVersion": "0.12.3"
+  "frameworkVersion": "0.12.4"
 }
 ```
 
@@ -139,7 +139,7 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.3",
+  "frameworkVersion": "0.12.4",
   "createdDate": "[CONFIRMED_DATE]",
   "lastModified": "[CONFIRMED_DATE]"
 }
@@ -187,7 +187,7 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Framework installation manifest",
-  "frameworkVersion": "0.12.3",
+  "frameworkVersion": "0.12.4",
   "installedDate": "[CONFIRMED_DATE]",
   "lastUpdated": "[CONFIRMED_DATE]",
   "installationMethod": "Prompt 1",
@@ -240,7 +240,7 @@ bash scripts/init.sh .config/init.json
 **Expected output:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nonfiction Framework Initialization Script v0.12.3
+Nonfiction Framework Initialization Script v0.12.4
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Validating preconditions...
@@ -437,7 +437,7 @@ Include book-level style at top, empty override sections.
 
 **Book:** [title from init.json]
 **Author:** [author from init.json]
-**Framework Version:** 0.12.3
+**Framework Version:** 0.12.4
 **Initialized:** [CONFIRMED_DATE]
 
 ---
@@ -551,7 +551,7 @@ git commit -m "Initialize book project: [title from init.json]
 
 - Created [X]-chapter structure
 - Selected writing style: [style name]
-- Initialized with framework v0.12.3
+- Initialized with framework v0.12.4
 - Created on [CONFIRMED_DATE]
 
 🤖 Generated with Claude Code
@@ -565,7 +565,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git tag -a v1.0.0 -m "Initial project structure for [title]
 
 [X] chapters planned
-Framework v0.12.3
+Framework v0.12.4
 Initialized [CONFIRMED_DATE]"
 ```
 
@@ -581,7 +581,7 @@ Set `initialized: true` and update `lastModified`:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.3",
+  "frameworkVersion": "0.12.4",
   "createdDate": "[original date]",
   "lastModified": "[CONFIRMED_DATE]"
 }
@@ -611,7 +611,7 @@ Book: [title]
 Author: [author]
 Chapters: [X]
 Style: [style name]
-Framework: v0.12.3
+Framework: v0.12.4
 
 Time elapsed: ~5-10 seconds
 
@@ -731,6 +731,6 @@ Which option?
 
 ---
 
-**Version:** 0.12.3
+**Version:** 0.12.4
 **Last Updated:** 2025-11-21
-**Execution Time:** ~5-10 seconds (v0.12.3) vs ~30-60 seconds (v0.12.3)
+**Execution Time:** ~5-10 seconds (v0.12.4) vs ~30-60 seconds (v0.12.4)

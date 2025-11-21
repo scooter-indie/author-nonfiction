@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.4] - 2025-11-21
+
+### Fixed
+- **Manifest consolidation** - Completed v0.12.1 migration to `.config/` directory
+  - **configure.md**: All references now use `.config/manifest.json` (8 locations updated)
+  - **gitignore_template**: Added legacy files section for `.nonfiction-manifest.json` and `.nonfiction-migrations.json`
+  - **INSTALLATION.md**: Updated file structure diagram (removed root manifest, added scripts/)
+  - **.claude/README.md**: Updated manifest reference to `.config/manifest.json`
+  - **README_AUTHORS_template.md**: Updated structure (16 prompts, .config/ directory, framework files distinction)
+  - Migration support: configure.md now automatically migrates from legacy locations
+  - Legacy files properly marked and can be gitignored after migration
+
+### Technical
+- **Release Type:** PATCH (bug fix - incomplete migration from v0.12.1)
+- **Breaking Change:** No (backward compatible with automatic migration)
+- **Issue:** v0.12.1 planned manifest consolidation but configure.md still referenced old location
+
+---
+
 ## [0.12.3] - 2025-11-21
 
 ### Changed
