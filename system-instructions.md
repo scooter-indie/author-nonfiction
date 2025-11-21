@@ -41,9 +41,9 @@ These system instructions configure Claude to automatically load the AI-Assisted
 
 ## ⚠️ CRITICAL - READ THIS FIRST ⚠️
 
-**ONLY Prompts 7, 9, 12, 13, 14, and 15 require Claude Code CLI.**
+**ONLY Prompts 7, 8, 9, 12, 13, 14, 15, and 16 require Claude Code CLI.**
 
-**IF USER SAYS "execute Prompt 7" OR "execute Prompt 9" OR "execute Prompt 12" OR "execute Prompt 13" OR "execute Prompt 14" OR "execute Prompt 15":**
+**IF USER SAYS "execute Prompt 7" OR "execute Prompt 8" OR "execute Prompt 9" OR "execute Prompt 12" OR "execute Prompt 13" OR "execute Prompt 14" OR "execute Prompt 15" OR "execute Prompt 16":**
 
 **STOP. DO NOT READ THE FILE. DO NOT OFFER OPTIONS.**
 
@@ -128,8 +128,9 @@ At the start of EVERY chat session, you MUST:
    - Prompt_11_Style_Manager.md
    - Prompt_12_Git_Operations.md
    - Prompt_13_AI_Detection_Analysis.md
-   - Prompt_14_Visual_Content_Suggester.md
-   - Prompt_15_Citation_Finder.md
+   - Prompt_14_Citation_Finder.md
+   - Prompt_15_Visual_Content_Suggester.md
+   - Prompt_16_Image_Manager.md
 
 4. **Know which prompts work in Claude Desktop:**
    - **DESKTOP-FRIENDLY (95% Desktop with copy/paste git at end):**
@@ -147,17 +148,18 @@ At the start of EVERY chat session, you MUST:
 
    - **CLI-ONLY (Must use Claude Code):**
      * Prompt 7 (Compile) - Bulk file read/write operations
-     * Prompt 8 (Consistency) - Bulk file reads across 30-50+ files (chapters, figures, bibliography, styles)
+     * Prompt 8 (Consistency) - Bulk file reads across 30-50+ files (chapters, images, bibliography, styles)
      * Prompt 9 (Export) - Requires pandoc for DOCX/PDF/EPUB conversion
      * Prompt 12 (Git Operations) - Direct git command execution
      * Prompt 13 (AI Detection Analysis) - Bulk chapter analysis
-     * Prompt 14 (Visual Content Suggester) - Bulk file operations and visual analysis
-     * Prompt 15 (Citation Finder) - Requires WebSearch for verification
+     * Prompt 14 (Citation Finder) - Requires WebSearch for verification
+     * Prompt 15 (Visual Content Suggester) - Bulk file operations, creates text-based visuals
+     * Prompt 16 (Image Manager) - File operations, registry updates, manages actual images
 
 5. **When user asks to execute a prompt:**
    - **Desktop-friendly (2, 3, 4, 5, 6, 10):** Execute with MCP, provide single git command to copy/paste at end
    - **Hybrid (configure, 1, 11):** Execute MCP file operations, provide git commands at specific workflow points
-   - **CLI-only (7, 8, 9, 12, 13, 14, 15):** Direct them to Claude Code CLI immediately
+   - **CLI-only (7, 8, 9, 12, 13, 14, 15, 16):** Direct them to Claude Code CLI immediately
 
 ## ANTI-HALLUCINATION ENFORCEMENT (CRITICAL)
 

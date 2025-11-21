@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.11.1
+**Framework Version:** 0.12.0
 **Session Context Document for Claude Code**
 
 ---
@@ -149,7 +149,7 @@ Claude will read the appropriate prompt file and execute it.
 
 ---
 
-## 15 Core Prompts (v0.11.0+)
+## 16 Core Prompts (v0.12.0+)
 
 ### Prompt 1: Initialize Project Structure
 **Purpose:** Create new book project from scratch
@@ -219,17 +219,23 @@ Claude will read the appropriate prompt file and execute it.
 **Output:** Authenticity scores, flagged passages, rewriting suggestions
 **Note:** Helps ensure content sounds authentically yours
 
-### Prompt 14: Visual Content Suggester (NEW in v0.11.0 Phase 2)
-**Purpose:** Analyze chapters and create text-based visuals (tables, diagrams, flowcharts)
-**When:** After drafting content, during revision, when explanations need visual support
-**Output:** Markdown tables, ASCII diagrams, structured data displays
-**Note:** Enhances understanding without requiring graphics software
-
-### Prompt 15: Citation Finder (NEW in v0.11.0 Phase 2)
+### Prompt 14: Citation Finder (NEW in v0.11.0 Phase 2)
 **Purpose:** Find and insert citations with WebSearch verification
 **When:** Adding factual claims, statistics, or expert quotes; verifying existing citations
 **Output:** Properly formatted citations with source verification
 **Note:** Ensures accurate attribution and findable sources
+
+### Prompt 15: Visual Content Suggester (NEW in v0.11.0 Phase 2)
+**Purpose:** Analyze chapters and create text-based visuals (tables, diagrams, flowcharts)
+**When:** After drafting content, during revision, when explanations need visual support
+**Output:** Markdown tables, ASCII diagrams, structured data displays in Manuscript/images/
+**Note:** Enhances understanding without requiring graphics software
+
+### Prompt 16: Image Manager (NEW in v0.12.0)
+**Purpose:** Manage actual image files (photos, screenshots, professional graphics)
+**When:** Adding photos/screenshots, upgrading text-based visuals, validating image references
+**Output:** Images in Manuscript/images/, updated Image_Registry.md, inserted references
+**Note:** Semi-automated workflow with registry coordination
 
 ---
 
@@ -251,12 +257,13 @@ Claude will read the appropriate prompt file and execute it.
 
 ### CLI-ONLY (0% - Must use Claude Code CLI)
 - **Prompt 7:** Compile Complete Manuscript - Bulk file operations
-- **Prompt 8:** Consistency Checker - Bulk file reads (30-50+ files across chapters, figures, bibliography, styles)
+- **Prompt 8:** Consistency Checker - Bulk file reads (30-50+ files across chapters, images, bibliography, styles)
 - **Prompt 9:** Export and Format - Requires pandoc for DOCX/PDF/EPUB
 - **Prompt 12:** Git Operations - Direct git command execution
 - **Prompt 13:** AI Detection Analysis - Bulk chapter analysis (NEW)
-- **Prompt 14:** Visual Content Suggester - Bulk file operations and visual analysis (NEW Phase 2)
-- **Prompt 15:** Citation Finder - Requires WebSearch for verification (NEW Phase 2)
+- **Prompt 14:** Citation Finder - Requires WebSearch for verification (NEW Phase 2)
+- **Prompt 15:** Visual Content Suggester - Bulk file operations and visual analysis (NEW Phase 2)
+- **Prompt 16:** Image Manager - File operations, registry updates, semi-automated workflow (NEW v0.12.0)
 
 **Key Points:**
 - Prompts 3 & 4 are both **DESKTOP-FRIENDLY** workflows - choose based on preference
@@ -265,7 +272,7 @@ Claude will read the appropriate prompt file and execute it.
 - Prompt 2 is **DESKTOP-FRIENDLY** (not CLI-ONLY) - MCP Filesystem handles directory operations
 - Prompt 8 is **CLI-ONLY** - scans 30-50+ files for full consistency analysis
 - Prompt 11 is **HYBRID** - use Desktop for simple ops, CLI for validation/scanning
-- Prompts 7, 8, 9, 12, 13, 14, 15 are **CLI-ONLY** - require bulk operations, WebSearch, or system tools
+- Prompts 7, 8, 9, 12, 13, 14, 15, 16 are **CLI-ONLY** - require bulk operations, WebSearch, or system tools
 
 ---
 
