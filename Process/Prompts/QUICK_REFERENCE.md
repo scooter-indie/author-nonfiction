@@ -20,8 +20,9 @@
 - 🔧 **Prompt 9** - Export to DOCX/PDF/EPUB (requires pandoc)
 - 🔧 **Prompt 12** - Git operations (direct git commands)
 - 🔧 **Prompt 13** - AI Detection Analysis (bulk chapter analysis)
-- 🔧 **Prompt 14** - Visual Content Suggester (bulk file operations, visual analysis)
-- 🔧 **Prompt 15** - Citation Finder (requires WebSearch)
+- 🔧 **Prompt 14** - Citation Finder (requires WebSearch)
+- 🔧 **Prompt 15** - Visual Content Suggester (bulk file operations, visual analysis)
+- 🔧 **Prompt 16** - Image Manager (file operations, image handling)
 
 **Notes:**
 - **DESKTOP-FRIENDLY** prompts work in Claude Desktop, provide single git command at end
@@ -47,8 +48,9 @@
 | 11 | Style Manager | Manage style overrides | Medium - operations vary |
 | 12 | Git Operations | Version control | Medium - varies by operation |
 | 13 | AI Detection Analysis | Ensure authentic voice | Minimal - automatic analysis |
-| 14 | Visual Content Suggester | Create text-based visuals | Medium - visual placement |
-| 15 | Citation Finder | Find and verify citations | Medium - source selection |
+| 14 | Citation Finder | Find and verify citations | Medium - source selection |
+| 15 | Visual Content Suggester | Create text-based visuals | Medium - visual placement |
+| 16 | Image Manager | Add/upgrade images | Medium - image operations |
 
 ---
 
@@ -76,9 +78,12 @@
 ### Quality Control
 → **Prompt 8: Consistency** - Weekly or at milestones
 → **Prompt 10: Dashboard** - Weekly progress check
-→ **Prompt 13: AI Detection Analysis** - Check authentic voice (NEW v0.11.0)
-→ **Prompt 14: Visual Content Suggester** - Add tables/diagrams (NEW v0.11.0 Phase 2)
-→ **Prompt 15: Citation Finder** - Verify citations (NEW v0.11.0 Phase 2)
+→ **Prompt 13: AI Detection Analysis** - Check authentic voice (v0.11.0)
+→ **Prompt 14: Citation Finder** - Verify citations (v0.11.0)
+
+### Visual Content (v0.12.0+)
+→ **Prompt 15: Visual Content Suggester** - Create text-based visuals (tables, diagrams)
+→ **Prompt 16: Image Manager** - Add professional images, upgrade text-based visuals
 
 ### Compilation & Export
 → **Prompt 7: Compile** - Review full manuscript
@@ -266,12 +271,13 @@ Section Style (Optional - HTML comments)
    → Rewrite any flagged passages
 
 4. Add visual enhancements where needed
-   → Prompt 14 (Visual Content Suggester)
+   → Prompt 15 (Visual Content Suggester)
    → Review suggested tables/diagrams
-   → Insert chosen visuals
+   → Insert chosen text-based visuals
+   → Prompt 16 (Image Manager) to upgrade high-priority visuals
 
 5. Verify all citations
-   → Prompt 15 (Citation Finder)
+   → Prompt 14 (Citation Finder)
    → Check factual claims
    → Add missing citations
 
@@ -496,8 +502,9 @@ What do you want to do?
 ├─ Manage styles → Prompt 11 (Style Manager)
 ├─ Git operations → Prompt 12 (Git)
 ├─ Check authenticity → Prompt 13 (AI Detection Analysis)
-├─ Add visuals → Prompt 14 (Visual Content Suggester)
-└─ Find citations → Prompt 15 (Citation Finder)
+├─ Find citations → Prompt 14 (Citation Finder)
+├─ Add text visuals → Prompt 15 (Visual Content Suggester)
+└─ Manage images → Prompt 16 (Image Manager)
 ```
 
 ---
