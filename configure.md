@@ -468,7 +468,9 @@ Then I'll:
 
 ### Step 7: Export Tool Discovery
 
-I will automatically detect available export tools using the detection script:
+I will automatically detect available export tools using the detection script.
+
+**Note:** Git was already verified in Step 2. This script will re-confirm git and detect pandoc/typst for export functionality (Prompt 9).
 
 **Run tool detection:**
 ```bash
@@ -476,10 +478,11 @@ bash scripts/detect-tools.sh .config/manifest.json
 ```
 
 **The script will:**
-1. Detect git, pandoc, and typst availability
-2. Display version numbers for detected tools
-3. Update `.config/manifest.json` with tool availability
-4. Provide installation instructions for missing tools
+1. Re-confirm git availability (already verified in Step 2)
+2. Detect pandoc and typst for export tools (Prompt 9)
+3. Display version numbers for all detected tools
+4. Update `.config/manifest.json` with tool availability
+5. Provide installation instructions for missing tools
 
 **Expected output:**
 ```
