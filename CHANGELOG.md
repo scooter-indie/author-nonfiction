@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.3] - 2025-11-21
+
+### Changed
+- **configure.md** - Now uses `detect-tools.sh` script for automatic tool detection
+  - Replaced manual Q&A with automated bash script execution
+  - Runs `bash scripts/detect-tools.sh .config/manifest.json`
+  - Automatic detection of git, pandoc, and typst with version numbers
+  - Color-coded output with installation instructions
+  - Updates `.config/manifest.json` with tool availability
+  - Consistent detection logic between Prompt 1 and configure.md
+
+### Technical
+- **Release Type:** PATCH (configuration workflow improvement)
+- **Breaking Change:** No (internal workflow change only)
+
+---
+
 ## [0.12.2] - 2025-11-21
 
 ### Changed
