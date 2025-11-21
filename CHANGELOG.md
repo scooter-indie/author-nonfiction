@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.7] - 2025-11-21
+
+### Fixed
+- **configure.md Step 7** - Now instructs users to open Claude Code CLI
+  - Previously asked users to run bash commands directly in terminal
+  - Now tells users: "Open Claude Code CLI" and say "Run: bash scripts/detect-tools.sh"
+  - Aligns with hybrid workflow (Claude Desktop can't reliably execute bash)
+  - Consistent with other steps that require command execution
+
+### Technical
+- **Release Type:** PATCH (workflow instruction fix)
+- **Breaking Change:** No
+- **Issue:** configure.md Step 7 had incorrect instructions for Claude Desktop users
+
+---
+
 ## [0.12.6] - 2025-11-21
 
 ### Added

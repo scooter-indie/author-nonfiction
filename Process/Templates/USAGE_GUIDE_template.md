@@ -2,7 +2,7 @@
 
 **Book:** {{BOOK_TITLE}}
 **Author:** {{AUTHOR_NAME}}
-**Framework Version:** 0.12.6
+**Framework Version:** 0.12.7
 **Initialized:** {{INIT_DATE}}
 
 ---
