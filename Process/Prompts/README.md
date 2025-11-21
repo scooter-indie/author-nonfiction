@@ -30,9 +30,10 @@ Prompts/
 ├── Prompt_10_Dashboard.md
 ├── Prompt_11_Style_Manager.md
 ├── Prompt_12_Git.md
-├── Prompt_13_AI_Detection_Analysis.md (NEW in v0.11.0)
-├── Prompt_14_Visual_Content_Suggester.md (NEW in v0.11.0 Phase 2)
-└── Prompt_15_Citation_Finder.md (NEW in v0.11.0 Phase 2)
+├── Prompt_13_AI_Detection_Analysis.md (v0.11.0)
+├── Prompt_14_Citation_Finder.md (v0.11.0)
+├── Prompt_15_Visual_Content_Suggester.md (v0.11.0)
+└── Prompt_16_Image_Manager.md (NEW in v0.12.0)
 ```
 
 ---
@@ -280,7 +281,7 @@ Prompts/
 
 ---
 
-### 13. Prompt_13_AI_Detection_Analysis.md (NEW in v0.11.0)
+### 13. Prompt_13_AI_Detection_Analysis.md (v0.11.0)
 **Purpose**: Analyze chapters for AI-generated text indicators
 
 **When to use**: After drafting, before milestones, when concerned about authenticity
@@ -300,26 +301,7 @@ Prompts/
 
 ---
 
-### 14. Prompt_14_Visual_Content_Suggester.md (NEW in v0.11.0 Phase 2)
-**Purpose**: Analyze chapters and create text-based visuals (tables, diagrams, flowcharts)
-
-**When to use**: After drafting content, during revision, when explanations need visual support
-
-**Interaction**: AI analyzes chapters and suggests visual enhancements
-
-**Visual types**:
-- Markdown tables (comparison, data)
-- ASCII diagrams (flowcharts, timelines)
-- Structured lists (process steps, hierarchies)
-- Code blocks (formatted data displays)
-
-**Note**: Enhances understanding without requiring graphics software
-
-**Output**: Suggested visuals in Markdown format, ready to insert into content
-
----
-
-### 15. Prompt_15_Citation_Finder.md (NEW in v0.11.0 Phase 2)
+### 14. Prompt_14_Citation_Finder.md (v0.11.0)
 **Purpose**: Find and insert citations with WebSearch verification
 
 **When to use**: Adding factual claims, statistics, or expert quotes; verifying existing citations
@@ -335,6 +317,48 @@ Prompts/
 **Note**: Ensures accurate attribution and findable sources
 
 **Output**: Properly formatted citations with verified sources, added to content and bibliography
+
+---
+
+### 15. Prompt_15_Visual_Content_Suggester.md (v0.11.0)
+**Purpose**: Analyze chapters and create text-based visuals (tables, diagrams, flowcharts)
+
+**When to use**: After drafting content, during revision, when explanations need visual support
+
+**Interaction**: AI analyzes chapters and suggests visual enhancements
+
+**Visual types**:
+- Markdown tables (comparison, data)
+- ASCII diagrams (flowcharts, timelines)
+- Structured lists (process steps, hierarchies)
+- Code blocks (formatted data displays)
+
+**Location**: All visuals created in `Manuscript/images/` (unified directory, v0.12.0+)
+
+**Note**: Enhances understanding without requiring graphics software; creates text-based placeholders
+
+**Output**: Text-based visuals (📝 status) in Markdown format, ready to insert into content
+
+---
+
+### 16. Prompt_16_Image_Manager.md (NEW in v0.12.0)
+**Purpose**: Manage professional images and visual assets
+
+**When to use**: Adding photos/charts/graphics, upgrading text-based visuals, validating image references
+
+**Interaction**: Four operating modes - Add, Upgrade, Scan, Validate
+
+**Modes**:
+- Mode 1: Add new professional image to chapter
+- Mode 2: Upgrade text-based visual (📝 → 🖼️)
+- Mode 3: Scan and register existing images
+- Mode 4: Validate all image references
+
+**Location**: All images in `Manuscript/images/` with `Image_Registry.md`
+
+**Note**: Works with Prompt 15 for complete visual asset management (text-based + professional)
+
+**Output**: Registered images in unified directory, updated registry, validated references
 
 ---
 
@@ -400,24 +424,26 @@ When Prompt 3 completes:
 2. **Prompt 10** → Dashboard (verify progress)
 3. **Prompt 8** → Full consistency check
 4. **Prompt 13** → AI Detection Analysis (check authenticity)
-5. **Prompt 14** → Visual Content Suggester (add visuals where helpful)
-6. **Prompt 15** → Citation Finder (verify all citations)
-7. Fix all issues using **Prompt 3** or **Prompt 4**
-8. **Prompt 7** → Compile final version
-9. **Prompt 12** → Create tag (e.g., v1.0.0, first-draft)
-10. **Prompt 12** → Push with tags
+5. **Prompt 14** → Citation Finder (verify all citations)
+6. **Prompt 15** → Visual Content Suggester (add text-based visuals where helpful)
+7. **Prompt 16** → Image Manager Mode 2 (upgrade high-priority visuals)
+8. Fix all issues using **Prompt 3** or **Prompt 4**
+9. **Prompt 7** → Compile final version
+10. **Prompt 12** → Create tag (e.g., v1.0.0, first-draft)
+11. **Prompt 12** → Push with tags
 
 ### Publication Preparation
 1. **Prompt 5** → Scan for user edits (final sync)
 2. **Prompt 10** → Verify 100% completion
 3. **Prompt 8** → Final consistency check
 4. **Prompt 13** → AI Detection Analysis (final authenticity check)
-5. **Prompt 14** → Visual Content Suggester (finalize visuals)
-6. **Prompt 15** → Citation Finder (verify all citations)
-7. **Prompt 3** or **Prompt 4** → Fix all remaining issues
-8. **Prompt 7** → Compile final manuscript
-9. **Prompt 9** → Export to required format(s)
-10. **Prompt 12** → Tag as publication-ready
+5. **Prompt 14** → Citation Finder (verify all citations)
+6. **Prompt 15** → Visual Content Suggester (finalize text-based visuals)
+7. **Prompt 16** → Image Manager Mode 4 (validate all image references)
+8. **Prompt 3** or **Prompt 4** → Fix all remaining issues
+9. **Prompt 7** → Compile final manuscript
+10. **Prompt 9** → Export to required format(s)
+11. **Prompt 12** → Tag as publication-ready
 
 ### Quote Management Workflow
 **Adding/Updating Chapter Quotes:**
@@ -483,9 +509,11 @@ When Prompt 3 completes:
 
 6. **Run Prompt 13 (AI Detection) before reviews**: Ensure authentic voice
 
-7. **Run Prompt 14 (Visual Content) during revision**: Add helpful visuals
+7. **Run Prompt 14 (Citation Finder) as needed**: Verify factual claims
 
-8. **Run Prompt 15 (Citation Finder) as needed**: Verify factual claims
+8. **Run Prompt 15 (Visual Content) during revision**: Add text-based visuals
+
+9. **Run Prompt 16 (Image Manager) to upgrade visuals**: Professional images where needed
 
 9. **Push to remote regularly**: Your cloud backup via Prompt 12
 
@@ -579,7 +607,7 @@ When user says "Execute Prompt X" or "Run Prompt X":
 
 FILE ACCESS:
 All prompts and documentation are in Process/ directory:
-- Process/Prompts/Prompt_[1-13]_*.md
+- Process/Prompts/Prompt_[1-16]_*.md
 - Process/Anti-Hallucination_Guidelines.md
 - Process/Style_Examples.md
 - Process/AI-Assisted_Nonfiction_Authoring_Process.md
