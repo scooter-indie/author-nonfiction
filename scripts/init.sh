@@ -68,17 +68,11 @@ validate_preconditions() {
 
     # Check if required templates exist
     local required_templates=(
-        "Project_Config_template.md"
         "Image_Registry_template.md"
         "Copyright_template.md"
         "About_Author_template.md"
         "epub-style.css"
-        "Style_Overrides_Template.md"
         "gitignore_template"
-        ".config/project.json"
-        ".config/metadata.json"
-        ".config/manifest.json"
-        ".config/migrations.json"
     )
 
     for template in "${required_templates[@]}"; do
@@ -118,7 +112,6 @@ create_directory_structure() {
     echo -e "${BLUE}Creating directory structure...${NC}"
 
     local directories=(
-        ".config"
         "Manuscript/Chapters"
         "Manuscript/FrontMatter"
         "Manuscript/BackMatter/Bibliography"
@@ -149,19 +142,6 @@ create_directory_structure() {
 
 copy_templates() {
     echo -e "${BLUE}Copying templates...${NC}"
-
-    # Config templates (always overwrite framework files)
-    cp "$PROJECT_ROOT/Process/Templates/.config/project.json" ".config/project.json"
-    echo -e "${GREEN}✓ Copied: .config/project.json${NC}"
-
-    cp "$PROJECT_ROOT/Process/Templates/.config/metadata.json" ".config/metadata.json"
-    echo -e "${GREEN}✓ Copied: .config/metadata.json${NC}"
-
-    cp "$PROJECT_ROOT/Process/Templates/.config/manifest.json" ".config/manifest.json"
-    echo -e "${GREEN}✓ Copied: .config/manifest.json${NC}"
-
-    cp "$PROJECT_ROOT/Process/Templates/.config/migrations.json" ".config/migrations.json"
-    echo -e "${GREEN}✓ Copied: .config/migrations.json${NC}"
 
     # Visual asset templates (skip if exists - preserve user content)
     if [[ ! -f "Manuscript/images/Image_Registry.md" ]]; then
@@ -227,13 +207,13 @@ print_summary() {
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
     echo -e "${BLUE}Structure created:${NC}"
-    echo "  • 11 directories"
-    echo "  • 9 template files copied"
+    echo "  • 10 directories (Manuscript structure)"
+    echo "  • 5 template files copied"
     echo "  • Git repository initialized"
     echo ""
     echo -e "${YELLOW}Next steps:${NC}"
     echo "  • Claude will now generate content files (Style_Guide, TOC, etc.)"
-    echo "  • Claude will populate .config/init.json with your metadata"
+    echo "  • Claude will run tool detection (pandoc/typst)"
     echo "  • Claude will create initial git commit"
     echo ""
 }

@@ -19,11 +19,12 @@ bash scripts/init.sh .config/init.json
 
 **What it does:**
 1. Validates all preconditions (config exists, git installed, templates present)
-2. Creates 11-directory Manuscript structure
-3. Copies 9 template files
+2. Creates 10-directory Manuscript structure
+3. Copies 5 template files (visual assets, EPUB templates, .gitignore)
 4. Initializes git repository
-5. Runs tool detection (calls detect-tools.sh)
-6. Smart merge: preserves user content on re-initialization
+5. Smart merge: preserves user content on re-initialization
+
+**Note:** The `.config/` directory and JSON files are created by Claude in Prompt 1 Step 2b, NOT by this script.
 
 **Execution time:** ~2 seconds
 

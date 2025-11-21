@@ -100,11 +100,13 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
      9. Scientific Communicator
    - Store as: `style`
 
-### Step 2b: Write init.json
+### Step 2b: Create .config directory and all JSON files
 
 **Create `.config/` directory if it doesn't exist**
 
-**Write `.config/init.json` with collected data:**
+**Write all 5 configuration files:**
+
+**1. `.config/init.json` (user answers from Q&A):**
 
 ```json
 {
@@ -127,83 +129,12 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
 }
 ```
 
-### Step 2c: Environment-Specific Next Steps
+**2. `.config/project.json` (project settings):**
 
-**If in Claude Desktop:**
-- Display message:
-  ```
-  ✓ Configuration saved to .config/init.json
-
-  To complete initialization:
-  1. Open Claude Code CLI in your project directory
-  2. Say: "execute Prompt 1"
-
-  Claude Code will complete the setup in ~5-10 seconds.
-  ```
-- **STOP HERE** - Do not proceed to Step 3
-
-**If in Claude Code CLI:**
-- Proceed immediately to Step 3
-
-### Step 3: Run Bash Script (CLI ONLY)
-
-**Execute the initialization script:**
-
-```bash
-bash scripts/init.sh .config/init.json
-```
-
-**The script will:**
-1. Validate preconditions (config exists, git installed, templates present)
-2. Create 11-directory structure
-3. Copy 9 template files
-4. Initialize git repository
-5. Display verbose progress
-
-**Expected output:**
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nonfiction Framework Initialization Script v0.12.1
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Validating preconditions...
-✓ Config file found
-✓ Valid JSON config
-✓ Git is installed
-✓ Process/Templates directory found
-✓ All required templates found
-✓ All preconditions met
-
-Creating directory structure...
-✓ Created: .config
-✓ Created: Manuscript/Chapters
-✓ Created: Manuscript/FrontMatter
-...
-
-Copying templates...
-✓ Copied: .config/project.json
-✓ Copied: .config/metadata.json
-...
-
-Initializing git repository...
-✓ Git repository initialized
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✓ Initialization script completed successfully
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-### Step 4: AI-Generated Content (CLI ONLY)
-
-**Now complete the AI-required tasks:**
-
-**4a. Read init.json and populate config files**
-
-Read `.config/init.json` and populate:
-
-**`.config/project.json`:**
 ```json
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Project configuration and settings (replaces Project_Config.md)",
   "initialized": false,
   "settings": {
     "prompt_9_verbose": true
@@ -214,9 +145,12 @@ Read `.config/init.json` and populate:
 }
 ```
 
-**`.config/metadata.json`:**
+**3. `.config/metadata.json` (book metadata populated from init.json):**
+
 ```json
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Project metadata (replaces Project_Metadata.md)",
   "book": {
     "title": "[from init.json]",
     "subtitle": "",
@@ -247,9 +181,12 @@ Read `.config/init.json` and populate:
 }
 ```
 
-**`.config/manifest.json`:**
+**4. `.config/manifest.json` (framework tracking):**
+
 ```json
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Framework installation manifest",
   "frameworkVersion": "0.12.1",
   "installedDate": "[CONFIRMED_DATE]",
   "lastUpdated": "[CONFIRMED_DATE]",
@@ -263,9 +200,84 @@ Read `.config/init.json` and populate:
 }
 ```
 
-**Then run tool detection script:**
+**5. `.config/migrations.json` (copy from template):**
 
-After populating manifest, run:
+Copy `Process/Templates/.config/migrations.json` to `.config/migrations.json`
+
+### Step 2c: Environment-Specific Next Steps
+
+**If in Claude Desktop:**
+- Display message:
+  ```
+  ✓ Configuration files created in .config/
+
+  To complete initialization:
+  1. Open Claude Code CLI in your project directory
+  2. Say: "execute Prompt 1"
+
+  Claude Code will complete the setup in ~5-10 seconds.
+  ```
+- **STOP HERE** - Do not proceed to Step 3
+
+**If in Claude Code CLI:**
+- Proceed immediately to Step 3
+
+### Step 3: Run Bash Script (CLI ONLY)
+
+**Execute the initialization script:**
+
+```bash
+bash scripts/init.sh .config/init.json
+```
+
+**The script will:**
+1. Validate preconditions (config exists, git installed, templates present)
+2. Create 10-directory Manuscript structure
+3. Copy 5 template files (visual assets, EPUB templates, .gitignore)
+4. Initialize git repository
+5. Display verbose progress
+
+**Expected output:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nonfiction Framework Initialization Script v0.12.1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Validating preconditions...
+✓ Config file found
+✓ Valid JSON config
+✓ Git is installed
+✓ Process/Templates directory found
+✓ All required templates found
+✓ All preconditions met
+
+Creating directory structure...
+✓ Created: Manuscript/Chapters
+✓ Created: Manuscript/FrontMatter
+...
+
+Copying templates...
+✓ Copied: Manuscript/images/Image_Registry.md
+✓ Copied: Manuscript/FrontMatter/Copyright.md
+...
+
+Initializing git repository...
+✓ Git repository initialized
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Initialization script completed successfully
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Note:** The `.config/` directory and all JSON files were already created in Step 2b.
+
+### Step 4: AI-Generated Content (CLI ONLY)
+
+**Now complete the AI-required tasks:**
+
+**4a. Run tool detection script:**
+
+Run tool detection to update manifest with available export tools:
 ```bash
 bash scripts/detect-tools.sh .config/manifest.json
 ```
