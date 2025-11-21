@@ -121,14 +121,18 @@ my-book/
 ├── system-instructions.md          # For Claude Desktop integration
 ├── CHANGELOG.md                    # Version history
 ├── .gitignore                      # Git ignore rules
-├── .nonfiction-manifest.json       # Framework version tracking
 ├── Process/                        # Framework documentation & prompts
 │   ├── Prompts/
 │   ├── Templates/
 │   └── ...
+├── scripts/                        # Automation scripts
+│   ├── init.sh                     # Fast project initialization
+│   └── detect-tools.sh             # Tool detection
 └── .claude/
     └── agents/
         └── book-writing-assistant.md
+
+Note: .config/ directory created during initialization (Prompt 1 or configure.md)
 ```
 
 ### Step 4: Run Configuration

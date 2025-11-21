@@ -19,9 +19,9 @@ This framework provides everything you need to write, organize, and publish a pr
 
 Your project now contains:
 
-- **Process/** - The framework (10 conversational prompts + documentation)
+- **Process/** - The framework (16 conversational prompts + documentation)
 - **.claude/agents/** - Your AI writing assistant for book sessions
-- **.nonfiction-manifest.json** - Tracks your framework version
+- **.config/** - Configuration files (manifest, project settings, metadata)
 - **Your book content** - Chapters, TOC, metadata (created during initialization)
 
 ### 2. Daily Writing Workflow
@@ -191,7 +191,7 @@ When new framework versions are released:
 
 **Check your current version:**
 ```bash
-cat .nonfiction-manifest.json
+cat .config/manifest.json
 ```
 
 **Current version:** {{VERSION}}
@@ -245,8 +245,8 @@ cat .nonfiction-manifest.json
 
 **Remember:** The framework (Process/ directory) is separate from your book content.
 
-**Framework files:** Process/, .claude/, .nonfiction-manifest.json
-**Your book:** Everything else (Chapters/, TOC/, Quotes/, Style/, etc.)
+**Framework files:** Process/, .claude/, scripts/
+**Your book:** Everything else (Manuscript/, .config/, README.md)
 
 Updates to the framework don't affect your book content. Your writing is always preserved.
 

@@ -52,7 +52,7 @@ I will:
 ### Step 2: Check Framework Installation
 
 I will verify these files exist:
-- `.nonfiction-manifest.json`
+- `.config/manifest.json` (or legacy `.nonfiction-manifest.json`)
 - `Process/` directory
 - `.claude/agents/book-writing-assistant.md`
 - `INSTALLATION.md`
@@ -65,18 +65,22 @@ If any are missing, I'll report the issue and stop.
 ### Step 3: Detect Installation Type and Create/Update Manifest
 
 I will:
-1. Check if `.nonfiction-manifest.json` exists in project root
+1. Check if `.config/manifest.json` exists in project
+   - If not, check for legacy `.nonfiction-manifest.json` in root
 2. **If manifest does NOT exist:**
-   - Read `Process/Templates/manifest_template.json`
-   - Create `.nonfiction-manifest.json` from template
+   - Read `Process/Templates/.config/manifest.json`
+   - Create `.config/manifest.json` from template
    - This is a **New Installation**
 3. **If manifest DOES exist:**
-   - Read existing `.nonfiction-manifest.json`
+   - Read existing `.config/manifest.json` (or migrate from `.nonfiction-manifest.json`)
    - Preserve `installedVersion` and `installedDate` (installation history)
    - Update only `frameworkVersion` and `releaseDate` from template
    - Add current update to `updateHistory` array
    - This is an **Update Installation**
-4. Proceed with appropriate workflow
+4. **If migrating from v0.12.0 or earlier:**
+   - Move `.nonfiction-manifest.json` → `.config/manifest.json`
+   - Update structure to match new template
+5. Proceed with appropriate workflow
 
 **Manifest Structure:**
 ```json
@@ -123,8 +127,8 @@ For updates, I will:
 This ensures your project structure is updated correctly through each version's changes.
 
 I will:
-1. Read `.nonfiction-migrations.json` to get available migrations
-2. Read `.nonfiction-manifest.json` to check:
+1. Read `.config/migrations.json` to get available migrations
+2. Read `.config/manifest.json` to check:
    - Current `installedVersion` or `frameworkVersion`
    - `appliedMigrations` array (list of already-applied migration IDs)
 3. Determine which migrations need to be applied:
@@ -143,7 +147,7 @@ I will:
      - retry: Try again
      - abort: Stop entire process (user must fix before continuing)
    - Track successful changes
-6. Track applied migrations in `.nonfiction-manifest.json`
+6. Track applied migrations in `.config/manifest.json`
 7. If any steps failed and user chose abort:
    - Display manual fix instructions immediately
    - Create `MANUAL_MIGRATION_STEPS.md` in project root
@@ -530,29 +534,42 @@ Installation instructions:
 ### Step 8: Update Manifest
 
 **For New Installations:**
-I will update `.nonfiction-manifest.json`:
+I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "3.5.0",
-  "installedVersion": "3.5.0",
+  "frameworkVersion": "0.12.3",
+  "installedVersion": "0.12.3",
   "installedDate": "[current-date]",
-  "lastUpdated": "[current-date]"
+  "lastUpdated": "[current-date]",
+  "installationMethod": "configure.md",
+  "configureCompleted": true,
+  "toolsAvailable": {
+    "git": true,
+    "pandoc": false,
+    "typst": false
+  }
 }
 ```
 
 **For Updates:**
 I will:
 1. Read current `installedVersion` from manifest
-2. Display changelog (read from `CHANGELOG.md` or `Process/AI-Assisted_Nonfiction_Authoring_Process_chg.md`)
-3. Show what's changed between your version and 3.5.0
+2. Display changelog (read from `CHANGELOG.md`)
+3. Show what's changed between your version and 0.12.3
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "3.5.0",
-  "installedVersion": "3.5.0",
-  "previousVersion": "[old-version]",
-  "installedDate": "[original-date]",
-  "lastUpdated": "[current-date]"
+  "frameworkVersion": "0.12.3",
+  "installedVersion": "0.12.3",
+  "installedDate": "[original-date-preserved]",
+  "lastUpdated": "[current-date]",
+  "installationMethod": "configure.md",
+  "configureCompleted": true,
+  "toolsAvailable": {
+    "git": true,
+    "pandoc": true,
+    "typst": false
+  }
 }
 ```
 
@@ -570,7 +587,7 @@ I will provide you with the git command to run in Claude Code CLI.
 
 Open Claude Code CLI and say:
 ```
-Run: git add . && git commit -m 'Initialize nonfiction framework v0.10.0
+Run: git add . && git commit -m 'Initialize nonfiction framework v0.12.3
 
 🤖 Generated with Claude Desktop
 
@@ -581,7 +598,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 Open Claude Code CLI and say:
 ```
-Run: git add .nonfiction-manifest.json && git commit -m 'Update framework from v[old] to v0.10.0
+Run: git add .config/manifest.json && git commit -m 'Update framework from v[old] to v0.12.3
 
 See CHANGELOG.md for details.
 
@@ -744,7 +761,7 @@ Your git repository will track:
 - ✅ **Your book content**: Manuscript/ directory (Chapters/, _TOC_/, FrontMatter/, BackMatter/, Quotes/, Style/, Inbox/, Drafts/, Exports/)
 - ✅ **Your configuration**: Project_Config.md, Project_Metadata.md, Style_Guide.md
 - ✅ **Change tracking**: All _chg.md files
-- ✅ **Manifest**: .nonfiction-manifest.json (version tracking)
+- ✅ **Manifest**: .config/manifest.json (version tracking)
 - ✅ **Claude agents**: .claude/agents/book-writing-assistant.md
 - ❌ **Framework files**: Process/, system-instructions.md, INSTALLATION.md, CLAUDE.md
 

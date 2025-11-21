@@ -25,7 +25,7 @@ Pre-configured permissions that automatically allow common commands without prom
 - GitHub CLI: `gh` (all operations)
 
 **Automatically allowed file edits:**
-- `.nonfiction-manifest.json` (framework version tracking)
+- `.config/manifest.json` (framework version tracking, v0.12.1+)
 
 **Denied commands (for safety):**
 - Destructive: `rm -rf /`, `sudo`
