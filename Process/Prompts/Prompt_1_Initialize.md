@@ -73,6 +73,7 @@ I'll ask you a series of questions to gather the information needed to set up yo
    - Manuscript/Inbox/
    - Manuscript/Drafts/
    - Manuscript/Exports/
+   - Manuscript/images/ (unified visual asset directory, v0.12.0+)
 3. Initialize git repository (via Claude Code CLI if in Desktop)
 4. Generate configuration files (Project_Config.md with `initialized: false` and `prompt_9_verbose: true`, Project_Metadata.md, USAGE_GUIDE.md) at root
 5. Configure writing style (interactive style selection)
@@ -84,11 +85,16 @@ I'll ask you a series of questions to gather the information needed to set up yo
 10. Create Manuscript/Quotes/Chapter_Quotes_chg.md for tracking quote changes
 11. Create front matter and back matter placeholders in Manuscript/FrontMatter/ and Manuscript/BackMatter/
 12. Create Manuscript/BackMatter/Bibliography/ directory with placeholder files
-13. **Generate PROJECT_CONTEXT.md** at project root for Claude Desktop session resumption
-14. Commit everything to git with appropriate messages (via Claude Code CLI if in Desktop)
-15. Tag as v1.0.0 (via Claude Code CLI if in Desktop)
-16. **Set `initialized: true` in Project_Config.md** (marks successful completion)
-17. Provide confirmation report with instructions to upload PROJECT_CONTEXT.md in Claude Desktop
+13. **Copy visual asset and EPUB templates** (v0.12.0+):
+    - Copy Process/Templates/Image_Registry_template.md → Manuscript/images/Image_Registry.md
+    - Copy Process/Templates/Copyright_template.md → Manuscript/FrontMatter/Copyright.md
+    - Copy Process/Templates/About_Author_template.md → Manuscript/BackMatter/About_Author.md
+    - Copy Process/Templates/epub-style.css → Manuscript/Style/epub-style.css
+14. **Generate PROJECT_CONTEXT.md** at project root for Claude Desktop session resumption
+15. Commit everything to git with appropriate messages (via Claude Code CLI if in Desktop)
+16. Tag as v1.0.0 (via Claude Code CLI if in Desktop)
+17. **Set `initialized: true` in Project_Config.md** (marks successful completion)
+18. Provide confirmation report with instructions to upload PROJECT_CONTEXT.md in Claude Desktop
 
 **Note:** Chapter files are NOT created during initialization. Use **Prompt 2 (Add New Chapter)** to create each chapter on-demand. This keeps initialization fast (~5-10 seconds instead of ~30+ seconds).
 
