@@ -279,11 +279,15 @@ AUTHOR_NAME="[from Project_Config.md]"
 
 **Option B: Via Typst (if installed):**
 
+Typst is a modern, fast alternative to LaTeX with simpler syntax and faster compilation.
+
+**Method 1: Pandoc → Typst → PDF (Recommended)**
+
 ```bash
 # Check if typst is available from settings
 TYPST_PATH="[from .claude/settings.local.json]"
 
-# First convert to Typst format
+# First convert markdown to Typst format
 "${PANDOC_PATH}" "${DRAFT_FILE}" \
   -o "${OUTPUT_DIR}/${BOOK_TITLE}.typ" \
   --standalone
@@ -292,6 +296,98 @@ TYPST_PATH="[from .claude/settings.local.json]"
 "${TYPST_PATH}" compile "${OUTPUT_DIR}/${BOOK_TITLE}.typ" \
   "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
 ```
+
+**Method 2: Direct Typst with Custom Template**
+
+```bash
+# Create Typst document with custom template
+cat > "${OUTPUT_DIR}/${BOOK_TITLE}.typ" <<'TYPST_EOF'
+#set document(
+  title: "${BOOK_TITLE}",
+  author: "${AUTHOR_NAME}",
+  date: auto,
+)
+
+#set page(
+  paper: "us-letter",
+  margin: (x: 1in, y: 1in),
+  numbering: "1",
+)
+
+#set text(
+  font: "Linux Libertine",
+  size: 11pt,
+  lang: "en",
+)
+
+#set par(
+  justify: true,
+  leading: 0.65em,
+)
+
+#set heading(
+  numbering: "1.1",
+)
+
+// Title page
+#align(center)[
+  #text(size: 24pt, weight: "bold")[${BOOK_TITLE}]
+  #v(1em)
+  #text(size: 16pt)[${AUTHOR_NAME}]
+  #v(2em)
+]
+
+#pagebreak()
+
+// Table of contents
+#outline(
+  title: "Table of Contents",
+  depth: 2,
+)
+
+#pagebreak()
+
+// Import the markdown content
+#include "${DRAFT_FILE}"
+
+TYPST_EOF
+
+# Compile to PDF
+"${TYPST_PATH}" compile \
+  --root "." \
+  --font-path "Style/fonts" \
+  "${OUTPUT_DIR}/${BOOK_TITLE}.typ" \
+  "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
+```
+
+**Method 3: Direct Markdown with Typst**
+
+Typst can read markdown directly (experimental):
+
+```bash
+# Compile markdown directly to PDF with Typst
+"${TYPST_PATH}" compile \
+  --root "." \
+  --input title="${BOOK_TITLE}" \
+  --input author="${AUTHOR_NAME}" \
+  "${DRAFT_FILE}" \
+  "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
+```
+
+**Typst Options:**
+- `--root`: Set root directory for imports
+- `--font-path`: Custom font directory
+- `--input`: Pass variables to template
+- `compile`: Compile to PDF
+- Much faster than LaTeX (typically 10-100x)
+- Better error messages
+- Modern syntax
+
+**Typst vs LaTeX:**
+- ✅ **Typst**: Faster, simpler, better errors, modern
+- ✅ **LaTeX**: More mature, more packages, industry standard
+- **Choose Typst for**: Speed, simplicity, modern workflows
+- **Choose LaTeX for**: Publisher requirements, complex layouts
 
 ### Step 7: Copy Assets
 
@@ -448,6 +544,44 @@ I will display:
 - Verify images exist in chapter figures/ directories
 - Use relative paths in markdown: `![](figures/image.png)`
 - Check `--resource-path` includes all image directories
+
+### Typst Not Found
+
+**Error:** `typst: command not found`
+
+**Solution:**
+1. Run `execute configure.md` to detect typst
+2. Or install manually:
+   - Windows: `winget install typst`
+   - macOS: `brew install typst`
+   - Linux: See https://github.com/typst/typst#installation
+3. Or use LaTeX instead (Option A in Step 6)
+
+### Typst Compilation Errors
+
+**Error:** `error: failed to compile`
+
+**Common causes:**
+- Invalid Typst syntax in template
+- Missing fonts specified in template
+- Path issues with `--root` or `--font-path`
+
+**Solutions:**
+- Check Typst error message (much clearer than LaTeX!)
+- Verify font files exist in `Style/fonts/`
+- Use Method 1 (Pandoc → Typst) for simplest workflow
+- Test with basic template first
+
+### LaTeX Not Found
+
+**Error:** `xelatex: command not found`
+
+**Solution:**
+1. Install LaTeX distribution:
+   - Windows: MiKTeX or TeX Live
+   - macOS: MacTeX (`brew install --cask mactex`)
+   - Linux: TeX Live (`sudo apt install texlive-full`)
+2. Or use Typst instead (faster, easier to install)
 
 ---
 
