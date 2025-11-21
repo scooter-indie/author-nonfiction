@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "description": "Manifest of all framework files that should exist in a clean installation",
+  "version": "0.11.1",
+  "generatedDate": "2025-11-20",
+  "files": {
+    "root": [
+      "INSTALLATION.md",
+      "CLAUDE.md",
+      "configure.md",
+      "system-instructions.md",
+      ".gitignore",
+      ".nonfiction-migrations.json"
+    ],
+    "Process": [
+      "AI-Assisted_Nonfiction_Authoring_Process.md",
+      "AI-Assisted_Nonfiction_Authoring_Process_chg.md",
+      "Anti-Hallucination_Guidelines.md",
+      "Anti-Hallucination_Guidelines_chg.md",
+      "Style_Examples.md"
+    ],
+    "Process/Prompts": [
+      "Prompt_1_Initialize.md",
+      "Prompt_2_Add_Chapter.md",
+      "Prompt_3_Change_by_Chg.md",
+      "Prompt_4_Interactive_Change.md",
+      "Prompt_5_Scan_For_User_Edits.md",
+      "Prompt_6_Integrate_Inbox.md",
+      "Prompt_7_Compile.md",
+      "Prompt_8_Consistency.md",
+      "Prompt_9_Export.md",
+      "Prompt_10_Dashboard.md",
+      "Prompt_11_Style_Manager.md",
+      "Prompt_12_Git_Operations.md",
+      "Prompt_13_AI_Detection_Analysis.md",
+      "Prompt_14_Visual_Content_Suggester.md",
+      "Prompt_15_Citation_Finder.md",
+      "Prompt_99_Build_Release.md",
+      "README.md",
+      "QUICK_REFERENCE.md"
+    ],
+    "Process/_COMMON": [
+      "01_Prompt_Structure_Template.md",
+      "02_Desktop_Compatibility_Module.md",
+      "03_Anti_Hallucination_Protocols.md",
+      "04_File_Operations_Library.md",
+      "05_Git_Integration_Module.md",
+      "06_Validation_Protocols.md",
+      "07_Quote_Management_System.md",
+      "08_Semantic_Versioning_Guide.md",
+      "09_Report_Templates.md",
+      "10_Style_Consistency_Protocol.md",
+      "11_Interactive_Patterns.md",
+      "12_Workflow_Patterns.md",
+      "13_PROJECT_CONTEXT_Protocol.md",
+      "14_Enforcement_Rules_Module.md",
+      "15_Visual_Asset_Management_Protocol.md",
+      "16_Citation_Management_Protocol.md",
+      "README.md"
+    ],
+    "Process/Templates": [
+      "Chapter_Style_Template.md",
+      "Custom_Styles_Template.md",
+      "PROJECT_CONTEXT_template.md",
+      "README_AUTHORS_template.md",
+      "Style_Guide_Template.md",
+      "Style_Overrides_Template.md",
+      "gitignore_template",
+      "manifest_template.json",
+      "framework_files_manifest.json"
+    ],
+    "Process/Testing": [
+      "Hierarchical_Style_Testing_Checklist.md"
+    ],
+    ".claude": [
+      "README.md",
+      "hooks.json"
+    ],
+    ".claude/agents": [
+      "book-writing-assistant.md"
+    ]
+  },
+  "notes": [
+    "This manifest lists all framework files that should exist in a clean installation.",
+    "During framework updates, configure.md will:",
+    "1. Compare existing Process/ files against this manifest",
+    "2. Remove files NOT in this manifest (outdated from previous versions)",
+    "3. Preserve user files (anything outside Process/ and framework root files)",
+    "4. Generate backup of removed files before deletion",
+    "Files outside Process/ (.claude/, root docs) are only removed if explicitly obsolete.",
+    "User content (Manuscript/, Chapters/, etc.) is NEVER touched by cleanup."
+  ]
+}

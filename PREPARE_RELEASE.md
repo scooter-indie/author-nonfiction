@@ -171,6 +171,74 @@ If any unexpected references found, update them.
 - Check that `.github/workflows/release.yml` copies `.nonfiction-migrations.json` to build/temp/
 - This file MUST be included in release zip for upgrade migrations to work
 
+### Step 4.6: Generate Framework Files Manifest
+
+**Generate the framework files manifest for this release:**
+
+The manifest lists all framework files that should exist in a clean installation. This enables configure.md to clean up outdated files during updates.
+
+1. **Generate current file listing:**
+   ```bash
+   # List all framework files
+   find Process -type f | sort > /tmp/process_files.txt
+   ls -1 INSTALLATION.md CLAUDE.md configure.md system-instructions.md .gitignore .nonfiction-migrations.json 2>/dev/null > /tmp/root_files.txt
+   find .claude -type f | sort > /tmp/claude_files.txt
+   ```
+
+2. **Update `Process/Templates/framework_files_manifest.json`:**
+   - Open `Process/Templates/framework_files_manifest.json`
+   - Update `"version"` to match `NEW_VERSION`
+   - Update `"generatedDate"` to today's date (YYYY-MM-DD)
+   - Verify all files listed in manifest still exist
+   - Add any new files created in this release
+   - Remove any files that were deleted in this release
+
+3. **Validate manifest structure:**
+   ```bash
+   # Check JSON is valid
+   cat Process/Templates/framework_files_manifest.json | jq .
+   ```
+
+4. **Verify completeness:**
+   - Compare manifest against actual files
+   - Ensure all `.md` files in Process/ are listed
+   - Ensure all prompts (Prompt_1 through Prompt_15, Prompt_99) are listed
+   - Ensure all modules (_COMMON/01-16) are listed
+   - Ensure all templates are listed
+   - Ensure .claude/ files are listed
+
+**Example manifest structure:**
+```json
+{
+  "version": "0.11.1",
+  "generatedDate": "2025-11-20",
+  "files": {
+    "root": ["INSTALLATION.md", "CLAUDE.md", ...],
+    "Process": ["AI-Assisted_Nonfiction_Authoring_Process.md", ...],
+    "Process/Prompts": ["Prompt_1_Initialize.md", ...],
+    "Process/_COMMON": ["01_Prompt_Structure_Template.md", ...],
+    "Process/Templates": ["Chapter_Style_Template.md", ...],
+    ".claude": ["README.md", "hooks.json"],
+    ".claude/agents": ["book-writing-assistant.md"]
+  }
+}
+```
+
+**Why this matters:**
+- During framework updates, configure.md will:
+  1. Read this manifest to know what files SHOULD exist
+  2. Compare against what files DO exist in user's Process/ directory
+  3. Remove files NOT in manifest (outdated from previous versions)
+  4. Preserve user content (Manuscript/, etc. - never touched)
+- Prevents accumulation of obsolete framework files
+- Keeps installation clean and up-to-date
+
+**Commit the updated manifest:**
+```bash
+git add Process/Templates/framework_files_manifest.json
+# (Will be committed with other version updates in Step 5)
+```
+
 ### Step 5: Commit Version Updates
 
 ```bash

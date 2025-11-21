@@ -28,13 +28,15 @@ This configuration script will:
 
 1. **Verify framework installation** - Check all required files are present
 2. **Check git status** - Warn if uncommitted changes exist (for updates)
-3. **Setup git repository** - Initialize if not present
-4. **Connect to remote** (optional) - Help you set up GitHub/GitLab remote
-5. **Discover export tools** (optional) - Detect pandoc/typst and store paths
-6. **Create manifest/update version** - Track installation or update
-7. **Verify Claude Code integration** - Ensure book-writing-assistant is ready
-8. **Create initial commit** - Verify git is working
-9. **Provide next steps** - Guide you to start writing
+3. **Apply migrations** (updates only) - Update project structure for new version
+4. **Clean outdated files** (updates only) - Remove obsolete framework files
+5. **Setup git repository** - Initialize if not present
+6. **Connect to remote** (optional) - Help you set up GitHub/GitLab remote
+7. **Discover export tools** (optional) - Detect pandoc/typst and store paths
+8. **Create manifest/update version** - Track installation or update
+9. **Verify Claude Code integration** - Ensure book-writing-assistant is ready
+10. **Create initial commit** - Verify git is working
+11. **Provide next steps** - Guide you to start writing
 
 ---
 
@@ -286,6 +288,104 @@ REQUIRED ACTIONS:
 ```
 
 **Note:** Migrations are mandatory. If a migration fails, you must resolve the issue before the framework can continue. This ensures your project structure remains compatible with the new framework version.
+
+### Step 4.7: Clean Outdated Framework Files (Updates Only)
+
+**This step only runs when updating from an older version.**
+
+After applying migrations, I will clean up outdated framework files that are no longer part of the current version.
+
+I will:
+
+1. **Read framework files manifest:**
+   ```bash
+   cat Process/Templates/framework_files_manifest.json
+   ```
+
+2. **Identify files to remove:**
+   - Scan `Process/` directory for all existing files
+   - Compare against manifest's expected files list
+   - Build list of files NOT in manifest (outdated)
+   - Exclude user-created files (anything with `_chg.md` is framework)
+
+3. **Create backup before deletion:**
+   ```bash
+   # Create backup directory with timestamp
+   mkdir -p ".framework-cleanup-backup/[date]"
+
+   # Copy files to be removed to backup
+   for file in [files-to-remove]; do
+     cp "$file" ".framework-cleanup-backup/[date]/"
+   done
+   ```
+
+4. **Display files to be removed:**
+   ```
+   📦 Framework Cleanup
+
+   The following outdated framework files will be removed:
+
+   Process/Prompts/Old_Prompt_Name.md
+   Process/_COMMON/Deprecated_Module.md
+   Process/Templates/Obsolete_Template.md
+
+   Total: 3 files
+
+   ✅ Backup created: .framework-cleanup-backup/[date]/
+
+   These files are from previous framework versions and are no longer used.
+   Proceed with cleanup? (yes/no)
+   ```
+
+5. **Remove outdated files (if user confirms):**
+   ```bash
+   # Remove each outdated file
+   for file in [files-to-remove]; do
+     rm "$file"
+   done
+   ```
+
+6. **Report results:**
+   ```
+   ✅ Cleanup Complete
+
+   Removed: 3 outdated framework files
+   Backup: .framework-cleanup-backup/[date]/
+
+   Your Process/ directory is now clean and matches version [NEW_VERSION].
+   ```
+
+**Files NEVER removed:**
+- Anything outside `Process/` directory (user content protected)
+- `.claude/settings.local.json` (user-specific settings)
+- `_chg.md` files in user's Manuscript/ (user change tracking)
+- User's book content (Chapters/, FrontMatter/, BackMatter/, etc.)
+
+**Example cleanup scenarios:**
+
+**Scenario 1: Prompt renumbering**
+- User upgrading from v0.9.2 (11 prompts) → v0.11.0 (15 prompts)
+- Old: `Process/Prompts/Prompt_5_Compile.md`
+- New: `Process/Prompts/Prompt_7_Compile.md`
+- Result: Old `Prompt_5_Compile.md` removed (now at Prompt_7)
+
+**Scenario 2: Module additions**
+- User upgrading from v0.10.0 (14 modules) → v0.11.0 (16 modules)
+- New modules added: `15_Visual_Asset_Management_Protocol.md`, `16_Citation_Management_Protocol.md`
+- No old modules removed (only additions)
+- Result: No cleanup needed
+
+**Scenario 3: Deprecated templates**
+- User upgrading from v0.9.0 → v0.11.0
+- Old template renamed or removed
+- Result: Old template file removed, new one already in place
+
+**Safety features:**
+- Backup created before ANY deletions
+- User confirmation required before cleanup
+- Detailed list of what will be removed
+- Option to skip cleanup (advanced users)
+- `.framework-cleanup-backup/` added to .gitignore automatically
 
 ### Step 5: Git Repository Setup
 
