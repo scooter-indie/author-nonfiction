@@ -7,6 +7,109 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.0] - 2025-11-21
+
+### Added
+- **Unified Visual Asset System** - Centralized image management in single `Manuscript/images/` directory
+  - Replaces per-chapter `Chapter_XX/figures/` subdirectories with flat structure
+  - Single `Image_Registry.md` tracks all visual assets across entire book
+  - Registry-based coordination between Prompt 15 and Prompt 16
+  - Two-level status tracking: 📝 Text-based vs 🖼️ Professional images
+  - Simplified Pandoc export: `--resource-path=Manuscript` eliminates path rewriting
+  - Typora-friendly relative paths: `../images/` works in markdown editors
+- **Prompt 16: Image Manager** - Professional image management with four operating modes
+  - Mode 1: Add new professional image to chapter
+  - Mode 2: Upgrade text-based visual (📝 → 🖼️)
+  - Mode 3: Scan and register existing images
+  - Mode 4: Validate all image references
+  - Semi-automated workflow: Claude handles file operations, user controls placement
+  - Registry-based figure numbering ensures sequential consistency
+- **EPUB Templates** - Professional EPUB export support
+  - `epub-style.css` - Default EPUB stylesheet with professional typography
+  - `Copyright_template.md` - Standard copyright page template
+  - `About_Author_template.md` - Author bio template
+  - Enhanced Pandoc EPUB command with publisher/rights metadata
+- **Module 15: Visual Asset Management Protocol** - Complete rewrite for unified system
+  - 700-line comprehensive protocol governing both Prompt 15 and 16
+  - Naming convention: `fig-XX-YY-description.ext` with hyphens
+  - Registry format with upgrade priority tracking
+  - Coordination protocol prevents duplicate figure numbering
+  - Integration guide for all prompts
+
+### Changed
+- **Prompt Renumbering** - Swapped visual content prompts for better logical flow
+  - Prompt 14: Citation Finder (was Prompt 15)
+  - Prompt 15: Visual Content Suggester (was Prompt 14)
+  - Prompt 16: Image Manager (NEW)
+  - All prompt cross-references updated across 16+ files
+- **Prompt 1 (Initialize)** - Updated for unified visual system
+  - Creates `Manuscript/images/` directory instead of per-chapter `figures/`
+  - Copies new templates: Image_Registry, Copyright, About_Author, epub-style.css
+  - No per-chapter figures directories in new chapters
+- **Prompt 2 (Add Chapter)** - Removed per-chapter figures directory creation
+  - New chapters only contain markdown files
+  - All images managed centrally via Prompt 15/16
+- **Prompt 7 (Compile)** - Updated for unified image paths
+  - Handles images from `Manuscript/images/`
+  - Preserves relative `../images/` paths for compatibility
+  - Includes Copyright and About_Author in compilation
+- **Prompt 8 (Consistency)** - Registry-based visual validation
+  - Reads unified `Image_Registry.md` instead of scanning per-chapter directories
+  - Cross-references registry entries with chapter files
+  - Registry health check (accuracy, orphaned files, missing metadata)
+  - Validates image references (paths, alt text, captions)
+- **Prompt 9 (Export)** - Enhanced EPUB generation with unified images
+  - Pandoc: `--resource-path=Manuscript` (no complex path rewriting)
+  - Simplified asset copying: `cp Manuscript/images/*`
+  - Added publisher and rights metadata to EPUB
+  - Cover image: `Manuscript/images/cover.jpg`
+  - CSS: `Manuscript/Style/epub-style.css`
+  - Updated pre-export checklist with Prompt 16 Mode 4 validation
+- **Prompt 15 (Visual Content Suggester)** - Updated for unified directory
+  - Creates text-based visuals in `Manuscript/images/` (not per-chapter)
+  - Uses hyphenated naming: `fig-XX-YY-description.md`
+  - References unified `Image_Registry.md`
+  - Standard markdown image syntax with required alt text
+  - Integration with Prompt 16 for upgrades
+
+### Documentation
+- **README.md** - Updated for v0.12.0 with 16 prompts
+  - Added Visual Content Management feature
+  - Updated directory structure (Manuscript/images/)
+  - Swapped Prompt 14/15 descriptions, added Prompt 16
+- **QUICK_REFERENCE.md** - Complete prompt workflow updates
+  - New "Visual Content" section for Prompts 15 & 16
+  - Updated milestone workflows with image validation steps
+  - Updated CLI-ONLY list and prompt selection tree
+- **Process/Prompts/README.md** - Comprehensive prompt guide updates
+  - Swapped Prompt 14/15 detailed descriptions
+  - Added Prompt 16 with four mode descriptions
+  - Updated milestone and publication workflows
+  - Added image management tips and integration notes
+- **CLAUDE.md** - Session context document updates
+  - Version 0.11.1 → 0.12.0
+  - 15 → 16 Core Prompts
+  - Updated prompt list and CLI-ONLY references
+  - Added visual system notes
+- **system-instructions.md** - Critical framework instructions
+  - Updated CLI-ONLY list (added Prompt 16)
+  - Updated prompt execution guidance
+  - Swapped Prompt 14/15 descriptions
+- **configure.md** - Configuration script updates
+  - Version 0.11.1 → 0.12.0
+  - Added migration_0.11.1_to_0.12.0 (documentation-only)
+  - Updated example scenarios (15 → 16 prompts)
+
+### Technical
+- **Release Type:** MINOR (new features: Prompt 16, unified visual system)
+- **Total Commits:** 20 implementation commits across 13 phases
+- **Files Created:** 5 new files (4 templates + Prompt 16)
+- **Files Updated:** 30+ prompt and documentation files
+- **Breaking Change:** No - existing per-chapter figures/ directories still work
+- **Migration:** Documentation-only (no structural changes to existing projects)
+
+---
+
 ## [0.11.1] - 2025-11-20
 
 ### Fixed
