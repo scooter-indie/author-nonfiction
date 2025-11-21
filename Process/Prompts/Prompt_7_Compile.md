@@ -40,7 +40,7 @@ However, if you request additions or modifications during compilation:
 
 ## How This Works
 
-I'll use your default compilation settings (stored in `Project_Config.md`), or you can customize them for this compilation.
+I'll use your default compilation settings (stored in `.config/project.json`), or you can customize them for this compilation.
 
 ### Questions I'll ask:
 
@@ -119,12 +119,12 @@ I'll use your default compilation settings (stored in `Project_Config.md`), or y
 
 ## Default Settings
 
-Your current defaults (from Project_Config.md):
+Your current defaults (from .config/project.json):
 - Format: Formatted
 - Include Placeholders: Yes
 - Include Change Tracking: No
 
-These can be updated in `Project_Config.md` or customized per compilation.
+These can be updated in `.config/project.json` or customized per compilation.
 
 ---
 

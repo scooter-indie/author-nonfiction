@@ -193,7 +193,7 @@ Prompts/
 
 **Interaction**: AI asks for version number and whether to use default settings
 
-**Settings**: Stored in `Project_Config.md`, can customize per compilation
+**Settings**: Stored in `.config/project.json`, can customize per compilation
 
 **Quote insertion**: Verified (✓) quotes automatically inserted as chapter epigraphs; compilation report shows quote status
 
@@ -223,7 +223,7 @@ Prompts/
 
 **Interaction**: AI asks about format and settings (or uses defaults)
 
-**Settings**: Stored in `Project_Config.md`, can customize per export
+**Settings**: Stored in `.config/project.json`, can customize per export
 
 **Output**: Formatted files in `Exports/[date]/` directory
 
@@ -387,10 +387,10 @@ When Prompt 3 completes:
 
 ### Default Settings
 
-**Prompt 5 (Compile)** and **Prompt 7 (Export)** use defaults from `Project_Config.md`:
+**Prompt 7 (Compile)** and **Prompt 9 (Export)** use defaults from `.config/project.json`:
 - You can use defaults (quick)
 - Or customize per operation
-- Update defaults in Project_Config.md anytime
+- Update defaults in `.config/project.json` anytime
 
 ---
 

@@ -546,7 +546,7 @@ What do you want to do?
 3. **Run Prompt 10 weekly**: Stay aware of progress
 4. **Run Prompt 8 before compiling**: Catch issues before full review
 5. **Run Prompt 13 at milestones**: Ensure authentic voice
-6. **Use default settings**: Stored in Project_Config.md, save time
+6. **Use default settings**: Stored in .config/project.json, save time
 
 ### TOC Management
 1. **Never edit TOC_chg.md manually**: AI-managed only

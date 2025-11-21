@@ -29,7 +29,7 @@ I will export your manuscript to various formats (DOCX, PDF, EPUB, LaTeX) suitab
 
 ## How This Works
 
-I'll use your default export settings (from `Project_Config.md`) or you can customize for this export.
+I'll use your default export settings (from `.config/project.json`) or you can customize for this export.
 
 ### Pre-Export Checklist
 
@@ -110,13 +110,13 @@ I'll use your default export settings (from `Project_Config.md`) or you can cust
 
 ## Default Settings
 
-Your current defaults (from Project_Config.md):
+Your current defaults (from .config/project.json):
 - Format: DOCX
 - Citation Style: Chicago
 - Include: Cover, TOC, Page numbers
 - Image Handling: High resolution, include all
 
-These can be updated in `Project_Config.md` or customized per export.
+These can be updated in `.config/project.json` or customized per export.
 
 ---
 
@@ -218,8 +218,8 @@ PANDOC_PATH="[from .claude/settings.local.json]"
 # Set variables
 DRAFT_FILE="Drafts/Full_Draft_[date]_v[version].md"
 OUTPUT_DIR="Exports/[CONFIRMED_DATE]"
-BOOK_TITLE="[from Project_Config.md]"
-AUTHOR_NAME="[from Project_Config.md]"
+BOOK_TITLE="[from .config/metadata.json: book.title]"
+AUTHOR_NAME="[from .config/metadata.json: book.author]"
 
 # Create EPUB
 "${PANDOC_PATH}" "${DRAFT_FILE}" \

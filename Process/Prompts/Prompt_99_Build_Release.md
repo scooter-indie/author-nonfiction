@@ -79,7 +79,7 @@ I will:
 
 I will create:
 
-**`.nonfiction-manifest.json`** at build root:
+**`.config/manifest.json`** template (for user projects):
 ```json
 {
   "framework": "AI-Assisted Nonfiction Authoring",
@@ -163,8 +163,9 @@ I will provide:
 ## Files Included in Production Zip
 
 ### Root Level
-- `.nonfiction-manifest.json` (version tracking - generated, not from template)
-- `.nonfiction-migrations.json` (migration rules for upgrades)
+- `scripts/` (bash automation scripts - v0.12.1+)
+  - `init.sh` (fast initialization script)
+  - `README.md`
 - `README.md` (author-focused, from repo root)
 - `INSTALLATION.md` (from repo root)
 - `CHANGELOG.md` (from repo root)

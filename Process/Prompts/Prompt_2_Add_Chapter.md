@@ -128,7 +128,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 **IMPORTANT:**
 - The TOC directory is `Manuscript/_TOC_/` (with underscores), not `Manuscript/TOC/`
-- Do NOT include `Project_Config.md` - chapter count is tracked in the TOC, not Project_Config.md
+- Do NOT update `.config/metadata.json` - chapter count is tracked in the TOC, not config files
 
 **The instruction "Go to Claude Code CLI and say:" must be OUTSIDE the code block.**
 **Only the command starting with "Run:" should be inside the code block.**
