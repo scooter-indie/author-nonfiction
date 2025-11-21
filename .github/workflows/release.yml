@@ -55,8 +55,8 @@ jobs:
           cp -r Process build/temp/
           cp -r .claude build/temp/
 
-          # Copy root documentation files
-          cp README.md INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md build/temp/
+          # Copy root documentation files (README.md excluded - it's for GitHub only)
+          cp INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md build/temp/
 
           # Copy migration configuration (CRITICAL for framework upgrades)
           cp .nonfiction-migrations.json build/temp/
