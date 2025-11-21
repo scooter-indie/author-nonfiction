@@ -7,6 +7,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.1] - 2025-11-21
+
+### Added
+- **Fast Initialization System** - 10x faster project setup (~5-10 seconds vs ~30-60 seconds)
+  - Bash script `scripts/init.sh` for automated structure creation
+  - Validates preconditions, creates directories, copies templates
+  - Verbose progress output with color-coded status
+  - Smart merge on re-initialization (preserves user content)
+- **Centralized Configuration** - All JSON configs in `.config/` directory
+  - `init.json` - Initialization metadata from Q&A
+  - `project.json` - Project settings (replaces Project_Config.md)
+  - `metadata.json` - Book metadata (replaces Project_Metadata.md)
+  - `manifest.json` - Framework tracking (replaces .nonfiction-manifest.json)
+  - `migrations.json` - Version migrations (moved from root)
+- **Hybrid Workflow** - Desktop Q&A → CLI execution
+  - Interactive questions in Claude Desktop create config
+  - Fast execution in Claude Code CLI with bash script
+  - Environment detection (checks for existing config)
+
+### Changed
+- **Prompt 1 (Initialize)** - Complete rewrite for hybrid workflow
+  - 5 core questions + 5 optional metadata questions
+  - Writes `.config/init.json` with user answers
+  - Desktop: Creates config and instructs user to switch to CLI
+  - CLI: Reads config, runs bash script, completes AI tasks
+  - 10x performance improvement
+- **All Prompts** - Updated to read `.config/*.json` instead of .md files
+  - Prompt 2, 7, 9, 12, 99 reference new config structure
+  - README.md and QUICK_REFERENCE.md updated
+- **Directory Structure** - New `scripts/` directory for automation
+
+### Removed
+- **Removed from user projects** (breaking change for v0.13.0):
+  - `Project_Config.md` → `.config/project.json`
+  - `Project_Metadata.md` → `.config/metadata.json`
+  - `.nonfiction-manifest.json` → `.config/manifest.json`
+  - `.nonfiction-migrations.json` → `.config/migrations.json`
+
+### Technical
+- **Release Type:** PATCH (performance improvement, internal refactor)
+- **Breaking Change:** Yes (config file migration)
+- **No Migration Needed:** Not yet in production use
+- **Execution Time:** ~5-10 seconds (v0.12.1) vs ~30-60 seconds (v0.12.0)
+- **Files Added:** 8 files (scripts/, .config templates)
+- **Files Updated:** 14 prompts and documentation files
+
+---
+
 ## [0.12.0] - 2025-11-21
 
 ### Added

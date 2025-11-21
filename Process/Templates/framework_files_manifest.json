@@ -9,8 +9,11 @@
       "CLAUDE.md",
       "configure.md",
       "system-instructions.md",
-      ".gitignore",
-      ".nonfiction-migrations.json"
+      ".gitignore"
+    ],
+    "scripts": [
+      "init.sh",
+      "README.md"
     ],
     "Process": [
       "AI-Assisted_Nonfiction_Authoring_Process.md",
@@ -73,6 +76,14 @@
       "gitignore_template",
       "manifest_template.json",
       "framework_files_manifest.json"
+    ],
+    "Process/Templates/.config": [
+      "init.json",
+      "project.json",
+      "metadata.json",
+      "manifest.json",
+      "migrations.json",
+      "README.md"
     ],
     "Process/Testing": [
       "Hierarchical_Style_Testing_Checklist.md"
