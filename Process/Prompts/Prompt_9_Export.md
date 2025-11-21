@@ -39,7 +39,7 @@ I'll use your default export settings (from `.config/project.json`) or you can c
 - ✓ Run Prompt 16 Mode 4 (Validate Image References) to check images
 - ✓ Resolved all `[CITATION NEEDED]` markers
 - ✓ Completed all placeholder sections
-- ✓ Verified all images are in Manuscript/images/ directory (v0.12.0+)
+- ✓ Verified all images are in Manuscript/images/ directory (v0.12.1+)
 
 ### Questions I'll ask:
 
@@ -124,7 +124,7 @@ These can be updated in `.config/project.json` or customized per export.
 
 - **Export requires complete content**: Placeholder sections will be flagged
 - **Citation markers must be resolved**: All `[CITATION NEEDED]` should have proper citations
-- **Assets must exist**: Referenced images must be in Manuscript/images/ directory (v0.12.0+)
+- **Assets must exist**: Referenced images must be in Manuscript/images/ directory (v0.12.1+)
 - **This creates new files**: Original manuscript files are unchanged
 
 ---
@@ -245,7 +245,7 @@ AUTHOR_NAME="[from .config/metadata.json: book.author]"
 - `--epub-cover-image`: Cover image file (Manuscript/images/cover.jpg)
 - `--css`: Custom CSS for styling (epub-style.css from templates)
 - `--epub-embed-font`: Embed custom fonts
-- `--resource-path="Manuscript"`: Images resolved from Manuscript/images/ (v0.12.0+)
+- `--resource-path="Manuscript"`: Images resolved from Manuscript/images/ (v0.12.1+)
 - `--standalone`: Create complete EPUB file
 
 ### Step 5: Generate DOCX (if requested)
@@ -262,7 +262,7 @@ AUTHOR_NAME="[from .config/metadata.json: book.author]"
 **DOCX Options:**
 - `--reference-doc`: Custom Word template for styling
 - `--toc`: Generate table of contents
-- `--resource-path="Manuscript"`: Images resolved from Manuscript/images/ (v0.12.0+)
+- `--resource-path="Manuscript"`: Images resolved from Manuscript/images/ (v0.12.1+)
 
 ### Step 6: Generate PDF (if requested)
 
@@ -395,7 +395,7 @@ Typst can read markdown directly (experimental):
 ### Step 7: Copy Assets
 
 ```bash
-# Copy images to export directory (v0.12.0+ unified directory)
+# Copy images to export directory (v0.12.1+ unified directory)
 mkdir -p "${OUTPUT_DIR}/images"
 cp Manuscript/images/* "${OUTPUT_DIR}/images/" 2>/dev/null || true
 
@@ -545,7 +545,7 @@ I will display:
 **Issue:** Images missing in EPUB
 
 **Solutions:**
-- Verify images exist in Manuscript/images/ directory (v0.12.0+)
+- Verify images exist in Manuscript/images/ directory (v0.12.1+)
 - Use relative paths in markdown: `![](../images/fig-XX-YY-name.ext)`
 - Ensure `--resource-path="Manuscript"` is set correctly
 - Run Prompt 16 Mode 4 (Validate) to check all image references before export

@@ -71,7 +71,7 @@ I'll use your default compilation settings (stored in `.config/project.json`), o
    - Strip change tracking metadata (unless you want it included)
    - Insert chapter epigraphs (if Status ✓ or ⚠ in Chapter_Quotes.md)
    - Process cross-references
-   - Handle asset references (images from Manuscript/images/, v0.12.0+)
+   - Handle asset references (images from Manuscript/images/, v0.12.1+)
    - Preserve relative image paths (../images/) for compatibility
    - Insert page break markers
 

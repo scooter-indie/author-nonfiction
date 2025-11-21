@@ -1,6 +1,6 @@
 # Visual Asset Management Protocol
 
-**Framework Version:** 0.12.0
+**Framework Version:** 0.12.1
 **Module:** Unified Visual Asset Management
 **Purpose:** Centralized tracking and management of all visual assets (text-based and images)
 
@@ -12,7 +12,7 @@ Unified system for managing all visual assets in a single location with centrali
 
 **Key principle:** Single directory, single registry, unified workflow. Start with text-based visuals for rapid iteration, upgrade to professional images when resources permit.
 
-**Major change in v0.12.0:** Consolidated from per-chapter `Chapter_XX/figures/` subdirectories to unified `Manuscript/images/` directory with single registry.
+**Major change in v0.12.1:** Consolidated from per-chapter `Chapter_XX/figures/` subdirectories to unified `Manuscript/images/` directory with single registry.
 
 ---
 
@@ -50,7 +50,7 @@ Unified system for managing all visual assets in a single location with centrali
 
 ## Directory Structure
 
-**Unified structure (v0.12.0+):**
+**Unified structure (v0.12.1+):**
 
 ```
 Manuscript/
@@ -668,7 +668,7 @@ was configured according to manufacturer specifications.
 
 ## Summary
 
-Visual Asset Management Protocol v0.12.0 provides:
+Visual Asset Management Protocol v0.12.1 provides:
 
 - ✅ **Unified location:** Single `Manuscript/images/` directory
 - ✅ **Single registry:** `Image_Registry.md` tracks everything
@@ -691,7 +691,7 @@ Visual Asset Management Protocol v0.12.0 provides:
 
 ---
 
-**Framework Version:** 0.12.0
+**Framework Version:** 0.12.1
 **Last Updated:** 2025-11-21
 **Status:** Active
 

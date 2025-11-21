@@ -716,4 +716,4 @@ Which option?
 
 **Version:** 0.12.1
 **Last Updated:** 2025-11-21
-**Execution Time:** ~5-10 seconds (v0.12.1) vs ~30-60 seconds (v0.12.0)
+**Execution Time:** ~5-10 seconds (v0.12.1) vs ~30-60 seconds (v0.12.1)

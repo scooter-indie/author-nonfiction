@@ -56,9 +56,9 @@ These files are managed by the framework prompts:
 
 ---
 
-## Migration from v0.12.0
+## Migration from v0.12.1
 
-If upgrading from v0.12.0:
+If upgrading from v0.12.1:
 - Old `.md` config files are converted to JSON
 - Old root-level JSON files moved to `.config/`
 - No manual action required

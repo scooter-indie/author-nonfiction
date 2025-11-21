@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.12.0
+**Framework Version:** 0.12.1
 **Session Context Document for Claude Code**
 
 ---
@@ -149,7 +149,7 @@ Claude will read the appropriate prompt file and execute it.
 
 ---
 
-## 16 Core Prompts (v0.12.0+)
+## 16 Core Prompts (v0.12.1+)
 
 ### Prompt 1: Initialize Project Structure
 **Purpose:** Create new book project from scratch
@@ -231,7 +231,7 @@ Claude will read the appropriate prompt file and execute it.
 **Output:** Markdown tables, ASCII diagrams, structured data displays in Manuscript/images/
 **Note:** Enhances understanding without requiring graphics software
 
-### Prompt 16: Image Manager (NEW in v0.12.0)
+### Prompt 16: Image Manager (NEW in v0.12.1)
 **Purpose:** Manage actual image files (photos, screenshots, professional graphics)
 **When:** Adding photos/screenshots, upgrading text-based visuals, validating image references
 **Output:** Images in Manuscript/images/, updated Image_Registry.md, inserted references
@@ -263,7 +263,7 @@ Claude will read the appropriate prompt file and execute it.
 - **Prompt 13:** AI Detection Analysis - Bulk chapter analysis (NEW)
 - **Prompt 14:** Citation Finder - Requires WebSearch for verification (NEW Phase 2)
 - **Prompt 15:** Visual Content Suggester - Bulk file operations and visual analysis (NEW Phase 2)
-- **Prompt 16:** Image Manager - File operations, registry updates, semi-automated workflow (NEW v0.12.0)
+- **Prompt 16:** Image Manager - File operations, registry updates, semi-automated workflow (NEW v0.12.1)
 
 **Key Points:**
 - Prompts 3 & 4 are both **DESKTOP-FRIENDLY** workflows - choose based on preference
@@ -498,7 +498,7 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
-**Framework Version:** 0.12.0
+**Framework Version:** 0.12.1
 **Last Updated:** 2025-11-21
 
 ---

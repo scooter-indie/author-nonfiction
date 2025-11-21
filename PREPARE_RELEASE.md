@@ -1,6 +1,6 @@
 # Prepare Release
 
-**Current Framework Version:** 0.12.0
+**Current Framework Version:** 0.12.1
 **Last Updated:** 2025-11-21
 
 ---
@@ -34,7 +34,7 @@ Update the version number in these files:
    - Line ~41-47: Extract instructions: `nonfiction-vX.X.X.zip`
    - Line ~336: `**Framework Version**: X.X.X`
    - Line ~337: `**Release Date**: YYYY-MM-DD`
-   - Review entire file for outdated prompt counts (should be "16 prompts" as of v0.12.0+)
+   - Review entire file for outdated prompt counts (should be "16 prompts" as of v0.12.1+)
 
 2. `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
    - Line ~3: `**Version:** X.X.X`
@@ -93,7 +93,7 @@ Update the version number in these files:
 **IMPORTANT:** Before proceeding to version verification, manually review these files for outdated content:
 
 **3A. Review README.md:**
-- Check all prompt counts (should be "16 prompts" as of v0.12.0+)
+- Check all prompt counts (should be "16 prompts" as of v0.12.1+)
 - Verify download links match new version
 - Check "The 16 Core Prompts" section - should list all 16 prompts
 - Verify "What's Included" section lists current features
@@ -108,7 +108,7 @@ Update the version number in these files:
 - Check that Added/Changed/Fixed/Technical sections are complete
 
 **3C. Review system-instructions.md:**
-- Verify compatibility classifications are correct (as of v0.12.0+):
+- Verify compatibility classifications are correct (as of v0.12.1+):
   - CLI-ONLY: Prompts 7, 8, 9, 12, 13, 14, 15, 16
   - DESKTOP-FRIENDLY: Prompts 2, 3, 4, 5, 6, 10
   - HYBRID: configure.md, Prompts 1, 11
@@ -210,7 +210,7 @@ The manifest lists all framework files that should exist in a clean installation
 **Example manifest structure:**
 ```json
 {
-  "version": "0.12.0",
+  "version": "0.12.1",
   "generatedDate": "2025-11-21",
   "files": {
     "root": ["INSTALLATION.md", "CLAUDE.md", ...],
@@ -395,9 +395,9 @@ If a release needs to be rolled back:
 **Claude:**
 1. Updates version to 0.11.0 in all 8 files listed in Step 2
 2. Updates dates to today's date
-3. **Reviews README.md** for prompt counts ("16 prompts" as of v0.12.0), download links, features
+3. **Reviews README.md** for prompt counts ("16 prompts" as of v0.12.1), download links, features
 4. **Reviews CHANGELOG.md** entry for 0.11.0 completeness
-5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 7,8,9,12,13,14,15,16 as of v0.12.0+)
+5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 7,8,9,12,13,14,15,16 as of v0.12.1+)
 6. Runs grep to verify no 0.10.3 references remain (except CHANGELOG history)
 7. Commits with message: "Update all documentation to version 0.11.0"
 8. Creates tag v0.11.0 with release notes from CHANGELOG.md
@@ -421,7 +421,7 @@ grep -r "0\.10\.0" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md"
 
 **Review critical files for content:**
 ```bash
-# Check README.md for outdated prompt counts (should be 16 as of v0.12.0)
+# Check README.md for outdated prompt counts (should be 16 as of v0.12.1)
 grep -n "[0-9][0-9].*[Pp]rompts" README.md
 
 # Check system-instructions.md for compatibility
@@ -445,7 +445,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.12.0
+**Framework Version:** 0.12.1
 **Last Updated:** 2025-11-21
 
 *This file is for framework maintainers only - not included in release packages*

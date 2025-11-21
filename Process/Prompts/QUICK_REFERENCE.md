@@ -81,7 +81,7 @@
 → **Prompt 13: AI Detection Analysis** - Check authentic voice (v0.11.0)
 → **Prompt 14: Citation Finder** - Verify citations (v0.11.0)
 
-### Visual Content (v0.12.0+)
+### Visual Content (v0.12.1+)
 → **Prompt 15: Visual Content Suggester** - Create text-based visuals (tables, diagrams)
 → **Prompt 16: Image Manager** - Add professional images, upgrade text-based visuals
 

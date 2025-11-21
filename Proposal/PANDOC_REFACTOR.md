@@ -1,7 +1,7 @@
 # Pandoc EPUB Export & Unified Visual System Refactor
 
 **Status:** Proposal
-**Target Version:** 0.12.0
+**Target Version:** 0.12.1
 **Created:** 2025-11-21
 **Updated:** 2025-11-21
 **Priority:** High
@@ -1071,7 +1071,7 @@ mv Process/Prompts/Prompt_15_Citation_Finder.md Process/Prompts/Prompt_14_Citati
 
 ## Implementation Timeline
 
-**Target:** v0.12.0
+**Target:** v0.12.1
 
 **Estimated Effort:**
 - Phase 1-3: 2-4 hours (templates, module, renumbering)
@@ -1102,7 +1102,7 @@ See `PANDOC_MAYBE.md` for optional enhancements:
 
 ```css
 /* AI-Assisted Nonfiction Authoring Framework - EPUB Default Style */
-/* Version: 0.12.0 */
+/* Version: 0.12.1 */
 
 /* Body and Base Typography */
 body {
