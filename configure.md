@@ -30,10 +30,11 @@ This configuration script will:
 2. **Check git status** - Warn if uncommitted changes exist (for updates)
 3. **Setup git repository** - Initialize if not present
 4. **Connect to remote** (optional) - Help you set up GitHub/GitLab remote
-5. **Create manifest/update version** - Track installation or update
-6. **Verify Claude Code integration** - Ensure book-writing-assistant is ready
-7. **Create initial commit** - Verify git is working
-8. **Provide next steps** - Guide you to start writing
+5. **Discover export tools** (optional) - Detect pandoc/typst and store paths
+6. **Create manifest/update version** - Track installation or update
+7. **Verify Claude Code integration** - Ensure book-writing-assistant is ready
+8. **Create initial commit** - Verify git is working
+9. **Provide next steps** - Guide you to start writing
 
 ---
 
@@ -360,7 +361,73 @@ Then I'll:
 
 **Note**: I will NOT push to remote at this stage. You'll use Prompt 9 when ready to push.
 
-### Step 7: Update Manifest
+### Step 7: Export Tool Discovery
+
+I will ask you about optional export tools:
+
+**Question:** "Do you have pandoc installed? (Required for Prompt 9: Export to DOCX/PDF/EPUB)"
+
+**If Yes:**
+- I'll run discovery commands to find pandoc:
+  - **Windows**: `where pandoc`
+  - **macOS/Linux**: `which pandoc`
+- I'll get the version: `pandoc --version`
+- I'll store the path and version in `.claude/settings.local.json`
+
+**If No:**
+- I'll note it as not installed
+- I'll provide installation instructions:
+  - **Windows**: Download from https://pandoc.org/installing.html or use `winget install pandoc`
+  - **macOS**: Install via Homebrew: `brew install pandoc`
+  - **Linux**: Use package manager: `sudo apt install pandoc` or `sudo yum install pandoc`
+- You can skip for now and install later (Prompt 9 will remind you when needed)
+
+**Question:** "Do you have typst installed? (Optional alternative to LaTeX for PDF generation)"
+
+**If Yes:**
+- I'll run discovery commands to find typst:
+  - **Windows**: `where typst`
+  - **macOS/Linux**: `which typst`
+- I'll get the version: `typst --version`
+- I'll store the path and version in `.claude/settings.local.json`
+
+**If No:**
+- I'll note it as not installed
+- I'll provide installation instructions:
+  - **Windows**: Download from https://typst.app/ or use `winget install typst`
+  - **macOS**: Install via Homebrew: `brew install typst`
+  - **Linux**: See https://github.com/typst/typst#installation
+- You can skip for now and install later
+
+**Storage Format in `.claude/settings.local.json`:**
+```json
+{
+  "permissions": { ... },
+  "tools": {
+    "pandoc": {
+      "installed": true,
+      "path": "C:\\Program Files\\Pandoc\\pandoc.exe",
+      "version": "3.1.9",
+      "discoveredAt": "2025-11-20T18:30:00Z"
+    },
+    "typst": {
+      "installed": false,
+      "path": null,
+      "version": null,
+      "discoveredAt": null
+    }
+  }
+}
+```
+
+**Why This Matters:**
+- Prompt 9 (Export) needs pandoc to convert markdown to DOCX/PDF/EPUB
+- Without pandoc, Prompt 9 can only export to markdown format
+- Typst is an optional modern alternative to LaTeX for PDF generation
+- Tool paths are stored so prompts don't need to search every time
+- Works even if tools are not in your system PATH
+
+### Step 8: Update Manifest
 
 **For New Installations:**
 I will update `.nonfiction-manifest.json`:
@@ -389,7 +456,7 @@ I will:
 }
 ```
 
-### Step 8: Create Git Commit
+### Step 9: Create Git Commit
 
 **For Claude Code CLI users:**
 
@@ -425,14 +492,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 After running the command, verify commit succeeded with `git log -1`
 
-### Step 9: Verify Book Writing Assistant
+### Step 10: Verify Book Writing Assistant
 
 I will:
 1. Verify `.claude/agents/book-writing-assistant.md` exists
 2. Confirm it will execute at Claude Code session startup
 3. Inform you that this agent will assist with your writing sessions
 
-### Step 10: Configuration Complete
+### Step 11: Configuration Complete
 
 I will provide:
 
