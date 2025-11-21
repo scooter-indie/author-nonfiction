@@ -430,15 +430,10 @@ Include book-level style at top, empty override sections.
 
 **4f. Generate USAGE_GUIDE.md**
 
-Copy from template and substitute user data:
+Run generation script with user data:
 
 ```bash
-cp Process/Templates/USAGE_GUIDE_template.md USAGE_GUIDE.md
-sed -i "s/{{BOOK_TITLE}}/$BOOK_TITLE/g" USAGE_GUIDE.md
-sed -i "s/{{AUTHOR_NAME}}/$AUTHOR_NAME/g" USAGE_GUIDE.md
-sed -i "s/{{INIT_DATE}}/$CONFIRMED_DATE/g" USAGE_GUIDE.md
-sed -i "s/{{CHAPTER_COUNT}}/$CHAPTER_COUNT/g" USAGE_GUIDE.md
-sed -i "s/{{STYLE_NAME}}/$STYLE_NAME/g" USAGE_GUIDE.md
+bash scripts/generate-usage-guide.sh "$BOOK_TITLE" "$AUTHOR_NAME" "$CONFIRMED_DATE" "$CHAPTER_COUNT" "$STYLE_NAME"
 ```
 
 Where variables are extracted from init.json:
@@ -447,6 +442,8 @@ Where variables are extracted from init.json:
 - `CONFIRMED_DATE` - session confirmed date
 - `CHAPTER_COUNT` - from init.json "initialChapters"
 - `STYLE_NAME` - from init.json "writingStyle"
+
+The script handles special character escaping and template substitution.
 
 **4g. Generate PROJECT_CONTEXT.md**
 

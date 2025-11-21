@@ -14,6 +14,7 @@
     "scripts": [
       "init.sh",
       "detect-tools.sh",
+      "generate-usage-guide.sh",
       "README.md"
     ],
     "Process": [

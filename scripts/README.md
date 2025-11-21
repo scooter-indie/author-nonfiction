@@ -87,6 +87,49 @@ bash scripts/detect-tools.sh .config/manifest.json
 
 ---
 
+### generate-usage-guide.sh
+
+**Purpose:** Generate USAGE_GUIDE.md from template with user-specific data
+
+**Usage:**
+```bash
+bash scripts/generate-usage-guide.sh "Book Title" "Author Name" "2025-11-21" "10" "Conversational Expert"
+```
+
+**Parameters:**
+1. `BOOK_TITLE` - Book title (from init.json)
+2. `AUTHOR_NAME` - Author name (from init.json)
+3. `INIT_DATE` - Initialization date (YYYY-MM-DD format)
+4. `CHAPTER_COUNT` - Number of chapters (from init.json)
+5. `STYLE_NAME` - Writing style name (from init.json)
+
+**What it does:**
+1. Validates that all 5 parameters are provided
+2. Checks that template exists at `Process/Templates/USAGE_GUIDE_template.md`
+3. Copies template to `USAGE_GUIDE.md` in project root
+4. Escapes special characters in user data (handles /, &, etc.)
+5. Substitutes placeholders: {{BOOK_TITLE}}, {{AUTHOR_NAME}}, {{INIT_DATE}}, {{CHAPTER_COUNT}}, {{STYLE_NAME}}
+
+**When to run:**
+- Automatically called by Prompt 1 during initialization
+- Can be run manually to regenerate USAGE_GUIDE.md
+
+**Benefits:**
+- Faster than AI generation
+- Consistent output format
+- Handles special characters safely
+
+**Requirements:**
+- Bash shell
+- Template file must exist
+
+**Platform compatibility:**
+- ✓ Linux
+- ✓ macOS
+- ✓ Windows (via Git Bash)
+
+---
+
 ## Adding New Scripts
 
 When adding new scripts:
