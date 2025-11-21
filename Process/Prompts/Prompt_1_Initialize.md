@@ -267,6 +267,15 @@ Read `.config/init.json` and populate:
 }
 ```
 
+**Then run tool detection script:**
+
+After populating manifest, run:
+```bash
+bash scripts/detect-tools.sh .config/manifest.json
+```
+
+This will detect pandoc/typst and update `toolsAvailable` automatically.
+
 **4b. Generate Style_Guide.md**
 
 Read the selected style from `Process/Style_Examples.md` and create:

@@ -263,6 +263,17 @@ main() {
     # Initialize git
     initialize_git
 
+    # Detect export tools (will update manifest after Claude populates it)
+    echo ""
+    echo -e "${BLUE}Detecting export tools...${NC}"
+    echo ""
+
+    # Note: Tool detection will be run again by Claude after manifest is populated
+    # This is just for user information during init
+    if command -v bash &> /dev/null; then
+        bash "$SCRIPT_DIR/detect-tools.sh" .config/manifest.json 2>/dev/null || echo -e "${YELLOW}⊙ Tool detection will complete after Claude populates manifest${NC}"
+    fi
+
     # Print summary
     print_summary
 }

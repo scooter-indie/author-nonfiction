@@ -22,7 +22,8 @@ bash scripts/init.sh .config/init.json
 2. Creates 11-directory Manuscript structure
 3. Copies 9 template files
 4. Initializes git repository
-5. Smart merge: preserves user content on re-initialization
+5. Runs tool detection (calls detect-tools.sh)
+6. Smart merge: preserves user content on re-initialization
 
 **Execution time:** ~2 seconds
 
@@ -30,6 +31,53 @@ bash scripts/init.sh .config/init.json
 - Bash shell (included with Git Bash on Windows)
 - Git installed
 - Valid `.config/init.json` file
+
+**Platform compatibility:**
+- ✓ Linux
+- ✓ macOS
+- ✓ Windows (via Git Bash)
+
+---
+
+### detect-tools.sh
+
+**Purpose:** Detect available export tools and update `.config/manifest.json`
+
+**Usage:**
+```bash
+# Standalone usage (after Prompt 1)
+bash scripts/detect-tools.sh
+
+# Or specify manifest path
+bash scripts/detect-tools.sh .config/manifest.json
+```
+
+**What it does:**
+1. Detects git, pandoc, and typst installation
+2. Reports version numbers for installed tools
+3. Updates `.config/manifest.json` with tool availability
+4. Provides installation instructions for missing tools
+5. Can be run anytime to update tool status
+
+**When to run:**
+- Automatically called by `init.sh` during initialization
+- After installing pandoc or typst
+- To check current tool availability
+
+**Detects:**
+- **Git** - Version control (required)
+- **Pandoc** - DOCX/PDF/EPUB export (optional, for Prompt 9)
+- **Typst** - Fast PDF export (optional, alternative to LaTeX)
+
+**Output:**
+- Color-coded status for each tool
+- Version numbers for detected tools
+- Installation instructions for missing tools
+- Updates `toolsAvailable` in manifest
+
+**Requirements:**
+- Bash shell
+- Optional: jq for cleaner JSON updates (falls back to sed)
 
 **Platform compatibility:**
 - ✓ Linux

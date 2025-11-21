@@ -13,6 +13,7 @@
     ],
     "scripts": [
       "init.sh",
+      "detect-tools.sh",
       "README.md"
     ],
     "Process": [
