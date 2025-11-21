@@ -32,7 +32,7 @@ This configuration script will:
 4. **Clean outdated files** (updates only) - Remove obsolete framework files
 5. **Setup git repository** - Initialize if not present
 6. **Connect to remote** (optional) - Help you set up GitHub/GitLab remote
-7. **Discover export tools** (optional) - Detect pandoc/typst and store paths
+7. **Discover export tools** - Run detection script to find pandoc/typst, update manifest
 8. **Create manifest/update version** - Track installation or update
 9. **Verify Claude Code integration** - Ensure book-writing-assistant is ready
 10. **Create initial commit** - Verify git is working
@@ -464,60 +464,59 @@ Then I'll:
 
 ### Step 7: Export Tool Discovery
 
-I will ask you about optional export tools:
+I will automatically detect available export tools using the detection script:
 
-**Question:** "Do you have pandoc installed? (Required for Prompt 9: Export to DOCX/PDF/EPUB)"
+**Run tool detection:**
+```bash
+bash scripts/detect-tools.sh .config/manifest.json
+```
 
-**If Yes:**
-- I'll run discovery commands to find pandoc:
-  - **Windows**: `where pandoc`
-  - **macOS/Linux**: `which pandoc`
-- I'll get the version: `pandoc --version`
-- I'll store the path and version in `.claude/settings.local.json`
+**The script will:**
+1. Detect git, pandoc, and typst availability
+2. Display version numbers for detected tools
+3. Update `.config/manifest.json` with tool availability
+4. Provide installation instructions for missing tools
 
-**If No:**
-- I'll note it as not installed
-- I'll provide installation instructions:
-  - **Windows**: Download from https://pandoc.org/installing.html or use `winget install pandoc`
-  - **macOS**: Install via Homebrew: `brew install pandoc`
-  - **Linux**: Use package manager: `sudo apt install pandoc` or `sudo yum install pandoc`
-- You can skip for now and install later (Prompt 9 will remind you when needed)
+**Expected output:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tool Detection Script v0.12.1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-**Question:** "Do you have typst installed? (Optional alternative to LaTeX for PDF generation)"
+Detecting available tools...
 
-**If Yes:**
-- I'll run discovery commands to find typst:
-  - **Windows**: `where typst`
-  - **macOS/Linux**: `which typst`
-- I'll get the version: `typst --version`
-- I'll store the path and version in `.claude/settings.local.json`
+✓ Git detected (version 2.43.0)
+✓ Pandoc detected (version 3.1.9)
+⊙ Typst not found (optional - alternative to LaTeX)
 
-**If No:**
-- I'll note it as not installed
-- I'll provide installation instructions:
-  - **Windows**: Download from https://typst.app/ or use `winget install typst`
-  - **macOS**: Install via Homebrew: `brew install typst`
-  - **Linux**: See https://github.com/typst/typst#installation
-- You can skip for now and install later
+✓ Updated .config/manifest.json
 
-**Storage Format in `.claude/settings.local.json`:**
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tool Detection Summary
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Available tools:
+  ✓ Git - Version control (required)
+  ✓ Pandoc - DOCX/PDF/EPUB export (Prompt 9)
+  ⊙ Typst - Install for fast PDF export
+
+Installation instructions:
+  Typst: https://github.com/typst/typst#installation
+  - Windows: winget install Typst.Typst
+  - macOS: brew install typst
+  - Linux: Download from releases
+```
+
+**The manifest will be updated:**
 ```json
 {
-  "permissions": { ... },
-  "tools": {
-    "pandoc": {
-      "installed": true,
-      "path": "C:\\Program Files\\Pandoc\\pandoc.exe",
-      "version": "3.1.9",
-      "discoveredAt": "2025-11-20T18:30:00Z"
-    },
-    "typst": {
-      "installed": false,
-      "path": null,
-      "version": null,
-      "discoveredAt": null
-    }
-  }
+  "frameworkVersion": "0.12.2",
+  "toolsAvailable": {
+    "git": true,
+    "pandoc": true,
+    "typst": false
+  },
+  "lastUpdated": "2025-11-21"
 }
 ```
 
@@ -525,8 +524,8 @@ I will ask you about optional export tools:
 - Prompt 9 (Export) needs pandoc to convert markdown to DOCX/PDF/EPUB
 - Without pandoc, Prompt 9 can only export to markdown format
 - Typst is an optional modern alternative to LaTeX for PDF generation
-- Tool paths are stored so prompts don't need to search every time
-- Works even if tools are not in your system PATH
+- Tool availability is stored in manifest for framework reference
+- You can re-run detection anytime: `bash scripts/detect-tools.sh`
 
 ### Step 8: Update Manifest
 
