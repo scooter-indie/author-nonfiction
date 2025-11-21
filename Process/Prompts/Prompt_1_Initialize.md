@@ -25,7 +25,7 @@ See: `Process/ENFORCEMENT_RULES.md` for complete details
 
 ## What This Does
 
-Creates a complete nonfiction book project structure in ~5-10 seconds:
+Creates a complete nonfiction book project structure:
 - Complete directory structure (11 directories)
 - Configuration files (JSON-based in `.config/`)
 - Table of contents
@@ -34,7 +34,7 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
 - Initial commit and v1.0.0 tag
 
 **New in v0.12.5:**
-- ⚡ **10x faster** (~5-10 seconds vs ~30-60 seconds)
+- ⚡ **Faster initialization** - Template-based USAGE_GUIDE.md with sed substitution
 - 📁 **Centralized config** - All JSON configs in `.config/` directory
 - 🔧 **Bash script automation** - Structure creation via `scripts/init.sh`
 - 🎨 **Hybrid workflow** - Q&A in Desktop, execution in CLI
@@ -215,7 +215,7 @@ Copy `Process/Templates/.config/migrations.json` to `.config/migrations.json`
   1. Open Claude Code CLI in your project directory
   2. Say: "execute Prompt 1"
 
-  Claude Code will complete the setup in ~5-10 seconds.
+  Claude Code will complete the setup.
   ```
 - **STOP HERE** - Do not proceed to Step 3
 
@@ -430,112 +430,23 @@ Include book-level style at top, empty override sections.
 
 **4f. Generate USAGE_GUIDE.md**
 
-**`USAGE_GUIDE.md`** (project root):
+Copy from template and substitute user data:
 
-```markdown
-# Quick Start Guide
-
-**Book:** [title from init.json]
-**Author:** [author from init.json]
-**Framework Version:** 0.12.5
-**Initialized:** [CONFIRMED_DATE]
-
----
-
-## Your Book Project is Ready!
-
-This project has been initialized with:
-- ✓ [X] chapter structure
-- ✓ Writing style: [style name]
-- ✓ Git repository (v1.0.0)
-- ✓ Configuration files
-- ✓ Change tracking system
-
----
-
-## Next Steps
-
-### 1. Create Your First Chapter
-
-```
-Execute Prompt 2 to add Chapter 1
+```bash
+cp Process/Templates/USAGE_GUIDE_template.md USAGE_GUIDE.md
+sed -i "s/{{BOOK_TITLE}}/$BOOK_TITLE/g" USAGE_GUIDE.md
+sed -i "s/{{AUTHOR_NAME}}/$AUTHOR_NAME/g" USAGE_GUIDE.md
+sed -i "s/{{INIT_DATE}}/$CONFIRMED_DATE/g" USAGE_GUIDE.md
+sed -i "s/{{CHAPTER_COUNT}}/$CHAPTER_COUNT/g" USAGE_GUIDE.md
+sed -i "s/{{STYLE_NAME}}/$STYLE_NAME/g" USAGE_GUIDE.md
 ```
 
-Prompt 2 will create the chapter directory and files.
-
-### 2. Start Writing
-
-Use **Prompt 3** (automated) or **Prompt 4** (interactive) to write content:
-
-**Prompt 3:** Write instructions in `_chg` files, execute Prompt 3
-**Prompt 4:** Discuss changes interactively, AI writes instructions
-
-### 3. Track Progress
-
-```
-Execute Prompt 10 for dashboard
-```
-
-Shows word counts, completion %, next steps.
-
-### 4. Check Consistency
-
-```
-Execute Prompt 8
-```
-
-Validates terminology, style, cross-references.
-
----
-
-## 16 Framework Prompts
-
-**Core Writing:**
-1. Initialize - ✓ COMPLETED
-2. Add Chapter
-3. Change by Chg (automated workflow)
-4. Interactive Change (conversational workflow)
-5. Scan For User Edits
-6. Integrate Inbox
-
-**Production:**
-7. Compile Manuscript
-8. Consistency Checker
-9. Export (DOCX/PDF/EPUB)
-10. Progress Dashboard
-
-**Advanced:**
-11. Style Manager
-12. Git Operations
-13. AI Detection Analysis
-14. Citation Finder
-15. Visual Content Suggester
-16. Image Manager
-
----
-
-## Configuration Files
-
-All config files are in `.config/` directory:
-- `init.json` - Initialization metadata
-- `project.json` - Project settings
-- `metadata.json` - Book metadata
-- `manifest.json` - Framework tracking
-- `migrations.json` - Version migrations
-
----
-
-## Resources
-
-- **Full Documentation:** `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
-- **Quick Reference:** `Process/Prompts/QUICK_REFERENCE.md`
-- **Prompt Guide:** `Process/Prompts/README.md`
-- **Anti-Hallucination Rules:** `Process/Anti-Hallucination_Guidelines.md`
-
----
-
-**Happy writing!**
-```
+Where variables are extracted from init.json:
+- `BOOK_TITLE` - from init.json "workingTitle"
+- `AUTHOR_NAME` - from init.json "authorName"
+- `CONFIRMED_DATE` - session confirmed date
+- `CHAPTER_COUNT` - from init.json "initialChapters"
+- `STYLE_NAME` - from init.json "writingStyle"
 
 **4g. Generate PROJECT_CONTEXT.md**
 
@@ -612,8 +523,6 @@ Author: [author]
 Chapters: [X]
 Style: [style name]
 Framework: v0.12.5
-
-Time elapsed: ~5-10 seconds
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -733,4 +642,3 @@ Which option?
 
 **Version:** 0.12.5
 **Last Updated:** 2025-11-21
-**Execution Time:** ~5-10 seconds (v0.12.5) vs ~30-60 seconds (v0.12.5)
