@@ -13,10 +13,11 @@ See: `Process/ENFORCEMENT_RULES.md` for complete details
 **NOTE:** This is a read-only analysis operation. No _chg updates are required (reports findings only, does not modify files)
 
 **Why CLI-ONLY:**
-- Scans 30-50+ files for comprehensive analysis (all chapters, figures, bibliography, style files)
+- Scans 30-50+ files for comprehensive analysis (all chapters, Image_Registry.md, bibliography, style files)
 - Bulk read operations are inefficient in Claude Desktop MCP
 - Much faster and more reliable in Claude Code CLI with direct file access
 - Consistency checking across large projects requires efficient file I/O
+- Visual asset validation requires reading unified Image_Registry.md and cross-referencing with chapters
 
 ---
 
@@ -218,51 +219,82 @@ Chapter 02:
 
 ---
 
-## Visual Content Status
+## Visual Content Status (v0.12.0+ Unified System)
 
-**Scan `figures/` directories in chapters for visual asset inventory.**
+**Read `Manuscript/images/Image_Registry.md` for complete visual asset inventory and cross-reference with chapter files.**
 
 **Example output:**
 ```
-### Visual Asset Summary
+### Visual Asset Summary (from Image_Registry.md)
 
 **Total Figures:** 12 across 5 chapters
 - 📝 Text-based: 8 (67%)
 - 🖼️ Professional images: 4 (33%)
 
+**By Type:**
+- Tables: 4 (3 📝, 1 🖼️)
+- Diagrams: 3 (all 📝)
+- Photos: 2 (all 🖼️)
+- Charts: 2 (1 📝, 1 🖼️)
+- Screenshots: 1 (🖼️)
+
+**Registry Status:** ✓ Up to date (12 entries, 12 files exist)
+
 ### Chapter-by-Chapter Visual Status
 
-**Chapter 1:** 3 visuals present
-- 2 🖼️ professional images (fig_01_01_architecture.png, fig_01_02_workflow.png)
-- 1 📝 text-based table (fig_01_03_comparison.md)
+**Chapter 1:** 3 figures (from registry)
+- fig-01-01-architecture.png (🖼️ Photo, 245 KB)
+- fig-01-02-workflow.png (🖼️ Diagram, 180 KB)
+- fig-01-03-comparison.md (📝 Table)
+- All references valid in Chapter_01.md ✓
 - Status: ✓ Good visual coverage
 
-**Chapter 2:** ⚠ No visuals found
-- Content indicators: Complex data discussed (lines 145-230), statistical claims
+**Chapter 2:** ⚠ No figures in registry
+- Content analysis: Complex data discussed (lines 145-230), statistical claims
 - Process descriptions (lines 300-350) could benefit from flowchart
-- Recommendation: Run Prompt 14 (Visual Content Suggester)
+- Recommendation: Run Prompt 15 (Visual Content Suggester) to create text-based placeholders
 
-**Chapter 3:** 5 visuals present
-- All 📝 text-based (markdown tables and ASCII diagrams)
-- Status: ⚠ Consider upgrading text-based to professional graphics
-- Replacement priority (from registry): 2 High, 2 Medium, 1 Low
-- Recommendation: Upgrade fig_03_01 and fig_03_02 (High priority)
+**Chapter 3:** 5 figures (from registry)
+- fig-03-01-data-table.md (📝 Table, High upgrade priority)
+- fig-03-02-process-flow.md (📝 Diagram, High upgrade priority)
+- fig-03-03-comparison.md (📝 Table, Medium priority)
+- fig-03-04-timeline.md (📝 Diagram, Medium priority)
+- fig-03-05-formula.md (📝 Diagram, Low priority)
+- All references valid in Chapter_03.md ✓
+- Status: ⚠ Consider upgrading 2 high-priority text-based visuals
+- Recommendation: Use Prompt 16 Mode 2 to upgrade fig-03-01 and fig-03-02
 
-**Chapter 4:** 2 visuals present
-- 1 🖼️ professional image
-- 1 📝 text-based
+**Chapter 4:** 2 figures (from registry)
+- fig-04-01-survey-results.png (🖼️ Chart, 320 KB)
+- fig-04-02-methodology.md (📝 Diagram)
+- All references valid in Chapter_04.md ✓
 - Status: ✓ Good coverage
 
-**Chapter 5:** 2 visuals present
-- 1 🖼️ professional image
-- 1 📝 text-based
+**Chapter 5:** 2 figures (from registry)
+- fig-05-01-field-photo.jpg (🖼️ Photo, 890 KB)
+- fig-05-02-analysis.md (📝 Table)
+- All references valid in Chapter_05.md ✓
 - Status: ✓ Adequate coverage
 ```
 
+**Image Reference Validation:**
+- ✓ All 12 figures referenced correctly in chapters
+- ✓ All relative paths use ../images/ format
+- ✓ All alt text present and descriptive
+- ⚠ 2 figures missing captions (fig-03-03, fig-04-02)
+
+**Registry Health Check:**
+- ✓ Registry statistics accurate (totals match actual count)
+- ✓ All registry entries have required metadata
+- ✓ All files exist in Manuscript/images/
+- ✓ No orphaned files (unregistered images in directory)
+- ⚠ 3 text-based figures marked "Low priority" but adequate as-is
+
 **Recommendations:**
-- Run Prompt 14 for Chapter 2 to add visual aids
-- Consider upgrading High priority text-based visuals in Chapter 3
-- Overall visual density: 2.4 figures per chapter (target: 2-4)
+- Run Prompt 15 for Chapter 2 to add visual aids
+- Use Prompt 16 Mode 2 to upgrade 2 high-priority text-based visuals in Chapter 3
+- Add missing captions to fig-03-03 and fig-04-02 (use Prompt 16 to update registry)
+- Overall visual density: 2.4 figures per chapter (target: 2-4) ✓
 
 ---
 
@@ -294,7 +326,7 @@ Chapter 02:
   - Line 145: "Remote work increased productivity by 13%"
   - Line 230: "65% of employees prefer hybrid model"
   - Line 367: "Studies show 40% reduction in commute time"
-- Recommendation: Run Prompt 15 (Citation Finder) for Chapter 2
+- Recommendation: Run Prompt 14 (Citation Finder) for Chapter 2
 
 **Chapter 3:** 8 citations (all ✓ verified)
 - Status: ✓ Excellent - All citations verified and accessible
@@ -318,7 +350,7 @@ Chapter 02:
 
 **Recommendations:**
 - Verify 14 pending (⏳) citations across all chapters
-- Run Prompt 15 for Chapter 2 to find sources for 3 uncited claims
+- Run Prompt 14 (Citation Finder) for Chapter 2 to find sources for 3 uncited claims
 - Complete bibliographic info for 1 citation in Chapter 4
 - Target: 100% verification before final milestone
 
@@ -329,12 +361,13 @@ Chapter 02:
 Use the report to:
 1. Identify issues that need fixing
 2. Use **Prompt 3 or 4** to modify files and fix problems
-3. Use **Prompt 14** to add visual content where recommended
-4. Use **Prompt 15** to find citations for uncited claims
-5. Verify pending (⏳) citations via Prompt 3 or 4
-6. Upgrade text-based visuals (📝 → 🖼️) as needed
-7. Re-run Consistency Checker after fixes
-8. Run before major milestones (25%, 50%, 75%, 100% completion)
+3. Use **Prompt 15** (Visual Content Suggester) to add text-based visual content where recommended
+4. Use **Prompt 16** (Image Manager) Mode 2 to upgrade high-priority text-based visuals (📝 → 🖼️)
+5. Use **Prompt 14** (Citation Finder) to find citations for uncited claims
+6. Verify pending (⏳) citations via Prompt 3 or 4
+7. Use **Prompt 16** Mode 4 (Validate) to check image reference integrity
+8. Re-run Consistency Checker after fixes
+9. Run before major milestones (25%, 50%, 75%, 100% completion)
 
 ---
 
@@ -344,7 +377,7 @@ Use the report to:
 - **At milestones**: 25%, 50%, 75% completion (comprehensive check)
 - **Before compilation**: Prior to using Prompt 7
 - **Before export**: Prior to using Prompt 9 (final visual/citation verification)
-- **After Prompt 14/15**: Re-run to verify visual/citation improvements
+- **After Prompt 14/15/16**: Re-run to verify visual/citation improvements
 
 ---
 
