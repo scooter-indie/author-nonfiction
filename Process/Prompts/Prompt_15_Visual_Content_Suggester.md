@@ -11,7 +11,7 @@ Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full bef
 
 See: `Process/_COMMON/14_Enforcement_Rules_Module.md` for complete details
 
-**VISUAL SYSTEM VERSION:** v0.12.1 - Unified directory structure
+**VISUAL SYSTEM VERSION:** v0.12.2 - Unified directory structure
 - **Location:** `Manuscript/images/` (single flat directory)
 - **Naming:** `fig-XX-YY-description.md` (hyphens, not underscores)
 - **Registry:** `Manuscript/images/Image_Registry.md` (unified, not per-chapter)

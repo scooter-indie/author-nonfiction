@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.2] - 2025-11-21
+
+### Changed
+- **Prompt 1 (Initialize)** - Reverted to v0.12.0 question structure and ordering
+  - Questions restored: working title, author, word count, audience, purpose, completion date, TOC file, chapters, style
+  - User preference: More comprehensive metadata collection during initialization
+  - Updated `init.json` and `metadata.json` templates to support additional fields
+- **Initialization Flow** - Optimized .config creation process
+  - Claude now creates ALL 5 JSON files in Step 2b (init, project, metadata, manifest, migrations)
+  - Bash script no longer copies empty .config templates
+  - Eliminated redundant file operations (copy empty → immediately overwrite)
+  - Cleaner separation: Claude handles configuration, bash handles structure
+
+### Technical
+- **Release Type:** PATCH (workflow optimization, user preference)
+- **Performance:** Same ~5-10 second initialization time maintained
+- **Breaking Change:** No (internal workflow change only)
+
+---
+
 ## [0.12.1] - 2025-11-21
 
 ### Added

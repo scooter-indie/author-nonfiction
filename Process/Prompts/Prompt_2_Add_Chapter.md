@@ -38,7 +38,7 @@ I will help you add a new chapter to your book, which includes:
 - Updating the TOC
 - Updating all cross-references
 - Committing changes to git
-- Note: Images go in Manuscript/images/ (unified directory, v0.12.1+), not per-chapter
+- Note: Images go in Manuscript/images/ (unified directory, v0.12.2+), not per-chapter
 
 ---
 
@@ -93,7 +93,7 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 15. Optionally tag if major milestone
 16. Generate impact report (including style override impact if applicable)
 
-**Note:** Chapter directories NO LONGER include a figures/ subdirectory. All images for the entire book go in the unified `Manuscript/images/` directory (v0.12.1+). Use Prompt 15 (Visual Content Suggester) or Prompt 16 (Image Manager) to add images to chapters.
+**Note:** Chapter directories NO LONGER include a figures/ subdirectory. All images for the entire book go in the unified `Manuscript/images/` directory (v0.12.2+). Use Prompt 15 (Visual Content Suggester) or Prompt 16 (Image Manager) to add images to chapters.
 
 ---
 
@@ -105,7 +105,7 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 - Individual chapter additions should use this prompt or Prompt 4
 - If users need to reorder chapters, they should use Prompt 2 to insert at new position (future: Prompt 12 for chapter reordering)
 - Each chapter gets its own subdirectory (Chapter_XX/) containing only chapter markdown files
-- **Images are NOT stored per-chapter** - all images go in unified `Manuscript/images/` directory (v0.12.1+)
+- **Images are NOT stored per-chapter** - all images go in unified `Manuscript/images/` directory (v0.12.2+)
 
 ---
 
