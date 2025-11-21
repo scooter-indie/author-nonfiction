@@ -2,7 +2,7 @@
 
 **HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
 
-**AI-Assisted Nonfiction Authoring Framework v0.11.1**
+**AI-Assisted Nonfiction Authoring Framework v0.12.0**
 
 **Claude Desktop Compatibility:**
 - ✅ All file verification via MCP Filesystem
@@ -200,12 +200,13 @@ Step 3/3: Remove README.md from .gitignore
 
 ```
 User's current version: 0.10.0
-Framework version: 0.11.1
+Framework version: 0.12.0
 
-Found 3 pending migrations:
+Found 4 pending migrations:
 1. migration_0.10.0_to_0.10.1 (3 changes)
 2. migration_0.10.1_to_0.11.0 (2 changes)
 3. migration_0.11.0_to_0.11.1 (1 change)
+4. migration_0.11.1_to_0.12.0 (0 changes - documentation only)
 
 Applying all migrations in order...
 
@@ -364,7 +365,7 @@ I will:
 **Example cleanup scenarios:**
 
 **Scenario 1: Prompt renumbering**
-- User upgrading from v0.9.2 (11 prompts) → v0.11.0 (15 prompts)
+- User upgrading from v0.9.2 (11 prompts) → v0.12.0 (16 prompts)
 - Old: `Process/Prompts/Prompt_5_Compile.md`
 - New: `Process/Prompts/Prompt_7_Compile.md`
 - Result: Old `Prompt_5_Compile.md` removed (now at Prompt_7)
