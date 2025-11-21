@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Project configuration and settings (replaces Project_Config.md)",
+  "initialized": false,
+  "settings": {
+    "prompt_9_verbose": true
+  },
+  "frameworkVersion": "",
+  "createdDate": "",
+  "lastModified": ""
+}
