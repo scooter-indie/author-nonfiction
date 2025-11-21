@@ -2,7 +2,7 @@
 
 **HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
 
-**AI-Assisted Nonfiction Authoring Framework v0.12.4**
+**AI-Assisted Nonfiction Authoring Framework v0.12.5**
 
 **Claude Desktop Compatibility:**
 - ✅ All file verification via MCP Filesystem
@@ -517,7 +517,7 @@ Installation instructions:
 **The manifest will be updated:**
 ```json
 {
-  "frameworkVersion": "0.12.4",
+  "frameworkVersion": "0.12.5",
   "toolsAvailable": {
     "git": true,
     "pandoc": true,
@@ -540,8 +540,8 @@ Installation instructions:
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.12.4",
-  "installedVersion": "0.12.4",
+  "frameworkVersion": "0.12.5",
+  "installedVersion": "0.12.5",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -558,12 +558,12 @@ I will update `.config/manifest.json`:
 I will:
 1. Read current `installedVersion` from manifest
 2. Display changelog (read from `CHANGELOG.md`)
-3. Show what's changed between your version and 0.12.4
+3. Show what's changed between your version and 0.12.5
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.12.4",
-  "installedVersion": "0.12.4",
+  "frameworkVersion": "0.12.5",
+  "installedVersion": "0.12.5",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -590,7 +590,7 @@ I will provide you with the git command to run in Claude Code CLI.
 
 Open Claude Code CLI and say:
 ```
-Run: git add . && git commit -m 'Initialize nonfiction framework v0.12.4
+Run: git add . && git commit -m 'Initialize nonfiction framework v0.12.5
 
 🤖 Generated with Claude Desktop
 
@@ -601,7 +601,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 Open Claude Code CLI and say:
 ```
-Run: git add .config/manifest.json && git commit -m 'Update framework from v[old] to v0.12.4
+Run: git add .config/manifest.json && git commit -m 'Update framework from v[old] to v0.12.5
 
 See CHANGELOG.md for details.
 
@@ -784,5 +784,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.12.4*
+*Framework Version: 0.12.5*
 *Configuration Script: configure.md*

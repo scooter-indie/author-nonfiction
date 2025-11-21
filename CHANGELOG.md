@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.5] - 2025-11-21
+
+### Fixed
+- **CRITICAL: Missing scripts/ directory in release packages**
+  - **GitHub Actions workflow**: Added `cp -r scripts build/temp/` to release.yml
+  - The scripts/ directory was missing from v0.12.3 and v0.12.4 release zip files
+  - This caused configure.md Step 7 and Prompt 1 to fail (couldn't find detect-tools.sh)
+  - Directory contains: init.sh, detect-tools.sh, README.md
+  - Without scripts/, users could not use automated tool detection
+
+### Changed
+- **configure.md Step 7** - Added clarification note about git detection
+  - Explains git was already verified in Step 2
+  - Clarifies that detect-tools.sh re-confirms git and focuses on pandoc/typst
+  - Script detects export tools needed for Prompt 9
+
+### Technical
+- **Release Type:** PATCH (critical bug fix - missing directory in release package)
+- **Breaking Change:** No
+- **Issue:** GitHub Actions workflow didn't copy scripts/ directory to release zip
+- **Impact:** v0.12.3 and v0.12.4 releases were incomplete and non-functional for new installations
+
+---
+
 ## [0.12.4] - 2025-11-21
 
 ### Fixed

@@ -219,7 +219,7 @@ Chapter 02:
 
 ---
 
-## Visual Content Status (v0.12.4+ Unified System)
+## Visual Content Status (v0.12.5+ Unified System)
 
 **Read `Manuscript/images/Image_Registry.md` for complete visual asset inventory and cross-reference with chapter files.**
 

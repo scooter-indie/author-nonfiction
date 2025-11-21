@@ -163,7 +163,7 @@ I will provide:
 ## Files Included in Production Zip
 
 ### Root Level
-- `scripts/` (bash automation scripts - v0.12.4+)
+- `scripts/` (bash automation scripts - v0.12.5+)
   - `init.sh` (fast initialization script)
   - `README.md`
 - `README.md` (author-focused, from repo root)
