@@ -1,6 +1,6 @@
 # Prepare Release
 
-**Current Framework Version:** 0.10.3
+**Current Framework Version:** 0.11.1
 **Last Updated:** 2025-11-20
 
 ---
@@ -34,7 +34,7 @@ Update the version number in these files:
    - Line ~41-47: Extract instructions: `nonfiction-vX.X.X.zip`
    - Line ~336: `**Framework Version**: X.X.X`
    - Line ~337: `**Release Date**: YYYY-MM-DD`
-   - Review entire file for outdated prompt counts ("10 prompts" vs "11 prompts")
+   - Review entire file for outdated prompt counts (should be "15 prompts" as of v0.11.0 Phase 2+)
 
 2. `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
    - Line ~3: `**Version:** X.X.X`
@@ -93,9 +93,9 @@ Update the version number in these files:
 **IMPORTANT:** Before proceeding to version verification, manually review these files for outdated content:
 
 **3A. Review README.md:**
-- Check all prompt counts (should be "11 prompts", not "10 prompts")
+- Check all prompt counts (should be "15 prompts" as of v0.11.0 Phase 2+)
 - Verify download links match new version
-- Check "The 10 Core Prompts" section - should list all 11 prompts
+- Check "The 15 Core Prompts" section - should list all 15 prompts
 - Verify "What's Included" section lists current features
 - Check "Writing Style System" description is current
 - Verify footer version and date
@@ -108,13 +108,12 @@ Update the version number in these files:
 - Check that Added/Changed/Fixed/Technical sections are complete
 
 **3C. Review system-instructions.md:**
-- Verify compatibility classifications are correct:
-  - CLI-ONLY: Prompts 5, 7, 9
-  - DESKTOP-FRIENDLY: Prompts 2, 3, 4, 8, 10
+- Verify compatibility classifications are correct (as of v0.11.1+):
+  - CLI-ONLY: Prompts 7, 8, 9, 12, 13, 14, 15
+  - DESKTOP-FRIENDLY: Prompts 2, 3, 4, 5, 6, 10
   - HYBRID: configure.md, Prompts 1, 11
-  - DESKTOP-READY: Prompt 6
-- Check all 11 prompts are listed (lines ~117-128)
-- Verify critical section (lines ~42-62) has correct CLI-ONLY prompts
+- Check all 15 prompts are listed (lines ~117-132)
+- Verify critical section (lines ~42-66) has correct CLI-ONLY prompts (7, 8, 9, 12, 13, 14, 15)
 - Check version numbers in header and footer
 
 ### Step 4: Verify All Updates
@@ -321,22 +320,22 @@ If a release needs to be rolled back:
 
 ---
 
-## Example: Releasing v0.10.1
+## Example: Releasing v0.11.0
 
-**User:** "Prepare release 0.10.1"
+**User:** "Prepare release 0.11.0"
 
 **Claude:**
-1. Updates version to 0.10.1 in all 8 files listed in Step 2
+1. Updates version to 0.11.0 in all 8 files listed in Step 2
 2. Updates dates to today's date
-3. **Reviews README.md** for prompt counts ("11 prompts" not "10"), download links, features
-4. **Reviews CHANGELOG.md** entry for 0.10.1 completeness
-5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 5,7,9)
-6. Runs grep to verify no 0.10.0 references remain (except CHANGELOG history)
-7. Commits with message: "Update all documentation to version 0.10.1"
-8. Creates tag v0.10.1 with release notes from CHANGELOG.md
+3. **Reviews README.md** for prompt counts ("15 prompts" as of v0.11.0 Phase 2), download links, features
+4. **Reviews CHANGELOG.md** entry for 0.11.0 completeness
+5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 7,8,9,12,13,14,15 as of v0.11.1+)
+6. Runs grep to verify no 0.10.3 references remain (except CHANGELOG history)
+7. Commits with message: "Update all documentation to version 0.11.0"
+8. Creates tag v0.11.0 with release notes from CHANGELOG.md
 9. Pushes tag
 10. Monitors GitHub Actions
-11. Verifies release created successfully with nonfiction-v0.10.1.zip
+11. Verifies release created successfully with nonfiction-v0.11.0.zip
 
 ---
 
@@ -354,8 +353,8 @@ grep -r "0\.10\.0" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md"
 
 **Review critical files for content:**
 ```bash
-# Check README.md for "10 prompts" vs "11 prompts"
-grep -n "10.*[Pp]rompts" README.md
+# Check README.md for outdated prompt counts (should be 15 as of v0.11.0 Phase 2)
+grep -n "[0-9][0-9].*[Pp]rompts" README.md
 
 # Check system-instructions.md for compatibility
 grep -n "CLI-ONLY\|DESKTOP-FRIENDLY\|HYBRID\|DESKTOP-READY" system-instructions.md
@@ -378,7 +377,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.10.3
+**Framework Version:** 0.11.1
 **Last Updated:** 2025-11-20
 
 *This file is for framework maintainers only - not included in release packages*

@@ -1,4 +1,4 @@
-# Execute Prompt 9: Git Operations
+# Execute Prompt 12: Git Operations
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop (provides git commands to copy/paste into Claude Code CLI)
 

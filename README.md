@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Framework
 
-**Version 0.10.3**
+**Version 0.11.1**
 
 A complete system for writing professional nonfiction books with AI assistance using Claude Code.
 
@@ -13,7 +13,7 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 ### Key Features
 
 - 📝 **Structured Authoring Process** with change tracking and version history
-- 🤖 **AI Assistance** through 11 conversational prompts
+- 🤖 **AI Assistance** through 15 conversational prompts
 - 🎨 **Professional Writing Styles** - 9 curated styles plus custom style support
 - 📚 **Quote Management** with web search and verification system
 - 🔍 **Quality Control** - Consistency checking and validation
@@ -27,7 +27,7 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 
 ### 1. Download the Framework
 
-Download `nonfiction-v0.10.3.zip` from:
+Download `nonfiction-v0.11.1.zip` from:
 
 **GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
 
@@ -38,13 +38,13 @@ Save it to your book project directory (e.g., `E:\Projects\my-book`).
 Extract the zip file to your project directory:
 
 **Windows**:
-- Right-click `nonfiction-v0.10.3.zip` → "Extract All..."
+- Right-click `nonfiction-v0.11.1.zip` → "Extract All..."
 - Choose your project directory as the destination
 
 **macOS/Linux**:
 ```bash
 cd /path/to/my-book
-unzip nonfiction-v0.10.3.zip
+unzip nonfiction-v0.11.1.zip
 ```
 
 ### 3. Run Configuration
@@ -79,11 +79,12 @@ This will ask you about your book and create the complete project structure.
 
 ### 5. Start Writing!
 
-Use the framework's 11 prompts to write and manage your book:
-- **Prompt 3**: Modify content (your primary writing workflow)
-- **Prompt 6**: Check consistency
-- **Prompt 8**: View progress dashboard
-- **Prompt 5**: Compile full manuscript
+Use the framework's 15 prompts to write and manage your book:
+- **Prompt 3**: Change by Chg (automated workflow from _chg files)
+- **Prompt 4**: Interactive Change (conversational editing)
+- **Prompt 8**: Check consistency
+- **Prompt 10**: View progress dashboard
+- **Prompt 7**: Compile full manuscript
 - And more...
 
 **See**: `Process/Prompts/QUICK_REFERENCE.md` for complete workflow guide
@@ -124,7 +125,7 @@ After extraction, your project contains:
 
 ---
 
-## The 11 Core Prompts
+## The 15 Core Prompts
 
 Execute these prompts in Claude Code to manage your book:
 
@@ -134,32 +135,44 @@ Create your book project structure with chapters, metadata, and configuration.
 ### Prompt 2: Add New Chapter
 Insert a new chapter and automatically renumber existing chapters.
 
-### Prompt 3: Modify Content
-**PRIMARY WORKFLOW** - Revise chapters, quotes, front/back matter with change tracking.
+### Prompt 3: Change by Chg
+**AUTOMATED WORKFLOW** - Execute instructions from _chg files with automatic archiving.
 
-### Prompt 4: Integrate Inbox Content
+### Prompt 4: Interactive Change
+**CONVERSATIONAL WORKFLOW** - Discuss changes interactively, AI writes instructions to _chg files.
+
+### Prompt 5: Scan For User Edits
+Detect manual edits and synchronize _chg files with version history.
+
+### Prompt 6: Integrate Inbox Content
 Process content from your Inbox/ directory into the book.
 
-### Prompt 5: Compile Manuscript
+### Prompt 7: Compile Manuscript
 Generate a single file containing your entire manuscript.
 
-### Prompt 6: Consistency Checker
+### Prompt 8: Consistency Checker
 Check for terminology, timeline, and style consistency across all content.
 
-### Prompt 7: Export and Format
+### Prompt 9: Export and Format
 Export to DOCX, PDF, EPUB, or LaTeX for publication.
 
-### Prompt 8: Progress Dashboard
+### Prompt 10: Progress Dashboard
 View comprehensive project metrics, word counts, and recommendations.
-
-### Prompt 9: Git Operations
-Commit, tag, branch, push, and manage version control.
-
-### Prompt 10: Update Change Tracking
-Synchronize _chg files with content changes from manual edits.
 
 ### Prompt 11: Style Manager
 Manage hierarchical style system with book/chapter/section overrides.
+
+### Prompt 12: Git Operations
+Commit, tag, branch, push, and manage version control.
+
+### Prompt 13: AI Detection Analysis
+Analyze chapters for AI-generated text indicators and ensure authentic voice.
+
+### Prompt 14: Visual Content Suggester
+Analyze chapters and create text-based visuals (tables, diagrams, flowcharts) to enhance understanding.
+
+### Prompt 15: Citation Finder
+Find and insert citations with WebSearch verification for factual accuracy.
 
 **Full Documentation**: `Process/Prompts/QUICK_REFERENCE.md`
 
@@ -189,14 +202,20 @@ The framework includes 9 professionally curated writing styles:
 
 ### Change Tracking System
 
-Every content file has a corresponding `_chg.md` file:
+Every content file has a corresponding `_chg.md` file for two workflows:
 
+**Prompt 3 (Automated):**
 1. **Write instructions** in the `_chg.md` file
 2. **Commit to git**
 3. **Execute Prompt 3**
 4. **AI reads instructions** and modifies content
 5. **AI archives instructions** to version history
 6. **AI commits changes** to git
+
+**Prompt 4 (Interactive):**
+1. **Discuss changes** conversationally with AI
+2. **AI writes instructions** to _chg.md file
+3. **Optionally execute** Prompt 3 automatically
 
 All changes are tracked with rationale, version numbers, and git history.
 
@@ -225,25 +244,26 @@ All operations use git for version control:
 
 ### Daily Writing Session
 1. Start Claude Code → `configure.md` runs automatically (if configured)
-2. Review dashboard: `Execute Prompt 8`
-3. Write revision instructions in `_chg.md` files
-4. Execute `Prompt 3` for each file
-5. Commit and push: `Execute Prompt 9`
+2. Review dashboard: `Execute Prompt 10`
+3. Write revision instructions in `_chg.md` files OR use interactive editing
+4. Execute `Prompt 3` for each file (or use `Prompt 4` for interactive)
+5. Commit and push: `Execute Prompt 12`
 
 ### Weekly Review
-1. Check progress: `Prompt 8`
-2. Run consistency check: `Prompt 6`
-3. Compile manuscript: `Prompt 5`
-4. Fix issues: `Prompt 3`
-5. Commit and push: `Prompt 9`
+1. Check progress: `Prompt 10`
+2. Run consistency check: `Prompt 8`
+3. Compile manuscript: `Prompt 7`
+4. Fix issues: `Prompt 3` or `Prompt 4`
+5. Commit and push: `Prompt 12`
 
 ### Milestone Workflow
-1. Verify progress: `Prompt 8`
-2. Full consistency check: `Prompt 6`
-3. Fix all issues: `Prompt 3`
-4. Compile final version: `Prompt 5`
-5. Create version tag: `Prompt 9`
-6. Push with tags: `Prompt 9`
+1. Verify progress: `Prompt 10`
+2. Full consistency check: `Prompt 8`
+3. AI detection analysis: `Prompt 13`
+4. Fix all issues: `Prompt 3` or `Prompt 4`
+5. Compile final version: `Prompt 7`
+6. Create version tag: `Prompt 12`
+7. Push with tags: `Prompt 12`
 
 ---
 
@@ -257,7 +277,7 @@ To update to a newer framework version:
 4. **Extract with overwrite** to your project directory
 5. **Run configuration**: `execute configure.md`
 6. **Review changelog** displayed by configure script
-7. **Check consistency**: `Execute Prompt 6`
+7. **Check consistency**: `Execute Prompt 8`
 
 Your book content is preserved - only framework files update.
 
@@ -336,7 +356,7 @@ This framework is released under the MIT License. See LICENSE file for details.
 
 ## About
 
-**Framework Version**: 0.10.3
+**Framework Version**: 0.11.1
 **Release Date**: 2025-11-20
 **Repository**: https://github.com/scooter-indie/author-nonfiction
 

@@ -2,23 +2,26 @@
 
 ## Claude Desktop vs. Claude Code CLI Compatibility
 
-### DESKTOP-READY (100% Claude Desktop - No CLI needed)
-- ✅ **Prompt 6** - Consistency checks (read-only analysis)
-
 ### DESKTOP-FRIENDLY (95%+ Desktop - Single git command at end)
 - ✅ **Prompt 2** - Add new chapter
-- ✅ **Prompt 3** - Modify file (PRIMARY WORKFLOW)
-- ✅ **Prompt 4** - Integrate Inbox content
-- ✅ **Prompt 8** - Progress dashboard
-- ✅ **Prompt 10** - Update change tracking
+- ✅ **Prompt 3** - Change by Chg (AUTOMATED WORKFLOW)
+- ✅ **Prompt 4** - Interactive Change (CONVERSATIONAL WORKFLOW)
+- ✅ **Prompt 5** - Scan For User Edits (sync _chg files)
+- ✅ **Prompt 6** - Integrate Inbox content
+- ✅ **Prompt 10** - Progress dashboard
 
 ### HYBRID (50-80% Desktop - Multiple CLI interactions)
 - ⚡ **Prompt 1** - Initialize project (file creation in Desktop, git via CLI throughout)
+- ⚡ **Prompt 11** - Style Manager (single-file ops in Desktop, multi-file scans better in CLI)
 
 ### CLI-ONLY (Must use Claude Code CLI)
-- 🔧 **Prompt 5** - Compile manuscript (bulk file operations)
-- 🔧 **Prompt 7** - Export to DOCX/PDF/EPUB (requires pandoc)
-- 🔧 **Prompt 9** - Git operations (direct git commands)
+- 🔧 **Prompt 7** - Compile manuscript (bulk file operations)
+- 🔧 **Prompt 8** - Consistency Checker (bulk file reads: 30-50+ files)
+- 🔧 **Prompt 9** - Export to DOCX/PDF/EPUB (requires pandoc)
+- 🔧 **Prompt 12** - Git operations (direct git commands)
+- 🔧 **Prompt 13** - AI Detection Analysis (bulk chapter analysis)
+- 🔧 **Prompt 14** - Visual Content Suggester (bulk file operations, visual analysis)
+- 🔧 **Prompt 15** - Citation Finder (requires WebSearch)
 
 **Notes:**
 - **DESKTOP-FRIENDLY** prompts work in Claude Desktop, provide single git command at end
@@ -33,15 +36,19 @@
 |--------|---------|-------------|-------------------|
 | 1 | Initialize Project | Starting new book | High - many questions |
 | 2 | Add Chapter | Need new chapter | Medium - 4-6 questions |
-| 3 | Modify File | **PRIMARY REVISION WORKFLOW** | Low - reads _chg file |
-| 4 | Integrate Inbox | Process inbox files | Medium - per-file decisions |
-| 5 | Compile Manuscript | Create full draft | Low - use defaults or customize |
-| 6 | Consistency Check | Find issues | Medium - scope and check types |
-| 7 | Export | Create DOCX/PDF/EPUB | Low - use defaults or customize |
-| 8 | Dashboard | Check progress | Minimal - summary or detailed |
-| 9 | Git Operations | Version control | Medium - varies by operation |
-| 10 | Update Change Tracking | Sync _chg files | Minimal - automatic scan |
+| 3 | Change by Chg | **AUTOMATED WORKFLOW** | Low - reads _chg file |
+| 4 | Interactive Change | **CONVERSATIONAL WORKFLOW** | High - discuss changes |
+| 5 | Scan For User Edits | Sync _chg files | Minimal - automatic scan |
+| 6 | Integrate Inbox | Process inbox files | Medium - per-file decisions |
+| 7 | Compile Manuscript | Create full draft | Low - use defaults or customize |
+| 8 | Consistency Check | Find issues | Medium - scope and check types |
+| 9 | Export | Create DOCX/PDF/EPUB | Low - use defaults or customize |
+| 10 | Dashboard | Check progress | Minimal - summary or detailed |
 | 11 | Style Manager | Manage style overrides | Medium - operations vary |
+| 12 | Git Operations | Version control | Medium - varies by operation |
+| 13 | AI Detection Analysis | Ensure authentic voice | Minimal - automatic analysis |
+| 14 | Visual Content Suggester | Create text-based visuals | Medium - visual placement |
+| 15 | Citation Finder | Find and verify citations | Medium - source selection |
 
 ---
 
@@ -51,29 +58,37 @@
 → **Prompt 1: Initialize** - Brand new book project
 
 ### Daily Content Work
-→ **Prompt 3: Modify File** - Your main workflow
-- Edit _chg file with instructions
+→ **Prompt 3: Change by Chg** - Automated workflow (reads _chg file)
+- Write instructions in _chg file
 - Execute Prompt 3
 - AI reads and applies changes
 - Auto-commits to git
 
+→ **Prompt 4: Interactive Change** - Conversational workflow (NEW v0.11.0)
+- Discuss changes with AI
+- AI writes instructions to _chg file
+- Optionally execute Prompt 3 automatically
+
 ### Adding Content
 → **Prompt 2: Add Chapter** - New chapter (interactive or from draft)
-→ **Prompt 4: Integrate Inbox** - Process inbox files
+→ **Prompt 6: Integrate Inbox** - Process inbox files
 
 ### Quality Control
-→ **Prompt 6: Consistency** - Weekly or at milestones
-→ **Prompt 8: Dashboard** - Weekly progress check
+→ **Prompt 8: Consistency** - Weekly or at milestones
+→ **Prompt 10: Dashboard** - Weekly progress check
+→ **Prompt 13: AI Detection Analysis** - Check authentic voice (NEW v0.11.0)
+→ **Prompt 14: Visual Content Suggester** - Add tables/diagrams (NEW v0.11.0 Phase 2)
+→ **Prompt 15: Citation Finder** - Verify citations (NEW v0.11.0 Phase 2)
 
 ### Compilation & Export
-→ **Prompt 5: Compile** - Review full manuscript
-→ **Prompt 7: Export** - Publication formats
+→ **Prompt 7: Compile** - Review full manuscript
+→ **Prompt 9: Export** - Publication formats
 
 ### Version Control & Tracking
-→ **Prompt 9: Git** - Commit, tag, push, status, etc.
-→ **Prompt 10: Update Change Tracking** - Sync _chg files with changes
+→ **Prompt 12: Git** - Commit, tag, push, status, etc.
+→ **Prompt 5: Scan For User Edits** - Sync _chg files with manual changes
 
-### Style Management (NEW in v0.10.1)
+### Style Management (v0.10.1+)
 → **Prompt 11: Style Manager** - Add/remove/analyze style overrides
 - Add chapter-level style override
 - Remove chapter-level override
@@ -112,11 +127,12 @@ Section Style (Optional - HTML comments)
 **How It Works:**
 1. **Prompt 1 (Initialize)**: Select book-level style, creates Style_Guide.md and Style_Overrides.md
 2. **Prompt 2 (Add Chapter)**: Optionally set chapter-level override when creating chapter
-3. **Prompt 3 (Modify File)**: Automatically resolves active style (section → chapter → book) and applies it
-4. **Prompt 6 (Consistency)**: Analyzes distribution, transitions, and alignment across all levels
-5. **Prompt 8 (Dashboard)**: Shows style distribution summary and override percentage
-6. **Prompt 11 (Style Manager)**: Add/remove overrides, analyze transitions, validate registry
-7. **Book-writing-assistant agent**: Applies active style to all writing assistance
+3. **Prompt 3 (Change by Chg)**: Automatically resolves active style (section → chapter → book) and applies it
+4. **Prompt 4 (Interactive Change)**: Resolves active style and applies during conversational editing
+5. **Prompt 8 (Consistency)**: Analyzes distribution, transitions, and alignment across all levels
+6. **Prompt 10 (Dashboard)**: Shows style distribution summary and override percentage
+7. **Prompt 11 (Style Manager)**: Add/remove overrides, analyze transitions, validate registry
+8. **Book-writing-assistant agent**: Applies active style to all writing assistance
 
 **Quick Actions:**
 - **Select book-level style**: Use Prompt 1 during initialization
@@ -124,9 +140,9 @@ Section Style (Optional - HTML comments)
 - **Add section override**: Use HTML markers `<!-- STYLE_OVERRIDE: StyleName -->` in content
 - **Create custom style**: Edit `Manuscript/Style/Custom_Styles.md`
 - **Change book-level style**: Prompt 11 → Change Book-Level Style (with impact analysis)
-- **View distribution**: Prompt 8 (Dashboard) or Prompt 11 → View Distribution
+- **View distribution**: Prompt 10 (Dashboard) or Prompt 11 → View Distribution
 - **Analyze transitions**: Prompt 11 → Analyze Transitions
-- **Check consistency**: Prompt 6 with hierarchical style analysis
+- **Check consistency**: Prompt 8 with hierarchical style analysis
 
 ---
 
@@ -138,21 +154,24 @@ Section Style (Optional - HTML comments)
 
 ```
 1. Check git status
-   → Prompt 9 (Git) → Status
+   → Prompt 12 (Git) → Status
 
 2. Work on content in your editor
 
-3. Write revision instructions in _chg files
+3. OPTION A: Write revision instructions in _chg files
    → Edit Manuscript/Chapters/Chapter_XX/Chapter_XX_chg.md
    → Add instructions to [INSTRUCTIONS FOR THIS REVISION]
    → Commit _chg file
-
-4. Execute revisions
-   → Prompt 3 (Modify File) for each chapter
+   → Execute Prompt 3 (Change by Chg) for each chapter
    → AI reads _chg, applies changes, commits
 
-5. Push to remote
-   → Prompt 9 (Git) → Push
+   OPTION B: Interactive conversational editing
+   → Execute Prompt 4 (Interactive Change)
+   → Discuss changes with AI
+   → AI writes instructions to _chg file and optionally executes
+
+4. Push to remote
+   → Prompt 12 (Git) → Push
 ```
 
 **Time**: 5-10 minutes for prompts, rest is your writing
@@ -165,23 +184,24 @@ Section Style (Optional - HTML comments)
 
 ```
 1. Generate progress report
-   → Prompt 8 (Dashboard) → Detailed
+   → Prompt 10 (Dashboard) → Detailed
 
 2. Run consistency checks
-   → Prompt 6 (Consistency) → All chapters, all checks
+   → Prompt 8 (Consistency) → All chapters, all checks
 
 3. Compile full manuscript
-   → Prompt 5 (Compile) → Use defaults
+   → Prompt 7 (Compile) → Use defaults
 
 4. Review compiled draft, note issues
 
 5. Fix issues
    → Add instructions to _chg files
-   → Prompt 3 (Modify File) for each
+   → Prompt 3 (Change by Chg) for each
+   → OR use Prompt 4 (Interactive Change) for conversational editing
 
 6. Commit and push
-   → Prompt 9 (Git) → Status
-   → Prompt 9 (Git) → Push
+   → Prompt 12 (Git) → Status
+   → Prompt 12 (Git) → Push
 ```
 
 **Time**: 20-30 minutes
@@ -213,7 +233,7 @@ Section Style (Optional - HTML comments)
 1. Place chapter draft in Manuscript/Inbox/
 
 2. Execute integrate prompt
-   → Prompt 4 (Integrate Inbox)
+   → Prompt 6 (Integrate Inbox)
 
 3. AI shows findings
    → Suggests: Create new chapter
@@ -233,27 +253,43 @@ Section Style (Optional - HTML comments)
 
 ```
 1. Check completion status
-   → Prompt 8 (Dashboard) → Detailed
+   → Prompt 10 (Dashboard) → Detailed
    → Review chapter status table
    → Note completion percentage
 
 2. Run full consistency check
-   → Prompt 6 (Consistency) → All chapters, all types
+   → Prompt 8 (Consistency) → All chapters, all types
 
-3. Fix all critical and high-priority issues
+3. Check for AI-generated text indicators
+   → Prompt 13 (AI Detection Analysis)
+   → Review authenticity scores
+   → Rewrite any flagged passages
+
+4. Add visual enhancements where needed
+   → Prompt 14 (Visual Content Suggester)
+   → Review suggested tables/diagrams
+   → Insert chosen visuals
+
+5. Verify all citations
+   → Prompt 15 (Citation Finder)
+   → Check factual claims
+   → Add missing citations
+
+6. Fix all critical and high-priority issues
    → Add fixes to _chg files
-   → Prompt 3 (Modify File) for each issue
+   → Prompt 3 (Change by Chg) for each issue
+   → OR use Prompt 4 (Interactive Change) for conversational editing
 
-4. Compile milestone version
-   → Prompt 5 (Compile) → v[X].0.0
+7. Compile milestone version
+   → Prompt 7 (Compile) → v[X].0.0
 
-5. Create git tag
-   → Prompt 9 (Git) → Create Tag
+8. Create git tag
+   → Prompt 12 (Git) → Create Tag
    → Tag name: v1.0.0 or first-draft
    → Message: "Completed first draft" or "[XX]% milestone"
 
-6. Push with tags
-   → Prompt 9 (Git) → Push
+9. Push with tags
+   → Prompt 12 (Git) → Push
    → Include tags? → Yes
 ```
 
@@ -267,44 +303,52 @@ Section Style (Optional - HTML comments)
 
 ```
 1. Verify 100% completion
-   → Prompt 8 (Dashboard) → Detailed
+   → Prompt 10 (Dashboard) → Detailed
    → Check all chapters show "Final" status
    → Verify no placeholders
 
 2. Final consistency check
-   → Prompt 6 (Consistency) → All chapters, all types
+   → Prompt 8 (Consistency) → All chapters, all types
    → Should find zero critical issues
 
-3. Fix any remaining issues
-   → Prompt 3 (Modify File)
+3. Final authenticity check
+   → Prompt 13 (AI Detection Analysis)
+   → Ensure authentic voice throughout
 
-4. Compile final manuscript
-   → Prompt 5 (Compile) → v[final].0.0
+4. Fix any remaining issues
+   → Prompt 3 (Change by Chg) or Prompt 4 (Interactive Change)
+
+5. Compile final manuscript
+   → Prompt 7 (Compile) → v[final].0.0
    → Publication-Ready format
 
-5. Export to required format(s)
-   → Prompt 7 (Export)
+6. Export to required format(s)
+   → Prompt 9 (Export)
    → Format: DOCX and/or PDF
    → Use publication settings
 
-6. Tag as publication-ready
-   → Prompt 9 (Git) → Create Tag
+7. Tag as publication-ready
+   → Prompt 12 (Git) → Create Tag
    → Tag name: publication-v1
    → Message: "Ready for submission"
 
-7. Push with tags
-   → Prompt 9 (Git) → Push with tags
+8. Push with tags
+   → Prompt 12 (Git) → Push with tags
 ```
 
 **Time**: 2-3 hours for thorough final check
 
 ---
 
-## The Primary Workflow: Prompt 3
+## The Primary Workflows: Prompt 3 & Prompt 4
 
-**This is how you'll spend 80% of your time revising content.**
+**Two approaches for revising content - choose based on your preference:**
 
-### Step-by-Step
+### OPTION A: Prompt 3 (Change by Chg) - Automated Workflow
+
+**This is the automated workflow for pre-written instructions.**
+
+**Step-by-Step:**
 
 1. **Identify what needs changing**
    - You review your content
@@ -335,7 +379,7 @@ Section Style (Optional - HTML comments)
 
 4. **Execute Prompt 3**
    ```
-   Copy: Process/Prompts/Prompt_3_Modify_File.md
+   Copy: Process/Prompts/Prompt_3_Change_by_Chg.md
    Paste into Claude Code
 
    AI asks: "Which file should I modify?"
@@ -361,6 +405,38 @@ Section Style (Optional - HTML comments)
    - Instructions section is ready for next revision
    - Git has commit record
 
+### OPTION B: Prompt 4 (Interactive Change) - Conversational Workflow
+
+**This is the conversational workflow for interactive editing.**
+
+**Step-by-Step:**
+
+1. **Execute Prompt 4**
+   ```
+   Copy: Process/Prompts/Prompt_4_Interactive_Change.md
+   Paste into Claude Code
+   ```
+
+2. **Discuss your changes**
+   - Tell AI what you want to change
+   - AI asks clarifying questions
+   - You refine the approach together
+
+3. **AI writes instructions**
+   - AI drafts instructions to _chg file
+   - You review and approve
+   - AI writes to _chg file
+
+4. **Optional: Execute immediately**
+   - AI asks if you want to execute Prompt 3 now
+   - If yes: AI applies changes automatically
+   - If no: Instructions saved for later execution
+
+5. **Result**
+   - Instructions documented in _chg file
+   - Optionally: Changes applied and committed
+   - Full audit trail maintained
+
 ### Why This Works
 
 ✅ **Single source of truth**: Instructions in _chg file
@@ -378,21 +454,22 @@ Some tasks naturally chain prompts:
 ### Add Chapter → Modify Content
 ```
 1. Prompt 2 (Add Chapter) - Creates placeholder
-2. Prompt 3 (Modify File) - Fill in content
+2. Prompt 3 (Change by Chg) or Prompt 4 (Interactive Change) - Fill in content
 ```
 
 ### Integrate → Consistency → Fix
 ```
-1. Prompt 4 (Integrate Inbox) - Add new content
-2. Prompt 6 (Consistency) - Check for issues
-3. Prompt 3 (Modify File) - Fix issues found
+1. Prompt 6 (Integrate Inbox) - Add new content
+2. Prompt 8 (Consistency) - Check for issues
+3. Prompt 3 (Change by Chg) or Prompt 4 (Interactive Change) - Fix issues found
 ```
 
-### Dashboard → Consistency → Compile
+### Dashboard → Consistency → Authenticity → Compile
 ```
-1. Prompt 8 (Dashboard) - Check status
-2. Prompt 6 (Consistency) - Full check
-3. Prompt 5 (Compile) - If ready, compile
+1. Prompt 10 (Dashboard) - Check status
+2. Prompt 8 (Consistency) - Full check
+3. Prompt 13 (AI Detection Analysis) - Check authentic voice
+4. Prompt 7 (Compile) - If ready, compile
 ```
 
 ---
@@ -407,14 +484,20 @@ Do you have a project yet?
 └─ Yes ↓
 
 What do you want to do?
-├─ Modify existing content → Prompt 3 (Modify File)
+├─ Modify existing content (automated) → Prompt 3 (Change by Chg)
+├─ Modify existing content (interactive) → Prompt 4 (Interactive Change)
+├─ Sync manual edits → Prompt 5 (Scan For User Edits)
 ├─ Add new chapter → Prompt 2 (Add Chapter)
-├─ Process inbox files → Prompt 4 (Integrate Inbox)
-├─ Check progress → Prompt 8 (Dashboard)
-├─ Find problems → Prompt 6 (Consistency)
-├─ Review full book → Prompt 5 (Compile)
-├─ Export for pub → Prompt 7 (Export)
-└─ Git operations → Prompt 9 (Git)
+├─ Process inbox files → Prompt 6 (Integrate Inbox)
+├─ Review full book → Prompt 7 (Compile)
+├─ Find problems → Prompt 8 (Consistency)
+├─ Export for pub → Prompt 9 (Export)
+├─ Check progress → Prompt 10 (Dashboard)
+├─ Manage styles → Prompt 11 (Style Manager)
+├─ Git operations → Prompt 12 (Git)
+├─ Check authenticity → Prompt 13 (AI Detection Analysis)
+├─ Add visuals → Prompt 14 (Visual Content Suggester)
+└─ Find citations → Prompt 15 (Citation Finder)
 ```
 
 ---
@@ -425,30 +508,38 @@ What do you want to do?
 |--------|-----------|-----|
 | 1 | Once per book | Project initialization |
 | 2 | As needed | When adding chapters |
-| 3 | **Daily-multiple times** | **Main revision workflow** |
-| 4 | Weekly or as needed | When inbox has content |
-| 5 | Weekly-monthly | Regular manuscript reviews |
-| 6 | Weekly | Catch issues early |
-| 7 | At milestones | Publication preparation |
-| 8 | Weekly | Progress monitoring |
-| 9 | Daily (status, push) | Version control hygiene |
+| 3 | **Daily-multiple times** | **Automated revision workflow** |
+| 4 | **Daily-multiple times** | **Interactive revision workflow** |
+| 5 | After manual edits, weekly | Sync _chg files |
+| 6 | Weekly or as needed | When inbox has content |
+| 7 | Weekly-monthly | Regular manuscript reviews |
+| 8 | Weekly | Catch issues early |
+| 9 | At milestones | Publication preparation |
+| 10 | Weekly | Progress monitoring |
+| 11 | As needed | Style override management |
+| 12 | Daily (status, push) | Version control hygiene |
+| 13 | At milestones | Check authentic voice |
+| 14 | During revision | Visual enhancement |
+| 15 | As needed | Citation verification |
 
 ---
 
 ## Tips for Success
 
-### For Prompt 3 (Your Main Tool)
-1. **Be specific in _chg instructions**: More detail = better results
-2. **Commit _chg before executing**: Creates audit trail
-3. **One focus per revision**: Don't try to fix everything at once
-4. **Use Priority markers**: High/Medium/Low helps AI understand urgency
+### For Prompt 3 & 4 (Your Main Tools)
+1. **Prompt 3 (automated)**: Write detailed _chg instructions, commit before executing
+2. **Prompt 4 (interactive)**: Discuss changes conversationally, AI handles documentation
+3. **Choose based on preference**: Both produce the same audit trail
+4. **One focus per revision**: Don't try to fix everything at once
+5. **Use Priority markers**: High/Medium/Low helps AI understand urgency
 
 ### For All Prompts
 1. **Read the Anti-Hallucination Guidelines**: Prevents fabricated content
-2. **Push to remote daily**: Cloud backup via Prompt 9
-3. **Run Prompt 8 weekly**: Stay aware of progress
-4. **Run Prompt 6 before compiling**: Catch issues before full review
-5. **Use default settings**: Stored in Project_Config.md, save time
+2. **Push to remote daily**: Cloud backup via Prompt 12
+3. **Run Prompt 10 weekly**: Stay aware of progress
+4. **Run Prompt 8 before compiling**: Catch issues before full review
+5. **Run Prompt 13 at milestones**: Ensure authentic voice
+6. **Use default settings**: Stored in Project_Config.md, save time
 
 ### TOC Management
 1. **Never edit TOC_chg.md manually**: AI-managed only
@@ -509,29 +600,44 @@ Rewrite everything and add 10 examples and fix all the problems
 ## Getting Unstuck
 
 **Problem**: Not sure which prompt to use
-**Solution**: Check the decision tree above or start with Prompt 8 (Dashboard)
+**Solution**: Check the decision tree above or start with Prompt 10 (Dashboard)
 
 **Problem**: Prompt 3 isn't understanding my instructions
-**Solution**: Be more specific in _chg file, use examples
+**Solution**: Be more specific in _chg file, use examples, OR try Prompt 4 for interactive discussion
 
-**Problem**: Too many issues from Prompt 6
-**Solution**: Tackle high-priority first, use Prompt 3 iteratively
+**Problem**: Too many issues from Prompt 8
+**Solution**: Tackle high-priority first, use Prompt 3 or 4 iteratively
 
-**Problem**: Forgot to commit _chg file
+**Problem**: Forgot to commit _chg file (Prompt 3 workflow)
 **Solution**: Commit it now, re-run Prompt 3
 
 **Problem**: Lost track of progress
-**Solution**: Prompt 8 (Dashboard) shows everything
+**Solution**: Prompt 10 (Dashboard) shows everything
+
+**Problem**: Manual edits not reflected in _chg files
+**Solution**: Run Prompt 5 (Scan For User Edits) to sync
+
+**Problem**: Content sounds too AI-generated
+**Solution**: Run Prompt 13 (AI Detection Analysis), rewrite flagged passages
 
 ---
 
 ## Remember
 
-**The core loop is simple:**
+**The core loop is simple (choose your workflow):**
+
+**OPTION A: Automated (Prompt 3)**
 1. Write instructions in _chg file
 2. Commit _chg file
-3. Execute Prompt 3
+3. Execute Prompt 3 (Change by Chg)
 4. AI applies, archives, commits
 5. Repeat
 
-Everything else supports this core workflow.
+**OPTION B: Interactive (Prompt 4)**
+1. Execute Prompt 4 (Interactive Change)
+2. Discuss changes with AI
+3. AI writes to _chg file
+4. Optionally execute immediately
+5. Repeat
+
+Everything else supports these core workflows.

@@ -81,7 +81,7 @@ The **AI-Assisted Nonfiction Authoring Framework** is a comprehensive system for
 ### Execute Prompts - Two Methods
 
 **Method 1: Copy and Paste**
-1. Open prompt file (e.g., `Process/Prompts/Prompt_3_Modify_File.md`)
+1. Open prompt file (e.g., `Process/Prompts/Prompt_3_Change_by_Chg.md`)
 2. Copy entire contents
 3. Paste into Claude
 4. Follow interactive workflow

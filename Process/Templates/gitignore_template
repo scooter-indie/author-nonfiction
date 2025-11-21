@@ -3,8 +3,10 @@ Process/
 INSTALLATION.md
 CLAUDE.md
 system-instructions.md
-README.md
 .nonfiction-migrations.json
+
+# Note: README.md is NOT ignored - it's your project documentation
+# The Dashboard (Prompt 10) writes project status to README.md
 
 # Temporary files
 *.tmp

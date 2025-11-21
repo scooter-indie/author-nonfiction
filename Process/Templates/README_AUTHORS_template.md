@@ -40,7 +40,7 @@ Example:
 2. Write in [INSTRUCTIONS FOR THIS REVISION] section:
    "Add example using survey data. Clarify statistical approach."
 3. Commit: git commit -am "Add revision instructions for Chapter 3"
-4. Run: Process/Prompts/Prompt_3_Modify_File.md in Claude Code
+4. Run: Process/Prompts/Prompt_3_Change_by_Chg.md in Claude Code
 5. Done! Chapter updated, changes tracked, ready for next revision.
 ```
 

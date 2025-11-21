@@ -1,4 +1,4 @@
-# Execute Prompt 7: Export and Format
+# Execute Prompt 9: Export and Format
 
 **CLI-ONLY:** This prompt requires Claude Code CLI for format conversion (pandoc, imagemagick).
 

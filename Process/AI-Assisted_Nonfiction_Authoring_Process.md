@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Process
 
-**Version:** 0.10.3
+**Version:** 0.11.1
 **Last Updated:** 2025-11-20
 **Purpose:** A comprehensive, systematic approach to authoring nonfiction books with AI assistance using Git version control
 
@@ -238,11 +238,18 @@ All content files are in Markdown (`.md`) format with accompanying change tracki
 
 This section is your primary interface for requesting content modifications. When you want to revise the target file:
 
+**Method 1: Manual Instructions (Prompt 3)**
 1. **Write your instructions** in the section below
 2. **Commit this _chg file** to git
-3. **Execute Prompt 3** (copy Process/Prompts/Prompt_3_Modify_File.md into Claude Code)
+3. **Execute Prompt 3** (copy Process/Prompts/Prompt_3_Change_by_Chg.md into Claude Code)
 4. **AI reads your instructions** from this section automatically
 5. **AI executes the changes** and auto-archives these instructions to Version History above
+
+**Method 2: Interactive Change (Prompt 4)**
+1. **Execute Prompt 4** (copy Process/Prompts/Prompt_4_Interactive_Change.md into Claude Code)
+2. **Discuss changes conversationally** with AI
+3. **AI writes instructions** to this section based on conversation
+4. **Optionally execute immediately** or commit for later execution
 
 **Important**: After execution, this section will be cleared and ready for your next set of instructions.
 
@@ -270,7 +277,7 @@ Rationale: Current intro doesn't hook the reader effectively
 
 **[AI ASSISTANT NOTE]**
 
-When executing Prompt 3:
+When executing Prompt 3 (Change by Chg):
 1. Read instructions from the [INSTRUCTIONS FOR THIS REVISION] section above
 2. Apply the modifications to the target file
 3. Create a new Version History entry with appropriate version increment
@@ -279,6 +286,11 @@ When executing Prompt 3:
 6. Leave message: "[Ready for next revision - add instructions above]"
 7. Update file metadata (word count, last modified, status if changed)
 8. Create git commit with version information
+
+When executing Prompt 4 (Interactive Change):
+1. Engage in conversational discussion with user about desired changes
+2. Write structured instructions to [INSTRUCTIONS FOR THIS REVISION] section
+3. Optionally execute immediately (following Prompt 3 workflow) or save for later
 ```
 
 ---
@@ -301,8 +313,8 @@ The framework includes automatic synchronization between content files and their
    - Auto-updates _chg files before allowing commit
    - Includes updated _chg files in the commit
 
-3. **Manual Invocation (Prompt 10)**
-   - Run `Prompt_10_Update_Change_Tracking.md` anytime
+3. **Manual Invocation (Prompt 5)**
+   - Run `Prompt_5_Scan_For_User_Edits.md` anytime
    - Useful for maintenance, before milestones, or after pulling from remote
 
 **Detection Scope:**
@@ -459,14 +471,20 @@ Each style includes:
 - Shows relevant framework styles
 - Creates Style/ directory and Style_Guide.md
 
-**Prompt 3 (Modify File):**
+**Prompt 3 (Change by Chg):**
 - Automatic style consistency check after modifications
 - Analyzes person, formality, paragraph length, terminology
 - Compares against DO/DON'T lists
 - Offers corrections or flags for review
 - Optional - can skip if needed
 
-**Prompt 6 (Consistency Check):**
+**Prompt 4 (Interactive Change):**
+- Conversational editing workflow
+- Discusses style considerations during changes
+- Writes style-aware instructions to _chg files
+- Applies active style automatically to generated instructions
+
+**Prompt 8 (Consistency Check):**
 - Comprehensive style analysis across all chapters
 - Chapter-by-chapter alignment report
 - Identifies drift from configured style
@@ -493,8 +511,8 @@ Each style includes:
 - Tense consistency
 
 **When checked:**
-- During file modifications (Prompt 3)
-- Cross-chapter analysis (Prompt 6)
+- During file modifications (Prompt 3, Prompt 4)
+- Cross-chapter analysis (Prompt 8)
 - Real-time during agent writing sessions
 - Compilation consistency review
 
@@ -515,9 +533,9 @@ Each style includes:
 **When style changes mid-project:**
 1. Update Style/Style_Guide.md
 2. Add version entry explaining change
-3. Run Prompt 6 to analyze existing content
+3. Run Prompt 8 to analyze existing content
 4. Decide: harmonize all chapters or keep variation
-5. Use Prompt 3 to apply style to priority chapters
+5. Use Prompt 3 or Prompt 4 to apply style to priority chapters
 
 ### Best Practices
 
@@ -534,7 +552,7 @@ Each style includes:
 - Update guide as voice evolves
 
 **Maintenance:**
-- Run Prompt 6 at 25%, 50%, 75% completion
+- Run Prompt 8 at 25%, 50%, 75% completion
 - Check style consistency before major milestones
 - Adjust guide to match reality (not vice versa)
 - Use style as aspiration, not rigid rules
@@ -548,7 +566,7 @@ Each style includes:
 
 ## Core Prompts
 
-The AI-Assisted Nonfiction Authoring Process includes 10 core prompts for different aspects of book development. Each prompt is a conversational interface stored in `Process/Prompts/`.
+The AI-Assisted Nonfiction Authoring Process includes 15 core prompts for different aspects of book development. Each prompt is a conversational interface stored in `Process/Prompts/`.
 
 **How to use:** Copy a prompt file and paste into Claude Code. The AI will guide you through the process interactively.
 
@@ -598,11 +616,11 @@ Inserts a new chapter into existing book structure with automatic reorganization
 
 ---
 
-### Prompt 3: Modify Target File
+### Prompt 3: Change by Chg
 
-Applies revisions to any content file based on instructions from corresponding _chg file, with automatic version history archiving.
+Applies revisions to any content file based on instructions from corresponding _chg file, with automatic version history archiving. Automated workflow for executing pre-written instructions.
 
-**When to use:** PRIMARY workflow for all content revisions (chapters, quotes, front/back matter)
+**When to use:** PRIMARY workflow for all content revisions (chapters, quotes, front/back matter) when you've already written instructions
 
 **Key features:**
 - Reads instructions from _chg file automatically
@@ -620,143 +638,37 @@ Applies revisions to any content file based on instructions from corresponding _
 
 **Output:** Modified content file, updated _chg file with archived instructions, git commit
 
-**See:** `Process/Prompts/Prompt_3_Modify_File.md` for execution
+**See:** `Process/Prompts/Prompt_3_Change_by_Chg.md` for execution
 
 ---
 
-### Prompt 4: Integrate Content from Inbox
+### Prompt 4: Interactive Change
 
-Processes files from Inbox/ directory and integrates them into appropriate project locations with special handling for TOC files.
+Conversational editing workflow that writes instructions to _chg files based on discussion, then optionally executes them immediately. Alternative to manually writing _chg instructions.
 
-**When to use:** Have content, references, or assets to integrate into project
+**When to use:** When you want to discuss changes interactively before applying them, or prefer conversational editing over manual instruction writing
 
 **Key features:**
-- Scans Inbox/ and categorizes files (content, TOC, assets, references)
-- Special TOC handling (merge, replace, or create parallel outline)
-- Flexible TOC parsing for various formats
-- Integration options (new chapter, append, merge, move to research)
-- Post-init TOC rejection (complete TOC files not allowed after initialization)
-- Archive processed files with timestamps
+- Natural language discussion of desired changes
+- AI helps clarify intent and scope
+- Auto-generates structured instructions in _chg file format
+- Option to execute immediately (runs Prompt 3 workflow) or save for later
+- Perfect for exploratory editing or complex changes
+- Same validation and tracking as Prompt 3
 
-**Interaction:** AI scans Inbox/, presents findings, asks about each file's destination and integration method
+**Interaction:**
+1. Execute Prompt 4
+2. Discuss changes conversationally
+3. AI writes instructions to _chg file
+4. Choose: Execute now or commit for later
 
-**Output:** Integrated content, updated files, archived inbox items, git commits
+**Output:** Instructions written to _chg file, optionally executed immediately with all Prompt 3 benefits
 
-**See:** `Process/Prompts/Prompt_4_Integrate_Inbox.md` for execution
-
----
-
-### Prompt 5: Compile Complete Manuscript
-
-Generates single Markdown file from all current content with verified quote insertion, statistics, and formatting options.
-
-**When to use:** Want to review entire book, prepare for editing, or create milestone draft
-
-**Key features:**
-- Assembles all content in order (front matter, TOC, chapters, back matter)
-- Inserts verified (✓) quotes as chapter epigraphs with proper formatting
-- Auto-generates table of contents from headings
-- Multiple format options (basic, formatted, publication-ready)
-- Statistics (word count, completion %, quote status)
-- Placeholder handling options
-
-**Interaction:** AI asks for version number and settings (or uses defaults from Project_Config.md)
-
-**Output:** `Drafts/Full_Draft_[date]_v[version].md` with statistics report and quote completion metrics
-
-**See:** `Process/Prompts/Prompt_5_Compile.md` for execution
+**See:** `Process/Prompts/Prompt_4_Interactive_Change.md` for execution
 
 ---
 
-### Prompt 6: Consistency Checker
-
-Scans all content for consistency issues, style problems, cross-reference validity, and quote verification status.
-
-**When to use:** Weekly during active writing, at milestones (25%, 50%, 75%, 100%), before compilation/export
-
-**Key features:**
-- Terminology consistency analysis (variations, capitalization, acronyms)
-- Cross-reference validation (broken links, ambiguous references)
-- Style consistency (headings, lists, quotes, numbers, dates)
-- Fact consistency (contradictions, statistics, citations)
-- Tone/voice analysis (formality, perspective, tense)
-- Quote/epigraph verification (pending quotes, missing attributions, incomplete citations)
-
-**Interaction:** AI asks what scope (all chapters vs. specific) and which check types to run
-
-**Output:** Comprehensive report organized by priority (Critical/Warning/Suggestion) with quote verification status
-
-**See:** `Process/Prompts/Prompt_6_Consistency.md` for execution
-
----
-
-### Prompt 7: Export and Format
-
-Generates output files in various formats (DOCX, PDF, EPUB, LaTeX) from source Markdown with proper formatting and asset handling.
-
-**When to use:** Preparing for publication, submission, or distribution
-
-**Key features:**
-- Multiple export formats with format-specific processing
-- Pre-export validation (consistency, cross-references, placeholders)
-- Bibliography formatting (APA, MLA, Chicago, custom)
-- Asset handling (images, diagrams, optimization)
-- Style mapping and typography settings
-- Export package generation
-
-**Interaction:** AI asks about format and settings (or uses defaults from Project_Config.md)
-
-**Output:** Formatted files in `Exports/[date]/` directory with assets and export report
-
-**See:** `Process/Prompts/Prompt_7_Export.md` for execution
-
----
-
-### Prompt 8: Progress Dashboard
-
-Generates comprehensive status report showing word counts, completion metrics, git activity, quote verification status, and recommendations.
-
-**When to use:** Weekly check-ins, after major changes, at milestones
-
-**Key features:**
-- Chapter-by-chapter status and word counts
-- Git repository statistics (commits, branches, tags, recent activity)
-- Pending revisions summary by priority
-- Quote completion metrics (✓/⚠/⏳ status for all chapters)
-- Milestone tracking (25%, 50%, 75%, 100%)
-- Recommended next steps based on current state
-
-**Interaction:** AI asks Summary or Detailed report type
-
-**Output:** Comprehensive dashboard with all metrics, git status, quote status, and actionable recommendations
-
-**See:** `Process/Prompts/Prompt_8_Dashboard.md` for execution
-
----
-
-### Prompt 9: Git Operations
-
-Performs git version control operations (commit, tag, branch, log, status, push, pull) with safety checks and guided workflows.
-
-**When to use:** Manual git operations (commits, tagging milestones, branching, viewing history, remote sync)
-
-**Key features:**
-- Interactive commit workflow with staging and message suggestions
-- Tag creation for milestones (v1.0.0, first-draft, etc.)
-- Branch management (create, switch, merge, delete)
-- History viewing (commits, diffs, file-specific logs)
-- Remote operations (push, pull) with safety checks
-- Status reports (branch, uncommitted changes, unpushed commits)
-
-**Interaction:** AI asks which operation, then operation-specific questions with confirmation for significant actions
-
-**Output:** Git operation result, status confirmation, next recommended steps
-
-**See:** `Process/Prompts/Prompt_9_Git.md` for execution
-
----
-
-### Prompt 10: Update Change Tracking
+### Prompt 5: Scan For User Edits
 
 Synchronizes `_chg.md` (change tracking) files with content file modifications detected via git, auto-generating version history entries.
 
@@ -776,7 +688,238 @@ Synchronizes `_chg.md` (change tracking) files with content file modifications d
 
 **Note:** The book-writing-assistant agent automatically runs this check at session start and before commits, so manual execution is only needed for maintenance or when working outside the agent
 
-**See:** `Process/Prompts/Prompt_10_Update_Change_Tracking.md` for execution
+**See:** `Process/Prompts/Prompt_5_Scan_For_User_Edits.md` for execution
+
+---
+
+### Prompt 6: Integrate Content from Inbox
+
+Processes files from Inbox/ directory and integrates them into appropriate project locations with special handling for TOC files.
+
+**When to use:** Have content, references, or assets to integrate into project
+
+**Key features:**
+- Scans Inbox/ and categorizes files (content, TOC, assets, references)
+- Special TOC handling (merge, replace, or create parallel outline)
+- Flexible TOC parsing for various formats
+- Integration options (new chapter, append, merge, move to research)
+- Post-init TOC rejection (complete TOC files not allowed after initialization)
+- Archive processed files with timestamps
+
+**Interaction:** AI scans Inbox/, presents findings, asks about each file's destination and integration method
+
+**Output:** Integrated content, updated files, archived inbox items, git commits
+
+**See:** `Process/Prompts/Prompt_6_Integrate_Inbox.md` for execution
+
+---
+
+### Prompt 7: Compile Complete Manuscript
+
+Generates single Markdown file from all current content with verified quote insertion, statistics, and formatting options.
+
+**When to use:** Want to review entire book, prepare for editing, or create milestone draft
+
+**Key features:**
+- Assembles all content in order (front matter, TOC, chapters, back matter)
+- Inserts verified (✓) quotes as chapter epigraphs with proper formatting
+- Auto-generates table of contents from headings
+- Multiple format options (basic, formatted, publication-ready)
+- Statistics (word count, completion %, quote status)
+- Placeholder handling options
+
+**Interaction:** AI asks for version number and settings (or uses defaults from Project_Config.md)
+
+**Output:** `Drafts/Full_Draft_[date]_v[version].md` with statistics report and quote completion metrics
+
+**See:** `Process/Prompts/Prompt_7_Compile.md` for execution
+
+---
+
+### Prompt 8: Consistency Checker
+
+Scans all content for consistency issues, style problems, cross-reference validity, and quote verification status.
+
+**When to use:** Weekly during active writing, at milestones (25%, 50%, 75%, 100%), before compilation/export
+
+**Key features:**
+- Terminology consistency analysis (variations, capitalization, acronyms)
+- Cross-reference validation (broken links, ambiguous references)
+- Style consistency (headings, lists, quotes, numbers, dates)
+- Fact consistency (contradictions, statistics, citations)
+- Tone/voice analysis (formality, perspective, tense)
+- Quote/epigraph verification (pending quotes, missing attributions, incomplete citations)
+
+**Interaction:** AI asks what scope (all chapters vs. specific) and which check types to run
+
+**Output:** Comprehensive report organized by priority (Critical/Warning/Suggestion) with quote verification status
+
+**See:** `Process/Prompts/Prompt_8_Consistency.md` for execution
+
+---
+
+### Prompt 9: Export and Format
+
+Generates output files in various formats (DOCX, PDF, EPUB, LaTeX) from source Markdown with proper formatting and asset handling.
+
+**When to use:** Preparing for publication, submission, or distribution
+
+**Key features:**
+- Multiple export formats with format-specific processing
+- Pre-export validation (consistency, cross-references, placeholders)
+- Bibliography formatting (APA, MLA, Chicago, custom)
+- Asset handling (images, diagrams, optimization)
+- Style mapping and typography settings
+- Export package generation
+
+**Interaction:** AI asks about format and settings (or uses defaults from Project_Config.md)
+
+**Output:** Formatted files in `Exports/[date]/` directory with assets and export report
+
+**See:** `Process/Prompts/Prompt_9_Export.md` for execution
+
+---
+
+### Prompt 10: Progress Dashboard
+
+Generates comprehensive status report showing word counts, completion metrics, git activity, quote verification status, and recommendations.
+
+**When to use:** Weekly check-ins, after major changes, at milestones
+
+**Key features:**
+- Chapter-by-chapter status and word counts
+- Git repository statistics (commits, branches, tags, recent activity)
+- Pending revisions summary by priority
+- Quote completion metrics (✓/⚠/⏳ status for all chapters)
+- Milestone tracking (25%, 50%, 75%, 100%)
+- Recommended next steps based on current state
+
+**Interaction:** AI asks Summary or Detailed report type
+
+**Output:** Comprehensive dashboard with all metrics, git status, quote status, and actionable recommendations
+
+**See:** `Process/Prompts/Prompt_10_Dashboard.md` for execution
+
+---
+
+### Prompt 11: Style Manager
+
+Manages the hierarchical style system including book/chapter/section style overrides, style distribution analysis, and registry validation.
+
+**When to use:** Adding/removing style overrides, analyzing style distribution, validating override registry, checking for threshold warnings
+
+**Key features:**
+- Add chapter-level style overrides with automatic registry updates
+- Remove overrides with cascade resolution (returns to book-level default)
+- Add section-level override markers with HTML comments
+- Analyze style distribution across entire book
+- Calculate override percentage vs. 30% guideline threshold
+- Validate registry consistency with actual chapter files
+- Document style transitions for reader experience
+
+**Interaction:** AI asks which operation (add/remove/analyze/validate), then operation-specific questions
+
+**Output:** Updated override files, style analysis reports, validated registry consistency
+
+**See:** `Process/Prompts/Prompt_11_Style_Manager.md` for execution
+
+---
+
+### Prompt 12: Git Operations
+
+Performs git version control operations (commit, tag, branch, log, status, push, pull) with safety checks and guided workflows.
+
+**When to use:** Manual git operations (commits, tagging milestones, branching, viewing history, remote sync)
+
+**Key features:**
+- Interactive commit workflow with staging and message suggestions
+- Tag creation for milestones (v1.0.0, first-draft, etc.)
+- Branch management (create, switch, merge, delete)
+- History viewing (commits, diffs, file-specific logs)
+- Remote operations (push, pull) with safety checks
+- Status reports (branch, uncommitted changes, unpushed commits)
+
+**Interaction:** AI asks which operation, then operation-specific questions with confirmation for significant actions
+
+**Output:** Git operation result, status confirmation, next recommended steps
+
+**See:** `Process/Prompts/Prompt_12_Git.md` for execution
+
+---
+
+### Prompt 13: AI Detection Analysis
+
+Analyzes chapters for AI-generated text indicators and provides authenticity scores with rewriting suggestions to ensure content sounds genuinely authored by you.
+
+**When to use:** After drafting new content, before milestones, when concerned about text sounding too "AI-like"
+
+**Key features:**
+- Analyzes individual chapters or entire manuscript
+- Detects common AI writing patterns (hedge phrases, formulaic structures, overused transitions)
+- Provides authenticity scores (0-100, higher is more authentic)
+- Flags specific passages with AI indicators
+- Offers rewriting suggestions to humanize flagged content
+- Tracks improvements between analysis runs
+- Helps maintain your authentic voice throughout
+
+**Interaction:** AI asks which chapters to analyze, then presents findings with prioritized recommendations
+
+**Output:** Comprehensive authenticity report with scores, flagged passages, and actionable rewriting suggestions
+
+**Note:** This is a diagnostic tool, not a judgment - it helps ensure your content sounds authentically yours rather than generically AI-generated
+
+**See:** `Process/Prompts/Prompt_13_AI_Detection_Analysis.md` for execution
+
+---
+
+### Prompt 14: Visual Content Suggester
+
+Analyzes chapters and creates text-based visuals (tables, diagrams, flowcharts) to enhance understanding without requiring graphics software.
+
+**When to use:** After drafting content, during revision, when explanations need visual support
+
+**Key features:**
+- Scans chapters for concepts that benefit from visualization
+- Creates Markdown tables for comparisons and data
+- Generates ASCII diagrams for flowcharts and timelines
+- Formats structured lists for process steps and hierarchies
+- Suggests code blocks for formatted data displays
+- All visuals are text-based and version-control friendly
+- Easy to customize and maintain
+
+**Interaction:** AI analyzes chapters and presents suggested visuals with placement recommendations
+
+**Output:** Suggested visuals in Markdown format, ready to insert into content files
+
+**Note:** Enhances reader comprehension with visuals that integrate seamlessly into Markdown workflow
+
+**See:** `Process/Prompts/Prompt_14_Visual_Content_Suggester.md` for execution
+
+---
+
+### Prompt 15: Citation Finder
+
+Finds and inserts citations with WebSearch verification to ensure accurate attribution and source availability.
+
+**When to use:** Adding factual claims, statistics, or expert quotes; verifying existing citations
+
+**Key features:**
+- Scans content for uncited claims that need attribution
+- Uses WebSearch to find authoritative sources
+- Validates source credibility and accessibility
+- Checks for working URLs
+- Formats citations consistently (APA, MLA, Chicago, etc.)
+- Adds citations to content inline
+- Updates bibliography automatically
+- Prevents citation fabrication through verification
+
+**Interaction:** AI asks which claims need citations or scans entire chapters for uncited content
+
+**Output:** Properly formatted citations with verified sources, added to content and bibliography
+
+**Note:** Ensures factual accuracy and proper attribution while preventing hallucinated citations
+
+**See:** `Process/Prompts/Prompt_15_Citation_Finder.md` for execution
 
 ---
 
@@ -843,18 +986,18 @@ Each quote entry in `Quotes/Chapter_Quotes.md` follows this format:
 - Progress through statuses: ⏳ → ⚠ → ✓
 - Track changes in `Chapter_Quotes_chg.md`
 
-**During Compilation (Prompt 5):**
+**During Compilation (Prompt 7):**
 - Verified (✓) quotes automatically inserted at chapter start
 - Quotes needing citation (⚠) included with warning note
 - Pending quotes (⏳) skipped with note in compilation report
 
-**During Consistency Check (Prompt 6):**
+**During Consistency Check (Prompt 8):**
 - Quote verification status reported
 - Missing attributions flagged
 - Formatting inconsistencies identified
 - Bibliography references validated
 
-**In Progress Dashboard (Prompt 8):**
+**In Progress Dashboard (Prompt 10):**
 - Quote completion statistics displayed
 - Chapters needing quote work identified
 - Overall quote verification progress tracked
@@ -917,7 +1060,7 @@ Each quote entry in `Quotes/Chapter_Quotes.md` follows this format:
 
 ### Managing Quote Changes
 
-**Method 1: Using Prompt 3 (Traditional Workflow):**
+**Method 1: Using Prompt 3 (Manual Instructions):**
 
 1. Open `Quotes/Chapter_Quotes_chg.md`
 2. Add instructions in [INSTRUCTIONS FOR THIS REVISION] section
@@ -925,7 +1068,14 @@ Each quote entry in `Quotes/Chapter_Quotes.md` follows this format:
 4. Execute Prompt 3, specifying Chapter_Quotes.md as target
 5. AI updates quotes and auto-archives instructions
 
-**Method 2: Using Book-Writing-Assistant Agent (Enhanced Workflow):**
+**Method 2: Using Prompt 4 (Interactive Change):**
+
+1. Execute Prompt 4
+2. Discuss quote changes conversationally (add, update, verify)
+3. AI writes structured instructions to Chapter_Quotes_chg.md
+4. Optionally execute immediately or commit for later
+
+**Method 3: Using Book-Writing-Assistant Agent (Enhanced Workflow):**
 
 The book-writing-assistant agent provides comprehensive quote management through natural language:
 
@@ -997,7 +1147,7 @@ Rationale: Perfect thematic introduction for chapter on empirical research metho
 
 ### Compilation Formatting
 
-When compiling the manuscript (Prompt 5), verified quotes are formatted as:
+When compiling the manuscript (Prompt 7), verified quotes are formatted as:
 
 ```markdown
 # Chapter 5: Research Methods
@@ -1031,7 +1181,7 @@ See `Process/Anti-Hallucination_Guidelines.md` for comprehensive quote verificat
 
 ### Quote Statistics and Monitoring
 
-**Track these metrics (visible in Prompt 8 Dashboard):**
+**Track these metrics (visible in Prompt 10 Dashboard):**
 
 - Total quotes: [N] chapters
 - Verified (✓): [N] quotes ([XX]%)
@@ -1120,7 +1270,7 @@ Track state changes in the change file:
    - Asset references valid
 
 3. **Consistency:**
-   - Use Prompt 6 regularly
+   - Use Prompt 8 regularly
    - Term usage
    - Style adherence
 
@@ -1298,13 +1448,14 @@ All projects must use Git for version control. This replaces the previous snapsh
    - Track changes in change file
 
 5. **Regular Maintenance:**
-   - Run Prompt 8 weekly (Progress Dashboard)
-   - Run Prompt 6 at milestones (Consistency Checker)
+   - Run Prompt 10 weekly (Progress Dashboard)
+   - Run Prompt 8 at milestones (Consistency Checker)
+   - Run Prompt 13 before milestones (AI Detection Analysis)
    - Commit changes frequently with descriptive messages
    - Push to remote repository regularly
 
 6. **Compile and Review:**
-   - Use Prompt 5 periodically
+   - Use Prompt 7 periodically
    - Review compiled manuscript
    - Identify issues and gaps
 
@@ -1350,17 +1501,17 @@ All projects must use Git for version control. This replaces the previous snapsh
 **Problem:** Chapter numbers out of sync  
 **Solution:** Use Prompt 2 to reorganize, or manually rename with proper sequencing
 
-**Problem:** Broken cross-references after reorganization  
-**Solution:** Run Prompt 6 with cross-reference check, then use Prompt 3 to fix
+**Problem:** Broken cross-references after reorganization
+**Solution:** Run Prompt 8 with cross-reference check, then use Prompt 3 or Prompt 4 to fix
 
-**Problem:** Inconsistent terminology  
-**Solution:** Run Prompt 6, create style guide, use find-replace carefully
+**Problem:** Inconsistent terminology
+**Solution:** Run Prompt 8, create style guide, use find-replace carefully
 
 **Problem:** Lost changes or want to undo recent edits
 **Solution:** Use `git log` to find the commit, then `git checkout <commit-hash> -- <file>` to restore, or `git revert <commit-hash>` to undo a commit
 
-**Problem:** Placeholder content in final draft  
-**Solution:** Run Prompt 8 to identify, then use Prompt 3 to complete sections
+**Problem:** Placeholder content in final draft
+**Solution:** Run Prompt 10 to identify, then use Prompt 3 or Prompt 4 to complete sections
 
 ---
 
@@ -1433,14 +1584,14 @@ Include links to relevant style guides in `Project_Config.md`:
 - **Default Branch:** main
 - **Auto-Commit:** Enabled (via Prompt 3)
 
-## Default Compilation Settings (Prompt 5)
+## Default Compilation Settings (Prompt 7)
 
 - **Format:** Formatted
 - **Include Placeholders:** Yes
 - **Include Change Tracking Metadata:** No
 - **Auto-Generate TOC:** Yes
 
-## Default Export Settings (Prompt 7)
+## Default Export Settings (Prompt 9)
 
 - **Export Format:** DOCX
 - **Citation Style:** Chicago

@@ -1,4 +1,4 @@
-# Execute Prompt 8: Progress Dashboard
+# Execute Prompt 10: Progress Dashboard
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with optional copy/paste git commit at end
 
@@ -40,18 +40,18 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
 
 1. **Scan All Files**:
    - Scan Manuscript/ directory structure (Chapters/, FrontMatter/, BackMatter/, Quotes/, etc.)
-   - Read metadata from all content files
+   - Read metadata from all content files (including all appendices in BackMatter/)
    - Parse all change tracking files
    - Analyze git repository state
    - Collect statistics
 
 2. **Calculate Metrics**:
    - Total word count (current vs. target)
-   - Words per chapter
+   - Words per chapter AND per appendix
    - Overall completion percentage
    - Target vs. actual comparison
-   - Version numbers for each file
-   - Completion rate per chapter
+   - Version numbers for each file (chapters, appendices, front matter, back matter)
+   - Completion rate per chapter and appendix
    - Quote/epigraph verification status
 
 3. **Status Analysis**:
@@ -65,8 +65,9 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
    **Summary Statistics**
    - Total word count: [current] / [target] ([percentage]%)
    - Chapters complete: [N] / [total]
+   - Appendices complete: [N] / [total]
    - Front matter status
-   - Back matter status
+   - Back matter status (Glossary, Bibliography, Index, etc.)
    - Overall completion percentage
 
 5. **Refresh PROJECT_CONTEXT.md**: Automatically update with latest project state for Claude Desktop session resumption
@@ -76,6 +77,12 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
    |---------|-------|--------|-------|--------|---|
    | 01 | [title] | Draft | [N] | [N] | XX% |
    | 02 | [title] | Review | [N] | [N] | XX% |
+
+   **Appendix Status Table**
+   | Appendix | Title | Status | Words | Target | % |
+   |----------|-------|--------|-------|--------|---|
+   | A | [title] | Draft | [N] | [N] | XX% |
+   | B | [title] | Review | [N] | [N] | XX% |
 
    **Recent Activity (Git Log)**
    - Last 10 commits with dates and messages
