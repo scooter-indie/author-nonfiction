@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.11.1] - 2025-11-20
+
+### Fixed
+- **Prompt 8 Compatibility Classification** - Corrected from DESKTOP-READY to CLI-ONLY
+  - Consistency checking performs bulk file operations (30-50+ files)
+  - Scans all chapters, figures/, bibliography files, and style configurations
+  - MCP Filesystem in Claude Desktop is inefficient for bulk reads
+  - Updated 5 files: Prompt_8_Consistency.md, system-instructions.md, CLAUDE.md, PREPARE_RELEASE.md, QUICK_REFERENCE.md
+- **Framework README.md in Release Package** - Excluded GitHub repository README.md from release zip
+  - Framework README.md is GitHub-only documentation (repo overview, download links)
+  - Should not be included in release package (users don't need repo documentation)
+  - Updated .github/workflows/release.yml to exclude README.md from copy step
+- **User .gitignore Template** - Removed README.md from ignored files
+  - User's README.md in their book project SHOULD be tracked by git
+  - Dashboard (Prompt 10) writes project status to README.md
+  - Updated Process/Templates/gitignore_template with clarifying comment
+- **Dashboard Appendix Reporting** - Added explicit appendix tracking to Prompt 10
+  - Dashboard now scans and reports on all appendices in BackMatter/
+  - Added "Appendices complete: [N] / [total]" to summary statistics
+  - Added Appendix Status Table (matching chapter table format)
+  - Appendix word counts and completion percentages now tracked
+  - Updated Process/Prompts/Prompt_10_Dashboard.md
+
+### Technical
+- **Release Type:** PATCH (bug fixes only, no new features)
+- **Total Commits:** 4 bug fix commits
+- **Files Updated:** 8 documentation files
+
+---
+
 ## [0.11.0] - 2025-11-20
 
 ### Added

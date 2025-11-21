@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Framework
 
-**Version 0.11.0**
+**Version 0.11.1**
 
 A complete system for writing professional nonfiction books with AI assistance using Claude Code.
 
@@ -27,7 +27,7 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 
 ### 1. Download the Framework
 
-Download `nonfiction-v0.11.0.zip` from:
+Download `nonfiction-v0.11.1.zip` from:
 
 **GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
 
@@ -38,13 +38,13 @@ Save it to your book project directory (e.g., `E:\Projects\my-book`).
 Extract the zip file to your project directory:
 
 **Windows**:
-- Right-click `nonfiction-v0.11.0.zip` → "Extract All..."
+- Right-click `nonfiction-v0.11.1.zip` → "Extract All..."
 - Choose your project directory as the destination
 
 **macOS/Linux**:
 ```bash
 cd /path/to/my-book
-unzip nonfiction-v0.11.0.zip
+unzip nonfiction-v0.11.1.zip
 ```
 
 ### 3. Run Configuration
@@ -356,7 +356,7 @@ This framework is released under the MIT License. See LICENSE file for details.
 
 ## About
 
-**Framework Version**: 0.11.0
+**Framework Version**: 0.11.1
 **Release Date**: 2025-11-20
 **Repository**: https://github.com/scooter-indie/author-nonfiction
 
