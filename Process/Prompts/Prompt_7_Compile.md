@@ -62,16 +62,17 @@ I'll use your default compilation settings (stored in `Project_Config.md`), or y
 2. **Read Chapter Quotes**: Load Manuscript/Quotes/Chapter_Quotes.md and prepare epigraphs
 
 3. **Assembly** in order:
-   - Front Matter from Manuscript/FrontMatter/ (Title Page, Dedication, Acknowledgments, Foreword, Preface)
+   - Front Matter from Manuscript/FrontMatter/ (Copyright, Title Page, Dedication, Acknowledgments, Foreword, Preface)
    - Table of Contents (auto-generated from headings)
    - All Chapters from Manuscript/Chapters/ (in numerical order, with epigraphs inserted)
-   - Back Matter from Manuscript/BackMatter/ (Appendices, Glossary, Bibliography, Index)
+   - Back Matter from Manuscript/BackMatter/ (Appendices, Glossary, Bibliography, About_Author, Index)
 
 4. **Processing**:
    - Strip change tracking metadata (unless you want it included)
    - Insert chapter epigraphs (if Status ✓ or ⚠ in Chapter_Quotes.md)
    - Process cross-references
-   - Handle asset references
+   - Handle asset references (images from Manuscript/images/, v0.12.0+)
+   - Preserve relative image paths (../images/) for compatibility
    - Insert page break markers
 
 5. **Epigraph Formatting**: For each chapter with a quote:
