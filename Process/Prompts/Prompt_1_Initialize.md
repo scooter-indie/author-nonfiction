@@ -59,20 +59,35 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
 
 **Ask the following questions one at a time:**
 
-**Core Questions (Required):**
-
-1. **Book title?**
+1. **What is the working title of your book?**
    - Store as: `title`
 
-2. **Author name?**
+2. **What is your name (author)?**
    - Store as: `author`
 
-3. **Number of chapters?**
+3. **What is the target total word count?**
+   - Store as: `targetWordCount`
+
+4. **Who is the target audience?**
+   - Store as: `targetAudience`
+
+5. **What is the book's purpose or main thesis?**
+   - Store as: `purpose`
+
+6. **What is your target completion date?**
+   - Store as: `targetCompletionDate`
+
+7. **Do you have an existing TOC file?**
+   - If YES: Ask for path, read file, parse chapters
+   - If NO: Continue to question 8
+   - Store path as: `tocFilePath` (or empty if no file)
+
+8. **If no TOC file: How many chapters and what are their topics/titles?**
    - Store count
    - Ask for chapter titles (list)
    - Store as: `chapters` array with `{number, title}`
 
-4. **Writing style?**
+9. **Writing style selection:**
    - Present 9 options from `Process/Style_Examples.md`:
      1. Academic Authority
      2. Conversational Expert
@@ -85,27 +100,6 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
      9. Scientific Communicator
    - Store as: `style`
 
-5. **Would you like to set optional metadata now?**
-   - If YES, ask questions 6-9
-   - If NO, skip to Step 2b
-
-**Optional Questions (If user wants them):**
-
-6. **Subtitle?** (can be blank)
-   - Store as: `subtitle`
-
-7. **Publisher?** (e.g., "Self-Published", publisher name, or blank)
-   - Store as: `publisher`
-
-8. **ISBN?** (if you have one, otherwise blank)
-   - Store as: `isbn`
-
-9. **Target audience?** (e.g., "Business professionals", "General readers")
-   - Store as: `targetAudience`
-
-10. **Genre?** (e.g., "Business", "Self-help", "Technical", "Memoir")
-    - Store as: `genre`
-
 ### Step 2b: Write init.json
 
 **Create `.config/` directory if it doesn't exist**
@@ -117,12 +111,12 @@ Creates a complete nonfiction book project structure in ~5-10 seconds:
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Initialization configuration from Prompt 1 Q&A session",
   "title": "[user's answer]",
-  "subtitle": "[user's answer or empty]",
   "author": "[user's answer]",
-  "publisher": "[user's answer or empty]",
-  "isbn": "[user's answer or empty]",
-  "targetAudience": "[user's answer or empty]",
-  "genre": "[user's answer or empty]",
+  "targetWordCount": "[user's answer]",
+  "targetAudience": "[user's answer]",
+  "purpose": "[user's answer]",
+  "targetCompletionDate": "[user's answer]",
+  "tocFilePath": "[path to TOC file or empty]",
   "chapters": [
     {"number": 1, "title": "[chapter 1 title]"},
     {"number": 2, "title": "[chapter 2 title]"}
@@ -225,13 +219,13 @@ Read `.config/init.json` and populate:
 {
   "book": {
     "title": "[from init.json]",
-    "subtitle": "[from init.json]",
+    "subtitle": "",
     "author": "[from init.json]",
-    "publisher": "[from init.json]",
-    "isbn": "[from init.json]",
+    "publisher": "",
+    "isbn": "",
     "targetAudience": "[from init.json]",
-    "genre": "[from init.json]",
-    "description": "",
+    "genre": "",
+    "description": "[purpose from init.json]",
     "keywords": []
   },
   "version": {
@@ -241,11 +235,13 @@ Read `.config/init.json` and populate:
   "dates": {
     "started": "[CONFIRMED_DATE]",
     "firstDraft": "",
-    "published": ""
+    "published": "",
+    "targetCompletion": "[targetCompletionDate from init.json]"
   },
   "stats": {
     "totalChapters": [chapter count from init.json],
     "totalWords": 0,
+    "targetWordCount": "[targetWordCount from init.json]",
     "completionPercentage": 0
   }
 }

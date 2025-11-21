@@ -19,11 +19,13 @@
   "dates": {
     "started": "",
     "firstDraft": "",
-    "published": ""
+    "published": "",
+    "targetCompletion": ""
   },
   "stats": {
     "totalChapters": 0,
     "totalWords": 0,
+    "targetWordCount": 0,
     "completionPercentage": 0
   }
 }
