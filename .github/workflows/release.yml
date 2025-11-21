@@ -54,6 +54,7 @@ jobs:
           # Copy directories
           cp -r Process build/temp/
           cp -r .claude build/temp/
+          cp -r scripts build/temp/
 
           # Copy root documentation files (README.md excluded - it's for GitHub only)
           cp INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md build/temp/
