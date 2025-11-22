@@ -7,6 +7,97 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.8] - 2025-11-21
+
+### Added
+- **Process/_COMMON/17_README_Management_Module.md** - Centralized module for managing root README.md
+  - Defines complete structure (Title, Author, About, Project Info, Dashboard, Reports)
+  - Report filename formats and link text rules
+  - On-demand directory creation (Reports/ and Dashboard/)
+  - Footer warnings (user-facing + AI directive)
+  - Complete specification for automatic README.md generation
+
+- **Manuscript/Reports/** directory organization
+  - AI Detection reports: `ai-detection-chapter-XX-YYYY-MM-DD.md` or `ai-detection-YYYY-MM-DD.md`
+  - Consistency reports: `consistency-chapter-XX-YYYY-MM-DD.md` or `consistency-YYYY-MM-DD.md`
+  - Tables in README.md show 5 most recent reports, newest first
+  - Descriptive link text: "[Chapter X Analysis]" or "[Full Book]"
+
+- **Manuscript/Dashboard/** directory organization
+  - Single Dashboard.md file (always overwrites)
+  - Git safety: Prompt 10 asks to commit before overwriting existing dashboard
+  - Dashboard link in README.md after first dashboard creation
+
+- **Root README.md auto-generation**
+  - Prompt 1 generates initial README.md with all metadata
+  - About This Book from Q&A answers (purpose, targetAudience)
+  - Project Information from metadata.json (excludes targetAudience, description, keywords; omits empty fields)
+  - Auto-updated by Prompts 8, 10, 13 when creating reports/dashboard
+
+### Changed
+- **Prompt_1_Initialize.md** - Updated to v0.12.8
+  - Added Step 4h: Generate README.md
+  - Uses README Management Module for structure
+  - Includes About This Book and Project Information sections
+  - No Dashboard/Reports sections initially (added later by other prompts)
+
+- **Prompt_8_Consistency.md** - Enhanced with report management
+  - Added "Save Report and Update README.md" section
+  - Creates Manuscript/Reports/ directory on demand
+  - Saves consistency reports with dated filenames
+  - Automatically regenerates README.md with updated Consistency table
+
+- **Prompt_10_Dashboard.md** - Enhanced with dashboard management
+  - Added "Save Dashboard and Update README.md" section
+  - Creates Manuscript/Dashboard/ directory on demand
+  - Asks user to commit before overwriting existing Dashboard.md
+  - Automatically regenerates README.md with dashboard link
+
+- **Prompt_13_AI_Detection_Analysis.md** - Enhanced with report management
+  - Added "Save Report and Update README.md" section
+  - Creates Manuscript/Reports/ directory on demand
+  - Saves AI detection reports with dated filenames
+  - Automatically regenerates README.md with updated AI Detection table
+
+- **Process/Templates/framework_files_manifest.json** - Updated to v0.12.8
+  - Added 17_README_Management_Module.md to Process/_COMMON list
+
+### Fixed
+- **CRITICAL: Direct editing loophole closed**
+  - ENFORCEMENT_RULES.md updated with explicit prohibition on ALL direct editing
+  - Added section: "CRITICAL: No Direct Editing Exception"
+  - Explicitly prohibits direct editing for initial drafts and first content creation
+  - Added routing table entries for "Draft chapter" and "Write chapter" requests
+  - Closed debugging loophole (no direct editing even for testing)
+  - Added Example 4 showing correct workflow for drafting chapters
+
+- **system-instructions.md** - Added critical enforcement rules
+  - New section: "⚠️ CRITICAL ENFORCEMENT RULES ⚠️"
+  - Absolute prohibition on direct editing of Manuscript/ files
+  - Template response for routing chapter work to Prompt 3 or 4
+  - No exception for "initial content creation (0 → first draft)"
+
+- **ENFORCEMENT_RULES.md** - Updated to v0.12.8
+  - Removed loophole allowing direct editing for "initial drafts"
+  - Updated routing table with "Draft chapter" and "Write chapter" examples
+  - Updated Special Case 2 (debugging) to prevent direct editing workaround
+  - Updated version history to reflect loophole closure
+
+### Technical
+- **Release Type:** MINOR (new features: README Management, Reports/Dashboard organization, stricter enforcement)
+- **Breaking Change:** No (enhancement to existing workflows)
+- **New Modules:** 1 (17_README_Management_Module.md)
+- **Updated Prompts:** 4 (Prompts 1, 8, 10, 13)
+- **Framework Files:** 11 modified (README.md, CLAUDE.md, system-instructions.md, ENFORCEMENT_RULES.md, 4 prompts, manifest, CHANGELOG, INSTALLATION)
+
+**Why MINOR not PATCH:**
+- New feature: README Management Module with automatic generation
+- New feature: Structured Reports/ and Dashboard/ directories
+- Enhanced feature: Stricter enforcement rules (prevents workflow violations)
+- Multiple prompts enhanced with auto-update behavior
+
+---
+
 ## [0.12.7] - 2025-11-21
 
 ### Fixed

@@ -393,8 +393,64 @@ You: [Use recommendations from this report]
 2. Add instructions based on this report
 3. Execute Prompt 3
 
-**Option 3: Export Report**
-I'll save detailed report to `Drafts/AI_Analysis_[DATE].md` for reference
+**Option 3: Save Report and Update README (Automatic)**
+See the "Save Report and Update README.md" section below for automatic report saving.
+
+---
+
+## Save Report and Update README.md (v0.12.8+)
+
+**After generating the AI detection analysis report:**
+
+### Step 1: Create Reports Directory (if needed)
+
+```bash
+mkdir -p Manuscript/Reports
+```
+
+### Step 2: Determine Report Filename
+
+Based on scope:
+- **Single chapter analysis:** `ai-detection-chapter-XX-YYYY-MM-DD.md`
+- **Full-book analysis (multiple chapters):** `ai-detection-YYYY-MM-DD.md`
+
+Use `CONFIRMED_DATE` for the date (from session startup).
+
+**Examples:**
+- `ai-detection-chapter-03-2025-11-21.md` (Chapter 3 only on Nov 21, 2025)
+- `ai-detection-2025-11-21.md` (full book analysis on Nov 21, 2025)
+
+**Note:** If file exists (same scope and date), it will be overwritten.
+
+### Step 3: Save Report
+
+Write the complete AI detection analysis report to the determined filename in `Manuscript/Reports/`.
+
+### Step 4: Update README.md
+
+**Follow `Process/_COMMON/17_README_Management_Module.md` to regenerate README.md.**
+
+1. Read `.config/metadata.json` for Project Information
+2. Read init.json or PROJECT_CONTEXT.md for About This Book
+3. Scan `Manuscript/Reports/` for all reports (ai-detection-*.md and consistency-*.md)
+4. Check if `Manuscript/Dashboard/Dashboard.md` exists
+5. Regenerate README.md with:
+   - Updated AI Detection Analysis table (5 most recent, newest first)
+   - Preserved Consistency Check Reports table (if exists)
+   - Dashboard link (if Dashboard.md exists)
+   - All metadata sections
+
+**Link text for new report:**
+- Single chapter: `[Chapter X Analysis](...)`
+- Full-book: `[Full Book Analysis](...)`
+
+### Step 5: Inform User
+
+Display message:
+```
+✓ AI detection report saved: Manuscript/Reports/[filename]
+✓ README.md updated with report link
+```
 
 ---
 
@@ -488,11 +544,15 @@ This prompt uses:
 
 ---
 
-## Git Integration
+## Git Integration (v0.12.8+)
 
-**This prompt is READ-ONLY** - it analyzes content but makes no modifications.
+**This prompt is READ-ONLY for manuscript content** - it analyzes content but makes no modifications to chapters.
 
-**No git commits created** unless you export the analysis report to Drafts/.
+**Files created/modified:**
+- `Manuscript/Reports/ai-detection-[...].md` (new report)
+- `README.md` (updated with report link)
+
+**Git commit recommended** after report generation to track analysis history.
 
 **To apply recommendations:**
 - Use Prompt 4 (Interactive_Change) for conversational edits

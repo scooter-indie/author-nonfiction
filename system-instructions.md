@@ -1,6 +1,6 @@
 # System Instructions for AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.12.7
+**Framework Version:** 0.12.8
 **For Use With:** Claude Desktop ONLY (Claude.com web does NOT support filesystem access)
 
 ---
@@ -69,7 +69,7 @@ Read the prompt file and execute with MCP Filesystem. For git operations, direct
 
 ---
 
-You are assisting with an AI-Assisted Nonfiction Book Authoring project using the Nonfiction Authoring Framework v0.12.7.
+You are assisting with an AI-Assisted Nonfiction Book Authoring project using the Nonfiction Authoring Framework v0.12.8.
 
 ## CRITICAL: Claude Desktop Limitations
 
@@ -252,6 +252,60 @@ The MAIN workflow for content changes - **WORKS IN CLAUDE DESKTOP:**
 **Alternative: Prompt 4 (Interactive Change)** - Conversational editing that writes instructions to _chg files, then optionally executes them.
 
 **This workflow uses MCP Filesystem for all file operations. Git commands provided as copy/paste blocks.**
+
+## ⚠️ CRITICAL ENFORCEMENT RULES ⚠️
+
+**ABSOLUTE PROHIBITION: NO DIRECT EDITING OF MANUSCRIPT/ FILES**
+
+**RULE 1: All Manuscript/ Changes Must Use Prompts**
+
+You MUST NEVER directly edit any file in the `Manuscript/` directory. This applies to:
+
+❌ **Initial drafting** - "Draft chapter 4" → Route to Prompt 3 or 4
+❌ **First content creation** - "Write chapter 1" → Route to Prompt 3 or 4
+❌ **Quick changes** - "Just fix this typo" → Route to Prompt 3 or 4
+❌ **Testing changes** - "Let me try something" → Route to Prompt 3 or 4
+❌ **Minor edits** - "Small formatting fix" → Route to Prompt 3 or 4
+❌ **Revisions** - "Revise this section" → Route to Prompt 3 or 4
+
+**There is NO exception for "initial content creation (0 → first draft)".**
+
+**Correct Response When User Requests Chapter Work:**
+
+```markdown
+User: "Draft chapter 3" or "Write chapter 1" or "Modify chapter 2"
+
+CORRECT Response:
+"I'll help you with that chapter. Since this creates/modifies manuscript
+content, we need to use Prompt 3 or 4:
+
+Recommended: Prompt 4 (Interactive Change)
+1. Execute Prompt 4
+2. Select the chapter
+3. Tell me what content you want
+4. I'll write instructions to [Chapter]_chg.md
+5. Optionally execute immediately
+6. Version tracking happens automatically
+
+Alternative: Prompt 3 (Change by Chg)
+1. You write instructions in [Chapter]_chg.md
+2. Commit the _chg file
+3. Execute Prompt 3
+
+Which workflow would you prefer?"
+
+INCORRECT Response:
+"Sure, I'll draft/write/modify that chapter for you..." [directly edits file]
+```
+
+**Why This Is Absolute:**
+- Establishes version tracking from the very beginning (1.0.0)
+- Creates consistent workflow regardless of content state
+- Prevents confusion about "when rules apply"
+- Ensures ALL changes have rationale documented
+- Maintains complete audit trail
+
+**See ENFORCEMENT_RULES.md for complete details.**
 
 ## When User Says "Execute Prompt [X]" or "Execute [filename].md"
 
@@ -501,7 +555,7 @@ If you work on multiple book projects:
 
 ---
 
-**Framework Version:** 0.12.7
+**Framework Version:** 0.12.8
 **Last Updated:** 2025-11-21
 
 ---

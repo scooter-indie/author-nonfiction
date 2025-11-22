@@ -356,6 +356,62 @@ Chapter 02:
 
 ---
 
+## Save Report and Update README.md (v0.12.8+)
+
+**After generating the consistency report:**
+
+### Step 1: Create Reports Directory (if needed)
+
+```bash
+mkdir -p Manuscript/Reports
+```
+
+### Step 2: Determine Report Filename
+
+Based on scope:
+- **Full-book consistency check:** `consistency-YYYY-MM-DD.md`
+- **Chapter-specific check:** `consistency-chapter-XX-YYYY-MM-DD.md`
+
+Use `CONFIRMED_DATE` for the date (from session startup).
+
+**Examples:**
+- `consistency-2025-11-21.md` (full book on Nov 21, 2025)
+- `consistency-chapter-03-2025-11-21.md` (Chapter 3 only on Nov 21, 2025)
+
+**Note:** If file exists (same scope and date), it will be overwritten.
+
+### Step 3: Save Report
+
+Write the complete consistency report to the determined filename in `Manuscript/Reports/`.
+
+### Step 4: Update README.md
+
+**Follow `Process/_COMMON/17_README_Management_Module.md` to regenerate README.md.**
+
+1. Read `.config/metadata.json` for Project Information
+2. Read init.json or PROJECT_CONTEXT.md for About This Book
+3. Scan `Manuscript/Reports/` for all reports (ai-detection-*.md and consistency-*.md)
+4. Check if `Manuscript/Dashboard/Dashboard.md` exists
+5. Regenerate README.md with:
+   - Updated Consistency Check Reports table (5 most recent, newest first)
+   - Preserved AI Detection Analysis table (if exists)
+   - Dashboard link (if Dashboard.md exists)
+   - All metadata sections
+
+**Link text for new report:**
+- Full-book: `[Full Book](...)`
+- Chapter-specific: `[Chapter X](...)`
+
+### Step 5: Inform User
+
+Display message:
+```
+✓ Consistency report saved: Manuscript/Reports/[filename]
+✓ README.md updated with report link
+```
+
+---
+
 ## What to Do With Results
 
 Use the report to:

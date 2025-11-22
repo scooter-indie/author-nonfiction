@@ -1,6 +1,6 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**Version:** 0.12.7
+**Version:** 0.12.8
 **Compatibility:** HYBRID (Desktop Q&A → CLI execution)
 
 **Workflow:**
@@ -33,7 +33,11 @@ Creates a complete nonfiction book project structure:
 - Git repository
 - Initial commit and v1.0.0 tag
 
-**New in v0.12.7:**
+**New in v0.12.8:**
+- 📄 **README.md Management** - Auto-generated project README with metadata
+- 📊 **Dashboard & Reports** - Structured organization for reports and dashboard
+
+**Previous updates (v0.12.7):**
 - ⚡ **Faster initialization** - Template-based USAGE_GUIDE.md with sed substitution
 - 📁 **Centralized config** - All JSON configs in `.config/` directory
 - 🔧 **Bash script automation** - Structure creation via `scripts/init.sh`
@@ -125,7 +129,7 @@ Creates a complete nonfiction book project structure:
   ],
   "style": "[selected style name]",
   "createdDate": "[CONFIRMED_DATE in YYYY-MM-DD format]",
-  "frameworkVersion": "0.12.7"
+  "frameworkVersion": "0.12.8"
 }
 ```
 
@@ -139,7 +143,7 @@ Creates a complete nonfiction book project structure:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.7",
+  "frameworkVersion": "0.12.8",
   "createdDate": "[CONFIRMED_DATE]",
   "lastModified": "[CONFIRMED_DATE]"
 }
@@ -187,7 +191,7 @@ Creates a complete nonfiction book project structure:
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Framework installation manifest",
-  "frameworkVersion": "0.12.7",
+  "frameworkVersion": "0.12.8",
   "installedDate": "[CONFIRMED_DATE]",
   "lastUpdated": "[CONFIRMED_DATE]",
   "installationMethod": "Prompt 1",
@@ -240,7 +244,7 @@ bash scripts/init.sh .config/init.json
 **Expected output:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nonfiction Framework Initialization Script v0.12.7
+Nonfiction Framework Initialization Script v0.12.8
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Validating preconditions...
@@ -449,6 +453,48 @@ The script handles special character escaping and template substitution.
 
 Use template from `Process/Templates/PROJECT_CONTEXT_template.md`, fill in metadata from init.json.
 
+**4h. Generate README.md**
+
+**Follow `Process/_COMMON/17_README_Management_Module.md` for complete structure and rules.**
+
+Generate initial README.md in project root:
+
+1. **Read metadata:**
+   - Read `.config/metadata.json` for Project Information fields
+   - Use Q&A answers from init.json for About This Book content
+
+2. **Generate README.md structure:**
+
+```markdown
+# [Book Title from metadata.json]
+**Author:** [Author Name from metadata.json]
+
+## About This Book
+
+[Assemble from Q&A answers in init.json:
+- purpose (book's purpose/main thesis)
+- targetAudience
+- Any other descriptive content from initialization]
+
+## Project Information
+
+[Include all non-empty fields from metadata.json EXCEPT targetAudience, description, keywords]
+[Common fields: frameworkVersion, initDate, chapterCount, styleName, etc.]
+[Format: - **Field Name:** Value]
+
+---
+
+⚠️ WARNING: This file is managed automatically. Direct edits may be overwritten. Use framework prompts to update content.
+
+---
+**AI Instructions:** This file must be updated using Process/_COMMON/17_README_Management_Module.md
+```
+
+**Note:**
+- Do NOT include Dashboard section (dashboard doesn't exist yet)
+- Do NOT include Reports section (no reports exist yet)
+- These sections will be added by Prompts 8, 10, 13 when first reports/dashboard are created
+
 ### Step 5: Git Commit and Tag (CLI ONLY)
 
 **Commit all files:**
@@ -459,7 +505,7 @@ git commit -m "Initialize book project: [title from init.json]
 
 - Created [X]-chapter structure
 - Selected writing style: [style name]
-- Initialized with framework v0.12.7
+- Initialized with framework v0.12.8
 - Created on [CONFIRMED_DATE]
 
 🤖 Generated with Claude Code
@@ -473,7 +519,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git tag -a v1.0.0 -m "Initial project structure for [title]
 
 [X] chapters planned
-Framework v0.12.7
+Framework v0.12.8
 Initialized [CONFIRMED_DATE]"
 ```
 
@@ -489,7 +535,7 @@ Set `initialized: true` and update `lastModified`:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.7",
+  "frameworkVersion": "0.12.8",
   "createdDate": "[original date]",
   "lastModified": "[CONFIRMED_DATE]"
 }
@@ -519,7 +565,7 @@ Book: [title]
 Author: [author]
 Chapters: [X]
 Style: [style name]
-Framework: v0.12.7
+Framework: v0.12.8
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -637,5 +683,5 @@ Which option?
 
 ---
 
-**Version:** 0.12.7
+**Version:** 0.12.8
 **Last Updated:** 2025-11-21
