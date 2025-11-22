@@ -5,6 +5,22 @@
 
 ---
 
+## FIRST ACTION - MANDATORY
+
+**Before proceeding with ANY other actions, questions, or responses:**
+
+Use the Read tool to read `system-instructions.md` in full. This file contains critical framework rules, structure guidelines, and workflow instructions that must be understood before working with this framework.
+
+**Why this is required:**
+- system-instructions.md contains the complete, up-to-date framework rules
+- It explains chapter structure (subdirectories vs flat files)
+- It defines when to use each prompt
+- It prevents common errors like creating files in wrong locations
+
+**After reading system-instructions.md, then proceed with this document.**
+
+---
+
 ## Purpose of This Document
 
 This document provides Claude Code with the necessary context about the AI-Assisted Nonfiction Authoring Framework at session startup. When you begin a Claude Code session in this directory, Claude will read this file to understand the framework and be ready to execute prompts immediately.
@@ -431,6 +447,7 @@ The framework includes centralized quote/epigraph management:
 
 When Claude Code starts in this directory:
 
+✅ **FIRST: Read system-instructions.md** - Complete framework rules and structure guidelines
 ✅ **Read this file (CLAUDE.md)** - Framework context loaded
 ✅ **Load Anti-Hallucination Guidelines** - Critical rules ready
 ✅ **Anti-Hallucination Verification Active** - ASK before assuming user experiences
