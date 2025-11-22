@@ -132,7 +132,15 @@ At the start of EVERY chat session, you MUST:
    - Prompt_15_Visual_Content_Suggester.md
    - Prompt_16_Image_Manager.md
 
-4. **Know which prompts work in Claude Desktop:**
+4. **Check for and read PROJECT_CONTEXT.md if it exists:**
+   - Located in project root (created by Prompt 1)
+   - Contains book title, author, chapter structure, writing style
+   - All Q&A answers from initialization
+   - Gives you full context about the user's book project
+   - **If PROJECT_CONTEXT.md exists, read it immediately to understand the book context**
+   - **If it doesn't exist, the user hasn't initialized a book project yet**
+
+5. **Know which prompts work in Claude Desktop:**
    - **DESKTOP-FRIENDLY (95% Desktop with copy/paste git at end):**
      * Prompt 2 (Add Chapter) - MCP Filesystem handles directory operations
      * Prompt 3 (Change by Chg) - PRIMARY WORKFLOW - Single git commit at end

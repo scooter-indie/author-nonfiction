@@ -9,18 +9,16 @@
 
 **Before proceeding with ANY other actions, questions, or responses:**
 
-1. Use the Read tool to read `system-instructions.md` in full. This file contains critical framework rules, structure guidelines, and workflow instructions that must be understood before working with this framework.
-
-2. Check if `PROJECT_CONTEXT.md` exists in the project root. If it exists, read it to understand the book's context (title, author, chapter structure, writing style, and all initialization Q&A).
+Use the Read tool to read `system-instructions.md` in full. This file contains critical framework rules, structure guidelines, and workflow instructions that must be understood before working with this framework.
 
 **Why this is required:**
 - system-instructions.md contains the complete, up-to-date framework rules
 - It explains chapter structure (subdirectories vs flat files)
 - It defines when to use each prompt
 - It prevents common errors like creating files in wrong locations
-- PROJECT_CONTEXT.md gives you full context about the user's book project
+- It includes the Session Startup Protocol (which tells you to read PROJECT_CONTEXT.md if it exists)
 
-**After reading system-instructions.md (and PROJECT_CONTEXT.md if exists), then proceed with this document.**
+**After reading system-instructions.md, then proceed with this document.**
 
 ---
 
@@ -450,14 +448,15 @@ The framework includes centralized quote/epigraph management:
 
 When Claude Code starts in this directory:
 
-✅ **FIRST: Read system-instructions.md** - Complete framework rules and structure guidelines
+✅ **FIRST: Read system-instructions.md** - Complete framework rules, structure guidelines, and startup protocol
 ✅ **Read this file (CLAUDE.md)** - Framework context loaded
-✅ **Check for PROJECT_CONTEXT.md** - If exists, read it for book project context (title, author, chapters, style)
 ✅ **Load Anti-Hallucination Guidelines** - Critical rules ready
 ✅ **Anti-Hallucination Verification Active** - ASK before assuming user experiences
 ✅ **Framework documentation available** - Process/ directory accessible
 ✅ **CONFIRM DATE WITH USER** - See Date Confirmation Protocol below
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
+
+**Note:** system-instructions.md includes the Session Startup Protocol which tells you to read PROJECT_CONTEXT.md if it exists.
 
 ---
 
