@@ -478,9 +478,69 @@ Master index updated: Chapter 05 now has 6 visuals (+1)
 
 ---
 
+### Prompt 6: Integrate Inbox (Minor Changes)
+
+**Current behavior:**
+- Processes files from `Inbox/` directory
+- Can integrate image files into `Manuscript/images/`
+- Adds entries to single `Image_Registry.md`
+
+**New behavior:**
+- Detect registry type
+- If integrating images:
+  - Determine target chapter (ask user or detect from filename pattern)
+  - If split mode: Add to `Image_Registry_Chapter_XX.md`
+  - If single mode: Add to `Image_Registry.md`
+  - Update master index statistics if split
+
+**Example workflow:**
+```
+User drops: Inbox/chapter-03-architecture-diagram.png
+
+Prompt 6:
+"Found image: chapter-03-architecture-diagram.png
+ Detected chapter: 03
+
+ Confirm target chapter? (03): "
+
+User: [Enter]
+
+Prompt 6:
+1. Moves file → Manuscript/images/chapter-03-architecture-diagram.png
+2. Adds entry → Image_Registry_Chapter_03.md
+3. Updates → Image_Registry.md (master index)
+
+"✓ Image integrated into Chapter 03 registry"
+```
+
+**Chapter Detection Logic:**
+- Filename pattern: `chapter-XX-*` → Chapter XX
+- User specification: "Add to Chapter 5"
+- Default: Ask user for target chapter
+
+---
+
 ### Prompt 7: Compile (No Changes)
 
 Image references in content files unchanged. Compilation works identically.
+
+---
+
+### Other Prompts (No Changes Required)
+
+**Prompt 1: Initialize**
+- Creates initial `Image_Registry.md` as single registry
+- Auto-split at 300 images handles migration
+- No changes needed (single mode is correct default)
+
+**Prompt 2: Add Chapter**
+- Creates chapter content files
+- Chapter registries created lazily (when first image added)
+- No changes needed
+
+**Prompts 3, 4, 5, 9, 11, 12, 13, 14:**
+- No image registry operations
+- No changes needed
 
 ---
 
@@ -689,6 +749,7 @@ Manuscript/images/
 - [ ] `Process/Prompts/Prompt_15_Visual_Content_Suggester.md` - Add to chapter registries in split mode
 - [ ] `Process/Prompts/Prompt_8_Consistency.md` - Update to handle split registries
 - [ ] `Process/Prompts/Prompt_10_Dashboard.md` - Update image stats for split mode
+- [ ] `Process/Prompts/Prompt_6_Integrate_Inbox.md` - Chapter detection for inbox images
 
 **Documentation:**
 - [ ] `CLAUDE.md` - Document split registry system
