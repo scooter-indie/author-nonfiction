@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Framework
 
-**Version 0.12.9**
+**Version 0.12.10**
 
 A complete system for writing professional nonfiction books with AI assistance using Claude Code.
 
@@ -28,7 +28,7 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 
 ### 1. Download the Framework
 
-Download `nonfiction-v0.12.9.zip` from:
+Download `nonfiction-v0.12.10.zip` from:
 
 **GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
 
@@ -39,13 +39,13 @@ Save it to your book project directory (e.g., `E:\Projects\my-book`).
 Extract the zip file to your project directory:
 
 **Windows**:
-- Right-click `nonfiction-v0.12.9.zip` → "Extract All..."
+- Right-click `nonfiction-v0.12.10.zip` → "Extract All..."
 - Choose your project directory as the destination
 
 **macOS/Linux**:
 ```bash
 cd /path/to/my-book
-unzip nonfiction-v0.12.9.zip
+unzip nonfiction-v0.12.10.zip
 ```
 
 ### 3. Run Configuration
@@ -185,21 +185,26 @@ Add professional images, upgrade text-based visuals, scan existing images, and v
 
 ## Writing Style System
 
-The framework includes 9 professionally curated writing styles:
+The framework includes **19 professionally curated writing styles** across 5 categories:
 
-1. **Academic Authority** - Scholarly, research-based
-2. **Conversational Expert** - Business/professional, accessible
-3. **Narrative Storyteller** - Memoir-adjacent, first-person
-4. **Business Professional** - Management/leadership focused
-5. **Technical Precision** - Technical guides, systematic
-6. **Investigative Journalist** - Evidence-based revelation
-7. **Practical Guide** - How-to, step-by-step
-8. **Inspirational Teacher** - Personal development, motivational
-9. **Scientific Communicator** - Popular science, wonder with rigor
+**Academic & Research (4 styles):**
+- Academic Authority, Scientific Communicator, Technical Precision, Medical/Health Narrative
+
+**Professional & Business (2 styles):**
+- Business Professional, Conversational Expert
+
+**Narrative & Storytelling (4 styles):**
+- Narrative Storyteller, Historical Chronicler, Investigative Journalist, Confessional Memoir
+
+**Personal Development (3 styles):**
+- Practical Guide, Inspirational Teacher, Philosophical Contemplative
+
+**Cultural & Social Commentary (6 styles):**
+- Cultural Critic, Satirical Humorist, Activist Advocate, Lyrical Nature Writer, Spiritual/Religious Writer, Sports Writer
 
 **Select your style during Prompt 1**, or create custom styles tailored to your voice.
 
-**Style Library**: `Process/Style_Examples.md`
+**Style Library**: `Process/Styles/` (modular organization with category-based browsing)
 
 ---
 
@@ -361,8 +366,8 @@ This framework is released under the MIT License. See LICENSE file for details.
 
 ## About
 
-**Framework Version**: 0.12.9
-**Release Date**: 2025-11-22
+**Framework Version**: 0.12.10
+**Release Date**: 2025-11-23
 **Repository**: https://github.com/scooter-indie/author-nonfiction
 
 Created to empower authors to write professional nonfiction books with AI assistance while maintaining complete creative control and ensuring factual accuracy.

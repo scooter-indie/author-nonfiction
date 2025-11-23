@@ -3,7 +3,7 @@
 **Status:** Active Rules - Must Be Enforced
 **Created:** 2025-11-19
 **Last Updated:** 2025-11-21
-**Framework Version:** 0.12.9+
+**Framework Version:** 0.12.10+
 
 ---
 
@@ -699,8 +699,8 @@ Executes Prompt 2 to add new Chapter 4
 
 **Status:** ACTIVE - MUST BE ENFORCED
 **Created:** 2025-11-19
-**Last Updated:** 2025-11-21 - v0.12.9 - Closed direct editing loophole
-**Framework Version:** 0.12.9+
+**Last Updated:** 2025-11-23 - v0.12.10
+**Framework Version:** 0.12.10+
 **Applies To:** All current and future prompts
 
 **v0.12.9 Updates:**

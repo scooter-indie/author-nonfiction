@@ -1,6 +1,6 @@
 # Visual Asset Management Protocol
 
-**Framework Version:** 0.12.9
+**Framework Version:** 0.12.10
 **Module:** Unified Visual Asset Management
 **Purpose:** Centralized tracking and management of all visual assets (text-based and images)
 
@@ -691,7 +691,7 @@ Visual Asset Management Protocol v0.12.1 provides:
 
 ---
 
-**Framework Version:** 0.12.9
+**Framework Version:** 0.12.10
 **Last Updated:** 2025-11-21
 **Status:** Active
 

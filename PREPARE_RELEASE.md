@@ -1,7 +1,7 @@
 # Prepare Release
 
-**Current Framework Version:** 0.12.9
-**Last Updated:** 2025-11-22
+**Current Framework Version:** 0.12.10
+**Last Updated:** 2025-11-23
 
 ---
 
@@ -216,7 +216,7 @@ The manifest lists all framework files that should exist in a clean installation
 **Example manifest structure:**
 ```json
 {
-  "version": "0.12.9",
+  "version": "0.12.10",
   "generatedDate": "2025-11-23",
   "files": {
     "root": ["INSTALLATION.md", "CLAUDE.md", ...],
@@ -456,7 +456,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.12.9
-**Last Updated:** 2025-11-22
+**Framework Version:** 0.12.10
+**Last Updated:** 2025-11-23
 
 *This file is for framework maintainers only - not included in release packages*

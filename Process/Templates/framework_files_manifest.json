@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
   "description": "Manifest of all framework files that should exist in a clean installation",
-  "version": "0.12.9",
+  "version": "0.12.10",
   "generatedDate": "2025-11-23",
   "files": {
     "root": [
@@ -21,8 +21,44 @@
       "AI-Assisted_Nonfiction_Authoring_Process.md",
       "AI-Assisted_Nonfiction_Authoring_Process_chg.md",
       "Anti-Hallucination_Guidelines.md",
-      "Anti-Hallucination_Guidelines_chg.md",
-      "Style_Examples.md"
+      "Anti-Hallucination_Guidelines_chg.md"
+    ],
+    "Process/Scripts": [
+      "compile-manuscript.sh",
+      "README.md"
+    ],
+    "Process/Styles": [
+      "README.md",
+      "Style_Catalog.md"
+    ],
+    "Process/Styles/Academic": [
+      "Academic_Authority.md",
+      "Medical_Health_Narrative.md",
+      "Scientific_Communicator.md",
+      "Technical_Precision.md"
+    ],
+    "Process/Styles/Professional": [
+      "Business_Professional.md",
+      "Conversational_Expert.md"
+    ],
+    "Process/Styles/Narrative": [
+      "Narrative_Storyteller.md",
+      "Historical_Chronicler.md",
+      "Investigative_Journalist.md",
+      "Confessional_Memoir.md"
+    ],
+    "Process/Styles/Personal": [
+      "Practical_Guide.md",
+      "Inspirational_Teacher.md",
+      "Philosophical_Contemplative.md"
+    ],
+    "Process/Styles/Cultural": [
+      "Cultural_Critic.md",
+      "Satirical_Humorist.md",
+      "Activist_Advocate.md",
+      "Lyrical_Nature_Writer.md",
+      "Spiritual_Religious_Writer.md",
+      "Sports_Writer.md"
     ],
     "Process/Prompts": [
       "Prompt_1_Initialize.md",
@@ -38,8 +74,9 @@
       "Prompt_11_Style_Manager.md",
       "Prompt_12_Git_Operations.md",
       "Prompt_13_AI_Detection_Analysis.md",
-      "Prompt_14_Visual_Content_Suggester.md",
-      "Prompt_15_Citation_Finder.md",
+      "Prompt_14_Citation_Finder.md",
+      "Prompt_15_Visual_Content_Suggester.md",
+      "Prompt_16_Image_Manager.md",
       "Prompt_99_Build_Release.md",
       "README.md",
       "QUICK_REFERENCE.md"
@@ -62,6 +99,7 @@
       "15_Visual_Asset_Management_Protocol.md",
       "16_Citation_Management_Protocol.md",
       "17_README_Management_Module.md",
+      "18_Lock_Management_Module.md",
       "README.md"
     ],
     "Process/Templates": [

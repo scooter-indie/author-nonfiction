@@ -7,6 +7,79 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.10] - 2025-11-23
+
+### Added
+- **Session Initialization Command** - `/fw-init` for Claude Code CLI
+  - Mandatory session startup command that loads all framework documentation
+  - Loads ~20,000-30,000 tokens: system-instructions.md, Process/ files, style library
+  - Activates Anti-Hallucination Protocol
+  - Checks for PROJECT_CONTEXT.md
+  - Provides verbose initialization report with version and available prompts
+  - Solves initialization bypass problem (makes setup explicit and mandatory)
+  - Added `.claude/commands/fw-init.md`
+  - Updated CLAUDE.md: FIRST ACTION changed from reading files to running `/fw-init`
+  - Note: Claude Desktop users continue using Session Startup Protocol in system-instructions.md
+
+- **Lock Management Module** - Process/_COMMON/18_Lock_Management_Module.md
+  - Resource-level locking for concurrent editing (Chapter_XX, StyleSystem, ImageRegistry, etc.)
+  - Single JSON lock file (`.locks/locks.json`)
+  - 15-minute stale lock timeout with override option
+  - User choices: wait, cancel, or override stale locks
+  - Clear all locks functionality for recovery
+  - Works in both CLI and Desktop (Read/Write JSON)
+  - Target: v0.13.0 for prompt integration (Prompts 1, 2, 3, 4, 5, 6, 11, 14, 15, 16)
+
+- **Compilation Script** - Process/Scripts/compile-manuscript.sh
+  - Efficient bash script for manuscript compilation
+  - Handles both flat and subdirectory chapter structures
+  - Reduces token usage and improves compilation speed
+  - Added Process/Scripts/README.md documenting available scripts
+
+### Changed
+- **Prompt 7 (Compile)** - Now uses bash script for efficient compilation instead of manual assembly
+- **CONCURRENCY.md** - Simplified to implementation checklist
+  - Replaced complex branching/partitioning strategies with simple lock-based approach
+  - References Lock Management Module as the solution
+  - Lists all 10 prompts requiring lock implementation with checklists
+  - Provides standard lock implementation pattern
+  - Includes Prompt 10 dashboard integration for lock display
+  - Status: Module complete, prompt updates pending (v0.13.0)
+
+### Fixed
+- **Prompt 14 (Citation Finder)** - Corrected self-references (was incorrectly labeled as Prompt 15)
+- **Prompt 15 (Visual Content Suggester)** - Corrected self-references (was incorrectly labeled as Prompt 14)
+
+### Proposed
+- **Concurrent Editing Support** - Proposal/CONCURRENCY.md
+  - Three solutions: Branch-based isolation, file-based partitioning, lock files
+  - Recommended workflows for solo authors and co-authors
+  - Conflict prevention and resolution strategies
+  - Phased implementation plan (v0.13.0-v0.15.0)
+  - Enhanced with image registry concurrency analysis
+
+- **Image Registry Splitting** - Proposal/IMAGE_REGISTRY_SPLITTING.md
+  - Automatic splitting at 300-image threshold for scalability
+  - Chapter-based registry organization (Image_Registry_Chapter_XX.md)
+  - Master index with overview and statistics
+  - 89% token reduction for typical operations (5,000-12,500 vs 75,000+ tokens)
+  - Backward compatible with single-registry mode
+  - Scales to 1,000+ images comfortably
+  - Impact analysis for Prompts 6, 8, 10, 15, 16
+  - Target: v0.14.0
+
+### Technical
+- **Documentation updates** across multiple files for /fw-init integration:
+  - .claude/README.md - Document fw-init command usage
+  - INSTALLATION.md - Added mandatory fw-init step, updated directory structure
+  - Process/Prompts/README.md - Added Session Initialization section
+  - Process/Prompts/QUICK_REFERENCE.md - Added fw-init to all workflows
+  - PREPARE_RELEASE.md - Added fw-init.md to verification checklist
+- **Framework files manifest** - Updated with fw-init.md and new scripts
+- **Scripts directory** - New Process/Scripts/ with documentation
+
+---
+
 ## [0.12.9] - 2025-11-22
 
 ### Added

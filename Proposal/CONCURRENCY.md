@@ -367,6 +367,6 @@ Quick reference for prompt developers:
 
 ---
 
-**Framework Version:** 0.12.9
+**Framework Version:** 0.12.10
 **Proposal Version:** 2.0.0 (Simplified)
 **Last Updated:** 2025-11-22
