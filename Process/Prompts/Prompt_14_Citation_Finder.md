@@ -1,4 +1,4 @@
-# Execute Prompt 15: Citation_Finder
+# Execute Prompt 14: Citation_Finder
 
 **CLI-ONLY:** Requires Claude Code CLI for WebSearch tool and bulk file analysis operations
 

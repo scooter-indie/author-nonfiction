@@ -1,9 +1,10 @@
 # Pandoc EPUB Export & Unified Visual System Refactor
 
-**Status:** Proposal
+**Status:** Implemented
 **Target Version:** 0.12.1
+**Implemented Version:** 0.12.7
 **Created:** 2025-11-21
-**Updated:** 2025-11-21
+**Updated:** 2025-11-22
 **Priority:** High
 
 ---
