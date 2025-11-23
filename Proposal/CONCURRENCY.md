@@ -295,6 +295,71 @@ git add .locks/ && git commit -m "UNLOCK: Completed revisions" && git push
 
 ---
 
+## Image Registry Concurrency
+
+### The Problem
+
+The image registry is a **high-conflict file** when multiple instances add images:
+
+**Scenario:**
+```
+Instance A: Adds diagram to Chapter 3
+  → Writes to Manuscript/images/Image_Registry.md
+
+Instance B: Adds screenshot to Chapter 7
+  → Writes to Manuscript/images/Image_Registry.md
+
+CONFLICT: Both instances modified same file simultaneously
+```
+
+### The Solution: Registry Splitting
+
+**See:** `Proposal/IMAGE_REGISTRY_SPLITTING.md` for complete details
+
+**Split registry architecture:**
+```
+Manuscript/images/
+├── Image_Registry.md                    # Master index (read-only for instances)
+├── Image_Registry_Chapter_01.md         # Instance A writes here
+├── Image_Registry_Chapter_03.md         # Instance A writes here
+├── Image_Registry_Chapter_07.md         # Instance B writes here
+└── Image_Registry_Chapter_10.md         # Instance B writes here
+```
+
+**How it prevents conflicts:**
+- Instance A working on Chapter 3 → Writes to `Image_Registry_Chapter_03.md`
+- Instance B working on Chapter 7 → Writes to `Image_Registry_Chapter_07.md`
+- **No conflict** because they write to different files
+- Master registry updated separately (or generated from chapter registries)
+
+**Concurrency benefits:**
+- ✅ Zero conflicts when adding images to different chapters
+- ✅ Each instance has isolated registry file
+- ✅ Can work on same chapter's images if using branches (each branch has own registry state)
+- ✅ 89% token reduction (see IMAGE_REGISTRY_SPLITTING.md)
+
+**Recommendation:**
+- If using concurrent editing, **implement split registries first** (v0.14.0)
+- Single registry mode becomes a concurrency bottleneck for image-heavy books
+
+**Integration with concurrency workflows:**
+
+```bash
+# Branch-based workflow with split registries
+git checkout -b enhance/add-diagrams-chapter-03
+# Prompt 16 or 15 adds images to Image_Registry_Chapter_03.md
+# No conflict with main branch or other feature branches
+git checkout main
+git merge enhance/add-diagrams-chapter-03  # Clean merge!
+
+# File-based partitioning with split registries
+# Instance A: Chapters 1-5 → Writes to Image_Registry_Chapter_01-05.md
+# Instance B: Chapters 6-10 → Writes to Image_Registry_Chapter_06-10.md
+# No coordination needed, no conflicts
+```
+
+---
+
 ## Conflict Detection and Resolution
 
 ### Files Most Likely to Conflict
@@ -308,13 +373,17 @@ git add .locks/ && git commit -m "UNLOCK: Completed revisions" && git push
 
 **Medium conflict risk:**
 - `Manuscript/Style/Style_Overrides.md` - If multiple chapters get overrides
-- `Manuscript/images/Image_Registry.md` - If both instances add images
+- **`Manuscript/images/Image_Registry.md`** - **HIGH RISK if both instances add images simultaneously**
+  - Single registry file = all instances write to same file
+  - **SOLUTION:** Implement chapter-based registry splitting (see `Proposal/IMAGE_REGISTRY_SPLITTING.md`)
+  - Split registries eliminate this conflict entirely
 
 **Low conflict risk:**
 - `Manuscript/Chapters/Chapter_XX/Chapter_XX.md` - Each chapter independent
 - `Manuscript/Chapters/Chapter_XX/Chapter_XX_chg.md` - Each chapter independent
 - `Manuscript/FrontMatter/*.md` - Usually edited separately
 - `Manuscript/BackMatter/*.md` - Usually edited separately
+- **`Manuscript/images/Image_Registry_Chapter_XX.md`** - If using split registries (no conflicts!)
 
 ### Conflict Prevention Rules
 
@@ -464,13 +533,20 @@ Consider running Prompt 8 when other instances are idle for most accurate result
 - [ ] Document merge procedures
 - [ ] Create conflict resolution guide
 
-### Phase 3: Lock File System (v0.14.0)
+### Phase 3: Lock File System + Registry Splitting (v0.14.0)
 
+**Lock Files:**
 - [ ] Create `.locks/` directory structure
 - [ ] Create `Process/Scripts/lock-chapter.sh` and `unlock-chapter.sh`
 - [ ] Update Prompts 3 & 4 to check for locks
 - [ ] Add lock status to Prompt 10 dashboard
 - [ ] Create lock management commands in Prompt 12
+
+**Image Registry Splitting (Critical for Concurrency):**
+- [ ] Implement `Proposal/IMAGE_REGISTRY_SPLITTING.md`
+- [ ] Split single registry into chapter-based registries
+- [ ] Update Prompts 6, 8, 10, 15, 16 for split registry support
+- [ ] **Benefit:** Eliminates image registry conflicts in concurrent editing
 
 ### Phase 4: Enhanced Coordination (v0.15.0)
 
