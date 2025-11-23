@@ -399,7 +399,7 @@ Figure 2.1: Survey Method Comparison
 **Type:** Comparison Table
 **Format:** Markdown table
 **Status:** 📝 Text-based
-**Created:** 2025-11-20 by Prompt 14
+**Created:** 2025-11-20 by Prompt 15
 **Chapter:** 3
 **Section:** Research Methods
 **Referenced in:** Chapter_03.md (line 145)
@@ -455,7 +455,7 @@ from Chapter 3 content.
 - **Status:** 📝 Text-based (markdown table)
 - **File:** `../images/fig-03-01-survey_comparison.md`
 - **Referenced in:** Chapter_03.md (line 145)
-- **Created:** 2025-11-20 by Prompt 14
+- **Created:** 2025-11-20 by Prompt 15
 - **Replacement Priority:** Medium
 - **Notes:** Consider professional graphic for visual consistency
 
@@ -468,7 +468,7 @@ from Chapter 3 content.
 - **Status:** 📝 Text-based (mermaid diagram)
 - **File:** `../images/fig-03-02-analysis_workflow.md`
 - **Referenced in:** Chapter_03.md (line 278)
-- **Created:** 2025-11-20 by Prompt 14
+- **Created:** 2025-11-20 by Prompt 15
 - **Replacement Priority:** High
 - **Notes:** Complex process - professional flowchart highly recommended
 
@@ -502,7 +502,7 @@ from Chapter 3 content.
 
 ---
 
-*Registry maintained by Prompt 14: Visual Content Suggester*
+*Registry maintained by Prompt 15: Visual Content Suggester*
 *Last updated: 2025-11-20*
 ```
 
@@ -638,7 +638,7 @@ Where:
 
 **Created when:**
 - First visual added to chapter
-- Prompt 14 creates figure file
+- Prompt 15 creates figure file
 
 **Updated when:**
 - New visual added
@@ -692,7 +692,7 @@ This prompt implements the **Visual Asset Management Protocol** (Module 15):
 - Reference format in chapters
 - Upgrade path for text → image replacement
 
-**Prompt 14 implements:**
+**Prompt 15 implements:**
 - Creation of figure files following Module 15 format
 - Registry generation and updates
 - Status tracking and priority assignment
