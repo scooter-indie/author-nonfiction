@@ -449,6 +449,35 @@ When user says: "split image registry" or automatic threshold reached
 
 ---
 
+### Prompt 15: Visual Content Suggester (Minor Changes)
+
+**Current behavior:**
+- Analyzes chapter content
+- Creates text-based visuals in `Manuscript/images/`
+- Adds entries to single `Image_Registry.md`
+
+**New behavior:**
+- Detect registry type
+- If split:
+  - Determine current chapter (already known from prompt context)
+  - Add new visual entries to `Image_Registry_Chapter_XX.md`
+  - Update master index statistics (increment chapter visual count)
+- If single: Add to `Image_Registry.md` (backward compatible)
+
+**Example output:**
+```
+Created text-based visual: chapter-05-process-flow.txt
+Registered in: Image_Registry_Chapter_05.md
+Master index updated: Chapter 05 now has 6 visuals (+1)
+```
+
+**Benefits:**
+- Automatic chapter detection (Prompt 15 already knows which chapter)
+- No user action required
+- Seamless integration with split mode
+
+---
+
 ### Prompt 7: Compile (No Changes)
 
 Image references in content files unchanged. Compilation works identically.
@@ -657,6 +686,7 @@ Manuscript/images/
 
 **Updated Prompts:**
 - [ ] `Process/Prompts/Prompt_16_Image_Manager.md` - Add split detection, chapter-aware ops
+- [ ] `Process/Prompts/Prompt_15_Visual_Content_Suggester.md` - Add to chapter registries in split mode
 - [ ] `Process/Prompts/Prompt_8_Consistency.md` - Update to handle split registries
 - [ ] `Process/Prompts/Prompt_10_Dashboard.md` - Update image stats for split mode
 
