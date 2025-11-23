@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
   "description": "Manifest of all framework files that should exist in a clean installation",
-  "version": "0.12.8",
-  "generatedDate": "2025-11-21",
+  "version": "0.12.9",
+  "generatedDate": "2025-11-23",
   "files": {
     "root": [
       "INSTALLATION.md",
@@ -98,6 +98,9 @@
     ],
     ".claude/agents": [
       "book-writing-assistant.md"
+    ],
+    ".claude/commands": [
+      "fw-init.md"
     ]
   },
   "notes": [

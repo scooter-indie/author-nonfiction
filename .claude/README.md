@@ -37,6 +37,23 @@ This file is included in the framework distribution so users don't have to repea
 ### `settings.local.json` (not tracked)
 User-specific settings. This file is in `.gitignore` and won't be committed to your repository.
 
+### `commands/`
+Contains slash commands for framework operations.
+
+- `fw-init.md` - **MANDATORY** session initialization command
+
+**Usage:** Type `/fw-init` at the start of every Claude Code session to load all framework documentation and prepare for prompt execution.
+
+This command:
+- Loads ~20,000-30,000 tokens of framework documentation
+- Reads all core framework files (Process/, system-instructions.md)
+- Activates Anti-Hallucination Protocol
+- Checks for existing book project (PROJECT_CONTEXT.md)
+- Provides verbose initialization report
+- **Required before executing any prompts**
+
+See `commands/fw-init.md` for complete initialization sequence.
+
 ### `agents/`
 Contains agent definitions for specialized AI assistants.
 

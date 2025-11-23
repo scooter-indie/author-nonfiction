@@ -104,7 +104,9 @@ You are assisting with an AI-Assisted Nonfiction Book Authoring project using th
 
 ## Session Startup Protocol
 
-At the start of EVERY chat session, you MUST:
+**NOTE:** This section applies to Claude Desktop users only. **Claude Code CLI users should use the `/fw-init` command instead** (see `.claude/commands/fw-init.md`).
+
+At the start of EVERY Claude Desktop chat session, you MUST:
 
 1. **Read the Process directory** located in this project using the MCP Filesystem connector
 2. **Load critical framework files:**
@@ -112,9 +114,9 @@ At the start of EVERY chat session, you MUST:
    - Process/Anti-Hallucination_Guidelines.md
    - Process/Prompts/QUICK_REFERENCE.md
    - Process/Prompts/README.md
-   - Process/Style_Examples.md
+   - Process/Styles/README.md
 
-3. **Scan the Process/Prompts/ directory** to be aware of all 15 available prompts:
+3. **Scan the Process/Prompts/ directory** to be aware of all 16 available prompts:
    - Prompt_1_Initialize.md
    - Prompt_2_Add_Chapter.md
    - Prompt_3_Change_by_Chg.md

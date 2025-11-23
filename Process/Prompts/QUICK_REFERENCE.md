@@ -1,5 +1,19 @@
 # Quick Reference Guide - Execute Prompts
 
+## Session Initialization (MANDATORY)
+
+**🚨 BEFORE executing ANY prompts in Claude Code CLI, run:**
+
+```
+/fw-init
+```
+
+This command loads all framework documentation and activates the Anti-Hallucination Protocol. **Required at the start of every session.**
+
+**See:** [Session Initialization in README.md](README.md#session-initialization-mandatory) for details.
+
+---
+
 ## Claude Desktop vs. Claude Code CLI Compatibility
 
 ### DESKTOP-FRIENDLY (95%+ Desktop - Single git command at end)
@@ -158,6 +172,9 @@ Section Style (Optional - HTML comments)
 **Goal**: Write content, revise, commit, backup
 
 ```
+0. Initialize framework (if new session)
+   → /fw-init
+
 1. Check git status
    → Prompt 12 (Git) → Status
 
@@ -188,6 +205,9 @@ Section Style (Optional - HTML comments)
 **Goal**: Check progress, find issues, compile for review
 
 ```
+0. Initialize framework (if new session)
+   → /fw-init
+
 1. Generate progress report
    → Prompt 10 (Dashboard) → Detailed
 
@@ -257,6 +277,9 @@ Section Style (Optional - HTML comments)
 **Goal**: Verify progress, check quality, tag milestone
 
 ```
+0. Initialize framework (if new session)
+   → /fw-init
+
 1. Check completion status
    → Prompt 10 (Dashboard) → Detailed
    → Review chapter status table

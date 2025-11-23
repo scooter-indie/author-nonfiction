@@ -7,18 +7,33 @@
 
 ## FIRST ACTION - MANDATORY
 
-**Before proceeding with ANY other actions, questions, or responses:**
+**At the start of EVERY Claude Code session, run:**
 
-Use the Read tool to read `system-instructions.md` in full. This file contains critical framework rules, structure guidelines, and workflow instructions that must be understood before working with this framework.
+```
+/fw-init
+```
 
-**Why this is required:**
-- system-instructions.md contains the complete, up-to-date framework rules
-- It explains chapter structure (subdirectories vs flat files)
-- It defines when to use each prompt
-- It prevents common errors like creating files in wrong locations
-- It includes the Session Startup Protocol (which tells you to read PROJECT_CONTEXT.md if it exists)
+This slash command performs the Session Startup Protocol by loading all framework documentation (~20,000-30,000 tokens):
+- system-instructions.md (framework rules and compatibility)
+- Process/AI-Assisted_Nonfiction_Authoring_Process.md (comprehensive guide)
+- Process/Anti-Hallucination_Guidelines.md (accuracy protocols)
+- Process/Prompts/QUICK_REFERENCE.md (workflow guide)
+- Process/Prompts/README.md (detailed prompt documentation)
+- Process/Styles/README.md (writing styles library)
+- PROJECT_CONTEXT.md (if book project exists)
 
-**After reading system-instructions.md, then proceed with this document.**
+**Why this is mandatory:**
+- Loads complete, up-to-date framework rules
+- Explains chapter structure (subdirectories vs flat files)
+- Defines when to use each prompt
+- Prevents common errors like creating files in wrong locations
+- Activates Anti-Hallucination Protocol (ASK FIRST verification)
+- Checks for existing book project context
+- Provides verbose initialization report
+
+**IMPORTANT:** Do NOT execute any prompts until `/fw-init` completes successfully.
+
+**After `/fw-init` completes, you are ready to work.**
 
 ---
 
@@ -448,15 +463,22 @@ The framework includes centralized quote/epigraph management:
 
 When Claude Code starts in this directory:
 
-✅ **FIRST: Read system-instructions.md** - Complete framework rules, structure guidelines, and startup protocol
-✅ **Read this file (CLAUDE.md)** - Framework context loaded
-✅ **Load Anti-Hallucination Guidelines** - Critical rules ready
-✅ **Anti-Hallucination Verification Active** - ASK before assuming user experiences
-✅ **Framework documentation available** - Process/ directory accessible
+✅ **MANDATORY: Run `/fw-init` command** - User types `/fw-init` at session start
+✅ **CLAUDE.md auto-loaded** - Framework context from system
+✅ **Initialization in progress** - `/fw-init` loads all framework documentation:
+   - system-instructions.md
+   - Process/AI-Assisted_Nonfiction_Authoring_Process.md
+   - Process/Anti-Hallucination_Guidelines.md
+   - Process/Prompts/QUICK_REFERENCE.md
+   - Process/Prompts/README.md
+   - Process/Styles/README.md
+   - PROJECT_CONTEXT.md (if exists)
+✅ **Anti-Hallucination Protocol Active** - ASK before assuming user experiences
 ✅ **CONFIRM DATE WITH USER** - See Date Confirmation Protocol below
+✅ **Initialization complete** - Verbose report displayed
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
 
-**Note:** system-instructions.md includes the Session Startup Protocol which tells you to read PROJECT_CONTEXT.md if it exists.
+**Note:** The `/fw-init` command (in `.claude/commands/fw-init.md`) performs the complete Session Startup Protocol. Do NOT execute any prompts until `/fw-init` completes.
 
 ---
 

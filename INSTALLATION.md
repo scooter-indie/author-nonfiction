@@ -129,8 +129,10 @@ my-book/
 │   ├── init.sh                     # Fast project initialization
 │   └── detect-tools.sh             # Tool detection
 └── .claude/
-    └── agents/
-        └── book-writing-assistant.md
+    ├── agents/
+    │   └── book-writing-assistant.md
+    └── commands/
+        └── fw-init.md              # Session initialization command
 
 Note: .config/ directory created during initialization (Prompt 1 or configure.md)
 ```
@@ -159,7 +161,13 @@ Choose your method:
    - Verify the installation
    - Create initial commit
 
-4. **Start writing**:
+4. **Initialize the framework** (MANDATORY):
+   - Type: `/fw-init`
+   - This loads all framework documentation (~20,000-30,000 tokens)
+   - Provides verbose initialization report
+   - **Required before executing any prompts**
+
+5. **Start writing**:
    - Execute `Prompt 1: Initialize` to set up your book project
    - Begin writing!
 

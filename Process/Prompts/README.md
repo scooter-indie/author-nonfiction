@@ -38,6 +38,29 @@ Prompts/
 
 ---
 
+## Session Initialization (MANDATORY)
+
+**Before executing ANY prompts in a new Claude Code CLI session, you MUST run:**
+
+```
+/fw-init
+```
+
+The `/fw-init` slash command:
+- Loads all framework documentation (~20,000-30,000 tokens)
+- Reads system-instructions.md, core Process/ files, and style library
+- Activates Anti-Hallucination Protocol
+- Checks for existing book project (PROJECT_CONTEXT.md)
+- Provides verbose initialization report with framework version and available prompts
+
+**See:** `.claude/commands/fw-init.md` for complete initialization sequence
+
+**IMPORTANT:** Do NOT execute any prompts until `/fw-init` completes successfully. The framework will not function correctly without proper initialization.
+
+**Note for Claude Desktop users:** Claude Desktop does not support slash commands. Instead, the Session Startup Protocol in `system-instructions.md` (Custom Instructions) automatically loads framework documentation at the start of each session.
+
+---
+
 ## How to Use
 
 ### General Workflow

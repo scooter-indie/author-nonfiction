@@ -207,15 +207,17 @@ The manifest lists all framework files that should exist in a clean installation
    - Compare manifest against actual files
    - Ensure all `.md` files in Process/ are listed
    - Ensure all prompts (Prompt_1 through Prompt_16, Prompt_99) are listed
-   - Ensure all modules (_COMMON/01-16) are listed
+   - Ensure all modules (_COMMON/01-17) are listed
    - Ensure all templates are listed
-   - Ensure .claude/ files are listed
+   - Ensure .claude/ files are listed (README.md, hooks.json)
+   - Ensure .claude/agents/ are listed (book-writing-assistant.md)
+   - Ensure .claude/commands/ are listed (fw-init.md)
 
 **Example manifest structure:**
 ```json
 {
-  "version": "0.12.1",
-  "generatedDate": "2025-11-21",
+  "version": "0.12.9",
+  "generatedDate": "2025-11-23",
   "files": {
     "root": ["INSTALLATION.md", "CLAUDE.md", ...],
     "Process": ["AI-Assisted_Nonfiction_Authoring_Process.md", ...],
@@ -223,7 +225,8 @@ The manifest lists all framework files that should exist in a clean installation
     "Process/_COMMON": ["01_Prompt_Structure_Template.md", ...],
     "Process/Templates": ["Chapter_Style_Template.md", ...],
     ".claude": ["README.md", "hooks.json"],
-    ".claude/agents": ["book-writing-assistant.md"]
+    ".claude/agents": ["book-writing-assistant.md"],
+    ".claude/commands": ["fw-init.md"]
   }
 }
 ```
