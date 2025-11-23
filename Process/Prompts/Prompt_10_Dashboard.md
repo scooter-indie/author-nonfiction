@@ -140,6 +140,83 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
 
 ---
 
+## Save Dashboard and Update README.md (v0.12.8+)
+
+**After generating the dashboard report:**
+
+### Step 1: Create Dashboard Directory (if needed)
+
+```bash
+mkdir -p Manuscript/Dashboard
+```
+
+### Step 2: Check for Existing Dashboard
+
+**If `Manuscript/Dashboard/Dashboard.md` already exists:**
+
+Ask the user to commit it to git first (safety measure):
+
+```
+⚠️ Existing dashboard will be overwritten.
+
+Would you like to commit the current dashboard before proceeding?
+
+A) Yes - commit current dashboard first
+B) No - proceed with overwrite (changes may be lost)
+```
+
+**If user selects A:**
+```bash
+git add Manuscript/Dashboard/Dashboard.md README.md
+git commit -m "Save dashboard before update [CONFIRMED_DATE]
+
+🤖 Generated with Claude Code
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+Then proceed to Step 3.
+
+**If user selects B or no existing dashboard:**
+Proceed directly to Step 3.
+
+### Step 3: Save Dashboard
+
+Write the complete dashboard report to `Manuscript/Dashboard/Dashboard.md`.
+
+**Note:** There is only ONE dashboard file. Always overwrites.
+
+### Step 4: Update README.md
+
+**Follow `Process/_COMMON/17_README_Management_Module.md` to regenerate README.md.**
+
+1. Read `.config/metadata.json` for Project Information
+2. Read init.json or PROJECT_CONTEXT.md for About This Book
+3. Scan `Manuscript/Reports/` for all reports (ai-detection-*.md and consistency-*.md)
+4. Check if `Manuscript/Dashboard/Dashboard.md` exists (yes, we just created it)
+5. Regenerate README.md with:
+   - **Dashboard link** (if this is first dashboard creation, add the link)
+   - Updated Project Information (if needed)
+   - Preserved report tables (if exist)
+   - All metadata sections
+
+**Dashboard link format:**
+```markdown
+## Dashboard
+
+📊 [View Current Dashboard](Manuscript/Dashboard/Dashboard.md)
+```
+
+### Step 5: Inform User
+
+Display message:
+```
+✓ Dashboard saved: Manuscript/Dashboard/Dashboard.md
+✓ README.md updated with dashboard link
+```
+
+---
+
 ## When to Use
 
 **Recommended frequency:**

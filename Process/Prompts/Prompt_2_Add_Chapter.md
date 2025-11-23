@@ -35,10 +35,10 @@ I will help you add a new chapter to your book, which includes:
 - Inserting the chapter at the correct position
 - Renumbering affected chapter directories
 - Creating new chapter subdirectory with files and change tracking
-- Creating figures/ subdirectory for chapter images
 - Updating the TOC
 - Updating all cross-references
 - Committing changes to git
+- Note: Images go in Manuscript/images/ (unified directory, v0.12.7+), not per-chapter
 
 ---
 
@@ -86,13 +86,14 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 8. Create chapter files: Chapter_XX.md and Chapter_XX_chg.md
 9. **If chapter-level style override selected:** Create Chapter_XX_style.md from template (v0.10.1+)
 10. **Update Manuscript/Style/Style_Overrides.md** with new chapter entry (v0.10.1+)
-11. Create empty figures/ subdirectory: Manuscript/Chapters/Chapter_XX/figures/
-12. Add new quote entry to Manuscript/Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
-13. Update Manuscript/Quotes/Chapter_Quotes_chg.md with addition note
-14. Update cross-references in all files
-15. Create git commit for all changes
-16. Optionally tag if major milestone
-17. Generate impact report (including style override impact if applicable)
+11. Add new quote entry to Manuscript/Quotes/Chapter_Quotes.md (Status: ⏳ Pending)
+12. Update Manuscript/Quotes/Chapter_Quotes_chg.md with addition note
+13. Update cross-references in all files
+14. Create git commit for all changes
+15. Optionally tag if major milestone
+16. Generate impact report (including style override impact if applicable)
+
+**Note:** Chapter directories NO LONGER include a figures/ subdirectory. All images for the entire book go in the unified `Manuscript/images/` directory (v0.12.7+). Use Prompt 15 (Visual Content Suggester) or Prompt 16 (Image Manager) to add images to chapters.
 
 ---
 
@@ -103,7 +104,8 @@ You've already drafted content and placed it in Inbox/. I'll integrate it as a n
 - After initial project setup, do NOT place complete TOC files in Manuscript/Inbox/
 - Individual chapter additions should use this prompt or Prompt 4
 - If users need to reorder chapters, they should use Prompt 2 to insert at new position (future: Prompt 12 for chapter reordering)
-- Each chapter gets its own subdirectory to support chapter-specific assets (images, figures, tables)
+- Each chapter gets its own subdirectory (Chapter_XX/) containing only chapter markdown files
+- **Images are NOT stored per-chapter** - all images go in unified `Manuscript/images/` directory (v0.12.7+)
 
 ---
 
@@ -126,7 +128,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 **IMPORTANT:**
 - The TOC directory is `Manuscript/_TOC_/` (with underscores), not `Manuscript/TOC/`
-- Do NOT include `Project_Config.md` - chapter count is tracked in the TOC, not Project_Config.md
+- Do NOT update `.config/metadata.json` - chapter count is tracked in the TOC, not config files
 
 **The instruction "Go to Claude Code CLI and say:" must be OUTSIDE the code block.**
 **Only the command starting with "Run:" should be inside the code block.**

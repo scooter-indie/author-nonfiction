@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Initialization configuration from Prompt 1 Q&A session",
+  "title": "",
+  "author": "",
+  "targetWordCount": "",
+  "targetAudience": "",
+  "purpose": "",
+  "targetCompletionDate": "",
+  "tocFilePath": "",
+  "chapters": [],
+  "style": "",
+  "createdDate": "",
+  "frameworkVersion": ""
+}

@@ -1,0 +1,243 @@
+/* AI-Assisted Nonfiction Authoring Framework - EPUB Default Style */
+/* Version: 0.12.0 */
+
+/* Body and Base Typography */
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 1em;
+  line-height: 1.6;
+  margin: 1em;
+  text-align: left;
+  color: #000000;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-weight: bold;
+  page-break-after: avoid;
+  page-break-inside: avoid;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: #000000;
+}
+
+h1 {
+  font-size: 2em;
+  margin-top: 0;
+  text-align: center;
+  page-break-before: always;  /* Chapter breaks */
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-top: 1.2em;
+}
+
+h3 {
+  font-size: 1.2em;
+  margin-top: 1em;
+}
+
+h4 { font-size: 1.1em; }
+h5 { font-size: 1em; }
+h6 { font-size: 0.9em; }
+
+/* Paragraphs */
+p {
+  margin: 0;
+  text-align: justify;
+  text-indent: 1.5em;
+  orphans: 2;
+  widows: 2;
+}
+
+/* First paragraph after heading - no indent */
+h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
+  text-indent: 0;
+}
+
+/* First paragraph of chapter - no indent */
+p:first-of-type {
+  text-indent: 0;
+}
+
+/* Blockquotes (including chapter epigraphs) */
+blockquote {
+  margin: 1.5em 2em;
+  padding-left: 1em;
+  border-left: 3px solid #666666;
+  font-style: italic;
+  font-size: 0.95em;
+  page-break-inside: avoid;
+}
+
+/* Chapter epigraphs (first blockquote after h1) */
+h1 + blockquote {
+  text-align: right;
+  border-left: none;
+  margin: 1em 2em 2em 4em;
+  font-size: 0.9em;
+}
+
+/* Lists */
+ul, ol {
+  margin: 0.5em 0;
+  padding-left: 2em;
+}
+
+li {
+  margin: 0.3em 0;
+}
+
+/* Code and Preformatted Text */
+code {
+  font-family: "Courier New", "Courier", monospace;
+  font-size: 0.9em;
+  background-color: #f5f5f5;
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+pre {
+  font-family: "Courier New", "Courier", monospace;
+  font-size: 0.85em;
+  background-color: #f5f5f5;
+  padding: 1em;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  overflow-x: auto;
+  page-break-inside: avoid;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Images and Figures */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+  page-break-inside: avoid;
+}
+
+figure {
+  margin: 1em 0;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+figcaption {
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 0.5em;
+  text-align: center;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  margin: 1em auto;
+  width: 100%;
+  page-break-inside: avoid;
+}
+
+th, td {
+  border: 1px solid #cccccc;
+  padding: 0.5em;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+/* Links */
+a {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #551a8b;
+}
+
+/* Horizontal Rules */
+hr {
+  border: none;
+  border-top: 1px solid #cccccc;
+  margin: 2em 0;
+  page-break-after: avoid;
+}
+
+/* Emphasis */
+em, i {
+  font-style: italic;
+}
+
+strong, b {
+  font-weight: bold;
+}
+
+/* Front Matter - Title Page */
+.title-page {
+  text-align: center;
+  page-break-after: always;
+}
+
+.title-page h1 {
+  font-size: 2.5em;
+  margin-top: 30%;
+  margin-bottom: 0.5em;
+}
+
+.title-page .author {
+  font-size: 1.5em;
+  margin-top: 1em;
+}
+
+/* Front Matter - Copyright Page */
+.copyright-page {
+  font-size: 0.9em;
+  text-align: left;
+  page-break-after: always;
+}
+
+.copyright-page p {
+  text-indent: 0;
+  margin-bottom: 0.5em;
+}
+
+/* Front Matter - Dedication */
+.dedication {
+  text-align: center;
+  font-style: italic;
+  margin-top: 30%;
+  page-break-after: always;
+}
+
+/* Page Breaks */
+.page-break {
+  page-break-after: always;
+}
+
+.page-break-before {
+  page-break-before: always;
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

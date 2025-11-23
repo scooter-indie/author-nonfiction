@@ -1,7 +1,7 @@
 # Prepare Release
 
-**Current Framework Version:** 0.11.1
-**Last Updated:** 2025-11-20
+**Current Framework Version:** 0.12.10
+**Last Updated:** 2025-11-23
 
 ---
 
@@ -34,7 +34,7 @@ Update the version number in these files:
    - Line ~41-47: Extract instructions: `nonfiction-vX.X.X.zip`
    - Line ~336: `**Framework Version**: X.X.X`
    - Line ~337: `**Release Date**: YYYY-MM-DD`
-   - Review entire file for outdated prompt counts (should be "15 prompts" as of v0.11.0 Phase 2+)
+   - Review entire file for outdated prompt counts (should be "16 prompts" as of v0.12.1+)
 
 2. `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
    - Line ~3: `**Version:** X.X.X`
@@ -93,9 +93,9 @@ Update the version number in these files:
 **IMPORTANT:** Before proceeding to version verification, manually review these files for outdated content:
 
 **3A. Review README.md:**
-- Check all prompt counts (should be "15 prompts" as of v0.11.0 Phase 2+)
+- Check all prompt counts (should be "16 prompts" as of v0.12.1+)
 - Verify download links match new version
-- Check "The 15 Core Prompts" section - should list all 15 prompts
+- Check "The 16 Core Prompts" section - should list all 16 prompts
 - Verify "What's Included" section lists current features
 - Check "Writing Style System" description is current
 - Verify footer version and date
@@ -108,12 +108,12 @@ Update the version number in these files:
 - Check that Added/Changed/Fixed/Technical sections are complete
 
 **3C. Review system-instructions.md:**
-- Verify compatibility classifications are correct (as of v0.11.1+):
-  - CLI-ONLY: Prompts 7, 8, 9, 12, 13, 14, 15
+- Verify compatibility classifications are correct (as of v0.12.1+):
+  - CLI-ONLY: Prompts 7, 8, 9, 12, 13, 14, 15, 16
   - DESKTOP-FRIENDLY: Prompts 2, 3, 4, 5, 6, 10
   - HYBRID: configure.md, Prompts 1, 11
-- Check all 15 prompts are listed (lines ~117-132)
-- Verify critical section (lines ~42-66) has correct CLI-ONLY prompts (7, 8, 9, 12, 13, 14, 15)
+- Check all 16 prompts are listed (lines ~117-133)
+- Verify critical section (lines ~42-66) has correct CLI-ONLY prompts (7, 8, 9, 12, 13, 14, 15, 16)
 - Check version numbers in header and footer
 
 ### Step 4: Verify All Updates
@@ -130,15 +130,17 @@ If any unexpected references found, update them.
 
 ### Step 4.5: Verify Migration Configuration
 
-**Check that `.nonfiction-migrations.json` exists and is properly configured:**
+**Check that migrations configuration exists and is properly configured:**
 
 1. **Verify file exists:**
    ```bash
    ls -la .nonfiction-migrations.json
+   ls -la Process/Templates/.config/migrations.json
    ```
 
 2. **Check migration entries are up to date:**
-   - Read `.nonfiction-migrations.json`
+   - Read `.nonfiction-migrations.json` (root - for framework development)
+   - Template at `Process/Templates/.config/migrations.json` copied to user projects
    - Verify the latest migration entry matches the new version
    - If releasing 0.10.1, there should be a migration from 0.10.0 → 0.10.1
    - If no changes need migrations this release, that's fine (not every release requires migrations)
@@ -154,12 +156,12 @@ If any unexpected references found, update them.
    grep ".nonfiction-migrations.json" .gitignore
    # (Should return no results - file should be tracked in framework repo)
 
-   # User project .gitignore template SHOULD exclude migrations file
-   grep ".nonfiction-migrations.json" Process/Templates/gitignore_template
-   # (Should find it - file should NOT be tracked in user projects)
+   # User project .gitignore template SHOULD exclude .config directory
+   grep ".config/" Process/Templates/gitignore_template
+   # (Should find it - .config/ is a framework-managed directory)
    ```
-   - Framework: `.nonfiction-migrations.json` should be tracked (versioned with framework)
-   - User projects: `.nonfiction-migrations.json` should be in .gitignore (it's a framework file)
+   - Framework: `.nonfiction-migrations.json` tracked at root for development
+   - User projects: `.config/migrations.json` copied from template, excluded in .gitignore
 
 **If migrations are needed for this release:**
 - Ensure they're documented in `.nonfiction-migrations.json` BEFORE tagging
@@ -167,9 +169,10 @@ If any unexpected references found, update them.
 - Verify all change types work correctly
 - Confirm manual steps are clear and accurate
 
-**CRITICAL: Verify migrations file will be included in release:**
-- Check that `.github/workflows/release.yml` copies `.nonfiction-migrations.json` to build/temp/
-- This file MUST be included in release zip for upgrade migrations to work
+**CRITICAL: Verify config templates will be included in release:**
+- Check that `.github/workflows/release.yml` copies `Process/Templates/.config/` to build
+- `.config/migrations.json` template MUST be included in release zip
+- All 5 .config templates must be present (init, project, metadata, manifest, migrations)
 
 ### Step 4.6: Generate Framework Files Manifest
 
@@ -183,6 +186,7 @@ The manifest lists all framework files that should exist in a clean installation
    find Process -type f | sort > /tmp/process_files.txt
    ls -1 INSTALLATION.md CLAUDE.md configure.md system-instructions.md .gitignore .nonfiction-migrations.json 2>/dev/null > /tmp/root_files.txt
    find .claude -type f | sort > /tmp/claude_files.txt
+   find scripts -type f | sort > /tmp/scripts_files.txt
    ```
 
 2. **Update `Process/Templates/framework_files_manifest.json`:**
@@ -202,16 +206,18 @@ The manifest lists all framework files that should exist in a clean installation
 4. **Verify completeness:**
    - Compare manifest against actual files
    - Ensure all `.md` files in Process/ are listed
-   - Ensure all prompts (Prompt_1 through Prompt_15, Prompt_99) are listed
-   - Ensure all modules (_COMMON/01-16) are listed
+   - Ensure all prompts (Prompt_1 through Prompt_16, Prompt_99) are listed
+   - Ensure all modules (_COMMON/01-17) are listed
    - Ensure all templates are listed
-   - Ensure .claude/ files are listed
+   - Ensure .claude/ files are listed (README.md, hooks.json)
+   - Ensure .claude/agents/ are listed (book-writing-assistant.md)
+   - Ensure .claude/commands/ are listed (fw-init.md)
 
 **Example manifest structure:**
 ```json
 {
-  "version": "0.11.1",
-  "generatedDate": "2025-11-20",
+  "version": "0.12.10",
+  "generatedDate": "2025-11-23",
   "files": {
     "root": ["INSTALLATION.md", "CLAUDE.md", ...],
     "Process": ["AI-Assisted_Nonfiction_Authoring_Process.md", ...],
@@ -219,7 +225,8 @@ The manifest lists all framework files that should exist in a clean installation
     "Process/_COMMON": ["01_Prompt_Structure_Template.md", ...],
     "Process/Templates": ["Chapter_Style_Template.md", ...],
     ".claude": ["README.md", "hooks.json"],
-    ".claude/agents": ["book-writing-assistant.md"]
+    ".claude/agents": ["book-writing-assistant.md"],
+    ".claude/commands": ["fw-init.md"]
   }
 }
 ```
@@ -321,8 +328,12 @@ This list helps verify all version references are updated:
 - `PREPARE_RELEASE.md` - This file's header and footer version and date
 - `system-instructions.md` - Header and footer version, compatibility classifications
 
-### Generated During Installation
-- `.nonfiction-manifest.json` - Created by configure.md (frameworkVersion field)
+### Generated During Installation (v0.12.1+)
+- `.config/init.json` - Created by Prompt 1 Q&A session
+- `.config/project.json` - Created by Prompt 1 (replaces Project_Config.md)
+- `.config/metadata.json` - Created by Prompt 1 (replaces Project_Metadata.md)
+- `.config/manifest.json` - Created by configure.md (replaces .nonfiction-manifest.json)
+- `.config/migrations.json` - Copied from template during initialization
 
 ### Release Artifacts
 - `CHANGELOG.md` - New version entry added
@@ -395,9 +406,9 @@ If a release needs to be rolled back:
 **Claude:**
 1. Updates version to 0.11.0 in all 8 files listed in Step 2
 2. Updates dates to today's date
-3. **Reviews README.md** for prompt counts ("15 prompts" as of v0.11.0 Phase 2), download links, features
+3. **Reviews README.md** for prompt counts ("16 prompts" as of v0.12.1), download links, features
 4. **Reviews CHANGELOG.md** entry for 0.11.0 completeness
-5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 7,8,9,12,13,14,15 as of v0.11.1+)
+5. **Reviews system-instructions.md** for correct compatibility classifications (CLI-ONLY: 7,8,9,12,13,14,15,16 as of v0.12.1+)
 6. Runs grep to verify no 0.10.3 references remain (except CHANGELOG history)
 7. Commits with message: "Update all documentation to version 0.11.0"
 8. Creates tag v0.11.0 with release notes from CHANGELOG.md
@@ -421,7 +432,7 @@ grep -r "0\.10\.0" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md"
 
 **Review critical files for content:**
 ```bash
-# Check README.md for outdated prompt counts (should be 15 as of v0.11.0 Phase 2)
+# Check README.md for outdated prompt counts (should be 16 as of v0.12.1)
 grep -n "[0-9][0-9].*[Pp]rompts" README.md
 
 # Check system-instructions.md for compatibility
@@ -445,7 +456,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.11.1
-**Last Updated:** 2025-11-20
+**Framework Version:** 0.12.10
+**Last Updated:** 2025-11-23
 
 *This file is for framework maintainers only - not included in release packages*

@@ -1,4 +1,4 @@
-# Execute Prompt 14: Visual Content Suggester
+# Execute Prompt 15: Visual Content Suggester
 
 **CLI-ONLY (bulk analysis) / HYBRID (single chapter in Desktop)**
 
@@ -10,6 +10,12 @@ Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full bef
 - **RULE 2:** All Manuscript/ changes must go through appropriate prompts
 
 See: `Process/_COMMON/14_Enforcement_Rules_Module.md` for complete details
+
+**VISUAL SYSTEM VERSION:** v0.12.7 - Unified directory structure
+- **Location:** `Manuscript/images/` (single flat directory)
+- **Naming:** `fig-XX-YY-description.md` (hyphens, not underscores)
+- **Registry:** `Manuscript/images/Image_Registry.md` (unified, not per-chapter)
+- **References:** Standard markdown image syntax with relative paths
 
 **NOTE:** This prompt creates visual asset files and updates _chg files as part of the standard workflow
 
@@ -38,9 +44,10 @@ I will analyze your chapter content to identify opportunities for visual aids (d
 
 **What makes this different:**
 - Creates **text-based visuals** (markdown tables, ASCII diagrams, mermaid flowcharts)
-- Stored as **separate files** in `Chapter_XX/figures/` directories
-- Easy to upgrade: replace `.md` file with `.png` file, same reference works
-- Tracked in registry for consistency checking
+- Stored in **unified location:** `Manuscript/images/` directory
+- Easy to upgrade: replace `.md` file with `.png` file using Prompt 16
+- Tracked in **single registry:** `Image_Registry.md`
+- Works with **Prompt 16** for upgrading to professional images
 - Version-controlled and modular
 
 ---
@@ -304,7 +311,7 @@ Figure 2.1: Survey Method Comparison
 - Columns: Method, Cost, Response Rate, Best Use
 - Rows: Email, Phone, Online, In-person
 
-**Suggested filename:** `fig_02_01_survey_comparison.md`
+**Suggested filename:** `fig-02-01-survey_comparison.md`
 **Estimated creation time:** 5 minutes
 ```
 
@@ -317,7 +324,7 @@ Figure 2.1: Survey Method Comparison
 1-4. **[Same as Scan Only mode]**
 
 5. **Create figures/ directories (if needed)**
-   - For each chapter: `Manuscript/Chapters/Chapter_XX/figures/`
+   - For each chapter: `Manuscript/Chapters/Manuscript/images/`
    - Create directory only if visuals will be added
 
 6. **Create text-based visual files**
@@ -325,10 +332,10 @@ Figure 2.1: Survey Method Comparison
      - Generate text-based visual (table/diagram/flowchart)
      - Include description and metadata
      - Add replacement instructions
-     - Save to `Chapter_XX/figures/fig_XX_YY_description.md`
+     - Save to `Manuscript/images/fig_XX_YY_description.md`
 
 7. **Create/update figures registry**
-   - Create or update `Chapter_XX/figures/README.md`
+   - Create or update `Manuscript/images/README.md`
    - Add entry for each new visual:
      - Figure number and description
      - Type and status (📝 Text-based)
@@ -337,8 +344,10 @@ Figure 2.1: Survey Method Comparison
      - Replacement priority
 
 8. **Insert visual references in chapter content**
-   - Add reference at appropriate location
-   - Format: `[See: figures/fig_XX_YY_description.md]`
+   - Use standard markdown image syntax
+   - Format: `![Alt text description](../images/fig-XX-YY-description.md)`
+   - Alt text REQUIRED for accessibility
+   - Optional caption: `**Figure X.Y:** Caption text`
    - Place after relevant paragraph
 
 9. **Update chapter _chg file**
@@ -390,7 +399,7 @@ Figure 2.1: Survey Method Comparison
 **Type:** Comparison Table
 **Format:** Markdown table
 **Status:** 📝 Text-based
-**Created:** 2025-11-20 by Prompt 14
+**Created:** 2025-11-20 by Prompt 15
 **Chapter:** 3
 **Section:** Research Methods
 **Referenced in:** Chapter_03.md (line 145)
@@ -406,10 +415,10 @@ from Chapter 3 content.
 **To upgrade to professional graphic:**
 
 1. Create table graphic using design tool (Canva, Adobe, etc.)
-2. Export as PNG or SVG: `fig_03_01_survey_comparison.png`
+2. Export as PNG or SVG: `fig-03-01-survey_comparison.png`
 3. Save to same directory: `Manuscript/Chapters/Chapter_03/figures/`
 4. Update reference in Chapter_03.md from `.md` to `.png`
-5. Update status in `figures/README.md` to: 🖼️ Professional image
+5. Update status in `Image_Registry.md` to: 🖼️ Professional image
 6. Keep this `.md` file for reference (or delete if preferred)
 
 **Replacement Priority:** Medium
@@ -424,7 +433,7 @@ from Chapter 3 content.
 - Emphasize response rate differences visually
 ```
 
-**Registry File Format (`figures/README.md`):**
+**Registry File Format (`Image_Registry.md`):**
 
 ```markdown
 # Visual Assets Registry - Chapter 3
@@ -439,38 +448,38 @@ from Chapter 3 content.
 
 ## Figure Inventory
 
-### fig_03_01_survey_comparison
+### fig-03-01-survey_comparison
 - **Number:** Figure 3.1
 - **Title:** Survey Method Comparison
 - **Type:** Table
 - **Status:** 📝 Text-based (markdown table)
-- **File:** `figures/fig_03_01_survey_comparison.md`
+- **File:** `../images/fig-03-01-survey_comparison.md`
 - **Referenced in:** Chapter_03.md (line 145)
-- **Created:** 2025-11-20 by Prompt 14
+- **Created:** 2025-11-20 by Prompt 15
 - **Replacement Priority:** Medium
 - **Notes:** Consider professional graphic for visual consistency
 
 ---
 
-### fig_03_02_analysis_workflow
+### fig-03-02-analysis_workflow
 - **Number:** Figure 3.2
 - **Title:** Data Analysis Workflow
 - **Type:** Flowchart
 - **Status:** 📝 Text-based (mermaid diagram)
-- **File:** `figures/fig_03_02_analysis_workflow.md`
+- **File:** `../images/fig-03-02-analysis_workflow.md`
 - **Referenced in:** Chapter_03.md (line 278)
-- **Created:** 2025-11-20 by Prompt 14
+- **Created:** 2025-11-20 by Prompt 15
 - **Replacement Priority:** High
 - **Notes:** Complex process - professional flowchart highly recommended
 
 ---
 
-### fig_03_03_sample_screenshot
+### fig-03-03-sample_screenshot
 - **Number:** Figure 3.3
 - **Title:** Survey Interface Example
 - **Type:** Screenshot
 - **Status:** 🖼️ Professional image (PNG)
-- **File:** `figures/fig_03_03_sample_screenshot.png`
+- **File:** `../images/fig-03-03-sample_screenshot.png`
 - **Referenced in:** Chapter_03.md (line 312)
 - **Created:** 2025-11-18 (user-provided)
 - **Replacement Priority:** N/A (final version)
@@ -493,7 +502,7 @@ from Chapter 3 content.
 
 ---
 
-*Registry maintained by Prompt 14: Visual Content Suggester*
+*Registry maintained by Prompt 15: Visual Content Suggester*
 *Last updated: 2025-11-20*
 ```
 
@@ -503,7 +512,7 @@ Insert at appropriate location in chapter content:
 
 ```markdown
 Email surveys offer cost advantages but come with trade-offs in response
-rates and data depth. [See: figures/fig_03_01_survey_comparison.md] The
+rates and data depth. [See: ../images/fig-03-01-survey_comparison.md] The
 choice depends on your research priorities and resource constraints.
 ```
 
@@ -605,16 +614,16 @@ Where:
 - `description` = Brief descriptor (lowercase, underscores)
 
 **Examples:**
-- `fig_03_01_survey_comparison.md`
-- `fig_03_02_analysis_workflow.md`
-- `fig_05_01_timeline.md`
-- `fig_12_03_cost_breakdown.md`
+- `fig-03-01-survey_comparison.md`
+- `fig-03-02-analysis_workflow.md`
+- `fig-05-01-timeline.md`
+- `fig-12-03-cost_breakdown.md`
 
 ### Professional Graphic Replacements
 
 **Same name, different extension:**
-- Text: `fig_03_01_survey_comparison.md`
-- Image: `fig_03_01_survey_comparison.png` (or `.svg`, `.jpg`)
+- Text: `fig-03-01-survey_comparison.md`
+- Image: `fig-03-01-survey_comparison.png` (or `.svg`, `.jpg`)
 
 **This allows:**
 - Easy reference updates (just change extension)
@@ -625,11 +634,11 @@ Where:
 
 ## Registry Management
 
-### Registry File: `figures/README.md`
+### Registry File: `Image_Registry.md`
 
 **Created when:**
 - First visual added to chapter
-- Prompt 14 creates figure file
+- Prompt 15 creates figure file
 
 **Updated when:**
 - New visual added
@@ -683,7 +692,7 @@ This prompt implements the **Visual Asset Management Protocol** (Module 15):
 - Reference format in chapters
 - Upgrade path for text → image replacement
 
-**Prompt 14 implements:**
+**Prompt 15 implements:**
 - Creation of figure files following Module 15 format
 - Registry generation and updates
 - Status tracking and priority assignment
@@ -719,22 +728,22 @@ See: `Process/_COMMON/15_Visual_Asset_Management_Protocol.md`
 ## Visuals Created
 
 ### Chapter 2: Research Design (3 visuals)
-1. **fig_02_01_survey_comparison.md** (Table) - Survey method comparison
-2. **fig_02_02_sampling_decision.md** (Flowchart) - Sampling strategy flowchart
-3. **fig_02_03_timeline.md** (Timeline) - Research project phases
+1. **fig-02-01-survey_comparison.md** (Table) - Survey method comparison
+2. **fig-02-02-sampling_decision.md** (Flowchart) - Sampling strategy flowchart
+3. **fig-02-03-timeline.md** (Timeline) - Research project phases
 
 ### Chapter 3: Data Collection (3 visuals)
-1. **fig_03_01_data_types.md** (Table) - Qualitative vs quantitative data
-2. **fig_03_02_collection_workflow.md** (Flowchart) - Data collection process
-3. **fig_03_03_quality_checklist.md** (Table) - Data quality criteria
+1. **fig-03-01-data_types.md** (Table) - Qualitative vs quantitative data
+2. **fig-03-02-collection_workflow.md** (Flowchart) - Data collection process
+3. **fig-03-03-quality_checklist.md** (Table) - Data quality criteria
 
 ### Chapter 5: Analysis (2 visuals)
-1. **fig_05_01_analysis_framework.md** (Diagram) - Analysis framework concept
-2. **fig_05_02_coding_process.md** (Flowchart) - Qualitative coding workflow
+1. **fig-05-01-analysis_framework.md** (Diagram) - Analysis framework concept
+2. **fig-05-02-coding_process.md** (Flowchart) - Qualitative coding workflow
 
 ## Files Created/Updated
 - 8 new figure files
-- 3 new registry files (figures/README.md)
+- 3 new registry files (Image_Registry.md)
 - 3 chapter content files updated (references inserted)
 - 3 chapter _chg files updated
 
@@ -742,20 +751,20 @@ See: `Process/_COMMON/15_Visual_Asset_Management_Protocol.md`
 
 ### High Priority (3 visuals)
 These text-based visuals would significantly benefit from professional graphics:
-- fig_02_02_sampling_decision.md - Complex decision flowchart
-- fig_03_02_collection_workflow.md - Multi-step process diagram
-- fig_05_01_analysis_framework.md - Conceptual framework diagram
+- fig-02-02-sampling_decision.md - Complex decision flowchart
+- fig-03-02-collection_workflow.md - Multi-step process diagram
+- fig-05-01-analysis_framework.md - Conceptual framework diagram
 
 ### Medium Priority (4 visuals)
 These work as text but would look more professional as graphics:
-- fig_02_01_survey_comparison.md - Comparison table
-- fig_03_01_data_types.md - Feature comparison
-- fig_05_02_coding_process.md - Process flowchart
-- fig_02_03_timeline.md - Project timeline
+- fig-02-01-survey_comparison.md - Comparison table
+- fig-03-01-data_types.md - Feature comparison
+- fig-05-02-coding_process.md - Process flowchart
+- fig-02-03-timeline.md - Project timeline
 
 ### Low Priority (1 visual)
 This is functional as text and doesn't need upgrading:
-- fig_03_03_quality_checklist.md - Simple checklist table
+- fig-03-03-quality_checklist.md - Simple checklist table
 
 ## Git Commit
 ✅ Committed: "Add visual content to Chapters 2, 3, 5 v1.1.0"
@@ -853,7 +862,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 **Always commit together:**
 - All new/modified figure files (`.md` or images)
-- All new/modified registry files (`figures/README.md`)
+- All new/modified registry files (`Image_Registry.md`)
 - All modified chapter content files (with references)
 - All modified chapter _chg files
 
@@ -861,7 +870,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ```bash
 git add Manuscript/Chapters/Chapter_XX/Chapter_XX.md
 git add Manuscript/Chapters/Chapter_XX/Chapter_XX_chg.md
-git add Manuscript/Chapters/Chapter_XX/figures/
+git add Manuscript/Chapters/Manuscript/images/
 ```
 
 ---

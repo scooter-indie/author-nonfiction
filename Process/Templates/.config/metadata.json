@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Project metadata (replaces Project_Metadata.md)",
+  "book": {
+    "title": "",
+    "subtitle": "",
+    "author": "",
+    "publisher": "",
+    "isbn": "",
+    "targetAudience": "",
+    "genre": "",
+    "description": "",
+    "keywords": []
+  },
+  "version": {
+    "current": "1.0.0",
+    "history": []
+  },
+  "dates": {
+    "started": "",
+    "firstDraft": "",
+    "published": "",
+    "targetCompletion": ""
+  },
+  "stats": {
+    "totalChapters": 0,
+    "totalWords": 0,
+    "targetWordCount": 0,
+    "completionPercentage": 0
+  }
+}

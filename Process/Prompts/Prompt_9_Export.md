@@ -29,16 +29,17 @@ I will export your manuscript to various formats (DOCX, PDF, EPUB, LaTeX) suitab
 
 ## How This Works
 
-I'll use your default export settings (from `Project_Config.md`) or you can customize for this export.
+I'll use your default export settings (from `.config/project.json`) or you can customize for this export.
 
 ### Pre-Export Checklist
 
 **Before exporting, you should have:**
-- ✓ Run Prompt 6 (Consistency Checker) and fixed issues
-- ✓ Run Prompt 8 (Progress Dashboard) to verify completion
+- ✓ Run Prompt 8 (Consistency Checker) and fixed issues
+- ✓ Run Prompt 10 (Progress Dashboard) to verify completion
+- ✓ Run Prompt 16 Mode 4 (Validate Image References) to check images
 - ✓ Resolved all `[CITATION NEEDED]` markers
 - ✓ Completed all placeholder sections
-- ✓ Verified all images are in chapter figures/ directories (Manuscript/Chapters/Chapter_XX/figures/)
+- ✓ Verified all images are in Manuscript/images/ directory (v0.12.7+)
 
 ### Questions I'll ask:
 
@@ -109,13 +110,13 @@ I'll use your default export settings (from `Project_Config.md`) or you can cust
 
 ## Default Settings
 
-Your current defaults (from Project_Config.md):
+Your current defaults (from .config/project.json):
 - Format: DOCX
 - Citation Style: Chicago
 - Include: Cover, TOC, Page numbers
 - Image Handling: High resolution, include all
 
-These can be updated in `Project_Config.md` or customized per export.
+These can be updated in `.config/project.json` or customized per export.
 
 ---
 
@@ -123,7 +124,7 @@ These can be updated in `Project_Config.md` or customized per export.
 
 - **Export requires complete content**: Placeholder sections will be flagged
 - **Citation markers must be resolved**: All `[CITATION NEEDED]` should have proper citations
-- **Assets must exist**: Referenced images must be in chapter figures/ directories or Research/Assets/
+- **Assets must exist**: Referenced images must be in Manuscript/images/ directory (v0.12.7+)
 - **This creates new files**: Original manuscript files are unchanged
 
 ---
@@ -217,8 +218,8 @@ PANDOC_PATH="[from .claude/settings.local.json]"
 # Set variables
 DRAFT_FILE="Drafts/Full_Draft_[date]_v[version].md"
 OUTPUT_DIR="Exports/[CONFIRMED_DATE]"
-BOOK_TITLE="[from Project_Config.md]"
-AUTHOR_NAME="[from Project_Config.md]"
+BOOK_TITLE="[from .config/metadata.json: book.title]"
+AUTHOR_NAME="[from .config/metadata.json: book.author]"
 
 # Create EPUB
 "${PANDOC_PATH}" "${DRAFT_FILE}" \
@@ -226,23 +227,25 @@ AUTHOR_NAME="[from Project_Config.md]"
   --metadata title="${BOOK_TITLE}" \
   --metadata author="${AUTHOR_NAME}" \
   --metadata lang="en-US" \
+  --metadata publisher="[Publisher Name or Self-Published]" \
+  --metadata rights="Copyright © [Year] [Author]. All rights reserved." \
   --toc \
   --toc-depth=2 \
-  --epub-cover-image="FrontMatter/cover.jpg" \
-  --css="Style/epub-style.css" \
-  --epub-embed-font="Style/fonts/*.ttf" \
-  --resource-path=".:Chapters:FrontMatter:BackMatter" \
+  --epub-cover-image="Manuscript/images/cover.jpg" \
+  --css="Manuscript/Style/epub-style.css" \
+  --epub-embed-font="Manuscript/Style/fonts/*.ttf" \
+  --resource-path="Manuscript" \
   --standalone
 ```
 
 **EPUB Options Explained:**
-- `--metadata`: Book metadata (title, author, language)
+- `--metadata`: Book metadata (title, author, language, publisher, rights)
 - `--toc`: Generate table of contents
 - `--toc-depth=2`: TOC shows chapters and major sections
-- `--epub-cover-image`: Cover image file
-- `--css`: Custom CSS for styling
+- `--epub-cover-image`: Cover image file (Manuscript/images/cover.jpg)
+- `--css`: Custom CSS for styling (epub-style.css from templates)
 - `--epub-embed-font`: Embed custom fonts
-- `--resource-path`: Where to find images
+- `--resource-path="Manuscript"`: Images resolved from Manuscript/images/ (v0.12.7+)
 - `--standalone`: Create complete EPUB file
 
 ### Step 5: Generate DOCX (if requested)
@@ -250,16 +253,16 @@ AUTHOR_NAME="[from Project_Config.md]"
 ```bash
 "${PANDOC_PATH}" "${DRAFT_FILE}" \
   -o "${OUTPUT_DIR}/${BOOK_TITLE}.docx" \
-  --reference-doc="Style/reference.docx" \
+  --reference-doc="Manuscript/Style/reference.docx" \
   --toc \
   --toc-depth=2 \
-  --resource-path=".:Chapters:FrontMatter:BackMatter"
+  --resource-path="Manuscript"
 ```
 
 **DOCX Options:**
 - `--reference-doc`: Custom Word template for styling
 - `--toc`: Generate table of contents
-- `--resource-path`: Where to find images
+- `--resource-path="Manuscript"`: Images resolved from Manuscript/images/ (v0.12.7+)
 
 ### Step 6: Generate PDF (if requested)
 
@@ -271,10 +274,10 @@ AUTHOR_NAME="[from Project_Config.md]"
   --pdf-engine=xelatex \
   --toc \
   --toc-depth=2 \
-  --template="Style/template.latex" \
+  --template="Manuscript/Style/template.latex" \
   --variable documentclass=book \
   --variable geometry:margin=1in \
-  --resource-path=".:Chapters:FrontMatter:BackMatter"
+  --resource-path="Manuscript"
 ```
 
 **Option B: Via Typst (if installed):**
@@ -355,7 +358,7 @@ TYPST_EOF
 # Compile to PDF
 "${TYPST_PATH}" compile \
   --root "." \
-  --font-path "Style/fonts" \
+  --font-path "Manuscript/Style/fonts" \
   "${OUTPUT_DIR}/${BOOK_TITLE}.typ" \
   "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
 ```
@@ -392,15 +395,16 @@ Typst can read markdown directly (experimental):
 ### Step 7: Copy Assets
 
 ```bash
-# Copy images to export directory
+# Copy images to export directory (v0.12.7+ unified directory)
 mkdir -p "${OUTPUT_DIR}/images"
-find Chapters -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" | \
-  xargs -I {} cp {} "${OUTPUT_DIR}/images/"
+cp Manuscript/images/* "${OUTPUT_DIR}/images/" 2>/dev/null || true
 
-# Copy cover image if exists
-if [ -f "FrontMatter/cover.jpg" ]; then
-  cp "FrontMatter/cover.jpg" "${OUTPUT_DIR}/"
-fi
+# Verify image count
+IMAGE_COUNT=$(ls -1 "${OUTPUT_DIR}/images" 2>/dev/null | wc -l)
+echo "Copied ${IMAGE_COUNT} images to export directory"
+
+# Note: Cover image (Manuscript/images/cover.jpg) is already included above
+# No separate copy needed since all images are in one directory
 ```
 
 ### Step 8: Create Export README
@@ -541,9 +545,10 @@ I will display:
 **Issue:** Images missing in EPUB
 
 **Solutions:**
-- Verify images exist in chapter figures/ directories
-- Use relative paths in markdown: `![](figures/image.png)`
-- Check `--resource-path` includes all image directories
+- Verify images exist in Manuscript/images/ directory (v0.12.7+)
+- Use relative paths in markdown: `![](../images/fig-XX-YY-name.ext)`
+- Ensure `--resource-path="Manuscript"` is set correctly
+- Run Prompt 16 Mode 4 (Validate) to check all image references before export
 
 ### Typst Not Found
 

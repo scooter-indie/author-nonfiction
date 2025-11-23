@@ -1,4 +1,4 @@
-# Execute Prompt 15: Citation_Finder
+# Execute Prompt 14: Citation_Finder
 
 **CLI-ONLY:** Requires Claude Code CLI for WebSearch tool and bulk file analysis operations
 
@@ -295,7 +295,7 @@ I will analyze your chapters to identify **statements requiring academic or prof
    - **DOI:** 10.1257/aer.20201834
    - **URL:** https://www.aeaweb.org/articles?id=10.1257/aer.20201834
    - **Status:** ⏳ Pending - User must verify access and accuracy
-   - **Added by:** Prompt 15: Citation_Finder ([CONFIRMED_DATE])
+   - **Added by:** Prompt 14: Citation_Finder ([CONFIRMED_DATE])
 
    **USER ACTION REQUIRED:**
    1. Verify you can access this source
@@ -313,7 +313,7 @@ I will analyze your chapters to identify **statements requiring academic or prof
    - Citation details added to Bibliography/Chapter_03_References.md
    - Status: Pending user verification
 
-   **Rationale:** Prompt 15 identified uncited statistical claim requiring source
+   **Rationale:** Prompt 14 identified uncited statistical claim requiring source
 
    **Verification Required:**
    - User must confirm access to source
@@ -334,7 +334,7 @@ I will analyze your chapters to identify **statements requiring academic or prof
    - Added [Bloom2023]⏳ - Remote work productivity study
    - Status: ⏳ Pending user verification
 
-   **Source:** Prompt 15: Citation_Finder
+   **Source:** Prompt 14: Citation_Finder
    **Related Chapter:** Chapter_03.md (line 45)
 
    **User Action Required:**
@@ -463,7 +463,7 @@ git add Chapter_03_chg.md
 git add BackMatter/Bibliography/Chapter_03_References.md
 git add BackMatter/Bibliography/Chapter_03_References_chg.md
 git add Drafts/Citation_Report_Chapter_03_[CONFIRMED_DATE].md
-git commit -m "AUTO: Add 6 pending citations to Chapter 03 (Prompt 15)
+git commit -m "AUTO: Add 6 pending citations to Chapter 03 (Prompt 14)
 
 - Added [Bloom2023], [Nilles1976], [Maslow1943], [Allen2021], [Grant2022], [Bailey2020]
 - All citations marked ⏳ Pending user verification
@@ -585,7 +585,7 @@ Experiment." *American Economic Review*, vol. 113, no. 1, 2023, pp. 123-156.
 - `[Brownetal2021]⏳` - Three or more authors
 
 **Status indicators:**
-- ⏳ Pending - Auto-inserted by Prompt 15, not yet verified
+- ⏳ Pending - Auto-inserted by Prompt 14, not yet verified
 - ✓ Verified - User confirmed access and accuracy
 - ❌ Rejected - User determined source is inaccessible or irrelevant
 
@@ -615,7 +615,7 @@ However, outcomes varied significantly by industry [Allen2021]✓ and role type
 - **Full Citation:** Complete bibliographic information in chosen style
 - **Why Suggested:** Explanation of relevance to the claim
 - **Relevance Score:** 0-100% (how well source supports claim)
-- **Added by:** Prompt 15: Citation_Finder (date)
+- **Added by:** Prompt 14: Citation_Finder (date)
 - **User Action Required:** Verification steps
 
 **Optional but recommended:**
@@ -645,7 +645,7 @@ However, outcomes varied significantly by industry [Allen2021]✓ and role type
   check institutional access
 - **Related Chapter:** Chapter_03.md (line 45)
 - **Page/Section:** Abstract and results section (pp. 134-140)
-- **Added by:** Prompt 15: Citation_Finder (2025-11-20)
+- **Added by:** Prompt 14: Citation_Finder (2025-11-20)
 
 **USER ACTION REQUIRED:**
 1. Verify you can access this source (institutional login may be needed)
@@ -793,7 +793,7 @@ This prompt follows the Citation Management Protocol established in:
 
 **Recommendations:**
 - Verify 2 pending citations in Chapter_03_References.md
-- Run Prompt 15 to find citations for 3 uncited claims
+- Run Prompt 14 to find citations for 3 uncited claims
 - Consider alternative source for 1 rejected citation
 ```
 
@@ -805,7 +805,7 @@ This prompt follows the Citation Management Protocol established in:
 - Quote citations managed in Quotes/Chapter_Quotes.md
 - In-text quotes use same status system: ⏳ ⚠ ✓
 - Bibliography entries link to quote file
-- Prompt 15 skips quote analysis (handled by quote workflow)
+- Prompt 14 skips quote analysis (handled by quote workflow)
 - Cross-reference verification prevents duplication
 
 **Example coordination:**
@@ -900,7 +900,7 @@ This prompt uses:
 
 **Commit message format:**
 ```
-AUTO: Add [N] pending citations to Chapter XX (Prompt 15)
+AUTO: Add [N] pending citations to Chapter XX (Prompt 14)
 
 - Added [CitationKey1], [CitationKey2], [CitationKey3]...
 - All citations marked ⏳ Pending user verification

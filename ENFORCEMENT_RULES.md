@@ -2,7 +2,8 @@
 
 **Status:** Active Rules - Must Be Enforced
 **Created:** 2025-11-19
-**Framework Version:** 0.10.1+
+**Last Updated:** 2025-11-21
+**Framework Version:** 0.12.10+
 
 ---
 
@@ -185,6 +186,29 @@ Even if:
 
 Direct file modifications outside the prompt system are **PROHIBITED**.
 
+### CRITICAL: No Direct Editing Exception
+
+**ABSOLUTE RULE: NO direct editing of Manuscript/ files is EVER allowed, including:**
+
+❌ **Initial drafting** - "Draft chapter 4" → Use Prompt 3 or 4
+❌ **First content creation** - "Write chapter 1" → Use Prompt 3 or 4
+❌ **Quick changes** - "Just fix this typo" → Use Prompt 3 or 4
+❌ **Testing changes** - "Let me try something" → Use Prompt 3 or 4
+❌ **Minor edits** - "Small formatting fix" → Use Prompt 3 or 4
+
+**There is NO exception for "initial content creation (0 → first draft)".**
+
+Even when creating content for the first time, you MUST:
+1. Use Prompt 4 (Interactive Change) - AI writes instructions to _chg file, then optionally executes
+2. OR use Prompt 3 (Change by Chg) - User writes instructions, AI executes
+
+**Why this is absolute:**
+- Establishes version tracking from the very beginning (1.0.0)
+- Creates consistent workflow regardless of content state
+- Prevents confusion about "when rules apply"
+- Ensures ALL changes have rationale documented
+- Maintains audit trail from project start
+
 ### Scope
 
 **Files covered:**
@@ -206,17 +230,20 @@ Direct file modifications outside the prompt system are **PROHIBITED**.
 |-------------|----------|-----------|
 | "Create my book project" | Prompt 1 | Initializes complete structure |
 | "Add a new chapter" | Prompt 2 | Handles chapter creation and renumbering |
-| "Modify Chapter 3" | Prompt 3 | Primary content modification workflow |
-| "Update the introduction" | Prompt 3 | Any content change goes through Prompt 3 |
-| "Fix typos in Chapter 5" | Prompt 3 | Even minor edits use Prompt 3 |
-| "Add content from my draft" | Prompt 4 | Integrates inbox content |
-| "Integrate these notes" | Prompt 4 | Integrates inbox content |
-| "Compile the manuscript" | Prompt 5 | Creates full draft from source files |
-| "Check for consistency issues" | Prompt 6 | Read-only analysis, reports issues |
-| "Export to DOCX" | Prompt 7 | Creates exports, doesn't modify source |
-| "Show me project status" | Prompt 8 | Read-only dashboard |
-| "Commit these changes" | Prompt 9 | Git operations only |
-| "Sync change tracking" | Prompt 10 | Updates _chg files from git history |
+| "**Draft chapter 4**" | **Prompt 3 or 4** | **ALL content creation uses prompts** |
+| "**Write chapter 1**" | **Prompt 3 or 4** | **Even initial drafts use prompts** |
+| "Modify Chapter 3" | Prompt 3 or 4 | Primary content modification workflow |
+| "Update the introduction" | Prompt 3 or 4 | Any content change goes through prompts |
+| "Fix typos in Chapter 5" | Prompt 3 or 4 | Even minor edits use prompts |
+| "Revise this section" | Prompt 3 or 4 | All revisions use prompts |
+| "Add content from my draft" | Prompt 6 | Integrates inbox content |
+| "Integrate these notes" | Prompt 6 | Integrates inbox content |
+| "Compile the manuscript" | Prompt 7 | Creates full draft from source files |
+| "Check for consistency issues" | Prompt 8 | Read-only analysis, reports issues |
+| "Export to DOCX" | Prompt 9 | Creates exports, doesn't modify source |
+| "Show me project status" | Prompt 10 | Read-only dashboard |
+| "Commit these changes" | Prompt 12 | Git operations only |
+| "Sync change tracking" | Prompt 5 | Updates _chg files from git history |
 
 ### Examples of Correct Routing
 
@@ -273,6 +300,35 @@ INCORRECT Response:
 "I'll create Chapter 4 for you..." [attempts direct file creation]
 ```
 
+**Example 4: User asks to draft/write chapter content**
+```
+User: "Draft chapter 3 about the methodology"
+OR
+User: "Write the first draft of chapter 1"
+
+CORRECT Response:
+"I'll help you draft that chapter. Since this creates/modifies manuscript
+content, we need to use Prompt 3 or 4:
+
+Recommended: Prompt 4 (Interactive Change)
+1. Execute Prompt 4
+2. Select Chapter 3 (or specify file)
+3. Tell me what content you want in the draft
+4. I'll write instructions to Chapter_03_chg.md
+5. Optionally execute immediately to create the draft
+6. Version 1.0.0 or next version is tracked automatically
+
+Alternative: Prompt 3 (Change by Chg)
+1. You write instructions in Chapter_03_chg.md describing the draft content
+2. Commit the _chg file
+3. Execute Prompt 3 to generate the draft
+
+Which workflow would you prefer?"
+
+INCORRECT Response:
+"Sure, I'll draft Chapter 3 for you..." [directly edits Chapter_03.md]
+```
+
 ### Enforcement Across All Prompts
 
 **When AI detects a Manuscript/ modification request outside a prompt:**
@@ -323,14 +379,22 @@ Would you like me to walk you through Prompt 3?"
 User: "I'm debugging an issue. Can you just quickly test something in Chapter 2?"
 
 Response:
-"For debugging purposes, I recommend:
+"I understand you want to test quickly, but the framework doesn't allow
+direct editing even for debugging. Here's the fastest approach:
 
-1. Make test changes manually (outside framework)
+Option A (Recommended): Use Prompt 4 (Interactive Change)
+1. Tell me what test you want to try
+2. I'll write instructions to Chapter_02_chg.md
+3. Execute immediately to test
+4. If it works, version is tracked automatically
+5. If it doesn't, revert via git and try another approach
+
+Option B: Manual testing with sync
+1. Make test changes manually yourself (outside Claude)
 2. Test your hypothesis
-3. Once confirmed, run Prompt 10 to sync change tracking
-4. Or revert test changes and use Prompt 3 for final fix
+3. When done: git revert OR git commit + run Prompt 5 to sync tracking
 
-This lets you experiment while keeping the framework clean."
+I cannot make direct edits even for testing - this maintains framework integrity."
 ```
 
 **Case 3: User wants to batch multiple changes**
@@ -635,5 +699,12 @@ Executes Prompt 2 to add new Chapter 4
 
 **Status:** ACTIVE - MUST BE ENFORCED
 **Created:** 2025-11-19
-**Framework Version:** 0.10.1+
+**Last Updated:** 2025-11-23 - v0.12.10
+**Framework Version:** 0.12.10+
 **Applies To:** All current and future prompts
+
+**v0.12.9 Updates:**
+- Added explicit prohibition on direct editing for initial drafts
+- Added routing for "draft chapter" and "write chapter" requests
+- Closed debugging loophole (no direct editing even for testing)
+- Added Example 4 showing correct workflow for drafting chapters

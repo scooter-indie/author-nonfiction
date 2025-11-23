@@ -1,7 +1,39 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.11.1
+**Framework Version:** 0.12.10
 **Session Context Document for Claude Code**
+
+---
+
+## FIRST ACTION - MANDATORY
+
+**At the start of EVERY Claude Code session, run:**
+
+```
+/fw-init
+```
+
+This slash command performs the Session Startup Protocol by loading all framework documentation (~20,000-30,000 tokens):
+- system-instructions.md (framework rules and compatibility)
+- Process/AI-Assisted_Nonfiction_Authoring_Process.md (comprehensive guide)
+- Process/Anti-Hallucination_Guidelines.md (accuracy protocols)
+- Process/Prompts/QUICK_REFERENCE.md (workflow guide)
+- Process/Prompts/README.md (detailed prompt documentation)
+- Process/Styles/README.md (writing styles library)
+- PROJECT_CONTEXT.md (if book project exists)
+
+**Why this is mandatory:**
+- Loads complete, up-to-date framework rules
+- Explains chapter structure (subdirectories vs flat files)
+- Defines when to use each prompt
+- Prevents common errors like creating files in wrong locations
+- Activates Anti-Hallucination Protocol (ASK FIRST verification)
+- Checks for existing book project context
+- Provides verbose initialization report
+
+**IMPORTANT:** Do NOT execute any prompts until `/fw-init` completes successfully.
+
+**After `/fw-init` completes, you are ready to work.**
 
 ---
 
@@ -149,7 +181,7 @@ Claude will read the appropriate prompt file and execute it.
 
 ---
 
-## 15 Core Prompts (v0.11.0+)
+## 16 Core Prompts (v0.12.1+)
 
 ### Prompt 1: Initialize Project Structure
 **Purpose:** Create new book project from scratch
@@ -219,17 +251,23 @@ Claude will read the appropriate prompt file and execute it.
 **Output:** Authenticity scores, flagged passages, rewriting suggestions
 **Note:** Helps ensure content sounds authentically yours
 
-### Prompt 14: Visual Content Suggester (NEW in v0.11.0 Phase 2)
-**Purpose:** Analyze chapters and create text-based visuals (tables, diagrams, flowcharts)
-**When:** After drafting content, during revision, when explanations need visual support
-**Output:** Markdown tables, ASCII diagrams, structured data displays
-**Note:** Enhances understanding without requiring graphics software
-
-### Prompt 15: Citation Finder (NEW in v0.11.0 Phase 2)
+### Prompt 14: Citation Finder (NEW in v0.11.0 Phase 2)
 **Purpose:** Find and insert citations with WebSearch verification
 **When:** Adding factual claims, statistics, or expert quotes; verifying existing citations
 **Output:** Properly formatted citations with source verification
 **Note:** Ensures accurate attribution and findable sources
+
+### Prompt 15: Visual Content Suggester (NEW in v0.11.0 Phase 2)
+**Purpose:** Analyze chapters and create text-based visuals (tables, diagrams, flowcharts)
+**When:** After drafting content, during revision, when explanations need visual support
+**Output:** Markdown tables, ASCII diagrams, structured data displays in Manuscript/images/
+**Note:** Enhances understanding without requiring graphics software
+
+### Prompt 16: Image Manager (NEW in v0.12.1)
+**Purpose:** Manage actual image files (photos, screenshots, professional graphics)
+**When:** Adding photos/screenshots, upgrading text-based visuals, validating image references
+**Output:** Images in Manuscript/images/, updated Image_Registry.md, inserted references
+**Note:** Semi-automated workflow with registry coordination
 
 ---
 
@@ -251,12 +289,13 @@ Claude will read the appropriate prompt file and execute it.
 
 ### CLI-ONLY (0% - Must use Claude Code CLI)
 - **Prompt 7:** Compile Complete Manuscript - Bulk file operations
-- **Prompt 8:** Consistency Checker - Bulk file reads (30-50+ files across chapters, figures, bibliography, styles)
+- **Prompt 8:** Consistency Checker - Bulk file reads (30-50+ files across chapters, images, bibliography, styles)
 - **Prompt 9:** Export and Format - Requires pandoc for DOCX/PDF/EPUB
 - **Prompt 12:** Git Operations - Direct git command execution
 - **Prompt 13:** AI Detection Analysis - Bulk chapter analysis (NEW)
-- **Prompt 14:** Visual Content Suggester - Bulk file operations and visual analysis (NEW Phase 2)
-- **Prompt 15:** Citation Finder - Requires WebSearch for verification (NEW Phase 2)
+- **Prompt 14:** Citation Finder - Requires WebSearch for verification (NEW Phase 2)
+- **Prompt 15:** Visual Content Suggester - Bulk file operations and visual analysis (NEW Phase 2)
+- **Prompt 16:** Image Manager - File operations, registry updates, semi-automated workflow (NEW v0.12.1)
 
 **Key Points:**
 - Prompts 3 & 4 are both **DESKTOP-FRIENDLY** workflows - choose based on preference
@@ -265,7 +304,7 @@ Claude will read the appropriate prompt file and execute it.
 - Prompt 2 is **DESKTOP-FRIENDLY** (not CLI-ONLY) - MCP Filesystem handles directory operations
 - Prompt 8 is **CLI-ONLY** - scans 30-50+ files for full consistency analysis
 - Prompt 11 is **HYBRID** - use Desktop for simple ops, CLI for validation/scanning
-- Prompts 7, 8, 9, 12, 13, 14, 15 are **CLI-ONLY** - require bulk operations, WebSearch, or system tools
+- Prompts 7, 8, 9, 12, 13, 14, 15, 16 are **CLI-ONLY** - require bulk operations, WebSearch, or system tools
 
 ---
 
@@ -424,12 +463,22 @@ The framework includes centralized quote/epigraph management:
 
 When Claude Code starts in this directory:
 
-✅ **Read this file (CLAUDE.md)** - Framework context loaded
-✅ **Load Anti-Hallucination Guidelines** - Critical rules ready
-✅ **Anti-Hallucination Verification Active** - ASK before assuming user experiences
-✅ **Framework documentation available** - Process/ directory accessible
+✅ **MANDATORY: Run `/fw-init` command** - User types `/fw-init` at session start
+✅ **CLAUDE.md auto-loaded** - Framework context from system
+✅ **Initialization in progress** - `/fw-init` loads all framework documentation:
+   - system-instructions.md
+   - Process/AI-Assisted_Nonfiction_Authoring_Process.md
+   - Process/Anti-Hallucination_Guidelines.md
+   - Process/Prompts/QUICK_REFERENCE.md
+   - Process/Prompts/README.md
+   - Process/Styles/README.md
+   - PROJECT_CONTEXT.md (if exists)
+✅ **Anti-Hallucination Protocol Active** - ASK before assuming user experiences
 ✅ **CONFIRM DATE WITH USER** - See Date Confirmation Protocol below
+✅ **Initialization complete** - Verbose report displayed
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
+
+**Note:** The `/fw-init` command (in `.claude/commands/fw-init.md`) performs the complete Session Startup Protocol. Do NOT execute any prompts until `/fw-init` completes.
 
 ---
 
@@ -491,8 +540,8 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
-**Framework Version:** 0.11.1
-**Last Updated:** 2025-11-20
+**Framework Version:** 0.12.10
+**Last Updated:** 2025-11-23
 
 ---
 

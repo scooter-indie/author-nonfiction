@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Framework
 
-**Version 0.11.1**
+**Version 0.12.10**
 
 A complete system for writing professional nonfiction books with AI assistance using Claude Code.
 
@@ -13,8 +13,9 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 ### Key Features
 
 - 📝 **Structured Authoring Process** with change tracking and version history
-- 🤖 **AI Assistance** through 15 conversational prompts
-- 🎨 **Professional Writing Styles** - 9 curated styles plus custom style support
+- 🤖 **AI Assistance** through 16 conversational prompts
+- 🎨 **Professional Writing Styles** - 19 curated styles across 5 categories plus custom style support
+- 🖼️ **Visual Content Management** - Unified image system with text-based placeholders and professional images
 - 📚 **Quote Management** with web search and verification system
 - 🔍 **Quality Control** - Consistency checking and validation
 - 📦 **Git Version Control** - Complete change tracking and backup
@@ -27,7 +28,7 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 
 ### 1. Download the Framework
 
-Download `nonfiction-v0.11.1.zip` from:
+Download `nonfiction-v0.12.10.zip` from:
 
 **GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
 
@@ -38,13 +39,13 @@ Save it to your book project directory (e.g., `E:\Projects\my-book`).
 Extract the zip file to your project directory:
 
 **Windows**:
-- Right-click `nonfiction-v0.11.1.zip` → "Extract All..."
+- Right-click `nonfiction-v0.12.10.zip` → "Extract All..."
 - Choose your project directory as the destination
 
 **macOS/Linux**:
 ```bash
 cd /path/to/my-book
-unzip nonfiction-v0.11.1.zip
+unzip nonfiction-v0.12.10.zip
 ```
 
 ### 3. Run Configuration
@@ -79,7 +80,7 @@ This will ask you about your book and create the complete project structure.
 
 ### 5. Start Writing!
 
-Use the framework's 15 prompts to write and manage your book:
+Use the framework's 16 prompts to write and manage your book:
 - **Prompt 3**: Change by Chg (automated workflow from _chg files)
 - **Prompt 4**: Interactive Change (conversational editing)
 - **Prompt 8**: Check consistency
@@ -113,19 +114,20 @@ After extraction, your project contains:
 - `.claude/agents/book-writing-assistant.md` - AI writing assistant
 
 ### Your Book (Created by Prompt 1)
-- `Chapters/` - Your chapter files
-- `TOC/` - Table of contents
-- `FrontMatter/` - Preface, introduction, etc.
-- `BackMatter/` - Appendices, bibliography, etc.
-- `Quotes/` - Quote and epigraph management
-- `Style/` - Writing style configuration
+- `Manuscript/Chapters/` - Your chapter files
+- `Manuscript/_TOC_/` - Table of contents
+- `Manuscript/FrontMatter/` - Copyright, preface, introduction, etc.
+- `Manuscript/BackMatter/` - Appendices, bibliography, About Author, etc.
+- `Manuscript/Quotes/` - Quote and epigraph management
+- `Manuscript/Style/` - Writing style configuration and EPUB CSS
+- `Manuscript/images/` - All visual assets (unified directory, v0.12.1+)
+- `Manuscript/Drafts/` - Compiled manuscripts
+- `Manuscript/Exports/` - Published formats
 - `Project_Config.md` - Book metadata
-- `Drafts/` - Compiled manuscripts
-- `Exports/` - Published formats
 
 ---
 
-## The 15 Core Prompts
+## The 16 Core Prompts
 
 Execute these prompts in Claude Code to manage your book:
 
@@ -168,11 +170,14 @@ Commit, tag, branch, push, and manage version control.
 ### Prompt 13: AI Detection Analysis
 Analyze chapters for AI-generated text indicators and ensure authentic voice.
 
-### Prompt 14: Visual Content Suggester
-Analyze chapters and create text-based visuals (tables, diagrams, flowcharts) to enhance understanding.
-
-### Prompt 15: Citation Finder
+### Prompt 14: Citation Finder
 Find and insert citations with WebSearch verification for factual accuracy.
+
+### Prompt 15: Visual Content Suggester
+Analyze chapters and create text-based visuals (tables, diagrams, flowcharts) in Manuscript/images/.
+
+### Prompt 16: Image Manager
+Add professional images, upgrade text-based visuals, scan existing images, and validate image references.
 
 **Full Documentation**: `Process/Prompts/QUICK_REFERENCE.md`
 
@@ -180,21 +185,26 @@ Find and insert citations with WebSearch verification for factual accuracy.
 
 ## Writing Style System
 
-The framework includes 9 professionally curated writing styles:
+The framework includes **19 professionally curated writing styles** across 5 categories:
 
-1. **Academic Authority** - Scholarly, research-based
-2. **Conversational Expert** - Business/professional, accessible
-3. **Narrative Storyteller** - Memoir-adjacent, first-person
-4. **Business Professional** - Management/leadership focused
-5. **Technical Precision** - Technical guides, systematic
-6. **Investigative Journalist** - Evidence-based revelation
-7. **Practical Guide** - How-to, step-by-step
-8. **Inspirational Teacher** - Personal development, motivational
-9. **Scientific Communicator** - Popular science, wonder with rigor
+**Academic & Research (4 styles):**
+- Academic Authority, Scientific Communicator, Technical Precision, Medical/Health Narrative
+
+**Professional & Business (2 styles):**
+- Business Professional, Conversational Expert
+
+**Narrative & Storytelling (4 styles):**
+- Narrative Storyteller, Historical Chronicler, Investigative Journalist, Confessional Memoir
+
+**Personal Development (3 styles):**
+- Practical Guide, Inspirational Teacher, Philosophical Contemplative
+
+**Cultural & Social Commentary (6 styles):**
+- Cultural Critic, Satirical Humorist, Activist Advocate, Lyrical Nature Writer, Spiritual/Religious Writer, Sports Writer
 
 **Select your style during Prompt 1**, or create custom styles tailored to your voice.
 
-**Style Library**: `Process/Style_Examples.md`
+**Style Library**: `Process/Styles/` (modular organization with category-based browsing)
 
 ---
 
@@ -356,8 +366,8 @@ This framework is released under the MIT License. See LICENSE file for details.
 
 ## About
 
-**Framework Version**: 0.11.1
-**Release Date**: 2025-11-20
+**Framework Version**: 0.12.10
+**Release Date**: 2025-11-23
 **Repository**: https://github.com/scooter-indie/author-nonfiction
 
 Created to empower authors to write professional nonfiction books with AI assistance while maintaining complete creative control and ensuring factual accuracy.

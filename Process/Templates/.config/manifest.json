@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Framework installation manifest (replaces .nonfiction-manifest.json)",
+  "frameworkVersion": "",
+  "installedDate": "",
+  "lastUpdated": "",
+  "installationMethod": "",
+  "configureCompleted": false,
+  "toolsAvailable": {
+    "git": false,
+    "pandoc": false,
+    "typst": false
+  }
+}

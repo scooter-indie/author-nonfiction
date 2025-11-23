@@ -2,7 +2,7 @@
 
 **HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
 
-**AI-Assisted Nonfiction Authoring Framework v0.11.1**
+**AI-Assisted Nonfiction Authoring Framework v0.12.10**
 
 **Claude Desktop Compatibility:**
 - ✅ All file verification via MCP Filesystem
@@ -32,7 +32,7 @@ This configuration script will:
 4. **Clean outdated files** (updates only) - Remove obsolete framework files
 5. **Setup git repository** - Initialize if not present
 6. **Connect to remote** (optional) - Help you set up GitHub/GitLab remote
-7. **Discover export tools** (optional) - Detect pandoc/typst and store paths
+7. **Discover export tools** - Run detection script to find pandoc/typst, update manifest
 8. **Create manifest/update version** - Track installation or update
 9. **Verify Claude Code integration** - Ensure book-writing-assistant is ready
 10. **Create initial commit** - Verify git is working
@@ -52,7 +52,7 @@ I will:
 ### Step 2: Check Framework Installation
 
 I will verify these files exist:
-- `.nonfiction-manifest.json`
+- `.config/manifest.json` (or legacy `.nonfiction-manifest.json`)
 - `Process/` directory
 - `.claude/agents/book-writing-assistant.md`
 - `INSTALLATION.md`
@@ -65,18 +65,22 @@ If any are missing, I'll report the issue and stop.
 ### Step 3: Detect Installation Type and Create/Update Manifest
 
 I will:
-1. Check if `.nonfiction-manifest.json` exists in project root
+1. Check if `.config/manifest.json` exists in project
+   - If not, check for legacy `.nonfiction-manifest.json` in root
 2. **If manifest does NOT exist:**
-   - Read `Process/Templates/manifest_template.json`
-   - Create `.nonfiction-manifest.json` from template
+   - Read `Process/Templates/.config/manifest.json`
+   - Create `.config/manifest.json` from template
    - This is a **New Installation**
 3. **If manifest DOES exist:**
-   - Read existing `.nonfiction-manifest.json`
+   - Read existing `.config/manifest.json` (or migrate from `.nonfiction-manifest.json`)
    - Preserve `installedVersion` and `installedDate` (installation history)
    - Update only `frameworkVersion` and `releaseDate` from template
    - Add current update to `updateHistory` array
    - This is an **Update Installation**
-4. Proceed with appropriate workflow
+4. **If migrating from v0.12.0 or earlier:**
+   - Move `.nonfiction-manifest.json` → `.config/manifest.json`
+   - Update structure to match new template
+5. Proceed with appropriate workflow
 
 **Manifest Structure:**
 ```json
@@ -123,8 +127,8 @@ For updates, I will:
 This ensures your project structure is updated correctly through each version's changes.
 
 I will:
-1. Read `.nonfiction-migrations.json` to get available migrations
-2. Read `.nonfiction-manifest.json` to check:
+1. Read `.config/migrations.json` to get available migrations
+2. Read `.config/manifest.json` to check:
    - Current `installedVersion` or `frameworkVersion`
    - `appliedMigrations` array (list of already-applied migration IDs)
 3. Determine which migrations need to be applied:
@@ -143,7 +147,7 @@ I will:
      - retry: Try again
      - abort: Stop entire process (user must fix before continuing)
    - Track successful changes
-6. Track applied migrations in `.nonfiction-manifest.json`
+6. Track applied migrations in `.config/manifest.json`
 7. If any steps failed and user chose abort:
    - Display manual fix instructions immediately
    - Create `MANUAL_MIGRATION_STEPS.md` in project root
@@ -200,12 +204,13 @@ Step 3/3: Remove README.md from .gitignore
 
 ```
 User's current version: 0.10.0
-Framework version: 0.11.1
+Framework version: 0.12.1
 
-Found 3 pending migrations:
+Found 4 pending migrations:
 1. migration_0.10.0_to_0.10.1 (3 changes)
 2. migration_0.10.1_to_0.11.0 (2 changes)
 3. migration_0.11.0_to_0.11.1 (1 change)
+4. migration_0.11.1_to_0.12.1 (0 changes - documentation only)
 
 Applying all migrations in order...
 
@@ -364,7 +369,7 @@ I will:
 **Example cleanup scenarios:**
 
 **Scenario 1: Prompt renumbering**
-- User upgrading from v0.9.2 (11 prompts) → v0.11.0 (15 prompts)
+- User upgrading from v0.9.2 (11 prompts) → v0.12.1 (16 prompts)
 - Old: `Process/Prompts/Prompt_5_Compile.md`
 - New: `Process/Prompts/Prompt_7_Compile.md`
 - Result: Old `Prompt_5_Compile.md` removed (now at Prompt_7)
@@ -463,60 +468,65 @@ Then I'll:
 
 ### Step 7: Export Tool Discovery
 
-I will ask you about optional export tools:
+Now I'll check what export tools are available on your system. This determines which export formats Prompt 9 can produce.
 
-**Question:** "Do you have pandoc installed? (Required for Prompt 9: Export to DOCX/PDF/EPUB)"
+**Note:** Git was already verified in Step 2. This script will re-confirm git and detect pandoc/typst for export functionality (Prompt 9).
 
-**If Yes:**
-- I'll run discovery commands to find pandoc:
-  - **Windows**: `where pandoc`
-  - **macOS/Linux**: `which pandoc`
-- I'll get the version: `pandoc --version`
-- I'll store the path and version in `.claude/settings.local.json`
+**To run the tool detection:**
 
-**If No:**
-- I'll note it as not installed
-- I'll provide installation instructions:
-  - **Windows**: Download from https://pandoc.org/installing.html or use `winget install pandoc`
-  - **macOS**: Install via Homebrew: `brew install pandoc`
-  - **Linux**: Use package manager: `sudo apt install pandoc` or `sudo yum install pandoc`
-- You can skip for now and install later (Prompt 9 will remind you when needed)
+1. **Open Claude Code CLI** in your project directory
+2. **In Claude Code, say:**
+   ```
+   Run: bash scripts/detect-tools.sh .config/manifest.json
+   ```
 
-**Question:** "Do you have typst installed? (Optional alternative to LaTeX for PDF generation)"
+**The script will:**
+1. Re-confirm git availability (already verified in Step 2)
+2. Detect pandoc and typst for export tools (Prompt 9)
+3. Display version numbers for all detected tools
+4. Update `.config/manifest.json` with tool availability
+5. Provide installation instructions for missing tools
 
-**If Yes:**
-- I'll run discovery commands to find typst:
-  - **Windows**: `where typst`
-  - **macOS/Linux**: `which typst`
-- I'll get the version: `typst --version`
-- I'll store the path and version in `.claude/settings.local.json`
+**Expected output:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tool Detection Script v0.12.1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-**If No:**
-- I'll note it as not installed
-- I'll provide installation instructions:
-  - **Windows**: Download from https://typst.app/ or use `winget install typst`
-  - **macOS**: Install via Homebrew: `brew install typst`
-  - **Linux**: See https://github.com/typst/typst#installation
-- You can skip for now and install later
+Detecting available tools...
 
-**Storage Format in `.claude/settings.local.json`:**
+✓ Git detected (version 2.43.0)
+✓ Pandoc detected (version 3.1.9)
+⊙ Typst not found (optional - alternative to LaTeX)
+
+✓ Updated .config/manifest.json
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tool Detection Summary
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Available tools:
+  ✓ Git - Version control (required)
+  ✓ Pandoc - DOCX/PDF/EPUB export (Prompt 9)
+  ⊙ Typst - Install for fast PDF export
+
+Installation instructions:
+  Typst: https://github.com/typst/typst#installation
+  - Windows: winget install Typst.Typst
+  - macOS: brew install typst
+  - Linux: Download from releases
+```
+
+**The manifest will be updated:**
 ```json
 {
-  "permissions": { ... },
-  "tools": {
-    "pandoc": {
-      "installed": true,
-      "path": "C:\\Program Files\\Pandoc\\pandoc.exe",
-      "version": "3.1.9",
-      "discoveredAt": "2025-11-20T18:30:00Z"
-    },
-    "typst": {
-      "installed": false,
-      "path": null,
-      "version": null,
-      "discoveredAt": null
-    }
-  }
+  "frameworkVersion": "0.12.10",
+  "toolsAvailable": {
+    "git": true,
+    "pandoc": true,
+    "typst": false
+  },
+  "lastUpdated": "2025-11-21"
 }
 ```
 
@@ -524,35 +534,48 @@ I will ask you about optional export tools:
 - Prompt 9 (Export) needs pandoc to convert markdown to DOCX/PDF/EPUB
 - Without pandoc, Prompt 9 can only export to markdown format
 - Typst is an optional modern alternative to LaTeX for PDF generation
-- Tool paths are stored so prompts don't need to search every time
-- Works even if tools are not in your system PATH
+- Tool availability is stored in manifest for framework reference
+- You can re-run detection anytime: `bash scripts/detect-tools.sh`
 
 ### Step 8: Update Manifest
 
 **For New Installations:**
-I will update `.nonfiction-manifest.json`:
+I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "3.5.0",
-  "installedVersion": "3.5.0",
+  "frameworkVersion": "0.12.10",
+  "installedVersion": "0.12.10",
   "installedDate": "[current-date]",
-  "lastUpdated": "[current-date]"
+  "lastUpdated": "[current-date]",
+  "installationMethod": "configure.md",
+  "configureCompleted": true,
+  "toolsAvailable": {
+    "git": true,
+    "pandoc": false,
+    "typst": false
+  }
 }
 ```
 
 **For Updates:**
 I will:
 1. Read current `installedVersion` from manifest
-2. Display changelog (read from `CHANGELOG.md` or `Process/AI-Assisted_Nonfiction_Authoring_Process_chg.md`)
-3. Show what's changed between your version and 3.5.0
+2. Display changelog (read from `CHANGELOG.md`)
+3. Show what's changed between your version and 0.12.7
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "3.5.0",
-  "installedVersion": "3.5.0",
-  "previousVersion": "[old-version]",
-  "installedDate": "[original-date]",
-  "lastUpdated": "[current-date]"
+  "frameworkVersion": "0.12.10",
+  "installedVersion": "0.12.10",
+  "installedDate": "[original-date-preserved]",
+  "lastUpdated": "[current-date]",
+  "installationMethod": "configure.md",
+  "configureCompleted": true,
+  "toolsAvailable": {
+    "git": true,
+    "pandoc": true,
+    "typst": false
+  }
 }
 ```
 
@@ -570,7 +593,7 @@ I will provide you with the git command to run in Claude Code CLI.
 
 Open Claude Code CLI and say:
 ```
-Run: git add . && git commit -m 'Initialize nonfiction framework v0.10.0
+Run: git add . && git commit -m 'Initialize nonfiction framework v0.12.7
 
 🤖 Generated with Claude Desktop
 
@@ -581,7 +604,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 Open Claude Code CLI and say:
 ```
-Run: git add .nonfiction-manifest.json && git commit -m 'Update framework from v[old] to v0.10.0
+Run: git add .config/manifest.json && git commit -m 'Update framework from v[old] to v0.12.7
 
 See CHANGELOG.md for details.
 
@@ -744,7 +767,7 @@ Your git repository will track:
 - ✅ **Your book content**: Manuscript/ directory (Chapters/, _TOC_/, FrontMatter/, BackMatter/, Quotes/, Style/, Inbox/, Drafts/, Exports/)
 - ✅ **Your configuration**: Project_Config.md, Project_Metadata.md, Style_Guide.md
 - ✅ **Change tracking**: All _chg.md files
-- ✅ **Manifest**: .nonfiction-manifest.json (version tracking)
+- ✅ **Manifest**: .config/manifest.json (version tracking)
 - ✅ **Claude agents**: .claude/agents/book-writing-assistant.md
 - ❌ **Framework files**: Process/, system-instructions.md, INSTALLATION.md, CLAUDE.md
 
@@ -764,5 +787,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.11.1*
+*Framework Version: 0.12.10*
 *Configuration Script: configure.md*

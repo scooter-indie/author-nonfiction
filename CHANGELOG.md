@@ -7,6 +7,495 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.10] - 2025-11-23
+
+### Added
+- **Session Initialization Command** - `/fw-init` for Claude Code CLI
+  - Mandatory session startup command that loads all framework documentation
+  - Loads ~20,000-30,000 tokens: system-instructions.md, Process/ files, style library
+  - Activates Anti-Hallucination Protocol
+  - Checks for PROJECT_CONTEXT.md
+  - Provides verbose initialization report with version and available prompts
+  - Solves initialization bypass problem (makes setup explicit and mandatory)
+  - Added `.claude/commands/fw-init.md`
+  - Updated CLAUDE.md: FIRST ACTION changed from reading files to running `/fw-init`
+  - Note: Claude Desktop users continue using Session Startup Protocol in system-instructions.md
+
+- **Lock Management Module** - Process/_COMMON/18_Lock_Management_Module.md
+  - Resource-level locking for concurrent editing (Chapter_XX, StyleSystem, ImageRegistry, etc.)
+  - Single JSON lock file (`.locks/locks.json`)
+  - 15-minute stale lock timeout with override option
+  - User choices: wait, cancel, or override stale locks
+  - Clear all locks functionality for recovery
+  - Works in both CLI and Desktop (Read/Write JSON)
+  - Target: v0.13.0 for prompt integration (Prompts 1, 2, 3, 4, 5, 6, 11, 14, 15, 16)
+
+- **Compilation Script** - Process/Scripts/compile-manuscript.sh
+  - Efficient bash script for manuscript compilation
+  - Handles both flat and subdirectory chapter structures
+  - Reduces token usage and improves compilation speed
+  - Added Process/Scripts/README.md documenting available scripts
+
+### Changed
+- **Prompt 7 (Compile)** - Now uses bash script for efficient compilation instead of manual assembly
+- **CONCURRENCY.md** - Simplified to implementation checklist
+  - Replaced complex branching/partitioning strategies with simple lock-based approach
+  - References Lock Management Module as the solution
+  - Lists all 10 prompts requiring lock implementation with checklists
+  - Provides standard lock implementation pattern
+  - Includes Prompt 10 dashboard integration for lock display
+  - Status: Module complete, prompt updates pending (v0.13.0)
+
+### Fixed
+- **Prompt 14 (Citation Finder)** - Corrected self-references (was incorrectly labeled as Prompt 15)
+- **Prompt 15 (Visual Content Suggester)** - Corrected self-references (was incorrectly labeled as Prompt 14)
+
+### Proposed
+- **Concurrent Editing Support** - Proposal/CONCURRENCY.md
+  - Three solutions: Branch-based isolation, file-based partitioning, lock files
+  - Recommended workflows for solo authors and co-authors
+  - Conflict prevention and resolution strategies
+  - Phased implementation plan (v0.13.0-v0.15.0)
+  - Enhanced with image registry concurrency analysis
+
+- **Image Registry Splitting** - Proposal/IMAGE_REGISTRY_SPLITTING.md
+  - Automatic splitting at 300-image threshold for scalability
+  - Chapter-based registry organization (Image_Registry_Chapter_XX.md)
+  - Master index with overview and statistics
+  - 89% token reduction for typical operations (5,000-12,500 vs 75,000+ tokens)
+  - Backward compatible with single-registry mode
+  - Scales to 1,000+ images comfortably
+  - Impact analysis for Prompts 6, 8, 10, 15, 16
+  - Target: v0.14.0
+
+### Technical
+- **Documentation updates** across multiple files for /fw-init integration:
+  - .claude/README.md - Document fw-init command usage
+  - INSTALLATION.md - Added mandatory fw-init step, updated directory structure
+  - Process/Prompts/README.md - Added Session Initialization section
+  - Process/Prompts/QUICK_REFERENCE.md - Added fw-init to all workflows
+  - PREPARE_RELEASE.md - Added fw-init.md to verification checklist
+- **Framework files manifest** - Updated with fw-init.md and new scripts
+- **Scripts directory** - New Process/Scripts/ with documentation
+
+---
+
+## [0.12.9] - 2025-11-22
+
+### Added
+- **Modular Style Library (v2.0.0)** - Complete refactoring from monolithic to category-based organization
+  - **Process/Styles/** directory with 5 category subdirectories
+  - **19 writing styles** (up from 9) across categories: Academic (4), Professional (2), Narrative (4), Personal (3), Cultural (6)
+  - **Style_Catalog.md** - Master index for browsing all styles (280 lines vs old 650 lines = 57% token reduction)
+  - **README.md** - Comprehensive usage guide for the style library
+
+- **10 New Writing Styles:**
+  1. Historical Chronicler (Narrative) - Narrative history with scholarly rigor
+  2. Philosophical Contemplative (Personal) - Ethics and existential inquiry
+  3. Cultural Critic (Cultural) - Sharp social commentary and essays
+  4. Satirical Humorist (Cultural) - Witty, ironic comedic truth-telling
+  5. Activist Advocate (Cultural) - Social justice advocacy
+  6. Lyrical Nature Writer (Cultural) - Poetic nature writing with ecological awareness
+  7. Spiritual/Religious Writer (Cultural) - Faith exploration and contemplative writing
+  8. Sports Writer (Cultural) - Athletic narratives and sports culture
+  9. Confessional Memoir (Narrative) - Raw, unflinching personal honesty
+  10. Medical/Health Narrative (Academic) - Clinical knowledge + patient experience
+
+- **Individual Style Files** - Each style in separate ~100-line file with consistent template
+  - Voice Characteristics, Tone, Pacing, Structure
+  - Example passage (200-300 words)
+  - DO/DON'T guidelines
+  - Category and version metadata
+
+- **Proposal Documentation**
+  - Proposal/Implemented/STYLE_REFACTOR.md - Phase 1 complete proposal (structure and styles)
+  - Proposal/STYLE_REFACTOR_PH2.md - Phase 2 proposal (prompt integration, complexity levels, future features)
+
+### Changed
+- **README.md** - Updated from "9 curated styles" to "19 curated styles across 5 categories"
+- **Style organization** - Category-based browsing (Academic, Professional, Narrative, Personal, Cultural) vs alphabetical
+- **Token efficiency** - Progressive disclosure: Catalog + selected style (280 lines) vs all styles (650 lines)
+
+### Removed
+- **Process/Style_Examples.md** - Replaced by modular Process/Styles/ directory structure
+
+### Technical
+- **Breaking change** - File paths changed from `Process/Style_Examples.md` to `Process/Styles/[Category]/[Style].md`
+- **Git history preserved** - Individual style files easier to maintain and version
+- **Scalability improved** - Can add 10+ more styles without structural changes
+- **Phase 2 pending** - Prompt updates (1, 8, 11), documentation updates, complexity levels implementation
+
+---
+
+## [0.12.8] - 2025-11-21
+
+### Added
+- **Process/_COMMON/17_README_Management_Module.md** - Centralized module for managing root README.md
+  - Defines complete structure (Title, Author, About, Project Info, Dashboard, Reports)
+  - Report filename formats and link text rules
+  - On-demand directory creation (Reports/ and Dashboard/)
+  - Footer warnings (user-facing + AI directive)
+  - Complete specification for automatic README.md generation
+
+- **Manuscript/Reports/** directory organization
+  - AI Detection reports: `ai-detection-chapter-XX-YYYY-MM-DD.md` or `ai-detection-YYYY-MM-DD.md`
+  - Consistency reports: `consistency-chapter-XX-YYYY-MM-DD.md` or `consistency-YYYY-MM-DD.md`
+  - Tables in README.md show 5 most recent reports, newest first
+  - Descriptive link text: "[Chapter X Analysis]" or "[Full Book]"
+
+- **Manuscript/Dashboard/** directory organization
+  - Single Dashboard.md file (always overwrites)
+  - Git safety: Prompt 10 asks to commit before overwriting existing dashboard
+  - Dashboard link in README.md after first dashboard creation
+
+- **Root README.md auto-generation**
+  - Prompt 1 generates initial README.md with all metadata
+  - About This Book from Q&A answers (purpose, targetAudience)
+  - Project Information from metadata.json (excludes targetAudience, description, keywords; omits empty fields)
+  - Auto-updated by Prompts 8, 10, 13 when creating reports/dashboard
+
+### Changed
+- **Prompt_1_Initialize.md** - Updated to v0.12.8
+  - Added Step 4h: Generate README.md
+  - Uses README Management Module for structure
+  - Includes About This Book and Project Information sections
+  - No Dashboard/Reports sections initially (added later by other prompts)
+
+- **Prompt_8_Consistency.md** - Enhanced with report management
+  - Added "Save Report and Update README.md" section
+  - Creates Manuscript/Reports/ directory on demand
+  - Saves consistency reports with dated filenames
+  - Automatically regenerates README.md with updated Consistency table
+
+- **Prompt_10_Dashboard.md** - Enhanced with dashboard management
+  - Added "Save Dashboard and Update README.md" section
+  - Creates Manuscript/Dashboard/ directory on demand
+  - Asks user to commit before overwriting existing Dashboard.md
+  - Automatically regenerates README.md with dashboard link
+
+- **Prompt_13_AI_Detection_Analysis.md** - Enhanced with report management
+  - Added "Save Report and Update README.md" section
+  - Creates Manuscript/Reports/ directory on demand
+  - Saves AI detection reports with dated filenames
+  - Automatically regenerates README.md with updated AI Detection table
+
+- **Process/Templates/framework_files_manifest.json** - Updated to v0.12.8
+  - Added 17_README_Management_Module.md to Process/_COMMON list
+
+### Fixed
+- **CRITICAL: Direct editing loophole closed**
+  - ENFORCEMENT_RULES.md updated with explicit prohibition on ALL direct editing
+  - Added section: "CRITICAL: No Direct Editing Exception"
+  - Explicitly prohibits direct editing for initial drafts and first content creation
+  - Added routing table entries for "Draft chapter" and "Write chapter" requests
+  - Closed debugging loophole (no direct editing even for testing)
+  - Added Example 4 showing correct workflow for drafting chapters
+
+- **system-instructions.md** - Added critical enforcement rules
+  - New section: "⚠️ CRITICAL ENFORCEMENT RULES ⚠️"
+  - Absolute prohibition on direct editing of Manuscript/ files
+  - Template response for routing chapter work to Prompt 3 or 4
+  - No exception for "initial content creation (0 → first draft)"
+
+- **ENFORCEMENT_RULES.md** - Updated to v0.12.8
+  - Removed loophole allowing direct editing for "initial drafts"
+  - Updated routing table with "Draft chapter" and "Write chapter" examples
+  - Updated Special Case 2 (debugging) to prevent direct editing workaround
+  - Updated version history to reflect loophole closure
+
+### Technical
+- **Release Type:** MINOR (new features: README Management, Reports/Dashboard organization, stricter enforcement)
+- **Breaking Change:** No (enhancement to existing workflows)
+- **New Modules:** 1 (17_README_Management_Module.md)
+- **Updated Prompts:** 4 (Prompts 1, 8, 10, 13)
+- **Framework Files:** 11 modified (README.md, CLAUDE.md, system-instructions.md, ENFORCEMENT_RULES.md, 4 prompts, manifest, CHANGELOG, INSTALLATION)
+
+**Why MINOR not PATCH:**
+- New feature: README Management Module with automatic generation
+- New feature: Structured Reports/ and Dashboard/ directories
+- Enhanced feature: Stricter enforcement rules (prevents workflow violations)
+- Multiple prompts enhanced with auto-update behavior
+
+---
+
+## [0.12.7] - 2025-11-21
+
+### Fixed
+- **configure.md Step 7** - Now instructs users to open Claude Code CLI
+  - Previously asked users to run bash commands directly in terminal
+  - Now tells users: "Open Claude Code CLI" and say "Run: bash scripts/detect-tools.sh"
+  - Aligns with hybrid workflow (Claude Desktop can't reliably execute bash)
+  - Consistent with other steps that require command execution
+
+### Technical
+- **Release Type:** PATCH (workflow instruction fix)
+- **Breaking Change:** No
+- **Issue:** configure.md Step 7 had incorrect instructions for Claude Desktop users
+
+---
+
+## [0.12.6] - 2025-11-21
+
+### Added
+- **scripts/generate-usage-guide.sh** - Bash script for USAGE_GUIDE.md generation
+  - Takes 5 parameters (title, author, date, chapter count, style)
+  - Replaces 6 separate sed commands with single script call
+  - Handles special character escaping (/, &, \) safely
+  - Validates parameters and template existence
+  - Documented in scripts/README.md
+
+- **Process/Templates/USAGE_GUIDE_template.md** - Template for user project quick start guide
+  - Static content with {{PLACEHOLDER}} markers
+  - Populated by generate-usage-guide.sh during Prompt 1
+  - 5 placeholders: BOOK_TITLE, AUTHOR_NAME, INIT_DATE, CHAPTER_COUNT, STYLE_NAME
+
+### Changed
+- **Prompt_1_Initialize.md** - Optimization and realism improvements
+  - Removed all time estimates (misleading "~5-10 seconds" claims)
+  - Updated to use generate-usage-guide.sh script
+  - Changed "10x faster" to "Faster initialization" (no specific timing)
+  - Removed "Time elapsed" from completion report
+  - Removed execution time comparison from footer
+
+### Technical
+- **Release Type:** PATCH (performance optimization + accurate expectations)
+- **Breaking Change:** No
+- **Performance:** Template-based USAGE_GUIDE.md generation (faster than AI)
+- **User Experience:** Removed misleading time estimates for realistic expectations
+
+---
+
+## [0.12.5] - 2025-11-21
+
+### Fixed
+- **CRITICAL: Missing scripts/ directory in release packages**
+  - **GitHub Actions workflow**: Added `cp -r scripts build/temp/` to release.yml
+  - The scripts/ directory was missing from v0.12.3 and v0.12.4 release zip files
+  - This caused configure.md Step 7 and Prompt 1 to fail (couldn't find detect-tools.sh)
+  - Directory contains: init.sh, detect-tools.sh, README.md
+  - Without scripts/, users could not use automated tool detection
+
+### Changed
+- **configure.md Step 7** - Added clarification note about git detection
+  - Explains git was already verified in Step 2
+  - Clarifies that detect-tools.sh re-confirms git and focuses on pandoc/typst
+  - Script detects export tools needed for Prompt 9
+
+### Technical
+- **Release Type:** PATCH (critical bug fix - missing directory in release package)
+- **Breaking Change:** No
+- **Issue:** GitHub Actions workflow didn't copy scripts/ directory to release zip
+- **Impact:** v0.12.3 and v0.12.4 releases were incomplete and non-functional for new installations
+
+---
+
+## [0.12.4] - 2025-11-21
+
+### Fixed
+- **Manifest consolidation** - Completed v0.12.1 migration to `.config/` directory
+  - **configure.md**: All references now use `.config/manifest.json` (8 locations updated)
+  - **gitignore_template**: Added legacy files section for `.nonfiction-manifest.json` and `.nonfiction-migrations.json`
+  - **INSTALLATION.md**: Updated file structure diagram (removed root manifest, added scripts/)
+  - **.claude/README.md**: Updated manifest reference to `.config/manifest.json`
+  - **README_AUTHORS_template.md**: Updated structure (16 prompts, .config/ directory, framework files distinction)
+  - Migration support: configure.md now automatically migrates from legacy locations
+  - Legacy files properly marked and can be gitignored after migration
+
+### Technical
+- **Release Type:** PATCH (bug fix - incomplete migration from v0.12.1)
+- **Breaking Change:** No (backward compatible with automatic migration)
+- **Issue:** v0.12.1 planned manifest consolidation but configure.md still referenced old location
+
+---
+
+## [0.12.3] - 2025-11-21
+
+### Changed
+- **configure.md** - Now uses `detect-tools.sh` script for automatic tool detection
+  - Replaced manual Q&A with automated bash script execution
+  - Runs `bash scripts/detect-tools.sh .config/manifest.json`
+  - Automatic detection of git, pandoc, and typst with version numbers
+  - Color-coded output with installation instructions
+  - Updates `.config/manifest.json` with tool availability
+  - Consistent detection logic between Prompt 1 and configure.md
+
+### Technical
+- **Release Type:** PATCH (configuration workflow improvement)
+- **Breaking Change:** No (internal workflow change only)
+
+---
+
+## [0.12.2] - 2025-11-21
+
+### Changed
+- **Prompt 1 (Initialize)** - Reverted to v0.12.0 question structure and ordering
+  - Questions restored: working title, author, word count, audience, purpose, completion date, TOC file, chapters, style
+  - User preference: More comprehensive metadata collection during initialization
+  - Updated `init.json` and `metadata.json` templates to support additional fields
+- **Initialization Flow** - Optimized .config creation process
+  - Claude now creates ALL 5 JSON files in Step 2b (init, project, metadata, manifest, migrations)
+  - Bash script no longer copies empty .config templates
+  - Eliminated redundant file operations (copy empty → immediately overwrite)
+  - Cleaner separation: Claude handles configuration, bash handles structure
+
+### Technical
+- **Release Type:** PATCH (workflow optimization, user preference)
+- **Performance:** Same ~5-10 second initialization time maintained
+- **Breaking Change:** No (internal workflow change only)
+
+---
+
+## [0.12.1] - 2025-11-21
+
+### Added
+- **Fast Initialization System** - 10x faster project setup (~5-10 seconds vs ~30-60 seconds)
+  - Bash script `scripts/init.sh` for automated structure creation
+  - Validates preconditions, creates directories, copies templates
+  - Verbose progress output with color-coded status
+  - Smart merge on re-initialization (preserves user content)
+- **Centralized Configuration** - All JSON configs in `.config/` directory
+  - `init.json` - Initialization metadata from Q&A
+  - `project.json` - Project settings (replaces Project_Config.md)
+  - `metadata.json` - Book metadata (replaces Project_Metadata.md)
+  - `manifest.json` - Framework tracking (replaces .nonfiction-manifest.json)
+  - `migrations.json` - Version migrations (moved from root)
+- **Hybrid Workflow** - Desktop Q&A → CLI execution
+  - Interactive questions in Claude Desktop create config
+  - Fast execution in Claude Code CLI with bash script
+  - Environment detection (checks for existing config)
+
+### Changed
+- **Prompt 1 (Initialize)** - Complete rewrite for hybrid workflow
+  - 5 core questions + 5 optional metadata questions
+  - Writes `.config/init.json` with user answers
+  - Desktop: Creates config and instructs user to switch to CLI
+  - CLI: Reads config, runs bash script, completes AI tasks
+  - 10x performance improvement
+- **All Prompts** - Updated to read `.config/*.json` instead of .md files
+  - Prompt 2, 7, 9, 12, 99 reference new config structure
+  - README.md and QUICK_REFERENCE.md updated
+- **Directory Structure** - New `scripts/` directory for automation
+
+### Removed
+- **Removed from user projects** (breaking change for v0.13.0):
+  - `Project_Config.md` → `.config/project.json`
+  - `Project_Metadata.md` → `.config/metadata.json`
+  - `.nonfiction-manifest.json` → `.config/manifest.json`
+  - `.nonfiction-migrations.json` → `.config/migrations.json`
+
+### Technical
+- **Release Type:** PATCH (performance improvement, internal refactor)
+- **Breaking Change:** Yes (config file migration)
+- **No Migration Needed:** Not yet in production use
+- **Execution Time:** ~5-10 seconds (v0.12.1) vs ~30-60 seconds (v0.12.0)
+- **Files Added:** 8 files (scripts/, .config templates)
+- **Files Updated:** 14 prompts and documentation files
+
+---
+
+## [0.12.0] - 2025-11-21
+
+### Added
+- **Unified Visual Asset System** - Centralized image management in single `Manuscript/images/` directory
+  - Replaces per-chapter `Chapter_XX/figures/` subdirectories with flat structure
+  - Single `Image_Registry.md` tracks all visual assets across entire book
+  - Registry-based coordination between Prompt 15 and Prompt 16
+  - Two-level status tracking: 📝 Text-based vs 🖼️ Professional images
+  - Simplified Pandoc export: `--resource-path=Manuscript` eliminates path rewriting
+  - Typora-friendly relative paths: `../images/` works in markdown editors
+- **Prompt 16: Image Manager** - Professional image management with four operating modes
+  - Mode 1: Add new professional image to chapter
+  - Mode 2: Upgrade text-based visual (📝 → 🖼️)
+  - Mode 3: Scan and register existing images
+  - Mode 4: Validate all image references
+  - Semi-automated workflow: Claude handles file operations, user controls placement
+  - Registry-based figure numbering ensures sequential consistency
+- **EPUB Templates** - Professional EPUB export support
+  - `epub-style.css` - Default EPUB stylesheet with professional typography
+  - `Copyright_template.md` - Standard copyright page template
+  - `About_Author_template.md` - Author bio template
+  - Enhanced Pandoc EPUB command with publisher/rights metadata
+- **Module 15: Visual Asset Management Protocol** - Complete rewrite for unified system
+  - 700-line comprehensive protocol governing both Prompt 15 and 16
+  - Naming convention: `fig-XX-YY-description.ext` with hyphens
+  - Registry format with upgrade priority tracking
+  - Coordination protocol prevents duplicate figure numbering
+  - Integration guide for all prompts
+
+### Changed
+- **Prompt Renumbering** - Swapped visual content prompts for better logical flow
+  - Prompt 14: Citation Finder (was Prompt 15)
+  - Prompt 15: Visual Content Suggester (was Prompt 14)
+  - Prompt 16: Image Manager (NEW)
+  - All prompt cross-references updated across 16+ files
+- **Prompt 1 (Initialize)** - Updated for unified visual system
+  - Creates `Manuscript/images/` directory instead of per-chapter `figures/`
+  - Copies new templates: Image_Registry, Copyright, About_Author, epub-style.css
+  - No per-chapter figures directories in new chapters
+- **Prompt 2 (Add Chapter)** - Removed per-chapter figures directory creation
+  - New chapters only contain markdown files
+  - All images managed centrally via Prompt 15/16
+- **Prompt 7 (Compile)** - Updated for unified image paths
+  - Handles images from `Manuscript/images/`
+  - Preserves relative `../images/` paths for compatibility
+  - Includes Copyright and About_Author in compilation
+- **Prompt 8 (Consistency)** - Registry-based visual validation
+  - Reads unified `Image_Registry.md` instead of scanning per-chapter directories
+  - Cross-references registry entries with chapter files
+  - Registry health check (accuracy, orphaned files, missing metadata)
+  - Validates image references (paths, alt text, captions)
+- **Prompt 9 (Export)** - Enhanced EPUB generation with unified images
+  - Pandoc: `--resource-path=Manuscript` (no complex path rewriting)
+  - Simplified asset copying: `cp Manuscript/images/*`
+  - Added publisher and rights metadata to EPUB
+  - Cover image: `Manuscript/images/cover.jpg`
+  - CSS: `Manuscript/Style/epub-style.css`
+  - Updated pre-export checklist with Prompt 16 Mode 4 validation
+- **Prompt 15 (Visual Content Suggester)** - Updated for unified directory
+  - Creates text-based visuals in `Manuscript/images/` (not per-chapter)
+  - Uses hyphenated naming: `fig-XX-YY-description.md`
+  - References unified `Image_Registry.md`
+  - Standard markdown image syntax with required alt text
+  - Integration with Prompt 16 for upgrades
+
+### Documentation
+- **README.md** - Updated for v0.12.0 with 16 prompts
+  - Added Visual Content Management feature
+  - Updated directory structure (Manuscript/images/)
+  - Swapped Prompt 14/15 descriptions, added Prompt 16
+- **QUICK_REFERENCE.md** - Complete prompt workflow updates
+  - New "Visual Content" section for Prompts 15 & 16
+  - Updated milestone workflows with image validation steps
+  - Updated CLI-ONLY list and prompt selection tree
+- **Process/Prompts/README.md** - Comprehensive prompt guide updates
+  - Swapped Prompt 14/15 detailed descriptions
+  - Added Prompt 16 with four mode descriptions
+  - Updated milestone and publication workflows
+  - Added image management tips and integration notes
+- **CLAUDE.md** - Session context document updates
+  - Version 0.11.1 → 0.12.0
+  - 15 → 16 Core Prompts
+  - Updated prompt list and CLI-ONLY references
+  - Added visual system notes
+- **system-instructions.md** - Critical framework instructions
+  - Updated CLI-ONLY list (added Prompt 16)
+  - Updated prompt execution guidance
+  - Swapped Prompt 14/15 descriptions
+- **configure.md** - Configuration script updates
+  - Version 0.11.1 → 0.12.0
+  - Added migration_0.11.1_to_0.12.0 (documentation-only)
+  - Updated example scenarios (15 → 16 prompts)
+
+### Technical
+- **Release Type:** MINOR (new features: Prompt 16, unified visual system)
+- **Total Commits:** 20 implementation commits across 13 phases
+- **Files Created:** 5 new files (4 templates + Prompt 16)
+- **Files Updated:** 30+ prompt and documentation files
+- **Breaking Change:** No - existing per-chapter figures/ directories still work
+- **Migration:** Documentation-only (no structural changes to existing projects)
+
+---
+
 ## [0.11.1] - 2025-11-20
 
 ### Fixed

@@ -1,6 +1,6 @@
 # Installation Guide
 
-**AI-Assisted Nonfiction Authoring Framework v0.11.1**
+**AI-Assisted Nonfiction Authoring Framework v0.12.10**
 
 ---
 
@@ -29,7 +29,7 @@ Before you begin, ensure you have:
 
 ### Step 1: Download the Framework
 
-Download `nonfiction-v0.11.1.zip` from:
+Download `nonfiction-v0.12.10.zip` from:
 - **GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
 
 Save the zip file to your target directory.
@@ -42,32 +42,32 @@ Save the zip file to your target directory.
 
 **Windows (File Explorer - Extract All):**
 1. Navigate to your project directory in File Explorer (e.g., `E:\Projects\my-book`)
-2. Copy `nonfiction-v0.11.1.zip` into this directory
-3. Right-click `nonfiction-v0.11.1.zip`
+2. Copy `nonfiction-v0.12.10.zip` into this directory
+3. Right-click `nonfiction-v0.12.10.zip`
 4. Select "Extract All..."
 5. **CRITICAL:** Delete the suggested folder name so it extracts to current directory:
-   - Windows suggests: `E:\Projects\my-book\nonfiction-v0.9.2`
-   - **Change to:** `E:\Projects\my-book` (remove the `\nonfiction-v0.9.2` part)
+   - Windows suggests: `E:\Projects\my-book\nonfiction-v0.12.10`
+   - **Change to:** `E:\Projects\my-book` (remove the `\nonfiction-v0.12.10` part)
 6. Click "Extract"
 7. Files will extract directly into `my-book\` directory
 
 **Windows (7-Zip - Recommended):**
 1. Navigate to your project directory in File Explorer
-2. Copy `nonfiction-v0.11.1.zip` into this directory
-3. Right-click `nonfiction-v0.11.1.zip`
+2. Copy `nonfiction-v0.12.10.zip` into this directory
+3. Right-click `nonfiction-v0.12.10.zip`
 4. Select "7-Zip" → "Extract Here"
 5. Files extract directly into current directory (no subdirectory created)
 
 **Windows (Command Line):**
 ```cmd
 cd E:\Projects\my-book
-tar -xf nonfiction-v0.11.1.zip
+tar -xf nonfiction-v0.12.10.zip
 ```
 
 **macOS/Linux:**
 ```bash
 cd /path/to/my-book
-unzip nonfiction-v0.11.1.zip
+unzip nonfiction-v0.12.10.zip
 ```
 
 #### For Updates (Overlaying Existing Installation):
@@ -78,19 +78,19 @@ unzip nonfiction-v0.11.1.zip
 
 **Windows (File Explorer - Extract All):**
 1. Navigate to your project directory in File Explorer
-2. Copy `nonfiction-v0.11.1.zip` into this directory
-3. Right-click `nonfiction-v0.11.1.zip`
+2. Copy `nonfiction-v0.12.10.zip` into this directory
+3. Right-click `nonfiction-v0.12.10.zip`
 4. Select "Extract All..."
 5. **CRITICAL:** Delete the suggested folder name so it extracts to current directory:
-   - Windows suggests: `E:\Projects\my-book\nonfiction-v0.9.2`
-   - **Change to:** `E:\Projects\my-book` (remove the `\nonfiction-v0.9.2` part)
+   - Windows suggests: `E:\Projects\my-book\nonfiction-v0.12.10`
+   - **Change to:** `E:\Projects\my-book` (remove the `\nonfiction-v0.12.10` part)
 6. Click "Extract"
 7. When prompted about overwriting files, select **"Replace the files in the destination"** or **"Yes to All"**
 
 **Windows (7-Zip - Recommended):**
 1. Navigate to your project directory in File Explorer
-2. Copy `nonfiction-v0.11.1.zip` into this directory
-3. Right-click `nonfiction-v0.11.1.zip`
+2. Copy `nonfiction-v0.12.10.zip` into this directory
+3. Right-click `nonfiction-v0.12.10.zip`
 4. Select "7-Zip" → "Extract Here"
 5. When prompted, choose **"Overwrite All"** or **"Yes to All"**
 6. Framework files update, your book content preserved
@@ -98,13 +98,13 @@ unzip nonfiction-v0.11.1.zip
 **Windows (Command Line with Force Overwrite):**
 ```cmd
 cd E:\Projects\my-book
-tar -xf nonfiction-v0.11.1.zip --force-local
+tar -xf nonfiction-v0.12.10.zip --force-local
 ```
 
 **macOS/Linux (with overwrite):**
 ```bash
 cd /path/to/my-book
-unzip -o nonfiction-v0.11.1.zip
+unzip -o nonfiction-v0.12.10.zip
 ```
 
 The `-o` flag forces overwrite without prompting.
@@ -121,14 +121,20 @@ my-book/
 ├── system-instructions.md          # For Claude Desktop integration
 ├── CHANGELOG.md                    # Version history
 ├── .gitignore                      # Git ignore rules
-├── .nonfiction-manifest.json       # Framework version tracking
 ├── Process/                        # Framework documentation & prompts
 │   ├── Prompts/
 │   ├── Templates/
 │   └── ...
+├── scripts/                        # Automation scripts
+│   ├── init.sh                     # Fast project initialization
+│   └── detect-tools.sh             # Tool detection
 └── .claude/
-    └── agents/
-        └── book-writing-assistant.md
+    ├── agents/
+    │   └── book-writing-assistant.md
+    └── commands/
+        └── fw-init.md              # Session initialization command
+
+Note: .config/ directory created during initialization (Prompt 1 or configure.md)
 ```
 
 ### Step 4: Run Configuration
@@ -155,7 +161,13 @@ Choose your method:
    - Verify the installation
    - Create initial commit
 
-4. **Start writing**:
+4. **Initialize the framework** (MANDATORY):
+   - Type: `/fw-init`
+   - This loads all framework documentation (~20,000-30,000 tokens)
+   - Provides verbose initialization report
+   - **Required before executing any prompts**
+
+5. **Start writing**:
    - Execute `Prompt 1: Initialize` to set up your book project
    - Begin writing!
 
@@ -338,5 +350,5 @@ After installation, restart your terminal/command prompt and run `configure.md` 
 
 ---
 
-**Version**: 0.11.1
-**Last Updated**: 2025-11-20
+**Version**: 0.12.10
+**Last Updated**: 2025-11-23

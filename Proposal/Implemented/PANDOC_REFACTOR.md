@@ -1,9 +1,10 @@
 # Pandoc EPUB Export & Unified Visual System Refactor
 
-**Status:** Proposal
-**Target Version:** 0.12.0
+**Status:** Implemented
+**Target Version:** 0.12.1
+**Implemented Version:** 0.12.7
 **Created:** 2025-11-21
-**Updated:** 2025-11-21
+**Updated:** 2025-11-22
 **Priority:** High
 
 ---
@@ -841,7 +842,13 @@ mv Process/Prompts/Prompt_15_Citation_Finder.md Process/Prompts/Prompt_14_Citati
 - [ ] Update `QUICK_REFERENCE.md` with new numbers
 - [ ] Update `Process/Prompts/README.md` index
 - [ ] Update cross-references in all prompts mentioning 14/15
-- [ ] Update system-instructions.md if it references prompt numbers
+- [ ] Update `system-instructions.md` prompt references:
+  - Line 46: Add Prompt 16 to CLI-ONLY list
+  - Line 131-132: Update to show 14=Citation, 15=Visual, add 16=Image
+  - Line 154-155: Update descriptions with new numbers
+- [ ] Update `PREPARE_RELEASE.md`:
+  - Line 205: Update to mention Prompt_1 through Prompt_16
+- [ ] Update `configure.md` if it references figures/ directories or visual system
 
 ### Phase 4: Update Prompt 15 (Visual Content Suggester)
 
@@ -921,19 +928,63 @@ mv Process/Prompts/Prompt_15_Citation_Finder.md Process/Prompts/Prompt_14_Citati
   - Visual asset management section
   - EPUB requirements section
   - Image best practices
+  - Manuscript/images/ directory explanation
 - [ ] Update `README_AUTHORS_template.md` with:
   - Cover image requirements
   - Image directory explanation
+  - Visual asset workflow
 - [ ] Update `QUICK_REFERENCE.md` with:
   - New prompt numbers (14↔15)
   - Prompt 16 (Image Manager) workflow
   - EPUB export workflow
+  - Visual asset system overview
 - [ ] Update `CLAUDE.md` with:
   - New prompt list (14, 15, 16)
-  - Compatibility notes
+  - Compatibility notes for Prompt 16
   - Visual system explanation
+  - Updated directory structure
+- [ ] Update `system-instructions.md` with:
+  - CLI-ONLY prompts list (add Prompt 16)
+  - Prompt descriptions (14, 15, 16)
+  - Visual system references
+- [ ] Update `PREPARE_RELEASE.md` with:
+  - Checklist update (through Prompt_16)
+  - Visual system migration notes
+  - EPUB export testing steps
+- [ ] Update `configure.md` if needed:
+  - Remove references to per-chapter figures/ directories
+  - Add Manuscript/images/ directory creation (if applicable)
 
-### Phase 12: Testing
+### Phase 12: Update Additional Framework Files
+
+**Files with visual system references:**
+
+- [ ] Update `Process/Prompts/Prompt_2_Add_Chapter.md`:
+  - Line 89: Remove creation of `figures/` subdirectory
+  - Update any references to chapter figures/
+- [ ] Update `Process/Prompts/Prompt_6_Integrate_Inbox.md`:
+  - Line 102: Update references from per-chapter figures/ to Manuscript/images/
+- [ ] Update `Process/Prompts/Prompt_9_Export.md`:
+  - Line 41: Update from "chapter figures/" to "Manuscript/images/"
+  - Simplify image copy logic (already in proposal)
+- [ ] Update any other prompts with `Chapter_XX/figures/` references
+- [ ] Update any prompts with `fig_XX_YY_` underscore naming
+
+**Files with prompt number references:**
+
+- [ ] Search all prompts for references to "Prompt 14" or "Prompt 15"
+- [ ] Update cross-references to use correct new numbers
+- [ ] Ensure no hardcoded prompt numbers need updating
+
+**Framework root files:**
+
+- [ ] `system-instructions.md`: CLI-ONLY list, prompt descriptions
+- [ ] `PREPARE_RELEASE.md`: Checklist updates, testing procedures
+- [ ] `configure.md`: Visual system references (if any)
+- [ ] `CLAUDE.md`: Already in Phase 11
+- [ ] `QUICK_REFERENCE.md`: Already in Phase 11
+
+### Phase 13: Testing
 
 - [ ] Test Prompt 1 initialization creates correct structure
 - [ ] Test Prompt 15 creates text-based visuals in `images/`
@@ -1021,15 +1072,16 @@ mv Process/Prompts/Prompt_15_Citation_Finder.md Process/Prompts/Prompt_14_Citati
 
 ## Implementation Timeline
 
-**Target:** v0.12.0
+**Target:** v0.12.1
 
 **Estimated Effort:**
 - Phase 1-3: 2-4 hours (templates, module, renumbering)
 - Phase 4-5: 4-6 hours (update Prompt 15, create Prompt 16)
 - Phase 6-9: 3-5 hours (update Prompts 1, 7, 8, 9)
-- Phase 10-12: 2-3 hours (final updates, documentation, testing)
+- Phase 10-11: 2-3 hours (additional prompts, documentation)
+- Phase 12-13: 2-3 hours (framework files, testing)
 
-**Total:** 11-18 hours
+**Total:** 13-21 hours
 
 ---
 
@@ -1051,7 +1103,7 @@ See `PANDOC_MAYBE.md` for optional enhancements:
 
 ```css
 /* AI-Assisted Nonfiction Authoring Framework - EPUB Default Style */
-/* Version: 0.12.0 */
+/* Version: 0.12.1 */
 
 /* Body and Base Typography */
 body {

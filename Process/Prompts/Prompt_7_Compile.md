@@ -40,41 +40,43 @@ However, if you request additions or modifications during compilation:
 
 ## How This Works
 
-I'll use your default compilation settings (stored in `Project_Config.md`), or you can customize them for this compilation.
+I'll use the compilation bash script (`Process/Scripts/compile-manuscript.sh`) to efficiently assemble your manuscript.
 
 ### Questions I'll ask:
 
 1. **What version number should this compilation be?** (e.g., v1.0.0, v2.3.1)
 
-2. **Use default compilation settings?**
-   - Default: Formatted layout, include placeholders, no change tracking metadata
-   - Or: Customize settings now
-
-**If you choose to customize:**
-3. Include placeholder markers? (Yes/No)
-4. Include change tracking notes? (Yes/No)
-5. Format option: Basic | Formatted | Publication-Ready
+2. **Format option:**
+   - **Basic**: Simple concatenation, minimal formatting
+   - **Formatted**: Proper heading hierarchy, page breaks, consistent spacing (default)
+   - **Publication-Ready**: Full formatting, ready for export
 
 ### Then I'll:
 
 1. **Validation**: Verify all files exist, check for missing cross-references
 
-2. **Read Chapter Quotes**: Load Manuscript/Quotes/Chapter_Quotes.md and prepare epigraphs
+2. **Run Compilation Script**: Execute `Process/Scripts/compile-manuscript.sh` with parameters:
+   ```bash
+   bash Process/Scripts/compile-manuscript.sh VERSION CONFIRMED_DATE FORMAT
+   ```
 
-3. **Assembly** in order:
-   - Front Matter from Manuscript/FrontMatter/ (Title Page, Dedication, Acknowledgments, Foreword, Preface)
-   - Table of Contents (auto-generated from headings)
-   - All Chapters from Manuscript/Chapters/ (in numerical order, with epigraphs inserted)
-   - Back Matter from Manuscript/BackMatter/ (Appendices, Glossary, Bibliography, Index)
+   The script will:
+   - Read metadata from `.config/metadata.json`
+   - Assemble content in order:
+     - Front Matter (Copyright, Title Page, Dedication, etc.)
+     - Chapters (in numerical order, handles both flat and subdirectory structures)
+     - Back Matter (Appendices, Glossary, Bibliography, etc.)
+   - Add metadata header with version and compilation timestamp
+   - Save to `Manuscript/Drafts/Full_Draft_[YYYY-MM-DD]_v[version].md`
+   - Calculate word count and line count statistics
 
-4. **Processing**:
-   - Strip change tracking metadata (unless you want it included)
-   - Insert chapter epigraphs (if Status ✓ or ⚠ in Chapter_Quotes.md)
-   - Process cross-references
-   - Handle asset references
-   - Insert page break markers
+3. **Post-Processing** (optional enhancements):
+   - **Insert chapter epigraphs** from `Manuscript/Quotes/Chapter_Quotes.md` (if Status ✓ or ⚠)
+   - **Generate Table of Contents** from chapter headings
+   - **Process cross-references** and validate internal links
+   - **Strip change tracking metadata** (if present in source files)
 
-5. **Epigraph Formatting**: For each chapter with a quote:
+4. **Epigraph Formatting** (if processed): For each chapter with a quote:
    ```markdown
    # Chapter X: [Title]
 
@@ -85,53 +87,47 @@ I'll use your default compilation settings (stored in `Project_Config.md`), or y
    [Chapter content begins...]
    ```
 
-6. **Formatting**: Apply chosen format level
-   - **Basic**: Simple concatenation, minimal formatting
-   - **Formatted**: Proper heading hierarchy, page breaks, consistent spacing
-   - **Publication-Ready**: Full formatting, formatted bibliography, index placeholders
+5. **Statistics Report**: After compilation, I'll display:
+   - Total word count
+   - Line count
+   - Output file path
+   - Chapters compiled
+   - Format applied
+   - (Optional) Epigraph status
+   - (Optional) Completion percentage
 
-7. **Statistics**: Calculate total word count, completion percentage, chapter breakdown, quote status
-
-8. **Metadata header**: Add to top of compiled file:
+6. **Metadata header** (added by script):
    ```markdown
    # [Working Title]
 
    **Author:** [Name]
-   **Version:** [N.M.P]
+   **Version:** v[N.M.P]
    **Compiled:** [Date/Time]
-   **Total Word Count:** [count]
-   **Completion:** [percentage]%
-   **Status:** [Draft/Review/Final]
+   **Format:** [basic|formatted|publication]
    ```
 
-9. **Save**: `Manuscript/Drafts/Full_Draft_[YYYY-MM-DD]_v[version].md`
-
-10. **Report**: Compilation statistics including:
-    - Total word count
-    - Completion percentage
-    - Chapters with/without epigraphs
-    - Epigraphs with Status ⏳ (pending verification)
-    - Missing content warnings
-    - Recommendations
+**Output**: `Manuscript/Drafts/Full_Draft_[YYYY-MM-DD]_v[version].md`
 
 ---
 
 ## Default Settings
 
-Your current defaults (from Project_Config.md):
-- Format: Formatted
-- Include Placeholders: Yes
-- Include Change Tracking: No
+Default format: **Formatted** (proper heading hierarchy, page breaks, consistent spacing)
 
-These can be updated in `Project_Config.md` or customized per compilation.
+You can choose a different format when running the compilation:
+- **Basic**: Fast, simple concatenation
+- **Formatted**: Recommended for most uses
+- **Publication-Ready**: Includes all formatting for export preparation
 
 ---
 
 ## Important Notes
 
-- **Original files unchanged**: Compilation creates a NEW file in Manuscript/Drafts/
-- **Placeholders**: Sections marked as `[PLACEHOLDER: Content pending]` if incomplete
-- **Not exported**: This creates a Markdown file. Use Prompt 7 for DOCX/PDF/EPUB export
+- **Bash script execution**: Uses `Process/Scripts/compile-manuscript.sh` for efficient file concatenation
+- **Original files unchanged**: Compilation creates a NEW file in `Manuscript/Drafts/`
+- **Both structures supported**: Handles flat files (`Chapter_XX.md`) and subdirectory structure (`Chapter_XX/Chapter_XX.md`)
+- **Markdown output**: This creates a Markdown file. Use **Prompt 9** for DOCX/PDF/EPUB export
+- **Post-processing optional**: Epigraphs, TOC, and cross-reference processing can be added after basic compilation
 
 ---
 
@@ -141,4 +137,4 @@ These can be updated in `Project_Config.md` or customized per compilation.
 
 ---
 
-*Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 5)*
+*Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 7)*
