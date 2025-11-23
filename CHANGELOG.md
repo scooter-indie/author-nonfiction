@@ -7,6 +7,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.9] - 2025-11-22
+
+### Added
+- **Modular Style Library (v2.0.0)** - Complete refactoring from monolithic to category-based organization
+  - **Process/Styles/** directory with 5 category subdirectories
+  - **19 writing styles** (up from 9) across categories: Academic (4), Professional (2), Narrative (4), Personal (3), Cultural (6)
+  - **Style_Catalog.md** - Master index for browsing all styles (280 lines vs old 650 lines = 57% token reduction)
+  - **README.md** - Comprehensive usage guide for the style library
+
+- **10 New Writing Styles:**
+  1. Historical Chronicler (Narrative) - Narrative history with scholarly rigor
+  2. Philosophical Contemplative (Personal) - Ethics and existential inquiry
+  3. Cultural Critic (Cultural) - Sharp social commentary and essays
+  4. Satirical Humorist (Cultural) - Witty, ironic comedic truth-telling
+  5. Activist Advocate (Cultural) - Social justice advocacy
+  6. Lyrical Nature Writer (Cultural) - Poetic nature writing with ecological awareness
+  7. Spiritual/Religious Writer (Cultural) - Faith exploration and contemplative writing
+  8. Sports Writer (Cultural) - Athletic narratives and sports culture
+  9. Confessional Memoir (Narrative) - Raw, unflinching personal honesty
+  10. Medical/Health Narrative (Academic) - Clinical knowledge + patient experience
+
+- **Individual Style Files** - Each style in separate ~100-line file with consistent template
+  - Voice Characteristics, Tone, Pacing, Structure
+  - Example passage (200-300 words)
+  - DO/DON'T guidelines
+  - Category and version metadata
+
+- **Proposal Documentation**
+  - Proposal/Implemented/STYLE_REFACTOR.md - Phase 1 complete proposal (structure and styles)
+  - Proposal/STYLE_REFACTOR_PH2.md - Phase 2 proposal (prompt integration, complexity levels, future features)
+
+### Changed
+- **README.md** - Updated from "9 curated styles" to "19 curated styles across 5 categories"
+- **Style organization** - Category-based browsing (Academic, Professional, Narrative, Personal, Cultural) vs alphabetical
+- **Token efficiency** - Progressive disclosure: Catalog + selected style (280 lines) vs all styles (650 lines)
+
+### Removed
+- **Process/Style_Examples.md** - Replaced by modular Process/Styles/ directory structure
+
+### Technical
+- **Breaking change** - File paths changed from `Process/Style_Examples.md` to `Process/Styles/[Category]/[Style].md`
+- **Git history preserved** - Individual style files easier to maintain and version
+- **Scalability improved** - Can add 10+ more styles without structural changes
+- **Phase 2 pending** - Prompt updates (1, 8, 11), documentation updates, complexity levels implementation
+
+---
+
 ## [0.12.8] - 2025-11-21
 
 ### Added

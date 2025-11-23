@@ -1,6 +1,6 @@
 # Prompt 16: Image Manager
 
-**Version:** 0.12.8
+**Version:** 0.12.9
 **Last Updated:** 2025-11-21
 **Compatibility:** Claude Code CLI only (requires file operations, image handling)
 
@@ -1247,5 +1247,5 @@ Integration:
 
 ---
 
-🤖 **This prompt is part of the AI-Assisted Nonfiction Authoring Framework v0.12.8**
+🤖 **This prompt is part of the AI-Assisted Nonfiction Authoring Framework v0.12.9**
 📖 **For help:** See `Process/Prompts/README.md` or `Process/AI-Assisted_Nonfiction_Authoring_Process.md`

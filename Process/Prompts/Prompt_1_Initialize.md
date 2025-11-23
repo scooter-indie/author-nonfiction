@@ -1,6 +1,6 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**Version:** 0.12.8
+**Version:** 0.12.9
 **Compatibility:** HYBRID (Desktop Q&A → CLI execution)
 
 **Workflow:**
@@ -33,7 +33,7 @@ Creates a complete nonfiction book project structure:
 - Git repository
 - Initial commit and v1.0.0 tag
 
-**New in v0.12.8:**
+**New in v0.12.9:**
 - 📄 **README.md Management** - Auto-generated project README with metadata
 - 📊 **Dashboard & Reports** - Structured organization for reports and dashboard
 
@@ -129,7 +129,7 @@ Creates a complete nonfiction book project structure:
   ],
   "style": "[selected style name]",
   "createdDate": "[CONFIRMED_DATE in YYYY-MM-DD format]",
-  "frameworkVersion": "0.12.8"
+  "frameworkVersion": "0.12.9"
 }
 ```
 
@@ -143,7 +143,7 @@ Creates a complete nonfiction book project structure:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.8",
+  "frameworkVersion": "0.12.9",
   "createdDate": "[CONFIRMED_DATE]",
   "lastModified": "[CONFIRMED_DATE]"
 }
@@ -191,7 +191,7 @@ Creates a complete nonfiction book project structure:
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Framework installation manifest",
-  "frameworkVersion": "0.12.8",
+  "frameworkVersion": "0.12.9",
   "installedDate": "[CONFIRMED_DATE]",
   "lastUpdated": "[CONFIRMED_DATE]",
   "installationMethod": "Prompt 1",
@@ -244,7 +244,7 @@ bash scripts/init.sh .config/init.json
 **Expected output:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nonfiction Framework Initialization Script v0.12.8
+Nonfiction Framework Initialization Script v0.12.9
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Validating preconditions...
@@ -505,7 +505,7 @@ git commit -m "Initialize book project: [title from init.json]
 
 - Created [X]-chapter structure
 - Selected writing style: [style name]
-- Initialized with framework v0.12.8
+- Initialized with framework v0.12.9
 - Created on [CONFIRMED_DATE]
 
 🤖 Generated with Claude Code
@@ -519,7 +519,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git tag -a v1.0.0 -m "Initial project structure for [title]
 
 [X] chapters planned
-Framework v0.12.8
+Framework v0.12.9
 Initialized [CONFIRMED_DATE]"
 ```
 
@@ -535,7 +535,7 @@ Set `initialized: true` and update `lastModified`:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.8",
+  "frameworkVersion": "0.12.9",
   "createdDate": "[original date]",
   "lastModified": "[CONFIRMED_DATE]"
 }
@@ -565,7 +565,7 @@ Book: [title]
 Author: [author]
 Chapters: [X]
 Style: [style name]
-Framework: v0.12.8
+Framework: v0.12.9
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -683,5 +683,5 @@ Which option?
 
 ---
 
-**Version:** 0.12.8
+**Version:** 0.12.9
 **Last Updated:** 2025-11-21

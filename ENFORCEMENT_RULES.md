@@ -3,7 +3,7 @@
 **Status:** Active Rules - Must Be Enforced
 **Created:** 2025-11-19
 **Last Updated:** 2025-11-21
-**Framework Version:** 0.12.8+
+**Framework Version:** 0.12.9+
 
 ---
 
@@ -699,11 +699,11 @@ Executes Prompt 2 to add new Chapter 4
 
 **Status:** ACTIVE - MUST BE ENFORCED
 **Created:** 2025-11-19
-**Last Updated:** 2025-11-21 - v0.12.8 - Closed direct editing loophole
-**Framework Version:** 0.12.8+
+**Last Updated:** 2025-11-21 - v0.12.9 - Closed direct editing loophole
+**Framework Version:** 0.12.9+
 **Applies To:** All current and future prompts
 
-**v0.12.8 Updates:**
+**v0.12.9 Updates:**
 - Added explicit prohibition on direct editing for initial drafts
 - Added routing for "draft chapter" and "write chapter" requests
 - Closed debugging loophole (no direct editing even for testing)

@@ -2,7 +2,7 @@
 
 **HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
 
-**AI-Assisted Nonfiction Authoring Framework v0.12.8**
+**AI-Assisted Nonfiction Authoring Framework v0.12.9**
 
 **Claude Desktop Compatibility:**
 - ✅ All file verification via MCP Filesystem
@@ -520,7 +520,7 @@ Installation instructions:
 **The manifest will be updated:**
 ```json
 {
-  "frameworkVersion": "0.12.8",
+  "frameworkVersion": "0.12.9",
   "toolsAvailable": {
     "git": true,
     "pandoc": true,
@@ -543,8 +543,8 @@ Installation instructions:
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.12.8",
-  "installedVersion": "0.12.8",
+  "frameworkVersion": "0.12.9",
+  "installedVersion": "0.12.9",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -565,8 +565,8 @@ I will:
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.12.8",
-  "installedVersion": "0.12.8",
+  "frameworkVersion": "0.12.9",
+  "installedVersion": "0.12.9",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -787,5 +787,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.12.8*
+*Framework Version: 0.12.9*
 *Configuration Script: configure.md*
