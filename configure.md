@@ -2,7 +2,7 @@
 
 **HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
 
-**AI-Assisted Nonfiction Authoring Framework v0.13.1**
+**AI-Assisted Nonfiction Authoring Framework v0.13.2**
 
 **Claude Desktop Compatibility:**
 - ✅ All file verification via MCP Filesystem
@@ -556,8 +556,8 @@ Continue to Step 8.
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.13.1",
-  "installedVersion": "0.13.1",
+  "frameworkVersion": "0.13.2",
+  "installedVersion": "0.13.2",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -578,8 +578,8 @@ I will:
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.13.1",
-  "installedVersion": "0.13.1",
+  "frameworkVersion": "0.13.2",
+  "installedVersion": "0.13.2",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -601,7 +601,7 @@ Execute the git commit automatically:
 
 **For New Installations:**
 ```bash
-git add . && git commit -m "Initialize nonfiction framework v0.13.1
+git add . && git commit -m "Initialize nonfiction framework v0.13.2
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -610,7 +610,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 **For Updates:**
 ```bash
-git add . && git commit -m "Update framework to v0.13.1
+git add . && git commit -m "Update framework to v0.13.2
 
 See CHANGELOG.md for details.
 
@@ -639,7 +639,7 @@ I will provide:
 ```
 ✅ Configuration Complete!
 
-Framework v0.13.1 installed successfully.
+Framework v0.13.2 installed successfully.
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
@@ -668,7 +668,7 @@ Framework v0.13.1 installed successfully.
 ```
 ✅ Framework Updated Successfully!
 
-Updated from v[old] to v0.13.1
+Updated from v[old] to v0.13.2
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Update committed
@@ -707,7 +707,7 @@ The following required files are missing:
 This suggests the framework was not fully extracted.
 
 Solutions:
-1. Re-extract nonfiction-v0.13.1.zip to this directory
+1. Re-extract nonfiction-v0.13.2.zip to this directory
 2. Ensure all files are extracted (not just some)
 3. Check file permissions
 
@@ -796,5 +796,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.13.1*
+*Framework Version: 0.13.2*
 *Configuration Script: configure.md*

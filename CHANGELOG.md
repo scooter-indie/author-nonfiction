@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.2] - 2025-11-24
+
+### Added
+- **Date Confirmation in configure.md** - Step 0 now confirms today's date before any operations
+  - Prevents incorrect dates in generated files when system date is wrong
+  - User can confirm or provide correct date in YYYY-MM-DD format
+
+- **jq Dependency Check** - Step 0.5 validates required tools before initialization
+  - Checks for git (required) and jq (required for JSON processing)
+  - Provides installation instructions for missing tools
+  - Prevents cryptic errors during generate-content.sh execution
+
+- **Date Confirmation in /fw-init** - Step 6 confirms date during session startup
+  - Ensures CONFIRMED_DATE is set for all session operations
+  - Added to initialization summary report
+
+- **Target Completion Date Validation** - Prompt 1 now validates future dates
+  - Date must be after CONFIRMED_DATE (today)
+  - Prompts user to re-enter if date is in the past
+
+### Fixed
+- **configure.md User Decision Points** - All steps requiring user input now explicitly pause
+  - Added `⏸️ STOP AND ASK USER` and `WAIT for user response` markers
+  - Affected steps: 4.5 (migration retry), 4.7 (cleanup), 5 (git missing), 6 (remote setup), 7 (tool detection), 9 (commit)
+  - Prevents steps from running together without waiting for user input
+
+### Technical
+- **Release Type:** PATCH (bug fixes and UX improvements)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, fw-init.md, Prompt_1_Initialize.md, Prompt_1_Reference.md, all version-numbered files
+
+---
+
 ## [0.13.1] - 2025-11-24
 
 ### Added
