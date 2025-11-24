@@ -466,76 +466,44 @@ Then I'll:
 
 **Note**: I will NOT push to remote at this stage. You'll use Prompt 9 when ready to push.
 
-### Step 7: Export Tool Discovery
+### Step 7: Export Tool Discovery (Optional)
 
-Now I'll check what export tools are available on your system. This determines which export formats Prompt 9 can produce.
+**This step is OPTIONAL.** You can skip it and run tool detection later.
 
-**Note:** Git was already verified in Step 2. This script will re-confirm git and detect pandoc/typst for export functionality (Prompt 9).
+Export tools (pandoc, typst) enable Prompt 9 to export your manuscript to DOCX, PDF, and EPUB formats. If you don't need exports right now, skip this step.
 
-**To run the tool detection:**
+**To detect export tools:**
 
-1. **Open Claude Code CLI** in your project directory
-2. **In Claude Code, say:**
-   ```
-   Run: bash scripts/detect-tools.sh .config/manifest.json
-   ```
+In Claude Code CLI, say:
+```
+Run: bash scripts/detect-tools.sh .config/manifest.json
+```
 
 **The script will:**
-1. Re-confirm git availability (already verified in Step 2)
-2. Detect pandoc and typst for export tools (Prompt 9)
-3. Display version numbers for all detected tools
-4. Update `.config/manifest.json` with tool availability
-5. Provide installation instructions for missing tools
+1. Detect pandoc (for DOCX/PDF/EPUB export)
+2. Detect typst (optional alternative for PDF)
+3. Update `.config/manifest.json` with tool availability
+4. Provide installation instructions for missing tools
 
 **Expected output:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Tool Detection Script v0.12.1
+Tool Detection Script v0.13.1
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Detecting available tools...
 
 ✓ Git detected (version 2.43.0)
 ✓ Pandoc detected (version 3.1.9)
-⊙ Typst not found (optional - alternative to LaTeX)
+⊙ Typst not found (optional)
 
 ✓ Updated .config/manifest.json
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Tool Detection Summary
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Available tools:
-  ✓ Git - Version control (required)
-  ✓ Pandoc - DOCX/PDF/EPUB export (Prompt 9)
-  ⊙ Typst - Install for fast PDF export
-
-Installation instructions:
-  Typst: https://github.com/typst/typst#installation
-  - Windows: winget install Typst.Typst
-  - macOS: brew install typst
-  - Linux: Download from releases
-```
-
-**The manifest will be updated:**
-```json
-{
-  "frameworkVersion": "0.12.10",
-  "toolsAvailable": {
-    "git": true,
-    "pandoc": true,
-    "typst": false
-  },
-  "lastUpdated": "2025-11-21"
-}
 ```
 
 **Why This Matters:**
-- Prompt 9 (Export) needs pandoc to convert markdown to DOCX/PDF/EPUB
-- Without pandoc, Prompt 9 can only export to markdown format
-- Typst is an optional modern alternative to LaTeX for PDF generation
-- Tool availability is stored in manifest for framework reference
-- You can re-run detection anytime: `bash scripts/detect-tools.sh`
+- Prompt 9 needs pandoc for DOCX/PDF/EPUB export
+- Without pandoc, Prompt 9 can only export markdown
+- You can run this detection anytime later
+
+**Skip this step?** Just tell me "skip" and we'll continue.
 
 ### Step 8: Update Manifest
 
@@ -543,8 +511,8 @@ Installation instructions:
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.12.10",
-  "installedVersion": "0.12.10",
+  "frameworkVersion": "0.13.1",
+  "installedVersion": "0.13.1",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -561,12 +529,12 @@ I will update `.config/manifest.json`:
 I will:
 1. Read current `installedVersion` from manifest
 2. Display changelog (read from `CHANGELOG.md`)
-3. Show what's changed between your version and 0.12.7
+3. Show what's changed between your version and the new version
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.12.10",
-  "installedVersion": "0.12.10",
+  "frameworkVersion": "0.13.1",
+  "installedVersion": "0.13.1",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -581,39 +549,39 @@ I will:
 
 ### Step 9: Create Git Commit
 
-**For Claude Code CLI users:**
+**Note:** Git repository was initialized in Step 5. Now we create the initial commit.
 
-I will automatically execute the git commit with appropriate message.
+**For Claude Code CLI users:**
+I will automatically execute the git commit.
 
 **For Claude Desktop users:**
-
-I will provide you with the git command to run in Claude Code CLI.
+I will provide the git command to run in Claude Code CLI.
 
 **For New Installations:**
 
-Open Claude Code CLI and say:
+In Claude Code CLI, say:
 ```
-Run: git add . && git commit -m 'Initialize nonfiction framework v0.12.7
+Run: git add . && git commit -m "Initialize nonfiction framework v0.13.1
 
 🤖 Generated with Claude Desktop
 
-Co-Authored-By: Claude <noreply@anthropic.com>'
+Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 **For Updates:**
 
-Open Claude Code CLI and say:
+In Claude Code CLI, say:
 ```
-Run: git add .config/manifest.json && git commit -m 'Update framework from v[old] to v0.12.7
+Run: git add . && git commit -m "Update framework to v0.13.1
 
 See CHANGELOG.md for details.
 
 🤖 Generated with Claude Desktop
 
-Co-Authored-By: Claude <noreply@anthropic.com>'
+Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-After running the command, verify commit succeeded with `git log -1`
+After running, verify with `git log -1`
 
 ### Step 10: Verify Book Writing Assistant
 
@@ -630,7 +598,7 @@ I will provide:
 ```
 ✅ Configuration Complete!
 
-Framework v3.5.0 installed successfully.
+Framework v0.13.1 installed successfully.
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
@@ -659,7 +627,7 @@ Framework v3.5.0 installed successfully.
 ```
 ✅ Framework Updated Successfully!
 
-Updated from v[old] to v3.5.0
+Updated from v[old] to v0.13.1
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Update committed
@@ -698,7 +666,7 @@ The following required files are missing:
 This suggests the framework was not fully extracted.
 
 Solutions:
-1. Re-extract nonfiction-v3.5.0.zip to this directory
+1. Re-extract nonfiction-v0.13.1.zip to this directory
 2. Ensure all files are extracted (not just some)
 3. Check file permissions
 
