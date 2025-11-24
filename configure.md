@@ -209,13 +209,23 @@ I will:
 
 ### Step 4: Git Status Check (Updates Only)
 
-For updates, I will:
+**For NEW installations:** Skip to Step 5. Say:
+```
+Step 4: Skipped (new installation - no git status check needed)
+```
+
+**For UPDATES**, I will:
 1. Run `git status`
 2. Check for uncommitted changes
 3. **If found**: Stop and warn you to commit first
 4. **If clean**: Proceed with update
 
 ### Step 4.5: Apply Migrations (Updates Only)
+
+**For NEW installations:** Skip to Step 5. Say:
+```
+Step 4.5: Skipped (new installation - no migrations needed)
+```
 
 **This step only runs when updating from an older version.**
 
@@ -396,6 +406,11 @@ REQUIRED ACTIONS:
 **Note:** Migrations are mandatory. If a migration fails, you must resolve the issue before the framework can continue. This ensures your project structure remains compatible with the new framework version.
 
 ### Step 4.7: Clean Outdated Framework Files (Updates Only)
+
+**For NEW installations:** Skip to Step 5. Say:
+```
+Step 4.7: Skipped (new installation - no cleanup needed)
+```
 
 **This step only runs when updating from an older version.**
 
