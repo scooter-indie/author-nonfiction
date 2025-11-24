@@ -38,8 +38,17 @@ detect_git() {
 }
 
 detect_pandoc() {
+    # Try command -v first, then check Windows locations
     if command -v pandoc &> /dev/null; then
         PANDOC_VERSION=$(pandoc --version | head -n1 | sed 's/pandoc //')
+        echo -e "${GREEN}✓ Pandoc detected${NC} (version $PANDOC_VERSION)"
+        return 0
+    elif command -v pandoc.exe &> /dev/null; then
+        PANDOC_VERSION=$(pandoc.exe --version | head -n1 | sed 's/pandoc //')
+        echo -e "${GREEN}✓ Pandoc detected${NC} (version $PANDOC_VERSION)"
+        return 0
+    elif [[ -f "/c/Program Files/Pandoc/pandoc.exe" ]]; then
+        PANDOC_VERSION=$("/c/Program Files/Pandoc/pandoc.exe" --version | head -n1 | sed 's/pandoc //')
         echo -e "${GREEN}✓ Pandoc detected${NC} (version $PANDOC_VERSION)"
         return 0
     else
@@ -49,8 +58,13 @@ detect_pandoc() {
 }
 
 detect_typst() {
+    # Try command -v first, then check Windows locations
     if command -v typst &> /dev/null; then
         TYPST_VERSION=$(typst --version | sed 's/typst //')
+        echo -e "${GREEN}✓ Typst detected${NC} (version $TYPST_VERSION)"
+        return 0
+    elif command -v typst.exe &> /dev/null; then
+        TYPST_VERSION=$(typst.exe --version | sed 's/typst //')
         echo -e "${GREEN}✓ Typst detected${NC} (version $TYPST_VERSION)"
         return 0
     else
@@ -74,11 +88,18 @@ update_manifest() {
         return 1
     fi
 
-    # Check if jq is available for JSON manipulation
+    # Check if jq is available for JSON manipulation (try both jq and jq.exe for Windows)
+    local JQ_CMD=""
     if command -v jq &> /dev/null; then
+        JQ_CMD="jq"
+    elif command -v jq.exe &> /dev/null; then
+        JQ_CMD="jq.exe"
+    fi
+
+    if [[ -n "$JQ_CMD" ]]; then
         # Use jq for clean JSON updates
         local temp_file=$(mktemp)
-        jq ".toolsAvailable.git = $git_available | .toolsAvailable.pandoc = $pandoc_available | .toolsAvailable.typst = $typst_available | .lastUpdated = \"$(date -I)\"" "$MANIFEST_FILE" > "$temp_file"
+        $JQ_CMD ".toolsAvailable.git = $git_available | .toolsAvailable.pandoc = $pandoc_available | .toolsAvailable.typst = $typst_available | .lastUpdated = \"$(date -I)\"" "$MANIFEST_FILE" > "$temp_file"
         mv "$temp_file" "$MANIFEST_FILE"
         echo -e "${GREEN}✓ Updated $MANIFEST_FILE${NC}"
     else
