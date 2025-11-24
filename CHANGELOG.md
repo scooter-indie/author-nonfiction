@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.3] - 2025-11-24
+
+### Added
+- **Module 20: JSON Schema and Structure Standards** - Authoritative reference for all .config/ JSON files
+  - Canonical schemas for init.json, project.json, metadata.json, manifest.json, migrations.json
+  - Required vs optional field definitions
+  - Field naming conventions (camelCase, exact names like `style` not `writingStyle`)
+  - Validation rules (dates in YYYY-MM-DD, chapter arrays, style name matching)
+  - Common error messages and fixes
+  - Integration notes for scripts
+
+### Fixed
+- **init.json field name enforcement** - Scripts now strictly require `style` field (not `writingStyle`)
+  - generate-content.sh validates exact field names per Module 20
+  - Prompt_1_Reference.md references Module 20 for schema documentation
+
+### Technical
+- **Release Type:** PATCH (new module, stricter validation)
+- **Breaking Change:** No (clarifies existing requirement)
+- **New Module:** Process/_COMMON/20_JSON_Schema_Module.md
+- **Files Updated:** generate-content.sh, Prompt_1_Reference.md, _COMMON/README.md, framework_files_manifest.json
+
+---
+
 ## [0.13.2] - 2025-11-24
 
 ### Added

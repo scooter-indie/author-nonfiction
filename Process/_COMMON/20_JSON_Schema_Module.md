@@ -1,6 +1,6 @@
 # Module 20: JSON Schema and Structure Standards
 
-**Version:** 0.13.2
+**Version:** 0.13.3
 **Purpose:** Authoritative reference for all JSON configuration files in the framework
 
 ---
@@ -79,7 +79,7 @@ All configuration files reside in `.config/` directory:
   ],
   "style": "Conversational Expert",
   "createdDate": "2025-11-24",
-  "frameworkVersion": "0.13.2"
+  "frameworkVersion": "0.13.3"
 }
 ```
 
@@ -124,7 +124,7 @@ All configuration files reside in `.config/` directory:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.13.2",
+  "frameworkVersion": "0.13.3",
   "createdDate": "2025-11-24",
   "lastModified": "2025-11-24"
 }
@@ -172,7 +172,7 @@ All configuration files reside in `.config/` directory:
   "language": "en",
   "rights": "All rights reserved",
   "keywords": [],
-  "frameworkVersion": "0.13.2",
+  "frameworkVersion": "0.13.3",
   "createdDate": "2025-11-24"
 }
 ```
@@ -211,8 +211,8 @@ All configuration files reside in `.config/` directory:
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Framework manifest and version tracking",
   "framework": "AI-Assisted Nonfiction Authoring",
-  "frameworkVersion": "0.13.2",
-  "installedVersion": "0.13.2",
+  "frameworkVersion": "0.13.3",
+  "installedVersion": "0.13.3",
   "installedDate": "2025-11-24",
   "releaseDate": "2025-11-24",
   "lastUpdated": "2025-11-24",
@@ -361,7 +361,7 @@ When validation fails, scripts should output clear messages:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 0.13.2 | 2025-11-24 | Initial module creation |
+| 0.13.3 | 2025-11-24 | Initial module creation |
 
 ---
 

@@ -70,7 +70,7 @@ This directory contains 18 active modules that provide shared functionality acro
 |--------|------|---------|
 | 18 | `18_Lock_Management_Module.md` | Concurrent editing locks |
 | 19 | `19_Image_Registry_Splitting_Module.md` | Registry splitting for large collections |
-| 20 | `20_JSON_Schema_Module.md` | JSON schema standards for .config/ files (NEW v0.13.2) |
+| 20 | `20_JSON_Schema_Module.md` | JSON schema standards for .config/ files (NEW v0.13.3) |
 
 ---
 

@@ -1,6 +1,6 @@
 # Prepare Release
 
-**Current Framework Version:** 0.13.2
+**Current Framework Version:** 0.13.3
 **Last Updated:** 2025-11-24
 
 ---
@@ -251,7 +251,7 @@ The `Documentation/` directory contains maintainer documentation and is NOT incl
 **Example manifest structure:**
 ```json
 {
-  "version": "0.13.2",
+  "version": "0.13.3",
   "generatedDate": "2025-11-23",
   "files": {
     "root": ["INSTALLATION.md", "CLAUDE.md", ...],
@@ -513,7 +513,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.13.2
+**Framework Version:** 0.13.3
 **Last Updated:** 2025-11-24
 
 *This file is for framework maintainers only - not included in release packages*
