@@ -78,5 +78,5 @@ Complex operations that require AI intelligence (epigraph insertion, TOC generat
 
 ---
 
-**Framework Version:** 0.12.10
+**Framework Version:** 0.13.0
 **Last Updated:** 2025-11-22

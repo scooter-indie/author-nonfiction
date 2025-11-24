@@ -226,7 +226,7 @@ Resources needed for this prompt: `ProjectConfig`
   ],
   "style": "[selected style name]",
   "createdDate": "[CONFIRMED_DATE in YYYY-MM-DD format]",
-  "frameworkVersion": "0.12.10"
+  "frameworkVersion": "0.13.0"
 }
 ```
 
@@ -240,7 +240,7 @@ Resources needed for this prompt: `ProjectConfig`
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.10",
+  "frameworkVersion": "0.13.0",
   "createdDate": "[CONFIRMED_DATE]",
   "lastModified": "[CONFIRMED_DATE]"
 }
@@ -288,7 +288,7 @@ Resources needed for this prompt: `ProjectConfig`
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Framework installation manifest",
-  "frameworkVersion": "0.12.10",
+  "frameworkVersion": "0.13.0",
   "installedDate": "[CONFIRMED_DATE]",
   "lastUpdated": "[CONFIRMED_DATE]",
   "installationMethod": "Prompt 1",
@@ -633,7 +633,7 @@ Set `initialized: true` and update `lastModified`:
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.12.10",
+  "frameworkVersion": "0.13.0",
   "createdDate": "[original date]",
   "lastModified": "[CONFIRMED_DATE]"
 }

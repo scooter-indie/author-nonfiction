@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.13.0] - 2025-11-23
 
 ### Added
+- **Modular Style Library (Phase 2)** - Complete integration of 19-style catalog system
+  - Prompt 1: Category-based style selection with progressive disclosure (5 categories → 19 styles)
+  - Prompt 11: Updated to use Style_Catalog.md for override management
+  - Style_Guide.md now includes category metadata
+  - 57% token reduction in style selection (280 lines vs 650 lines)
+  - Category organization: Academic (4), Professional (2), Narrative (4), Personal (3), Cultural (6)
+
+- **Concurrency Lock Management** - File-based locking for multi-instance safety
+  - 10 prompts updated with lock management (Prompts 1, 2, 3, 4, 5, 6, 10, 14, 15, 16)
+  - .locks/locks.json tracking with unique instance IDs
+  - Resource-level locking (Chapter_XX, ProjectConfig, Image_Registry)
+  - Conflict detection with retry/cancel/override options
+  - Added .locks/ to gitignore_template
+
 - **Documentation/ directory** - New maintainer documentation directory (NOT in user releases)
   - Documentation/README.md - Directory guide for maintainers
   - Documentation/Development/ - Future contributor guides

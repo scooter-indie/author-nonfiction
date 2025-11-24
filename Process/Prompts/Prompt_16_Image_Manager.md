@@ -1405,5 +1405,5 @@ Integration:
 
 ---
 
-🤖 **This prompt is part of the AI-Assisted Nonfiction Authoring Framework v0.12.10**
+🤖 **This prompt is part of the AI-Assisted Nonfiction Authoring Framework v0.13.0**
 📖 **For help:** See `Process/Prompts/README.md` or `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
