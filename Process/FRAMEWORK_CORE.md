@@ -124,7 +124,6 @@ Claude Code CLI has the tools needed for this operation.
 [project-root]/
 ├── Process/                                    # Framework files (read-only)
 │   ├── FRAMEWORK_CORE.md                       # This file (instant load)
-│   ├── AI-Assisted_Nonfiction_Authoring_Process.md  # Comprehensive docs (on-demand)
 │   ├── Anti-Hallucination_Guidelines.md        # Full protocol (on-demand)
 │   ├── Prompts/
 │   │   ├── QUICK_REFERENCE.md                  # Workflows (on-demand)
@@ -132,6 +131,9 @@ Claude Code CLI has the tools needed for this operation.
 │   │   └── Prompt_*.md                         # 16 prompts (load individually)
 │   └── Styles/
 │       └── README.md                           # Style library (on-demand)
+│
+├── Documentation/                              # Maintainer docs (NOT in user releases)
+│   └── AI-Assisted_Nonfiction_Authoring_Process.md  # Comprehensive docs (on-demand)
 │
 ├── Manuscript/                                 # All book content (main working directory)
 │   ├── Chapters/                               # Book chapters (each in own subdirectory)
@@ -353,7 +355,7 @@ Section Style (Optional Override)
 - "How does the entire framework work?"
 - "What are all the file naming conventions?"
 
-→ Load `Process/AI-Assisted_Nonfiction_Authoring_Process.md` (7,155 words)
+→ Load `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` (7,155 words)
 
 ### When User Asks About Specific Prompts
 - "What does Prompt 8 do?"
@@ -416,7 +418,7 @@ Section Style (Optional Override)
 **Support Resources:**
 - **Issues:** https://github.com/scooter-indie/author-nonfiction/issues
 - **Releases:** https://github.com/scooter-indie/author-nonfiction/releases
-- **Documentation:** Load `Process/AI-Assisted_Nonfiction_Authoring_Process.md` for comprehensive guide
+- **Documentation:** Load `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` for comprehensive guide
 
 ---
 

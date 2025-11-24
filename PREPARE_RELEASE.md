@@ -36,14 +36,16 @@ Update the version number in these files:
    - Line ~337: `**Release Date**: YYYY-MM-DD`
    - Review entire file for outdated prompt counts (should be "16 prompts" as of v0.12.1+)
 
-2. `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
-   - Line ~3: `**Version:** X.X.X`
-   - Line ~4: `**Last Updated:** YYYY-MM-DD`
+2. `Process/FRAMEWORK_CORE.md` ← NEW
+   - Line ~3: `**Framework Version:** X.X.X`
+   - Line ~395: `**Framework Version:** X.X.X` (footer)
+   - Line ~396: `**Release Date:** YYYY-MM-DD` (footer)
+   - Line ~397: `**Token Efficiency:** [Note about token savings]`
 
 3. `CLAUDE.md`
    - Line ~3: `**Framework Version:** X.X.X`
-   - Line ~322: `**Framework Version:** X.X.X`
-   - Line ~323: `**Last Updated:** YYYY-MM-DD`
+   - Line ~533: `**Framework Version:** X.X.X`
+   - Line ~534: `**Last Updated:** YYYY-MM-DD`
 
 4. `configure.md`
    - Line ~5: `**AI-Assisted Nonfiction Authoring Framework vX.X.X**`
@@ -53,7 +55,7 @@ Update the version number in these files:
    - All references to `vX.X.X` or `X.X.X`
    - Download links: `nonfiction-vX.X.X.zip`
 
-6. `PREPARE_RELEASE.md` (this file)
+6. `PREPARE_RELEASE.md` (this file) ← STAYS at root
    - Line ~3: `**Current Framework Version:** X.X.X`
    - Line ~4: `**Last Updated:** YYYY-MM-DD`
    - Line ~end: `**Framework Version:** X.X.X` (footer)
@@ -63,8 +65,14 @@ Update the version number in these files:
 
 7. `system-instructions.md`
    - Line ~3: `**Framework Version:** X.X.X`
-   - Line ~487: `**Framework Version:** X.X.X` (footer)
-   - Line ~488: `**Last Updated:** YYYY-MM-DD` (footer)
+   - Line ~552: `**Framework Version:** X.X.X` (footer)
+   - Line ~553: `**Last Updated:** YYYY-MM-DD` (footer)
+
+8. `.claude/commands/fw-init.md` ← NEW
+   - Line ~7: Version note in improvement message
+   - Line ~95: Framework version in completion report
+   - Line ~96: Token savings note
+   - Line ~140: Version note in "Notes" section
 
 **CHANGELOG.md:**
 - Add new version entry at top with today's date
@@ -209,6 +217,14 @@ The manifest lists all framework files that should exist in a clean installation
    - Ensure all prompts (Prompt_1 through Prompt_16, Prompt_99) are listed
    - Ensure all modules (_COMMON/01-17) are listed
    - Ensure all templates are listed
+
+**IMPORTANT: Step 4.7 - Documentation/ Directory Exclusion**
+
+The `Documentation/` directory contains maintainer documentation and is NOT included in user release packages:
+- Documentation/ is excluded in `.github/workflows/release.yml` build step
+- Only Process/, scripts/, .claude/, and root config files are included in releases
+- PREPARE_RELEASE.md stays at root (actively used for every release)
+- Users get FRAMEWORK_CORE.md (instant load) + on-demand docs from Process/
    - Ensure .claude/ files are listed (README.md, hooks.json)
    - Ensure .claude/agents/ are listed (book-writing-assistant.md)
    - Ensure .claude/commands/ are listed (fw-init.md)
@@ -216,20 +232,23 @@ The manifest lists all framework files that should exist in a clean installation
 **Example manifest structure:**
 ```json
 {
-  "version": "0.12.10",
+  "version": "0.13.0",
   "generatedDate": "2025-11-23",
   "files": {
     "root": ["INSTALLATION.md", "CLAUDE.md", ...],
-    "Process": ["AI-Assisted_Nonfiction_Authoring_Process.md", ...],
-    "Process/Prompts": ["Prompt_1_Initialize.md", ...],
+    "Process": ["FRAMEWORK_CORE.md", "Anti-Hallucination_Guidelines.md", ...],
+    "Process/Prompts": ["Prompt_1_Initialize.md", "README.md", "QUICK_REFERENCE.md", ...],
     "Process/_COMMON": ["01_Prompt_Structure_Template.md", ...],
     "Process/Templates": ["Chapter_Style_Template.md", ...],
+    "Process/Styles": ["README.md", "Style_Catalog.md", ...],
     ".claude": ["README.md", "hooks.json"],
     ".claude/agents": ["book-writing-assistant.md"],
     ".claude/commands": ["fw-init.md"]
   }
 }
 ```
+
+**Note:** Documentation/ directory is NOT in manifest - it's excluded from user releases
 
 **Why this matters:**
 - During framework updates, configure.md will:
@@ -254,12 +273,14 @@ git commit -m "Update all documentation to version X.X.X
 
 UPDATED:
 - README.md (root level)
-- Process/AI-Assisted_Nonfiction_Authoring_Process.md
+- Process/FRAMEWORK_CORE.md
 - CLAUDE.md
 - configure.md
 - INSTALLATION.md
 - PREPARE_RELEASE.md
 - system-instructions.md
+- .claude/commands/fw-init.md
+- Documentation/AI-Assisted_Nonfiction_Authoring_Process.md
 - CHANGELOG.md
 
 Prepared for vX.X.X release.
@@ -319,14 +340,20 @@ Check that the release includes:
 
 This list helps verify all version references are updated:
 
-### Framework Documentation
+### Framework Documentation (User-Facing)
 - `README.md` - Root level readme (header, footer, download links, prompt counts)
-- `Process/AI-Assisted_Nonfiction_Authoring_Process.md` - Header version and date
+- `Process/FRAMEWORK_CORE.md` - Header and footer version and date ← NEW
 - `CLAUDE.md` - Header and footer version and date
 - `configure.md` - Header and footer version
 - `INSTALLATION.md` - All download links and references
-- `PREPARE_RELEASE.md` - This file's header and footer version and date
-- `system-instructions.md` - Header and footer version, compatibility classifications
+- `system-instructions.md` - Header and footer version, token efficiency note
+- `.claude/commands/fw-init.md` - Version notes throughout ← NEW
+
+### Maintainer Tools (Root Level - Actively Used)
+- `PREPARE_RELEASE.md` - This file's header and footer version and date (stays at root)
+
+### Maintainer Documentation (NOT in user releases)
+- `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` - Header version and date
 
 ### Generated During Installation (v0.12.1+)
 - `.config/init.json` - Created by Prompt 1 Q&A session
@@ -422,12 +449,12 @@ If a release needs to be rolled back:
 
 **Check current version in files:**
 ```bash
-grep -h "Version:" README.md Process/AI-Assisted_Nonfiction_Authoring_Process.md CLAUDE.md configure.md PREPARE_RELEASE.md system-instructions.md | head -8
+grep -h "Version:" README.md Process/FRAMEWORK_CORE.md CLAUDE.md configure.md PREPARE_RELEASE.md system-instructions.md Documentation/AI-Assisted_Nonfiction_Authoring_Process.md | head -9
 ```
 
 **Find all version references:**
 ```bash
-grep -r "0\.10\.0" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md"
+grep -r "0\.10\.0" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md" | grep -v "Documentation/"
 ```
 
 **Review critical files for content:**

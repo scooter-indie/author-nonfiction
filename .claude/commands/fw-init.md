@@ -110,7 +110,7 @@ Anti-Hallucination Protocol: ✓ Active
 On-Demand Loading Available:
   • Workflows: Process/Prompts/QUICK_REFERENCE.md
   • Styles: Process/Styles/README.md
-  • Comprehensive: Process/AI-Assisted_Nonfiction_Authoring_Process.md
+  • Comprehensive: Documentation/AI-Assisted_Nonfiction_Authoring_Process.md
   • Prompt docs: Process/Prompts/README.md
   • Full anti-hallucination: Process/Anti-Hallucination_Guidelines.md
 
@@ -127,7 +127,7 @@ Ready! How can I help with your nonfiction authoring project?
 - **User executes a prompt?** → Load that prompt file only
 - **User asks workflow questions?** → Load QUICK_REFERENCE.md
 - **User asks about styles?** → Load Styles/README.md
-- **User needs comprehensive details?** → Load AI-Assisted_Nonfiction_Authoring_Process.md
+- **User needs comprehensive details?** → Load Documentation/AI-Assisted_Nonfiction_Authoring_Process.md
 - **User asks about prompts?** → Load Prompts/README.md
 - **User needs full anti-hallucination?** → Load Anti-Hallucination_Guidelines.md
 

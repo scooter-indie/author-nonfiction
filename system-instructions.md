@@ -542,7 +542,7 @@ If you work on multiple book projects:
 
 ## Support
 
-- **Framework Documentation:** Process/AI-Assisted_Nonfiction_Authoring_Process.md
+- **Framework Documentation:** Documentation/AI-Assisted_Nonfiction_Authoring_Process.md
 - **Quick Reference:** Process/Prompts/QUICK_REFERENCE.md
 - **Installation Help:** INSTALLATION.md
 - **Issues:** https://github.com/scooter-indie/author-nonfiction/issues

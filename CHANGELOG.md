@@ -9,7 +9,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.13.0] - 2025-11-23
 
+### Added
+- **Documentation/ directory** - New maintainer documentation directory (NOT in user releases)
+  - Documentation/README.md - Directory guide for maintainers
+  - Documentation/Development/ - Future contributor guides
+  - Documentation/Archive/ - Historical proposals
+  - PREPARE_RELEASE.md stays at root (actively used)
+
 ### Changed
+- **Phase 2: Documentation Consolidation** - Eliminated ~2,370 words of redundancy (~75% reduction)
+  - AI-Assisted_Nonfiction_Authoring_Process.md: Reduced 16 prompt descriptions to 2-3 sentence summaries with reference to Prompts/README.md (~1,200 words saved)
+  - Prompts/README.md: Replaced "Common Workflows" section with reference to QUICK_REFERENCE.md (~750 words saved)
+  - QUICK_REFERENCE.md: Reduced hierarchical style system from 28 lines to 8 lines with reference to Styles/README.md (~120 words saved)
+  - Prompts/README.md: Replaced detailed quote management with 15-line summary and reference (~150 words saved)
+  - Updated "9 styles" → "19 styles (v2.0)" for accuracy
+  - All unique content preserved, only redundancy removed
+
+- **Phase 3: Documentation Migration** - Moved AI-Assisted Process to Documentation/
+  - `Process/AI-Assisted_Nonfiction_Authoring_Process.md` → `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md`
+  - Updated all references across framework (CLAUDE.md, fw-init.md, system-instructions.md, FRAMEWORK_CORE.md, Prompts/README.md, QUICK_REFERENCE.md)
+  - Documentation/ excluded from user release packages (maintainer-only content)
+  - Users get FRAMEWORK_CORE.md (instant load) + on-demand docs from Process/
+
+- **Phase 3.5: PREPARE_RELEASE.md Updates** - Comprehensive release preparation updates
+  - Added FRAMEWORK_CORE.md to Critical Files list (#2)
+  - Added .claude/commands/fw-init.md to Critical Files list (#8)
+  - Removed AI-Assisted Process from Critical Files (moved to Documentation/)
+  - PREPARE_RELEASE.md stays at root (noted explicitly)
+  - Updated "Files That Should Contain Version Numbers" section with new organization
+  - Added Step 4.7: Documentation/ Directory Exclusion note
+  - Updated commit message template with new file list
+  - Updated grep command examples to exclude Documentation/
+  - Updated manifest example structure (v0.13.0, no Documentation/)
+
 - **ENFORCEMENT_RULES.md** - Consolidated Module 14 (Enforcement Rules Module) into root-level document
   - Eliminated ~200 lines of duplication between files
   - Added Part 2 (Integration Guide) with all Module 14 templates and procedures

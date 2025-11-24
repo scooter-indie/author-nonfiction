@@ -121,47 +121,18 @@ This command loads all framework documentation and activates the Anti-Hallucinat
 
 ## Writing Style System - Hierarchical (v0.10.1+)
 
-The framework includes a comprehensive writing style system with 9 curated professional styles:
+The framework includes 19 curated professional styles (v2.0) across 5 categories.
 
-**Framework Styles Available:**
-- Academic Authority
-- Conversational Expert
-- Narrative Storyteller
-- Business Professional
-- Technical Precision
-- Investigative Journalist
-- Practical Guide
-- Inspirational Teacher
-- Scientific Communicator
-
-**Hierarchical System (v0.10.1):**
-```
-Book Style (Global Default in Style_Guide.md)
-  ↓ inherits
-Chapter Style (Optional - Chapter_XX_style.md)
-  ↓ inherits
-Section Style (Optional - HTML comments)
-```
-
-**How It Works:**
-1. **Prompt 1 (Initialize)**: Select book-level style, creates Style_Guide.md and Style_Overrides.md
-2. **Prompt 2 (Add Chapter)**: Optionally set chapter-level override when creating chapter
-3. **Prompt 3 (Change by Chg)**: Automatically resolves active style (section → chapter → book) and applies it
-4. **Prompt 4 (Interactive Change)**: Resolves active style and applies during conversational editing
-5. **Prompt 8 (Consistency)**: Analyzes distribution, transitions, and alignment across all levels
-6. **Prompt 10 (Dashboard)**: Shows style distribution summary and override percentage
-7. **Prompt 11 (Style Manager)**: Add/remove overrides, analyze transitions, validate registry
-8. **Book-writing-assistant agent**: Applies active style to all writing assistance
+**Hierarchical System:**
+Book Style (global) → Chapter Overrides (optional) → Section Overrides (optional)
 
 **Quick Actions:**
-- **Select book-level style**: Use Prompt 1 during initialization
-- **Add chapter override**: Prompt 2 (when creating chapter) or Prompt 11
-- **Add section override**: Use HTML markers `<!-- STYLE_OVERRIDE: StyleName -->` in content
-- **Create custom style**: Edit `Manuscript/Style/Custom_Styles.md`
-- **Change book-level style**: Prompt 11 → Change Book-Level Style (with impact analysis)
-- **View distribution**: Prompt 10 (Dashboard) or Prompt 11 → View Distribution
-- **Analyze transitions**: Prompt 11 → Analyze Transitions
-- **Check consistency**: Prompt 8 with hierarchical style analysis
+- Select style: Prompt 1 (Initialize) or Prompt 11 (Style Manager)
+- Add chapter override: Prompt 2 or Prompt 11
+- View distribution: Prompt 10 or Prompt 11
+- Check consistency: Prompt 8
+
+**For complete style library and detailed usage, see Process/Styles/README.md**
 
 ---
 

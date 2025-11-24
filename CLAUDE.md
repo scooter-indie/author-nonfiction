@@ -120,7 +120,7 @@ Process/
 If this is your first time using the framework:
 
 1. **Read the framework documentation:**
-   - `Process/AI-Assisted_Nonfiction_Authoring_Process.md` (comprehensive guide)
+   - `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` (comprehensive guide)
    - `Process/Prompts/QUICK_REFERENCE.md` (quick workflows)
 
 2. **Initialize your book project:**
@@ -444,10 +444,9 @@ The framework includes centralized quote/epigraph management:
 ### Load On-Demand When Needed:
 - `Process/Anti-Hallucination_Guidelines.md` - Full accuracy protocol details
 - `Process/Prompts/QUICK_REFERENCE.md` - Workflow guide
-- `Process/AI-Assisted_Nonfiction_Authoring_Process.md` - Complete framework guide
+- `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` - Complete framework guide
 - `Process/Prompts/README.md` - Detailed prompt documentation
 - `Process/Styles/README.md` - Style library details
-- `Process/Style_Examples.md` - 9 curated professional styles
 
 ---
 
@@ -523,7 +522,7 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ## Support
 
-- **Documentation:** `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
+- **Documentation:** `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md`
 - **Quick Reference:** `Process/Prompts/QUICK_REFERENCE.md`
 - **Issues/Bugs:** https://github.com/scooter-indie/author-nonfiction/issues
 - **Releases:** https://github.com/scooter-indie/author-nonfiction/releases
