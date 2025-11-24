@@ -696,3 +696,16 @@ Which option?
 
 **Version:** 0.13.0
 **Last Updated:** 2025-11-23
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 1 Initialize complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 1 Initialize from context'**
+
+This will reclaim tokens for your next operation."

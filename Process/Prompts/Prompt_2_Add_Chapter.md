@@ -282,3 +282,16 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 **Last Updated:** 2025-11-23
 
 *Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 2)*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 2 Add Chapter complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 2 Add Chapter from context'**
+
+This will reclaim tokens for your next operation."
