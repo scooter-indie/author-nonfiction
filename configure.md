@@ -143,7 +143,8 @@ I will:
    - Execute each change in the migration
 5. For each change within a migration:
    - Attempt to apply automatically
-   - **If fails**: Ask "Migration step failed. (retry/abort)"
+   - **If fails**: **⏸️ STOP AND ASK USER:** "Migration step failed. (retry/abort)"
+     - **WAIT for user response**
      - retry: Try again
      - abort: Stop entire process (user must fix before continuing)
    - Track successful changes
@@ -324,7 +325,9 @@ I will:
    done
    ```
 
-4. **Display files to be removed:**
+4. **Display files to be removed and ask user:**
+
+   **⏸️ STOP AND ASK USER:**
    ```
    📦 Framework Cleanup
 
@@ -342,7 +345,9 @@ I will:
    Proceed with cleanup? (yes/no)
    ```
 
-5. **Remove outdated files (if user confirms):**
+   **WAIT for user response before continuing.**
+
+5. **Remove outdated files (if user says "yes"):**
    ```bash
    # Remove each outdated file
    for file in [files-to-remove]; do
@@ -397,11 +402,21 @@ I will:
 I will check if git is installed:
 
 **Git Not Found:**
-- Provide installation instructions for your platform:
-  - **Windows**: Download from https://git-scm.com/ or use `winget install Git.Git`
-  - **macOS**: Install via Homebrew: `brew install git` or download from https://git-scm.com/
-  - **Linux**: Use package manager: `sudo apt install git` or `sudo yum install git`
-- Stop and wait for you to install git
+
+**⏸️ STOP AND ASK USER:**
+```
+⚠️ Git Not Found
+
+Git is required for version control. Please install it:
+- Windows: https://git-scm.com/ or run: winget install Git.Git
+- macOS: brew install git
+- Linux: sudo apt install git
+
+After installing, say "done" to continue.
+Or say "skip" to continue without git (not recommended).
+```
+
+**WAIT for user response before continuing.**
 
 **Git Found:**
 - Check if `.git` directory exists
@@ -410,61 +425,54 @@ I will check if git is installed:
 
 ### Step 6: Remote Repository Setup
 
-I will ask you about remote repository:
+**⏸️ STOP AND ASK USER:**
+```
+Step 6: Remote Repository Setup
 
-**Question:** "Do you want to connect this project to a remote git repository?"
+Do you want to connect this project to a remote git repository (GitHub, GitLab, etc.)?
 
-**Option 1: No remote repository**
-- You'll work locally only
-- You're responsible for your own backups
-- Configuration continues
+Options:
+1. "no" or "skip" - Work locally only (you handle backups)
+2. "github" - Create/connect to GitHub repository
+3. "gitlab" - Create/connect to GitLab repository
+4. "url [your-url]" - I already have a repository URL
+```
 
-**Option 2: Create new remote repository**
+**WAIT for user response before continuing.**
 
-I'll ask: "Which platform?"
-- **GitHub** (most common)
-- **GitLab**
-- **Other** (Bitbucket, self-hosted, etc.)
+**If user says "no" or "skip":**
+- Tell user: "Working locally. You're responsible for backups."
+- Continue to Step 7.
 
-Then I'll provide instructions for **both methods**:
+**If user says "github" or "gitlab":**
 
-**Method A: Web UI (Recommended for beginners)**
-- Step-by-step instructions for creating repo via web browser
-- How to get the repository URL
-- Wait for you to provide URL
+**⏸️ ASK USER:** "Do you want to create a new repository or connect to an existing one?"
+- "new" - Create new repository
+- "existing" - Connect to existing repository URL
 
-**Method B: Command Line (Faster for developers)**
+**WAIT for response.**
 
-For GitHub:
+**For new repository:**
+Provide CLI commands:
 ```bash
-# Install GitHub CLI if needed: https://cli.github.com/
+# GitHub
 gh auth login
 gh repo create my-book --private --source=. --remote=origin
-```
 
-For GitLab:
-```bash
-# Install GitLab CLI if needed
+# GitLab
 glab auth login
 glab repo create my-book --private
-git remote add origin [returned-url]
 ```
 
-After you provide the URL or confirm CLI setup:
-- Verify remote is configured: `git remote -v`
+**⏸️ STOP AND WAIT** for user to confirm repository created.
 
-**Option 3: Already have empty remote repository**
-
-I'll ask: "What is your repository URL?"
-- Example: `https://github.com/username/my-book.git`
-- Example: `git@github.com:username/my-book.git`
-
-Then I'll:
-1. Verify the current directory has content to preserve
-2. Add the remote: `git remote add origin [your-url]`
+**For existing repository or "url [your-url]":**
+1. Get the URL from user
+2. Add remote: `git remote add origin [url]`
 3. Set up tracking: `git branch -M main`
+4. Verify: `git remote -v`
 
-**Note**: I will NOT push to remote at this stage. You'll use Prompt 9 when ready to push.
+**Note**: I will NOT push to remote. Use Prompt 12 (Git Operations) when ready.
 
 ### Step 7: Export Tool Discovery (Optional)
 
