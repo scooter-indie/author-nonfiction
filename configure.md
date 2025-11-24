@@ -42,6 +42,25 @@ This configuration script will:
 
 ## Configuration Process
 
+### Step 0: Confirm Date
+
+**⏸️ STOP AND ASK USER:**
+
+```
+Today's date from system: [DATE from <env>]
+
+Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
+```
+
+**WAIT for user response.**
+
+- **If user says "yes":** Store as `CONFIRMED_DATE=[DATE]`
+- **If user provides different date:** Store as `CONFIRMED_DATE=[user's date]`
+
+**IMPORTANT:** Use CONFIRMED_DATE for ALL date operations during this session.
+
+---
+
 ### Step 1: Verify Current Directory
 
 I will:
