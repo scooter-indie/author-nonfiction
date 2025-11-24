@@ -1,7 +1,7 @@
 # Prompt 16: Image Manager
 
-**Version:** 0.13.0
-**Last Updated:** 2025-11-23
+**Version:** 0.14.0
+**Last Updated:** 2025-11-24
 **Compatibility:** Claude Code CLI only (requires file operations, image handling)
 
 **FIRST ACTION - MANDATORY:**
@@ -56,42 +56,62 @@ Use Prompt 16 when you need to:
 
 ---
 
-## Four Operating Modes
+## Five Operating Modes
 
 ### Mode 1: Add Image to Chapter
 Add a new professional image to a specific chapter. Claude will:
-1. Read `Image_Registry.md` to determine the next figure number for the chapter
-2. Copy/move the image file to `Manuscript/images/` with proper naming
-3. Register the image with full metadata
-4. Insert the markdown reference in the specified chapter location
-5. Update statistics in the registry
-6. Commit changes to git
+1. Detect registry type (single vs split)
+2. Read appropriate registry (chapter registry if split, full registry if single)
+3. Determine the next figure number for the chapter
+4. Copy/move the image file to `Manuscript/images/` with proper naming
+5. Register the image with full metadata
+6. Insert the markdown reference in the specified chapter location
+7. Update statistics (chapter registry + master index if split)
+8. Commit changes to git
 
 ### Mode 2: Upgrade Text-Based to Professional Image
 Replace a text-based visual (created by Prompt 15) with a professional image. Claude will:
-1. Locate the text-based figure in the registry
+1. Detect registry type and locate figure in appropriate registry
 2. Replace the `.md` file with the provided image file
 3. Update the registry entry (status 📝 → 🖼️, add size/dimensions)
 4. Update the chapter reference to use the new image
 5. Archive the old text-based file with version history
-6. Update statistics and commit
+6. Update statistics (chapter registry + master index if split) and commit
 
 ### Mode 3: Scan and Register Existing Images
 Discover and register images already present in your manuscript. Claude will:
-1. Scan `Manuscript/images/` for unregistered image files
-2. Search chapters for image references
-3. Create registry entries with inferred metadata
-4. Report findings for user confirmation
-5. Register confirmed images
-6. Update statistics and commit
+1. Detect registry type (single vs split)
+2. Scan `Manuscript/images/` for unregistered image files
+3. Search chapters for image references
+4. Create registry entries with inferred metadata
+5. Report findings for user confirmation
+6. Register confirmed images (in chapter registries if split)
+7. Update statistics (all affected registries + master index if split) and commit
 
 ### Mode 4: Validate Image References
 Check that all image references are correct and files exist. Claude will:
-1. Read all chapter files and extract image references
-2. Verify each referenced file exists in `Manuscript/images/`
-3. Cross-check registry entries against actual files
-4. Report discrepancies (missing files, broken references, unregistered images)
-5. Suggest fixes for issues found
+1. Detect registry type (single vs split)
+2. Read all chapter files and extract image references
+3. Read appropriate registries (all chapter registries if split)
+4. Verify each referenced file exists in `Manuscript/images/`
+5. Cross-check registry entries against actual files
+6. Report discrepancies (missing files, broken references, unregistered images)
+7. For split mode: Report per-chapter validation status
+8. Suggest fixes for issues found
+
+### Mode 5: Split Registry (NEW in v0.14.0)
+Split a large single registry into chapter-based registries. Claude will:
+1. Count current registry entries
+2. If < 100 entries: Warn this is premature but allow
+3. If >= 100 entries: Proceed with split
+4. Parse entries by chapter number from filename
+5. Create chapter registries for each chapter with images
+6. Create master index with distribution table
+7. Archive original registry as legacy file
+8. Validate split results (entry counts match)
+9. Commit changes
+
+**Automatic Trigger:** At 300 entries, Claude will recommend split. At 400+ entries, split is strongly recommended.
 
 ---
 
@@ -121,17 +141,80 @@ Check that all image references are correct and files exist. Claude will:
    ```
    This defines the complete visual asset system, naming conventions, and coordination protocol.
 
-2. **Read the Image Registry:**
+2. **Read Module 19 (if registry is large):**
+   ```
+   Process/_COMMON/19_Image_Registry_Splitting_Module.md
+   ```
+   This defines registry splitting for large image collections (300+ entries).
+
+3. **Read the Image Registry:**
    ```
    Manuscript/images/Image_Registry.md
    ```
    This shows existing figures and determines the next figure number for each chapter.
 
-3. **Read Anti-Hallucination Guidelines:**
+4. **Read Anti-Hallucination Guidelines:**
    ```
    Process/Anti-Hallucination_Guidelines.md
    ```
    Critical rules for handling image descriptions and metadata.
+
+---
+
+## Step -1: Registry Type Detection (ALL MODES)
+
+**CRITICAL: Perform this step before any operation (except Mode 5 Split).**
+
+**Detect Registry Type:**
+
+1. Read first 15 lines of `Manuscript/images/Image_Registry.md`
+2. Search for the text "Registry Type: Split"
+
+**If "Registry Type: Split" is found:**
+```
+Registry Mode: SPLIT
+- Master index: Manuscript/images/Image_Registry.md
+- Chapter registries: Manuscript/images/Image_Registry_Chapter_XX.md
+- Operations: Read chapter registry for chapter-specific work
+```
+
+**If "Registry Type: Split" is NOT found:**
+```
+Registry Mode: SINGLE
+- Registry: Manuscript/images/Image_Registry.md (contains all entries)
+- Operations: Read/write single registry file
+```
+
+**Threshold Monitoring (Single Mode Only):**
+
+Count entries in single registry:
+```bash
+grep -c "^### " Manuscript/images/Image_Registry.md
+```
+
+- **200-299 entries:** Display warning:
+  ```
+  ⚠️ Image registry approaching size limit (N entries).
+  Consider splitting at 300 entries for better performance.
+  Use Mode 5 (Split Registry) when ready.
+  ```
+
+- **300-399 entries:** Display recommendation:
+  ```
+  🔴 Image registry has N entries. Splitting recommended.
+  Would you like to split into chapter-based registries now?
+  This improves performance by ~89% for typical operations.
+
+  Say "split registry" to proceed, or continue with current operation.
+  ```
+
+- **400+ entries:** Display strong warning:
+  ```
+  ❌ Image registry has N entries (over safe limit).
+  Context window exhaustion risk. Splitting strongly recommended.
+
+  Proceed with split before continuing? (yes/no)
+  ```
 
 ---
 
@@ -905,12 +988,181 @@ Next steps:
 
 ---
 
+## Mode 5: Split Registry
+
+### User Instructions
+
+Provide:
+1. **Confirmation:** Acknowledge you want to split the registry
+2. **Scope:** Split all chapters (default) or specific subset
+
+### Execution Steps
+
+**Step 1: Validate Current Registry**
+
+```bash
+# Verify single registry mode
+head -15 Manuscript/images/Image_Registry.md | grep -c "Registry Type: Split"
+# Should return 0 (not already split)
+
+# Count entries
+grep -c "^### " Manuscript/images/Image_Registry.md
+```
+
+If already split, inform user:
+```
+Registry is already in split mode. No action needed.
+```
+
+**Step 2: Analyze Entries**
+
+1. Read current `Image_Registry.md`
+2. Parse all entries (lines starting with `### `)
+3. For each entry, extract chapter number from filename:
+   - Pattern: `fig-XX-YY-description` → Chapter XX
+   - `cover`, `author-photo` → Frontmatter
+   - Contains `backmatter` or `appendix` → Backmatter
+
+4. Group entries by chapter:
+```
+Frontmatter: [cover, author-photo, ...]
+Chapter 01: [fig-01-01-..., fig-01-02-..., ...]
+Chapter 02: [fig-02-01-..., fig-02-02-..., ...]
+...
+Backmatter: [appendix-..., ...]
+```
+
+**Step 3: Create Chapter Registries**
+
+For each chapter with images:
+
+1. Create `Manuscript/images/Image_Registry_Chapter_XX.md` using template:
+   ```
+   Process/Templates/Image_Registry_Chapter_template.md
+   ```
+
+2. Populate with chapter-specific entries:
+   - Preserve all metadata fields exactly
+   - Group by Text-Based Visuals and Professional Images
+   - Calculate chapter statistics
+
+3. Update chapter title from `Manuscript/Chapters/Chapter_XX.md` (first H1 heading)
+
+**Step 4: Create Frontmatter/Backmatter Registries (if needed)**
+
+If frontmatter entries exist:
+- Create `Manuscript/images/Image_Registry_Frontmatter.md`
+- Include cover, author-photo, etc.
+
+If backmatter entries exist:
+- Create `Manuscript/images/Image_Registry_Backmatter.md`
+- Include appendix figures, etc.
+
+**Step 5: Archive Original Registry**
+
+```bash
+# Get today's date
+DATE=$(date +%Y-%m-%d)
+
+# Archive original registry
+mv Manuscript/images/Image_Registry.md "Manuscript/images/Image_Registry_LEGACY_$DATE.md"
+```
+
+**Step 6: Create Master Index**
+
+Create new `Manuscript/images/Image_Registry.md` using template:
+```
+Process/Templates/Image_Registry_Master_template.md
+```
+
+Populate:
+1. Set `Registry Type: Split`
+2. Calculate total images
+3. Build Registry Distribution table:
+   - List all chapter registries
+   - Include image counts and last updated dates
+4. Calculate Quick Stats (type distribution, chapter averages)
+5. Set migration metadata
+
+**Step 7: Validate Split**
+
+```bash
+# Count entries in each chapter registry
+for file in Manuscript/images/Image_Registry_Chapter_*.md; do
+  echo "$file: $(grep -c '^### ' "$file")"
+done
+
+# Sum should equal original count
+```
+
+If mismatch:
+```
+❌ Split validation failed: Entry count mismatch
+   Original: N entries
+   After split: M entries
+   Difference: N-M entries
+
+   Check legacy file for missing entries.
+   Aborting - manual review required.
+```
+
+**Step 8: Commit Changes**
+
+```bash
+git add Manuscript/images/Image_Registry.md
+git add Manuscript/images/Image_Registry_Chapter_*.md
+git add Manuscript/images/Image_Registry_Frontmatter.md 2>/dev/null
+git add Manuscript/images/Image_Registry_Backmatter.md 2>/dev/null
+git add Manuscript/images/Image_Registry_LEGACY_*.md
+git commit -m "$(cat <<'EOF'
+REFACTOR: Split Image Registry into chapter-based registries
+
+- Created N chapter registries from single M-entry registry
+- Master index tracks M images across N chapters
+- Token usage reduced by ~89% for typical operations
+- All image references preserved (no chapter file changes)
+- Legacy registry archived
+
+🤖 Generated with Claude Code - Prompt 16 (Image Manager)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"
+```
+
+**Step 9: Report Completion**
+
+```
+✅ Registry Split Complete
+
+Before: Single registry with N entries (~X tokens)
+After: Master index + M chapter registries (~Y tokens per operation)
+
+Registry Distribution:
+- Frontmatter: X images
+- Chapter 01: X images
+- Chapter 02: X images
+- ...
+- Backmatter: X images
+
+Performance improvement: ~89% token reduction per operation
+Legacy registry: Image_Registry_LEGACY_YYYY-MM-DD.md
+
+Next steps:
+- All prompts now use split mode automatically
+- Run Prompt 8 (Consistency) to validate
+- Future images will be added to chapter registries
+```
+
+---
+
 ## Integration with Other Prompts
 
 ### Prompt 15 (Visual Content Suggester)
 - **Prompt 15** creates text-based visuals (📝 status)
 - **Prompt 16 Mode 2** upgrades them to professional images (🖼️ status)
-- Both read `Image_Registry.md` to coordinate figure numbering
+- Both detect registry type and use appropriate registry file
+- Both coordinate via registry for figure numbering
 
 ### Prompt 1 (Initialize)
 - Creates `Manuscript/images/` directory
@@ -1407,19 +1659,29 @@ Mode 4: Validate References
   "Validate image references"
   Checks for broken links and missing files
 
+Mode 5: Split Registry (NEW v0.14.0)
+  "Split image registry"
+  Splits large registry into chapter-based files
+  Recommended at 300+ entries
+
+Registry Modes:
+- SINGLE: All entries in Image_Registry.md
+- SPLIT: Master index + Image_Registry_Chapter_XX.md files
+- Auto-detected from "Registry Type: Split" in master index
+
 Naming: fig-XX-YY-description.ext
 Location: Manuscript/images/
-Registry: Manuscript/images/Image_Registry.md
+Registry: Manuscript/images/Image_Registry.md (+ chapter files if split)
 
 Integration:
 - Prompt 15 creates 📝 text-based
 - Prompt 16 adds 🖼️ professional images
-- Both coordinate via registry
+- Both coordinate via registry (auto-detect mode)
 ```
 
 ---
 
-🤖 **This prompt is part of the AI-Assisted Nonfiction Authoring Framework v0.13.0**
+🤖 **This prompt is part of the AI-Assisted Nonfiction Authoring Framework v0.14.0**
 📖 **For help:** See `Process/Prompts/README.md` or `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
 
 ---

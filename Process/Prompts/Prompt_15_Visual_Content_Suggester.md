@@ -1,6 +1,6 @@
 # Execute Prompt 15: Visual Content Suggester
 
-**Version:** 0.13.0
+**Version:** 0.14.0
 **CLI-ONLY (bulk analysis) / HYBRID (single chapter in Desktop)**
 
 **FIRST ACTION - MANDATORY:**
@@ -25,10 +25,11 @@ Reference `Process/Prompts/Prompt_Essentials.md` (loaded once per session via /f
 
 See: `ENFORCEMENT_RULES.md` (Part 2: Integration Guide)
 
-**VISUAL SYSTEM VERSION:** v0.12.7 - Unified directory structure
+**VISUAL SYSTEM VERSION:** v0.14.0 - Unified directory with split registry support
 - **Location:** `Manuscript/images/` (single flat directory)
 - **Naming:** `fig-XX-YY-description.md` (hyphens, not underscores)
-- **Registry:** `Manuscript/images/Image_Registry.md` (unified, not per-chapter)
+- **Registry:** `Manuscript/images/Image_Registry.md` (single OR split into chapter registries)
+- **Split Mode:** At 300+ entries, registry splits into `Image_Registry_Chapter_XX.md` files
 - **References:** Standard markdown image syntax with relative paths
 
 **NOTE:** This prompt creates visual asset files and updates _chg files as part of the standard workflow
@@ -372,6 +373,37 @@ For Mode 2/3, for each resource:
 
 ---
 
+## Registry Type Detection (ALL MODES)
+
+**CRITICAL: Perform this step before any registry operation.**
+
+**Detect Registry Type:**
+
+1. Read first 15 lines of `Manuscript/images/Image_Registry.md`
+2. Search for the text "Registry Type: Split"
+
+**If "Registry Type: Split" is found:**
+```
+Registry Mode: SPLIT
+- Master index: Manuscript/images/Image_Registry.md
+- Chapter registries: Manuscript/images/Image_Registry_Chapter_XX.md
+- Add new figures to: Image_Registry_Chapter_XX.md (for target chapter)
+- Update master index stats after changes
+```
+
+**If "Registry Type: Split" is NOT found:**
+```
+Registry Mode: SINGLE
+- Registry: Manuscript/images/Image_Registry.md (contains all entries)
+- Add new figures to: Image_Registry.md
+```
+
+**Figure Number Determination:**
+- **Split mode:** Read `Image_Registry_Chapter_XX.md` for target chapter → find highest YY → use YY+1
+- **Single mode:** Read `Image_Registry.md` → find highest YY for chapter XX → use YY+1
+
+---
+
 ## Detailed Workflow Steps
 
 ### Mode 1: Scan Only (Report Generation)
@@ -462,7 +494,10 @@ Figure 2.1: Survey Method Comparison
      - Save to `Manuscript/images/fig_XX_YY_description.md`
 
 7. **Create/update figures registry**
-   - Create or update `Manuscript/images/README.md`
+   - **Single mode:** Update `Manuscript/images/Image_Registry.md`
+   - **Split mode:** Update `Manuscript/images/Image_Registry_Chapter_XX.md` for target chapter
+     - If chapter registry doesn't exist, create from template
+     - Also update master index stats in `Image_Registry.md`
    - Add entry for each new visual:
      - Figure number and description
      - Type and status (📝 Text-based)

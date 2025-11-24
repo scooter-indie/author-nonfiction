@@ -1,6 +1,6 @@
 # Framework Common Modules
 
-**Framework Version:** 0.10.0
+**Framework Version:** 0.14.0
 **Directory:** Process/_COMMON/
 **Purpose:** Shared, reusable modules for all Execute Prompts
 
@@ -8,7 +8,7 @@
 
 ## Overview
 
-This directory contains 13 active modules that provide shared functionality across all Execute Prompts. (Module 14 deprecated in v0.13.0 - consolidated into root-level ENFORCEMENT_RULES.md) These modules reduce duplication, ensure consistency, and serve as the single source of truth for common patterns.
+This directory contains 17 active modules that provide shared functionality across all Execute Prompts. (Module 14 deprecated in v0.13.0 - consolidated into root-level ENFORCEMENT_RULES.md) These modules reduce duplication, ensure consistency, and serve as the single source of truth for common patterns.
 
 **Benefits:**
 - ✅ **DRY Principle:** Single source of truth eliminates 2,500+ lines of duplication
@@ -55,6 +55,21 @@ This directory contains 13 active modules that provide shared functionality acro
 | 11 | `11_Interactive_Patterns.md` | Question/answer templates |
 | 12 | `12_Workflow_Patterns.md` | Common workflow sequences |
 | 13 | `13_PROJECT_CONTEXT_Protocol.md` | Context file management |
+
+### Visual & Content Management (15-17)
+
+| Module | File | Purpose |
+|--------|------|---------|
+| 15 | `15_Visual_Asset_Management_Protocol.md` | Visual assets, registry, status codes |
+| 16 | `16_Citation_Management_Protocol.md` | Citation tracking and verification |
+| 17 | `17_README_Management_Module.md` | README file management |
+
+### Infrastructure (18-19)
+
+| Module | File | Purpose |
+|--------|------|---------|
+| 18 | `18_Lock_Management_Module.md` | Concurrent editing locks |
+| 19 | `19_Image_Registry_Splitting_Module.md` | Registry splitting for large collections (NEW v0.14.0) |
 
 ---
 
@@ -423,7 +438,7 @@ See: `05_Git_Integration_Module.md` for commit format templates
 **Last Updated:** 2025-11-19
 **Status:** Active
 
-**Total Modules:** 13 active (Module 14 deprecated in v0.13.0)
+**Total Modules:** 17 active (Module 14 deprecated in v0.13.0)
 **Total Prompts Using Modules:** 16
 **Lines of Code Deduplicated:** ~2,500-3,500
 **Maintenance Improvement:** ~60% reduction in update effort

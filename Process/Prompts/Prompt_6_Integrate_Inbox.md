@@ -1,6 +1,6 @@
 # Execute Prompt 6: Integrate Inbox
 
-**Version:** 0.13.0
+**Version:** 0.14.0
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem (git via Claude Code CLI)
 
 **FIRST ACTION - MANDATORY:**
@@ -221,10 +221,17 @@ Depending on the file type, I may suggest:
 - Extract bibliography entries
 - Link to relevant chapters
 
-**For assets:**
-- Organize into chapter-specific figures/ directories (Manuscript/Chapters/Chapter_XX/figures/)
-- Or into Research/Assets/ for general project assets
+**For assets (images, diagrams, charts):**
+- Move to unified `Manuscript/images/` directory with proper naming (`fig-XX-YY-description.ext`)
+- **Registry Type Detection:** Check first 15 lines of `Image_Registry.md` for "Registry Type: Split"
+  - **Single mode:** Add entry to `Image_Registry.md`
+  - **Split mode:** Add entry to `Image_Registry_Chapter_XX.md` for target chapter, update master index stats
+- **Chapter Detection:** Determine target chapter from:
+  - Filename pattern (e.g., `chapter-03-diagram.png` → Chapter 03)
+  - User specification ("Add to Chapter 5")
+  - Ask user if not determinable
 - Update references in content files
+- Or move to Research/Assets/ for general project assets (not figure-linked)
 
 ---
 

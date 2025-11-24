@@ -1,6 +1,6 @@
 # Execute Prompt 10: Progress Dashboard
 
-**Version:** 0.13.0
+**Version:** 0.14.0
 
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with optional copy/paste git commit at end
 
@@ -175,6 +175,24 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
    - Override threshold status: [Below/At/Above 30%]
    - Style transitions detected: [N] chapter-level, [N] section-level
    - Undocumented transitions: [N] (requires attention)
+
+   **Visual Assets (v0.14.0+)**
+
+   **Registry Type Detection:**
+   1. Read first 15 lines of `Manuscript/images/Image_Registry.md`
+   2. If contains "Registry Type: Split" → SPLIT MODE (read master index for totals)
+   3. If not → SINGLE MODE (read full registry)
+
+   **Report:**
+   - Registry mode: [Single / Split into N chapter registries]
+   - Total figures: [N] across [N] chapters
+   - 📝 Text-based: [N] ([XX]%)
+   - 🖼️ Professional images: [N] ([XX]%)
+   - Chapters with visuals: [N] / [Total]
+   - Chapters needing visuals: [List or count]
+   - High-priority upgrades: [N] text-based figures ready for professional graphics
+   - Registry health: [✓ Valid / ⚠ Issues found]
+   - If split mode: Show per-chapter distribution summary
 
    **Chapters with style overrides:**
    - Chapter [XX]: [Override style name] ([Rationale if brief])

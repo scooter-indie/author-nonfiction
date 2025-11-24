@@ -219,9 +219,26 @@ Chapter 02:
 
 ---
 
-## Visual Content Status (v0.12.7+ Unified System)
+## Visual Content Status (v0.14.0+ Unified System with Split Support)
 
-**Read `Manuscript/images/Image_Registry.md` for complete visual asset inventory and cross-reference with chapter files.**
+**Registry Type Detection:**
+1. Read first 15 lines of `Manuscript/images/Image_Registry.md`
+2. Search for "Registry Type: Split"
+   - **If found (SPLIT MODE):** Read master index, then each `Image_Registry_Chapter_XX.md`
+   - **If not found (SINGLE MODE):** Read entire `Image_Registry.md`
+
+**For SPLIT MODE, report per-chapter validation:**
+```
+Image Registry Validation (Split Mode):
+- Master index: Image_Registry.md ✓
+- Chapter 01: 23/23 referenced ✓
+- Chapter 02: 44/45 referenced (1 unreferenced)
+- Chapter 03: 12/12 referenced ✓
+- ...
+- Total: 340/347 referenced (7 unreferenced)
+```
+
+**Read appropriate registry for complete visual asset inventory and cross-reference with chapter files.**
 
 **Example output:**
 ```
