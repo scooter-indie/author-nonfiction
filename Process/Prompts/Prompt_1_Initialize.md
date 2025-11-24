@@ -61,7 +61,9 @@ See: Prompt_Essentials.md → Lock Management
 3. **Target word count?**
 4. **Target audience?**
 5. **Book purpose/thesis?**
-6. **Target completion date?**
+6. **Target completion date?** (YYYY-MM-DD format)
+   - **VALIDATE:** Date must be in the future (after CONFIRMED_DATE)
+   - If date is in the past or today, ask again: "That date is in the past. Please provide a future date."
 7. **Existing TOC file?** (path or no)
 8. **If no TOC:** Number and titles of chapters?
 9. **Writing style?** (19 framework styles in 5 categories)

@@ -36,8 +36,13 @@ This reference provides detailed Q&A workflows, configuration file formats, and 
 **Q5:** What is the book's purpose or main thesis?
 > "To provide a practical guide for implementing effective remote work policies"
 
-**Q6:** What is your target completion date?
+**Q6:** What is your target completion date? (YYYY-MM-DD format)
 > "2025-06-30"
+
+**Note:** Date must be in the future. If user provides a past date:
+```
+That date is in the past. Please provide a future date (after [CONFIRMED_DATE]).
+```
 
 **Q7:** Do you have an existing TOC file?
 > "No"
