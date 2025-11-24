@@ -88,7 +88,11 @@ Which style? (5-6)
 
 ## Configuration File Formats
 
+**CRITICAL:** Use exact field names shown below. The scripts validate these exact names.
+
 ### `.config/init.json`
+
+**Required fields:** `title`, `author`, `style`, `chapters`, `createdDate`
 
 ```json
 {

@@ -62,19 +62,13 @@ validate_preconditions() {
 
     # Check required fields in JSON
     if command -v jq &> /dev/null && jq empty "$CONFIG_FILE" 2>/dev/null; then
-        local required_fields=("title" "author" "chapters" "createdDate")
+        local required_fields=("title" "author" "style" "chapters" "createdDate")
         for field in "${required_fields[@]}"; do
             if [[ "$(jq -r ".$field // \"null\"" "$CONFIG_FILE")" == "null" ]]; then
                 echo -e "${RED}✗ Missing required field: $field${NC}"
                 ((errors++))
             fi
         done
-        # Check for style field (accept both "style" and "writingStyle")
-        local style_value=$(jq -r '.style // .writingStyle // "null"' "$CONFIG_FILE")
-        if [[ "$style_value" == "null" ]]; then
-            echo -e "${RED}✗ Missing required field: style (or writingStyle)${NC}"
-            ((errors++))
-        fi
         if [[ $errors -eq 0 ]]; then
             echo -e "${GREEN}✓ All required fields present${NC}"
         fi
@@ -106,8 +100,7 @@ parse_config() {
 
     TITLE=$(jq -r '.title' "$CONFIG_FILE")
     AUTHOR=$(jq -r '.author' "$CONFIG_FILE")
-    # Accept both "style" and "writingStyle" field names
-    STYLE=$(jq -r '.style // .writingStyle' "$CONFIG_FILE")
+    STYLE=$(jq -r '.style' "$CONFIG_FILE")
     DATE=$(jq -r '.createdDate' "$CONFIG_FILE")
     CHAPTERS=$(jq -r '.chapters | length' "$CONFIG_FILE")
     TARGET_WORD_COUNT=$(jq -r '.targetWordCount // "50000"' "$CONFIG_FILE")
