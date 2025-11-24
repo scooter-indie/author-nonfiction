@@ -1,6 +1,6 @@
 # Module 20: JSON Schema and Structure Standards
 
-**Version:** 0.13.3
+**Version:** 0.13.4
 **Purpose:** Authoritative reference for all JSON configuration files in the framework
 
 ---

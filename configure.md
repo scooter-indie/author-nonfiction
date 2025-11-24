@@ -1,17 +1,16 @@
 # Framework Configuration
 
-**HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
+**HYBRID:** Start in Claude Desktop, switch to Claude Code CLI for commands
 
-**AI-Assisted Nonfiction Authoring Framework v0.13.3**
+**AI-Assisted Nonfiction Authoring Framework v0.13.4**
 
-**Claude Desktop Compatibility:**
-- ✅ All file verification via MCP Filesystem
-- ✅ All file operations via MCP Filesystem
-- ⚠️ Requires copy/paste git commands: init, add, commit, remote add
-- 📋 Works 70% in Desktop
+**Claude Desktop users:**
+- ✅ File verification and creation via MCP Filesystem
+- ⚠️ When you see "**Run in Claude Code CLI:**" → Open Claude Code and run the command there
+- 📋 Works 70% in Desktop, 30% requires CLI
 
 **Claude Code CLI users:**
-- ✅ Full automation with direct git execution
+- ✅ Full automation - all commands run directly
 - 📋 Works 100% in CLI
 
 ---
@@ -552,15 +551,22 @@ Options:
 **WAIT for response.**
 
 **For new repository:**
-Provide CLI commands:
-```bash
-# GitHub
-gh auth login
-gh repo create my-book --private --source=. --remote=origin
 
-# GitLab
-glab auth login
-glab repo create my-book --private
+**If in Claude Code CLI:** Run these commands directly.
+
+**If in Claude Desktop:** Tell the user:
+```
+To create a new repository, open Claude Code CLI and run:
+
+For GitHub:
+  gh auth login
+  gh repo create my-book --private --source=. --remote=origin
+
+For GitLab:
+  glab auth login
+  glab repo create my-book --private
+
+Say "done" when the repository is created.
 ```
 
 **⏸️ STOP AND WAIT** for user to confirm repository created.
@@ -594,9 +600,18 @@ Would you like to detect export tools now?
 
 **If user says "yes" or "detect":**
 
-Run the detection script:
+**If in Claude Code CLI:** Run the detection script directly:
 ```bash
 bash scripts/detect-tools.sh .config/manifest.json
+```
+
+**If in Claude Desktop:** Tell the user:
+```
+To detect export tools, open Claude Code CLI and run:
+
+  bash scripts/detect-tools.sh .config/manifest.json
+
+Say "done" when complete, or "skip" to continue without detection.
 ```
 
 The script will confirm git (already verified) and check for pandoc/typst availability.
@@ -605,7 +620,7 @@ Display results and continue to Step 8.
 
 **If user says "skip":**
 
-Tell user: "Skipping tool detection. You can run `bash scripts/detect-tools.sh` anytime later."
+Tell user: "Skipping tool detection. You can run tool detection later from Claude Code CLI."
 
 Continue to Step 8.
 
@@ -615,8 +630,8 @@ Continue to Step 8.
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.13.3",
-  "installedVersion": "0.13.3",
+  "frameworkVersion": "0.13.4",
+  "installedVersion": "0.13.4",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -637,8 +652,8 @@ I will:
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.13.3",
-  "installedVersion": "0.13.3",
+  "frameworkVersion": "0.13.4",
+  "installedVersion": "0.13.4",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -660,7 +675,7 @@ Execute the git commit automatically:
 
 **For New Installations:**
 ```bash
-git add . && git commit -m "Initialize nonfiction framework v0.13.3
+git add . && git commit -m "Initialize nonfiction framework v0.13.4
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -669,7 +684,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 **For Updates:**
 ```bash
-git add . && git commit -m "Update framework to v0.13.3
+git add . && git commit -m "Update framework to v0.13.4
 
 See CHANGELOG.md for details.
 
@@ -679,7 +694,19 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 **For Claude Desktop:**
-Provide the command above and tell user to run it in Claude Code CLI.
+
+Tell the user:
+```
+To create the git commit, open Claude Code CLI and run:
+
+For NEW installations:
+  git add . && git commit -m "Initialize nonfiction framework v0.13.4"
+
+For UPDATES:
+  git add . && git commit -m "Update framework to v0.13.4"
+
+Say "done" when the commit is complete.
+```
 
 **⏸️ STOP AND WAIT** for user to confirm commit completed before continuing.
 
@@ -698,7 +725,7 @@ I will provide:
 ```
 ✅ Configuration Complete!
 
-Framework v0.13.3 installed successfully.
+Framework v0.13.4 installed successfully.
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
@@ -727,7 +754,7 @@ Framework v0.13.3 installed successfully.
 ```
 ✅ Framework Updated Successfully!
 
-Updated from v[old] to v0.13.3
+Updated from v[old] to v0.13.4
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Update committed
@@ -766,7 +793,7 @@ The following required files are missing:
 This suggests the framework was not fully extracted.
 
 Solutions:
-1. Re-extract nonfiction-v0.13.3.zip to this directory
+1. Re-extract nonfiction-v0.13.4.zip to this directory
 2. Ensure all files are extracted (not just some)
 3. Check file permissions
 
@@ -799,14 +826,12 @@ You have uncommitted changes in your repository:
 [show git status output]
 
 Before updating the framework, you MUST commit your work.
-```
 
-Open Claude Code CLI and say:
-```
-Run: git add . && git commit -m 'Save work before framework update'
-```
+Open Claude Code CLI and run:
+  git add . && git commit -m "Save work before framework update"
 
 Then run this configuration again.
+```
 
 ### Remote Connection Failed
 
@@ -855,5 +880,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.13.3*
+*Framework Version: 0.13.4*
 *Configuration Script: configure.md*

@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.4] - 2025-11-24
+
+### Fixed
+- **configure.md CLI command clarity** - All bash command sections now explicitly direct users to Claude Code CLI
+  - Step 6 (remote setup): Clear "If in Claude Code CLI" vs "If in Claude Desktop" branching
+  - Step 7 (tool detection): Explicit instructions for both environments
+  - Step 9 (git commit): Detailed user-facing instructions for Claude Desktop users
+  - Error handling section (uncommitted changes): Simplified command display
+
+- **Windows user experience improvements:**
+  - detect-tools.sh now checks for `.exe` variants (pandoc.exe, typst.exe, jq.exe)
+  - Added Windows path checks for Pandoc at `/c/Program Files/Pandoc/pandoc.exe`
+  - Fixed carriage return (`\r`) in version output with `tr -d '\r'`
+  - Windows-friendly tool installation instructions (no bash knowledge required)
+
+### Technical
+- **Release Type:** PATCH (UX improvements for Windows and Claude Desktop users)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, detect-tools.sh
+
+---
+
 ## [0.13.3] - 2025-11-24
 
 ### Added
