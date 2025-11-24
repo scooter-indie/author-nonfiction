@@ -1,8 +1,12 @@
 # Execute Prompt 10: Progress Dashboard
 
+**Version:** 0.13.0
+
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with optional copy/paste git commit at end
 
-**BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+**BEFORE PROCEEDING:**
+1. Read `Process/_COMMON/18_Lock_Management_Module.md`
+2. Read and apply `Process/Anti-Hallucination_Guidelines.md`
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
@@ -93,6 +97,60 @@ I'll scan all your project files, analyze metrics, and create a dashboard showin
    - Latest tag
    - Uncommitted changes (if any)
    - Unpushed commits (if any)
+
+   **Active Locks (Concurrency - v0.13.0+)**
+
+   Check if `.locks/locks.json` exists and read current locks:
+
+   - **If no locks:**
+     ```
+     Active Locks: None
+     ```
+
+   - **If locks exist:**
+     For each lock in the `locks` array, calculate age and determine status:
+
+     ```
+     Active Locks: [N] active
+
+     | Resource | Instance | Locked At | Age | Status |
+     |----------|----------|-----------|-----|--------|
+     | Chapter_03 | CLI-12345 | 2025-11-23 14:30 | 5 min | 🔒 Active |
+     | StyleSystem | Desktop-67890 | 2025-11-23 13:00 | 95 min | ⚠️ STALE |
+     ```
+
+     **Status indicators:**
+     - 🔒 Active: Lock age < 15 minutes
+     - ⚠️ STALE: Lock age >= 15 minutes (can be overridden)
+
+     **If stale locks detected:**
+     ```
+     ⚠️ STALE LOCKS DETECTED
+
+     [N] locks are older than 15 minutes and may be from crashed instances.
+
+     To clear all stale locks, you can either:
+     1. Execute "Clear All Locks" command (see below)
+     2. Manually delete `.locks/locks.json` and restart operations
+     ```
+
+   **Clear All Locks Command:**
+
+   Add this as an available action the user can request:
+
+   - If user says "clear all locks" or "clear locks":
+     1. Read `.locks/locks.json`
+     2. Display all current locks
+     3. Ask: "Clear all [N] locks? This will allow other instances to proceed. (yes/no)"
+     4. If yes:
+        - Write empty structure to `.locks/locks.json`:
+          ```json
+          {
+            "locks": []
+          }
+          ```
+        - Display: `✓ All locks cleared ([N] locks removed)`
+     5. If no: Cancel
 
    **Pending Revisions**
    - High priority: [N] items
@@ -268,4 +326,21 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 ---
 
-*Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 8)*
+## Lock Management Notes
+
+**Concurrency Support (v0.13.0+):**
+- This prompt is **READ-ONLY** for analysis - NO locks are acquired during scanning
+- Displays active locks in the dashboard (from `.locks/locks.json`)
+- Provides "Clear All Locks" command for recovery from stale locks
+- Stale lock detection (locks older than 15 minutes)
+- Safe to run alongside other prompts without conflicts
+- See `Process/_COMMON/18_Lock_Management_Module.md` for complete details
+
+---
+
+**Version:** 0.13.0
+**Last Updated:** 2025-11-23
+
+---
+
+*Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 10)*

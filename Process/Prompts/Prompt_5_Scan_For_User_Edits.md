@@ -1,8 +1,11 @@
 # Execute Prompt 5: Scan For User Edits
 
+**Version:** 0.13.0
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with optional copy/paste git commit at end
 
-**BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+**FIRST ACTION - MANDATORY:**
+1. Read `Process/_COMMON/18_Lock_Management_Module.md`
+2. Read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
@@ -27,6 +30,108 @@ I will scan your project for content files that have been modified but their cor
 ---
 
 ## How This Works
+
+### Step 0: Lock Management
+
+**Initialize Lock System:**
+
+1. Check if `.locks/` directory exists
+   - If not: Create `.locks/` directory
+
+2. Check if `.locks/locks.json` exists
+   - If not: Create with empty structure:
+     ```json
+     {
+       "locks": []
+     }
+     ```
+
+**Generate Instance ID:**
+
+Create unique instance identifier for this session:
+- Format: `CLI-[5-digit-random]` or `Desktop-[5-digit-random]`
+- Example: `CLI-12345`, `Desktop-67890`
+- Reuse same ID for all locks in this session
+
+**Determine Required Resources:**
+
+After scanning, determine which chapters have been modified.
+- For each modified chapter → Acquire lock: `Chapter_XX`
+
+**Acquire Locks for Modified Chapters:**
+
+Resources needed for this prompt: `Chapter_XX` (for each chapter with edits)
+
+For each chapter that will be updated:
+
+1. Read `.locks/locks.json`
+
+2. Check if `Chapter_XX` is locked:
+   - Search `locks` array for entry where `"resource": "Chapter_XX"`
+
+3. **If lock exists:**
+   - Calculate age: `current_time - lock.timestamp`
+
+   - **If age < 15 minutes:**
+     ```
+     ⚠️ Chapter_XX is currently locked by another instance.
+
+     Lock details:
+     - Resource: Chapter_XX
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     Skipping this chapter (cannot update _chg file while locked).
+
+     Options:
+     1. Continue with other chapters
+     2. Wait for lock to clear (checks every 5 seconds)
+     3. Cancel entire operation
+
+     Choose option (1-3):
+     ```
+
+   - **If age >= 15 minutes:**
+     ```
+     ⚠️ Chapter_XX has a stale lock (older than 15 minutes).
+
+     Lock details:
+     - Resource: Chapter_XX
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     This lock may be from a crashed instance.
+
+     Options:
+     1. Override stale lock and continue
+     2. Skip this chapter
+     3. Cancel entire operation
+
+     Choose option (1-3):
+     ```
+
+4. **If user chooses to wait (Option 2 from active lock):**
+   - Poll every 5 seconds
+   - Re-check `.locks/locks.json`
+   - If lock cleared: Proceed to acquire
+   - If timeout (2 minutes): Skip chapter
+
+5. **If user cancels:**
+   - Exit prompt without changes
+
+6. **If no lock OR override approved:**
+   - Add lock entry:
+     ```json
+     {
+       "resource": "Chapter_XX",
+       "timestamp": "[ISO-8601-timestamp]",
+       "instance": "[instance_id]"
+     }
+     ```
+   - Write updated JSON to `.locks/locks.json`
+   - Proceed with _chg file update
+
+---
 
 I'll scan for changes in three contexts, then auto-update any out-of-sync `_chg` files.
 
@@ -162,10 +267,45 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 ---
 
+## Release Locks
+
+**CRITICAL:** Release locks even if operation fails or errors occur.
+
+**Release all acquired locks:**
+
+1. Read `.locks/locks.json`
+
+2. Remove lock entries:
+   - For each modified chapter: Filter `locks` array to remove where `"resource": "Chapter_XX"` AND `"instance": "[your_instance_id]"`
+
+3. Write updated JSON to `.locks/locks.json`
+
+**Confirmation:**
+```
+✓ Locks released: Chapter_03, Chapter_05, Chapter_07
+```
+
+---
+
+## Lock Management Notes
+
+**Concurrency Support (v0.13.0+):**
+- This prompt locks each `Chapter_XX` being scanned/updated to prevent conflicts
+- Locks are acquired after scanning, before updating _chg files
+- Locked chapters are skipped with user notification
+- Locks are released even if updates fail
+- Stale locks (>15 minutes) can be overridden
+- See `Process/_COMMON/18_Lock_Management_Module.md` for complete details
+
+---
+
 ## Ready to Begin?
 
 I'll now scan for out-of-sync files and update their change tracking.
 
 ---
+
+**Version:** 0.13.0
+**Last Updated:** 2025-11-23
 
 *Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 10)*

@@ -1,8 +1,12 @@
 # Prompt 16: Image Manager
 
-**Version:** 0.12.10
-**Last Updated:** 2025-11-21
+**Version:** 0.13.0
+**Last Updated:** 2025-11-23
 **Compatibility:** Claude Code CLI only (requires file operations, image handling)
+
+**FIRST ACTION - MANDATORY:**
+1. Read `Process/_COMMON/18_Lock_Management_Module.md`
+2. Read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
@@ -116,6 +120,116 @@ Check that all image references are correct and files exist. Claude will:
    Process/Anti-Hallucination_Guidelines.md
    ```
    Critical rules for handling image descriptions and metadata.
+
+---
+
+## Step 0: Lock Management
+
+**Initialize Lock System:**
+
+1. Check if `.locks/` directory exists
+   - If not: Create `.locks/` directory
+
+2. Check if `.locks/locks.json` exists
+   - If not: Create with empty structure:
+     ```json
+     {
+       "locks": []
+     }
+     ```
+
+**Generate Instance ID:**
+
+Create unique instance identifier for this session:
+- Format: `CLI-[5-digit-random]` or `Desktop-[5-digit-random]`
+- Example: `CLI-12345`, `Desktop-67890`
+- Reuse same ID for all locks in this session
+
+**Determine Required Resources:**
+
+Based on operation mode and user selections:
+- Mode 1 (Add Image): `ImageRegistry`, optionally `Chapter_XX`
+- Mode 2 (Upgrade): `ImageRegistry`, `Chapter_XX`
+- Mode 3 (Scan): `ImageRegistry` (if registering)
+- Mode 4 (Validate): No locks (read-only)
+
+**Acquire Locks:**
+
+Resources needed for this prompt: **Varies by mode**
+- `ImageRegistry` (all modes except Mode 4)
+- `Chapter_XX` (if inserting references)
+
+For each resource:
+
+1. Read `.locks/locks.json`
+
+2. Check if resource is locked:
+   - Search `locks` array for entry where `"resource"` matches
+
+3. **If lock exists:**
+   - Calculate age: `current_time - lock.timestamp`
+
+   - **If age < 15 minutes:**
+     ```
+     ⚠️ [Resource] is currently locked by another instance.
+
+     Lock details:
+     - Resource: [resource]
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     Cannot modify images while ImageRegistry is locked.
+
+     Options:
+     1. Wait for lock to clear (checks every 5 seconds)
+     2. Cancel operation
+
+     Choose option (1-2):
+     ```
+
+   - **If age >= 15 minutes:**
+     ```
+     ⚠️ [Resource] has a stale lock (older than 15 minutes).
+
+     Lock details:
+     - Resource: [resource]
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     This lock may be from a crashed instance.
+
+     Options:
+     1. Override stale lock and continue
+     2. Cancel operation
+
+     Choose option (1-2):
+     ```
+
+4. **If user chooses to wait (Option 1):**
+   - Poll every 5 seconds
+   - Re-check `.locks/locks.json`
+   - If lock cleared: Proceed to acquire
+   - If timeout (2 minutes): Ask to cancel or override
+
+5. **If user cancels:**
+   - Exit prompt without changes
+
+6. **If no lock OR override approved:**
+   - Add lock entries as needed:
+     ```json
+     {
+       "resource": "ImageRegistry",
+       "timestamp": "[ISO-8601-timestamp]",
+       "instance": "[instance_id]"
+     },
+     {
+       "resource": "Chapter_XX",
+       "timestamp": "[ISO-8601-timestamp]",
+       "instance": "[instance_id]"
+     }
+     ```
+   - Write updated JSON to `.locks/locks.json`
+   - Proceed with image operations
 
 ---
 
@@ -1215,6 +1329,42 @@ Next steps:
 
 **Templates:**
 - `Process/Templates/Image_Registry_template.md` - Registry structure
+
+---
+
+## Release Locks
+
+**CRITICAL:** Release locks even if operation fails or errors occur.
+
+**Release all acquired locks:**
+
+1. Read `.locks/locks.json`
+
+2. Remove lock entries:
+   - Filter `locks` array to remove where `"resource": "ImageRegistry"` AND `"instance": "[your_instance_id]"`
+   - If Chapter_XX was locked: Filter `locks` array to remove where `"resource": "Chapter_XX"` AND `"instance": "[your_instance_id]"`
+
+3. Write updated JSON to `.locks/locks.json`
+
+**Confirmation:**
+```
+✓ Locks released: ImageRegistry, Chapter_03
+```
+
+**Note:** Mode 4 (Validate) does not acquire locks (read-only), so no release needed.
+
+---
+
+## Lock Management Notes
+
+**Concurrency Support (v0.13.0+):**
+- This prompt locks `ImageRegistry` for all modes except Mode 4 (Validate)
+- `Chapter_XX` is locked when inserting references (Modes 1, 2)
+- Mode 4 (Validate) is read-only and does NOT use locks
+- Locks are held from Step 0 through completion
+- Locks are released even if operations fail
+- Stale locks (>15 minutes) can be overridden
+- See `Process/_COMMON/18_Lock_Management_Module.md` for complete details
 
 ---
 

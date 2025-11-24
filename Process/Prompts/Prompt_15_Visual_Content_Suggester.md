@@ -1,9 +1,11 @@
 # Execute Prompt 15: Visual Content Suggester
 
+**Version:** 0.13.0
 **CLI-ONLY (bulk analysis) / HYBRID (single chapter in Desktop)**
 
 **FIRST ACTION - MANDATORY:**
-Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
+1. Read `Process/_COMMON/18_Lock_Management_Module.md`
+2. Read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
@@ -242,6 +244,117 @@ surveys, experiments, and statistical analysis..."
 
 → Create: Research methods categorization table
 ```
+
+---
+
+## Step 0: Lock Management
+
+**Initialize Lock System:**
+
+1. Check if `.locks/` directory exists
+   - If not: Create `.locks/` directory
+
+2. Check if `.locks/locks.json` exists
+   - If not: Create with empty structure:
+     ```json
+     {
+       "locks": []
+     }
+     ```
+
+**Generate Instance ID:**
+
+Create unique instance identifier for this session:
+- Format: `CLI-[5-digit-random]` or `Desktop-[5-digit-random]`
+- Example: `CLI-12345`, `Desktop-67890`
+- Reuse same ID for all locks in this session
+
+**Determine Required Resources:**
+
+Based on user's chapter selection and mode:
+- Creating visuals for chapters → `Chapter_XX` (for each chapter)
+- Creating/updating visual registry → `ImageRegistry`
+
+**Acquire Locks (for Mode 2 and Mode 3 only):**
+
+Resources needed for this prompt: `Chapter_XX` (for each chapter receiving visuals), `ImageRegistry`
+
+**Note:** Mode 1 (Scan Only) does NOT acquire locks (read-only analysis)
+
+For Mode 2/3, for each resource:
+
+1. Read `.locks/locks.json`
+
+2. Check if resource is locked:
+   - Search `locks` array for entry where `"resource"` matches
+
+3. **If lock exists:**
+   - Calculate age: `current_time - lock.timestamp`
+
+   - **If age < 15 minutes:**
+     ```
+     ⚠️ [Resource] is currently locked by another instance.
+
+     Lock details:
+     - Resource: [resource]
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     Cannot add visuals to this location while locked.
+
+     Options:
+     1. Skip this chapter
+     2. Wait for lock to clear (checks every 5 seconds)
+     3. Cancel entire operation
+
+     Choose option (1-3):
+     ```
+
+   - **If age >= 15 minutes:**
+     ```
+     ⚠️ [Resource] has a stale lock (older than 15 minutes).
+
+     Lock details:
+     - Resource: [resource]
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     This lock may be from a crashed instance.
+
+     Options:
+     1. Override stale lock and continue
+     2. Skip this chapter
+     3. Cancel entire operation
+
+     Choose option (1-3):
+     ```
+
+4. **If user chooses to wait (Option 2):**
+   - Poll every 5 seconds
+   - Re-check `.locks/locks.json`
+   - If lock cleared: Proceed to acquire
+   - If timeout (2 minutes): Skip chapter
+
+5. **If user cancels:**
+   - Exit prompt without changes
+   - Release any already-acquired locks
+
+6. **If no lock OR override approved:**
+   - Add lock entries:
+     ```json
+     {
+       "resource": "Chapter_XX",
+       "timestamp": "[ISO-8601-timestamp]",
+       "instance": "[instance_id]"
+     },
+     {
+       "resource": "ImageRegistry",
+       "timestamp": "[ISO-8601-timestamp]",
+       "instance": "[instance_id]"
+     }
+     ```
+   - Write updated JSON to `.locks/locks.json`
+   - Proceed with visual creation
 
 ---
 
@@ -968,6 +1081,45 @@ All visuals will be:
 - ✅ Version-controlled with your book content
 
 ---
+
+## Release Locks
+
+**CRITICAL:** Release locks even if operation fails or errors occur.
+
+**Release all acquired locks:**
+
+1. Read `.locks/locks.json`
+
+2. Remove lock entries:
+   - For each chapter: Filter `locks` array to remove where `"resource": "Chapter_XX"` AND `"instance": "[your_instance_id]"`
+   - Filter `locks` array to remove where `"resource": "ImageRegistry"` AND `"instance": "[your_instance_id]"`
+
+3. Write updated JSON to `.locks/locks.json`
+
+**Confirmation:**
+```
+✓ Locks released: Chapter_02, Chapter_03, Chapter_05, ImageRegistry
+```
+
+**Note:** Mode 1 (Scan Only) does not acquire locks, so no release needed.
+
+---
+
+## Lock Management Notes
+
+**Concurrency Support (v0.13.0+):**
+- This prompt locks `Chapter_XX` (for each chapter) and `ImageRegistry` in Mode 2/3
+- Mode 1 (Scan Only) is read-only and does NOT use locks
+- Locks are held from Step 0 through completion
+- Locked chapters can be skipped with user notification
+- Locks are released even if visual creation fails
+- Stale locks (>15 minutes) can be overridden
+- See `Process/_COMMON/18_Lock_Management_Module.md` for complete details
+
+---
+
+**Version:** 0.13.0
+**Last Updated:** 2025-11-23
 
 *Created: v0.11.0*
 *Purpose: Visual content analysis and text-based visual creation*

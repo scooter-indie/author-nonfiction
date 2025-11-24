@@ -59,3 +59,6 @@ configure.md
 
 # Local Claude settings (may contain personal tokens)
 .claude/settings.local.json
+
+# Lock files (Concurrent editing - v0.13.0+)
+.locks/

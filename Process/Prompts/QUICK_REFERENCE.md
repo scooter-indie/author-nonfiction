@@ -525,6 +525,100 @@ What do you want to do?
 
 ---
 
+## Working with Multiple Instances (v0.13.0+)
+
+**New in v0.13.0:** You can now run multiple Claude instances safely, working on different parts of your book simultaneously.
+
+### How It Works
+
+The framework uses a **resource-level lock system** to prevent editing conflicts:
+
+- **Resource-level locks** - Locks individual chapters, style system, image registry, etc.
+- **15-minute timeout** - Stale locks from crashed instances automatically expire
+- **Override capability** - You can override stale locks when needed
+- **Works everywhere** - Both Claude Code CLI and Claude Desktop
+
+### Lock System Overview
+
+**When you execute a prompt that modifies content:**
+1. The prompt checks if that resource is locked
+2. If unlocked, acquires lock and proceeds
+3. If locked by another instance, offers options: wait, cancel, or override (if stale)
+4. After completing work, releases the lock
+
+**Resources that can be locked:**
+- Individual chapters (`Chapter_01`, `Chapter_02`, etc.)
+- `FrontMatter` - All front matter files
+- `BackMatter` - All back matter files
+- `StyleSystem` - Style guide and overrides
+- `QuoteRegistry` - Chapter quotes file
+- `ImageRegistry` - Image registry file(s)
+- `ProjectConfig` - Project configuration files
+
+### Working Safely with Multiple Instances
+
+**Best Practices:**
+- ✅ Work on **different chapters** in different instances - no conflicts
+- ✅ Check Dashboard (Prompt 10) to see what's currently locked
+- ✅ Wait for locks to clear rather than overriding active locks
+- ✅ Use "Clear All Locks" after crashes to clean up stale locks
+
+**Example Safe Workflow:**
+```
+Terminal 1: Edit Chapter 3 (acquires lock on Chapter_03)
+Terminal 2: Edit Chapter 7 (acquires lock on Chapter_07)
+→ No conflict, both work simultaneously
+```
+
+**Example Conflict Resolution:**
+```
+Terminal 1: Editing Chapter 5 (lock acquired)
+Terminal 2: Tries to edit Chapter 5
+→ Shows: "Chapter_05 is locked (3 minutes ago)"
+→ Options: Wait | Cancel | Override (if stale)
+→ Choose: Wait
+→ Terminal 1 finishes, releases lock
+→ Terminal 2 automatically acquires lock and proceeds
+```
+
+### Managing Locks
+
+**Check Current Locks:**
+- Run Prompt 10 (Dashboard) - shows all active and stale locks
+- See which resources are locked and by which instance
+
+**Clear Stale Locks:**
+- Dashboard shows "Clear All Locks" option
+- Removes all locks (use after crashes or when stuck)
+- Requires confirmation
+
+**Lock Timeout:**
+- Locks older than 15 minutes are considered "stale"
+- Stale locks can be overridden without waiting
+- Helps recover from crashed instances
+
+### Technical Details
+
+**Lock storage:** `.locks/locks.json` (automatically created, added to `.gitignore`)
+
+**Lock file not committed to git** - locks are local to your machine only
+
+**Prompts that acquire locks:**
+- Prompt 1 (Initialize), Prompt 2 (Add Chapter)
+- Prompt 3 (Change by Chg), Prompt 4 (Interactive Change)
+- Prompt 5 (Scan For User Edits), Prompt 6 (Integrate Inbox)
+- Prompt 11 (Style Manager), Prompt 14 (Citation Finder)
+- Prompt 15 (Visual Content Suggester), Prompt 16 (Image Manager)
+
+**Prompts that don't need locks (read-only):**
+- Prompt 7 (Compile), Prompt 8 (Consistency)
+- Prompt 9 (Export), Prompt 10 (Dashboard)
+- Prompt 12 (Git Operations), Prompt 13 (AI Detection)
+
+**For complete lock system details:** See `Process/_COMMON/18_Lock_Management_Module.md`
+
+---
+
 ## Tips for Success
 
 ### For Prompt 3 & 4 (Your Main Tools)
