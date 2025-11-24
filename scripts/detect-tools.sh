@@ -28,7 +28,7 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 detect_git() {
     if command -v git &> /dev/null; then
-        GIT_VERSION=$(git --version | sed 's/git version //')
+        GIT_VERSION=$(git --version | sed 's/git version //' | tr -d '\r')
         echo -e "${GREEN}✓ Git detected${NC} (version $GIT_VERSION)"
         return 0
     else
@@ -39,16 +39,17 @@ detect_git() {
 
 detect_pandoc() {
     # Try command -v first, then check Windows locations
+    # Note: tr -d '\r' removes Windows carriage returns
     if command -v pandoc &> /dev/null; then
-        PANDOC_VERSION=$(pandoc --version | head -n1 | sed 's/pandoc //')
+        PANDOC_VERSION=$(pandoc --version | head -n1 | sed 's/pandoc //' | tr -d '\r')
         echo -e "${GREEN}✓ Pandoc detected${NC} (version $PANDOC_VERSION)"
         return 0
     elif command -v pandoc.exe &> /dev/null; then
-        PANDOC_VERSION=$(pandoc.exe --version | head -n1 | sed 's/pandoc //')
+        PANDOC_VERSION=$(pandoc.exe --version | head -n1 | sed 's/pandoc //' | tr -d '\r')
         echo -e "${GREEN}✓ Pandoc detected${NC} (version $PANDOC_VERSION)"
         return 0
     elif [[ -f "/c/Program Files/Pandoc/pandoc.exe" ]]; then
-        PANDOC_VERSION=$("/c/Program Files/Pandoc/pandoc.exe" --version | head -n1 | sed 's/pandoc //')
+        PANDOC_VERSION=$("/c/Program Files/Pandoc/pandoc.exe" --version | head -n1 | sed 's/pandoc //' | tr -d '\r')
         echo -e "${GREEN}✓ Pandoc detected${NC} (version $PANDOC_VERSION)"
         return 0
     else
@@ -59,12 +60,13 @@ detect_pandoc() {
 
 detect_typst() {
     # Try command -v first, then check Windows locations
+    # Note: tr -d '\r' removes Windows carriage returns
     if command -v typst &> /dev/null; then
-        TYPST_VERSION=$(typst --version | sed 's/typst //')
+        TYPST_VERSION=$(typst --version | sed 's/typst //' | tr -d '\r')
         echo -e "${GREEN}✓ Typst detected${NC} (version $TYPST_VERSION)"
         return 0
     elif command -v typst.exe &> /dev/null; then
-        TYPST_VERSION=$(typst.exe --version | sed 's/typst //')
+        TYPST_VERSION=$(typst.exe --version | sed 's/typst //' | tr -d '\r')
         echo -e "${GREEN}✓ Typst detected${NC} (version $TYPST_VERSION)"
         return 0
     else
