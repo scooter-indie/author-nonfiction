@@ -468,42 +468,35 @@ Then I'll:
 
 ### Step 7: Export Tool Discovery (Optional)
 
-**This step is OPTIONAL.** You can skip it and run tool detection later.
+**⏸️ STOP AND ASK USER:**
 
-Export tools (pandoc, typst) enable Prompt 9 to export your manuscript to DOCX, PDF, and EPUB formats. If you don't need exports right now, skip this step.
-
-**To detect export tools:**
-
-In Claude Code CLI, say:
+Ask the user:
 ```
-Run: bash scripts/detect-tools.sh .config/manifest.json
-```
+Step 7: Export Tool Discovery (Optional)
 
-**The script will:**
-1. Detect pandoc (for DOCX/PDF/EPUB export)
-2. Detect typst (optional alternative for PDF)
-3. Update `.config/manifest.json` with tool availability
-4. Provide installation instructions for missing tools
+Export tools (pandoc, typst) enable Prompt 9 to export your manuscript to DOCX, PDF, and EPUB formats.
 
-**Expected output:**
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Tool Detection Script v0.13.1
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-✓ Git detected (version 2.43.0)
-✓ Pandoc detected (version 3.1.9)
-⊙ Typst not found (optional)
-
-✓ Updated .config/manifest.json
+Would you like to detect export tools now?
+- "yes" or "detect" - Run tool detection
+- "skip" - Skip this step (you can run detection later)
 ```
 
-**Why This Matters:**
-- Prompt 9 needs pandoc for DOCX/PDF/EPUB export
-- Without pandoc, Prompt 9 can only export markdown
-- You can run this detection anytime later
+**WAIT for user response before continuing.**
 
-**Skip this step?** Just tell me "skip" and we'll continue.
+**If user says "yes" or "detect":**
+
+Run the detection script:
+```bash
+bash scripts/detect-tools.sh .config/manifest.json
+```
+
+Display results and continue to Step 8.
+
+**If user says "skip":**
+
+Tell user: "Skipping tool detection. You can run `bash scripts/detect-tools.sh` anytime later."
+
+Continue to Step 8.
 
 ### Step 8: Update Manifest
 
@@ -551,37 +544,33 @@ I will:
 
 **Note:** Git repository was initialized in Step 5. Now we create the initial commit.
 
-**For Claude Code CLI users:**
-I will automatically execute the git commit.
-
-**For Claude Desktop users:**
-I will provide the git command to run in Claude Code CLI.
+**For Claude Code CLI:**
+Execute the git commit automatically:
 
 **For New Installations:**
+```bash
+git add . && git commit -m "Initialize nonfiction framework v0.13.1
 
-In Claude Code CLI, say:
-```
-Run: git add . && git commit -m "Initialize nonfiction framework v0.13.1
-
-🤖 Generated with Claude Desktop
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 **For Updates:**
-
-In Claude Code CLI, say:
-```
-Run: git add . && git commit -m "Update framework to v0.13.1
+```bash
+git add . && git commit -m "Update framework to v0.13.1
 
 See CHANGELOG.md for details.
 
-🤖 Generated with Claude Desktop
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-After running, verify with `git log -1`
+**For Claude Desktop:**
+Provide the command above and tell user to run it in Claude Code CLI.
+
+**⏸️ STOP AND WAIT** for user to confirm commit completed before continuing.
 
 ### Step 10: Verify Book Writing Assistant
 
