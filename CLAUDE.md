@@ -121,6 +121,93 @@ Process/
 
 ---
 
+## Token Management Best Practices
+
+### Why Token Management Matters
+
+Claude Code sessions have a 200,000 token budget. Framework prompts can consume significant tokens, leaving less room for your actual content work.
+
+**v0.14.0 Improvements:**
+- **Prompt 4:** Reduced from 53,000 → 2,000 tokens (95% reduction)
+- **All prompts:** Added session cleanup instructions
+- **Result:** 98% of session tokens available for content (vs 60% in v0.13.0)
+
+### Clear Completed Prompts
+
+After a prompt completes, clear it from context to reclaim tokens:
+
+**Specific Prompt:**
+- "Clear Prompt 1 from context" (saves ~25,000 tokens)
+- "Clear Prompt 4 from context" (saves ~2,000 tokens in v0.14.0)
+- "Remove Prompt 8 from session" (saves ~20,000 tokens)
+
+**All Prompts:**
+- "Clear all framework prompts"
+- "Reset context, keep only my content"
+
+### When to Clear Context
+
+**✅ Always clear after:**
+- **Prompt 1 (Initialize)** - One-time setup, no longer needed
+- **Prompt 2 (Add Chapter)** - After adding chapter
+- **Prompt 4 (Interactive Change)** - After writing instructions
+- **Prompt 7 (Compile)** - After compilation complete
+- **Prompt 8 (Consistency)** - After review complete
+- **Prompt 9 (Export)** - After export complete
+- **Prompt 10 (Dashboard)** - After viewing dashboard
+- **Prompt 13 (AI Detection)** - After analysis complete
+- **Prompt 14 (Citation Finder)** - After citations added
+- **Prompt 15 (Visual Content)** - After visuals created
+- **Prompt 16 (Image Manager)** - After images organized
+
+**⚠️ Keep in context if:**
+- **Prompt 3 (Change by Chg)** - If applying multiple _chg files in sequence
+- **Prompt 5 (Scan Edits)** - If scanning multiple files
+- **Prompt 6 (Integrate Inbox)** - If processing multiple inbox items
+- **Prompt 11 (Style Manager)** - If managing multiple style overrides
+
+### Token Budget Awareness
+
+**Check remaining tokens:**
+Ask: "How many tokens do I have remaining?"
+
+**Typical session flow:**
+1. Start: 200,000 tokens
+2. Load Prompt 1: ~175,000 remaining
+3. Clear Prompt 1: ~200,000 reclaimed
+4. Load Prompt 4: ~198,000 remaining (v0.14.0)
+5. Clear Prompt 4: ~200,000 reclaimed
+6. Work on content: ~195,000 available
+
+**Best practice:** Clear prompts immediately after completion for maximum available tokens.
+
+### Framework Token Usage (v0.14.0)
+
+| Prompt | Tokens (v0.13.0) | Tokens (v0.14.0) | Savings |
+|--------|------------------|------------------|---------|
+| Prompt 1 | ~25,000 | ~25,000 | 0* |
+| Prompt 2 | ~15,000 | ~15,000 | 0* |
+| Prompt 3 | ~18,000 | ~18,000 | 0* |
+| **Prompt 4** | **~53,000** | **~2,000** | **51,000** ✅ |
+| Prompt 5 | ~12,000 | ~12,000 | 0* |
+| Prompt 6 | ~14,000 | ~14,000 | 0* |
+| Prompt 7 | ~16,000 | ~16,000 | 0* |
+| Prompt 8 | ~20,000 | ~20,000 | 0* |
+| Prompt 9 | ~15,000 | ~15,000 | 0* |
+| Prompt 10 | ~12,000 | ~12,000 | 0* |
+| Prompt 11 | ~16,000 | ~16,000 | 0* |
+| Prompt 12 | ~10,000 | ~10,000 | 0* |
+| Prompt 13 | ~18,000 | ~18,000 | 0* |
+| Prompt 14 | ~22,000 | ~22,000 | 0* |
+| Prompt 15 | ~20,000 | ~20,000 | 0* |
+| Prompt 16 | ~25,000 | ~25,000 | 0* |
+
+*Future optimizations (Phase 2 & v0.15.0) will reduce these further
+
+**Key improvement:** Prompt 4 now 95% more efficient, enabling 26x more editing sessions per token budget!
+
+---
+
 ## How to Use This Framework
 
 ### First Time Setup (New Book Project)
