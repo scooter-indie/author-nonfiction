@@ -9,16 +9,20 @@
 - **Claude Code CLI:** Reads `.config/init.json` → runs bash script → completes AI tasks
 
 **FIRST ACTION - MANDATORY:**
-I acknowledge access to lock management and anti-hallucination protocols from FRAMEWORK_CORE.md (loaded at session startup via /fw-init).
+Reference `Process/Prompts/Prompt_Essentials.md` (loaded once per session via /fw-init)
 
-**Protocols available:**
-- Lock Management: Essential rules in FRAMEWORK_CORE.md, full details in Process/_COMMON/18_Lock_Management_Module.md (load on-demand)
-- Anti-Hallucination: Core rules in FRAMEWORK_CORE.md, full protocol in Process/Anti-Hallucination_Guidelines.md (load on-demand)
+**Quick references available in Prompt_Essentials:**
+- Lock Management (acquire/release protocol)
+- Anti-Hallucination Rules (ASK FIRST verification)
+- Git Commit Format (CLI and Desktop templates)
+- Style Resolution (hierarchical system)
+- Date Handling (CONFIRMED_DATE protocol)
+- Semantic Versioning
+- Change Tracking Format
 
-**Load full modules only if:**
-- Encountering edge cases or complex scenarios
-- Need detailed troubleshooting guidance
-- Require comprehensive protocol details
+**Load full modules only if encountering edge cases:**
+- Lock Management: Process/_COMMON/18_Lock_Management_Module.md
+- Anti-Hallucination: Process/Anti-Hallucination_Guidelines.md
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files

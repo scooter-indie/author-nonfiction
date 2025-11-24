@@ -3,15 +3,15 @@
 **CLI-ONLY:** Requires Claude Code CLI for bulk file analysis operations
 
 **FIRST ACTION - MANDATORY:**
-I acknowledge access to anti-hallucination protocols from FRAMEWORK_CORE.md (loaded at session startup via /fw-init).
+Reference `Process/Prompts/Prompt_Essentials.md` (loaded once per session via /fw-init)
 
-**Protocols available:**
-- Anti-Hallucination: Core rules in FRAMEWORK_CORE.md, full protocol in Process/Anti-Hallucination_Guidelines.md (load on-demand)
+**Quick references available in Prompt_Essentials:**
+- Anti-Hallucination Rules (ASK FIRST verification)
+- Git Commit Format (CLI and Desktop templates)
+- Date Handling (CONFIRMED_DATE protocol)
 
-**Load full module only if:**
-- Encountering edge cases or complex scenarios
-- Need detailed troubleshooting guidance
-- Require comprehensive protocol details
+**Load full module only if encountering edge cases:**
+- Anti-Hallucination: Process/Anti-Hallucination_Guidelines.md
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files

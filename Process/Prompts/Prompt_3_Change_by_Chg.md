@@ -4,8 +4,20 @@
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem + single copy/paste git commit at end
 
 **FIRST ACTION - MANDATORY:**
-1. Read `Process/_COMMON/18_Lock_Management_Module.md`
-2. Read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
+Reference `Process/Prompts/Prompt_Essentials.md` (loaded once per session via /fw-init)
+
+**Quick references available in Prompt_Essentials:**
+- Lock Management (acquire/release protocol)
+- Anti-Hallucination Rules (ASK FIRST verification)
+- Git Commit Format (CLI and Desktop templates)
+- Style Resolution (hierarchical system)
+- Date Handling (CONFIRMED_DATE protocol)
+- Semantic Versioning
+- Change Tracking Format
+
+**Load full modules only if encountering edge cases:**
+- Lock Management: Process/_COMMON/18_Lock_Management_Module.md
+- Anti-Hallucination: Process/Anti-Hallucination_Guidelines.md
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
