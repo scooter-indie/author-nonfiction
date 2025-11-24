@@ -1,295 +1,189 @@
 # Execute Prompt 6: Integrate Inbox
 
-**Version:** 0.14.0
-**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem (git via Claude Code CLI)
+**Version:** 0.15.0
+**⚡ Token Efficient:** ~4,000 tokens (65% reduction from v0.14.0)
+**DESKTOP-FRIENDLY:** Works 95% in Desktop (git via CLI)
 
 **FIRST ACTION - MANDATORY:**
 Reference `Process/Prompts/Prompt_Essentials.md` (loaded once per session via /fw-init)
 
-**Quick references available in Prompt_Essentials:**
-- Lock Management (acquire/release protocol)
-- Anti-Hallucination Rules (ASK FIRST verification)
-- Git Commit Format (CLI and Desktop templates)
-- Style Resolution (hierarchical system)
-- Date Handling (CONFIRMED_DATE protocol)
-- Semantic Versioning
-- Change Tracking Format
+---
 
-**Load full modules only if encountering edge cases:**
-- Lock Management: Process/_COMMON/18_Lock_Management_Module.md
-- Anti-Hallucination: Process/Anti-Hallucination_Guidelines.md
+## Quick Start
 
-**CRITICAL ENFORCEMENT:**
-- **RULE 1:** All file modifications MUST update corresponding _chg files
-- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
+Processes files from `Manuscript/Inbox/` and integrates them into appropriate locations. Interactive workflow for each item.
 
-See: `Process/ENFORCEMENT_RULES.md` for complete details
-
-**AGENT INSTRUCTIONS:**
-When spawning agents (using Task tool), include in agent prompt:
-- "FIRST ACTION: Read Process/Anti-Hallucination_Guidelines.md before proceeding."
-
-**Claude Desktop Compatibility:**
-- ✅ All file operations via MCP Filesystem (read, write, move_file)
-- ✅ Git operations via Claude Code CLI (copy/paste commands at checkpoints)
-- 📋 Works 95% in Desktop
+**Rejects:** TOC files (use Prompt 2 for chapters)
 
 ---
 
-## What This Does
+## Workflow (5 Steps)
 
-I will process all files in your `Manuscript/Inbox/` directory and help you integrate them into the appropriate locations in your book project.
+1. Scan Inbox directory
+2. Identify file types
+3. Interactive decisions per file
+4. Execute integration
+5. Archive processed files
+
+---
+
+## Step 0: Lock Management
+
+**Acquire locks based on content:**
+- After user decisions, lock target resources
+- Possible: `Chapter_XX`, `FrontMatter`, `BackMatter`, `ImageRegistry`
+
+See: Prompt_Essentials.md → Lock Management
+
+---
+
+## Step 1: Scan Inbox
+
+**I'll list all files and analyze:**
+- Content files (drafts, sections)
+- Reference materials (research, sources)
+- Assets (images, diagrams)
+
+---
+
+## Step 2: File Type Identification
+
+**Content files:**
+- Create new chapter (via Prompt 2)
+- Insert into existing chapter (via Prompt 3)
+- Add to front/back matter
+- Move to Research/
+
+**Reference materials:**
+- Research/Sources/
+- Research/Notes/
+- Research/References/
+- Extract bibliography entries
+
+**Assets (images):**
+- Move to `Manuscript/images/` with proper naming
+- Registry Type Detection:
+  - Single mode: Add to `Image_Registry.md`
+  - Split mode: Add to `Image_Registry_Chapter_XX.md`
+- Chapter Detection:
+  - From filename pattern (`chapter-03-diagram.png`)
+  - User specification
+  - Ask if not determinable
+
+---
+
+## Step 3: Interactive Decisions
+
+**For each file, I'll ask:**
+
+1. **Where should this go?**
+   - New chapter
+   - Existing chapter (which?)
+   - Research directory
+   - Front/back matter
+
+2. **How should it integrate?**
+   - Replace existing
+   - Insert at position
+   - Append
+   - Merge
+
+3. **Priority level?**
+
+---
+
+## Step 4: Execute Integration
+
+**Sequence:**
+1. Commit current state (safety)
+2. Acquire locks for targets
+3. Perform integration
+4. Update _chg files
+5. Update cross-references
+6. Commit changes
+
+---
+
+## Step 5: Archive
+
+**Move processed files to:**
+```
+Manuscript/Inbox/Processed_[CONFIRMED_DATE]/
+```
 
 ---
 
 ## Anti-Hallucination Note
 
-**When integrating content from Inbox** that contains examples, anecdotes, statistics, or quotes:
-- Follow the verification protocol detailed in Prompt 3's Anti-Hallucination Verification section
-- **ASK the user** to verify examples/anecdotes before integration
-- **Request sources** for statistics and quotes before adding them
-- **Use clear labels**: REAL vs HYPOTHETICAL vs GENERIC vs [CITATION NEEDED]
-- **Never assume** inbox content reflects the user's real experiences without confirmation
+**When integrating content with examples/anecdotes/statistics:**
+- **ASK user** to verify before integration
+- **Request sources** for statistics and quotes
+- **Use labels**: REAL vs HYPOTHETICAL vs GENERIC vs [CITATION NEEDED]
+- **Never assume** inbox content reflects user's real experiences
 
 ---
 
-## How This Works
+## Image Integration Details
 
-### Step 0: Lock Management
-
-**Initialize Lock System:**
-
-1. Check if `.locks/` directory exists
-   - If not: Create `.locks/` directory using bash: `mkdir -p .locks`
-   - **CRITICAL:** Use `mkdir -p` (bash/sh command), NOT Windows CMD syntax (`if not exist`)
-
-
-2. Check if `.locks/locks.json` exists
-   - If not: Create with empty structure:
-     ```json
-     {
-       "locks": []
-     }
-     ```
-
-**Generate Instance ID:**
-
-Create unique instance identifier for this session:
-- Format: `CLI-[5-digit-random]` or `Desktop-[5-digit-random]`
-- Example: `CLI-12345`, `Desktop-67890`
-- Reuse same ID for all locks in this session
-
-**Determine Required Resources:**
-
-After scanning Inbox/ and user decisions, determine which resources will be modified:
-- Integrating into chapter → `Chapter_XX`
-- Adding to front matter → `FrontMatter`
-- Adding to back matter → `BackMatter`
-- Adding images → `ImageRegistry`
-
-**Acquire Locks Based on Content:**
-
-Resources needed for this prompt: **Varies by content** (determined after user decisions)
-
-For each resource that will be modified:
-
-1. Read `.locks/locks.json`
-
-2. Check if resource is locked:
-   - Search `locks` array for entry where `"resource"` matches
-
-3. **If lock exists:**
-   - Calculate age: `current_time - lock.timestamp`
-
-   - **If age < 15 minutes:**
-     ```
-     ⚠️ [Resource] is currently locked by another instance.
-
-     Lock details:
-     - Resource: [resource]
-     - Locked at: [timestamp] ([X] minutes ago)
-     - Instance: [instance]
-
-     Cannot integrate content to this location while locked.
-
-     Options:
-     1. Choose different destination
-     2. Wait for lock to clear (checks every 5 seconds)
-     3. Skip this inbox item
-     4. Cancel entire operation
-
-     Choose option (1-4):
-     ```
-
-   - **If age >= 15 minutes:**
-     ```
-     ⚠️ [Resource] has a stale lock (older than 15 minutes).
-
-     Lock details:
-     - Resource: [resource]
-     - Locked at: [timestamp] ([X] minutes ago)
-     - Instance: [instance]
-
-     This lock may be from a crashed instance.
-
-     Options:
-     1. Override stale lock and continue
-     2. Choose different destination
-     3. Skip this inbox item
-     4. Cancel entire operation
-
-     Choose option (1-4):
-     ```
-
-4. **If user chooses to wait (Option 2):**
-   - Poll every 5 seconds
-   - Re-check `.locks/locks.json`
-   - If lock cleared: Proceed to acquire
-   - If timeout (2 minutes): Ask to choose different option
-
-5. **If user cancels or skips:**
-   - Move to next inbox item or exit
-
-6. **If no lock OR override approved:**
-   - Add lock entry:
-     ```json
-     {
-       "resource": "[resource_name]",
-       "timestamp": "[ISO-8601-timestamp]",
-       "instance": "[instance_id]"
-     }
-     ```
-   - Write updated JSON to `.locks/locks.json`
-   - Proceed with integration
-
----
-
-I'll scan the Inbox directory, analyze what you have, and work with you interactively to integrate each item.
-
-### What I'll Do:
-
-1. **Scan Manuscript/Inbox/**: List all files and analyze their content
-
-2. **Identify file types**:
-   - Regular content files (drafts, sections, chapters)
-   - Reference materials (research notes, sources)
-   - Assets (images, diagrams, charts)
-   - **Special rule**: TOC files rejected if project already initialized
-
-3. **Present findings**: Show you what I found and suggest destinations
-
-4. **Interactive decisions**: For each file, I'll ask:
-   - Where should this go? (New chapter, existing chapter, research, back matter, etc.)
-   - How should it be integrated? (Replace, insert, append, merge)
-   - What priority level?
-
-5. **Execute integration**:
-   - Create git commit of current state (safety)
-   - Perform the integration based on your choices
-   - Update change tracking files
-   - Update cross-references if needed
-   - Create git commits for changes
-   - Archive processed files to `Manuscript/Inbox/Processed_[date]/`
-
-6. **Generate report**: Summary of all actions taken
-
----
-
-## Important Notes
-
-### TOC Files After Initial Setup
-
-**After your project is initialized, I will REJECT entire TOC files placed in Manuscript/Inbox/.**
-
-Why? To maintain single source of truth:
-- Use **Prompt 2** to add individual chapters interactively
-- Use **Prompt 4** (this prompt) to integrate individual chapter content from Manuscript/Inbox/
-- Manuscript/_TOC_/TOC_chg.md is AI-managed only - you should not edit it manually
-
-### Integration Options
-
-Depending on the file type, I may suggest:
-
-**For content files:**
-- Create new chapter (uses Prompt 2 workflow)
-- Insert into existing chapter (uses Prompt 3 workflow)
-- Add to front/back matter
-- Move to Research/ directory
-
-**For reference materials:**
-- Add to Research/Sources/, Research/Notes/, or Research/References/
-- Extract bibliography entries
-- Link to relevant chapters
-
-**For assets (images, diagrams, charts):**
-- Move to unified `Manuscript/images/` directory with proper naming (`fig-XX-YY-description.ext`)
-- **Registry Type Detection:** Check first 15 lines of `Image_Registry.md` for "Registry Type: Split"
-  - **Single mode:** Add entry to `Image_Registry.md`
-  - **Split mode:** Add entry to `Image_Registry_Chapter_XX.md` for target chapter, update master index stats
-- **Chapter Detection:** Determine target chapter from:
-  - Filename pattern (e.g., `chapter-03-diagram.png` → Chapter 03)
-  - User specification ("Add to Chapter 5")
-  - Ask user if not determinable
-- Update references in content files
-- Or move to Research/Assets/ for general project assets (not figure-linked)
-
----
-
-## Ready to Begin?
-
-I'll scan your Manuscript/Inbox/ directory now and show you what I find.
-
-**Scanning Manuscript/Inbox/...**
-
----
-
-## Release Locks
-
-**CRITICAL:** Release locks even if operation fails or errors occur.
-
-**Release all acquired locks:**
-
-1. Read `.locks/locks.json`
-
-2. Remove lock entries:
-   - For each acquired resource: Filter `locks` array to remove where `"resource"` matches AND `"instance": "[your_instance_id]"`
-
-3. Write updated JSON to `.locks/locks.json`
-
-**Confirmation:**
+**Naming convention:**
 ```
-✓ Locks released: Chapter_05, ImageRegistry
+fig-XX-YY-description.ext
+```
+- XX = Chapter number
+- YY = Figure number in chapter
+- description = kebab-case (3-5 words)
+
+**Chapter detection methods:**
+1. Filename pattern: `chapter-03-*.png` → Chapter 03
+2. User specifies: "Add to Chapter 5"
+3. Ask if not determinable
+
+**Registry update:**
+```markdown
+### fig-03-02-workflow-diagram
+- **Figure:** 3.2
+- **Title:** Workflow Diagram
+- **Type:** Diagram
+- **Status:** 🖼️ Professional image (PNG)
+- **File:** `images/fig-03-02-workflow-diagram.png`
+- **Created:** [CONFIRMED_DATE] by Prompt 6
 ```
 
 ---
 
-## Lock Management Notes
+## Git Commit & Release
 
-**Concurrency Support (v0.13.0+):**
-- This prompt locks resources based on integration destination (varies by content)
-- Possible resources: `Chapter_XX`, `FrontMatter`, `BackMatter`, `ImageRegistry`
-- Locks are acquired after user decisions, before integration
-- Locked destinations offer alternative options
-- Locks are released even if integration fails
-- Stale locks (>15 minutes) can be overridden
-- See `Process/_COMMON/18_Lock_Management_Module.md` for complete details
+```bash
+git add Manuscript/
+git commit -m "$(cat <<'EOF'
+INTEGRATE: Inbox items processed v[version]
+
+- [N] files integrated
+- [Destinations]
+
+🤖 Generated with Claude Code - Prompt 6
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"
+```
+
+Release all acquired locks.
 
 ---
 
-**Version:** 0.13.0
-**Last Updated:** 2025-11-23
+📖 **For detailed integration examples:** See `Process/Prompts/Prompt_6_Reference.md`
 
-*Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 4)*
+---
+
+**Version:** 0.15.0
+**Last Updated:** 2025-11-24
+**Token Efficiency:** 65% reduction
 
 ---
 
 ## Session Cleanup
 
-**After this prompt completes:**
-
 Tell user: "✓ Prompt 6 Integrate Inbox complete.
 
-To free up tokens for your next task, you can say:
-**'Clear Prompt 6 Integrate Inbox from context'**
-
-This will reclaim tokens for your next operation."
+To free up tokens, say: **'Clear Prompt 6 from context'**"
