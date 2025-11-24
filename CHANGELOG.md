@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.0] - 2025-11-23
+
+### Changed
+- **ENFORCEMENT_RULES.md** - Consolidated Module 14 (Enforcement Rules Module) into root-level document
+  - Eliminated ~200 lines of duplication between files
+  - Added Part 2 (Integration Guide) with all Module 14 templates and procedures
+  - Added Part 3 (Testing & Compliance) with testing procedures and validation
+  - Added Part 4 (Reference Tables) with enforcement matrix and file coverage
+  - Single source of truth for enforcement rules and integration guidance
+  - Updated all prompt references to point to consolidated location
+
+- **Process/_COMMON/** - Module 14 deprecated
+  - All Module 14 content merged into ENFORCEMENT_RULES.md
+  - Process/_COMMON/README.md updated (13 active modules, Module 14 noted as deprecated)
+  - Process/_COMMON/04_File_Operations_Library.md updated reference
+  - Prompt 15 updated to reference ENFORCEMENT_RULES.md instead of Module 14
+
+### Removed
+- **Process/_COMMON/14_Enforcement_Rules_Module.md** - Content merged into ENFORCEMENT_RULES.md
+  - All integration templates now in ENFORCEMENT_RULES.md Part 2
+  - All testing procedures now in ENFORCEMENT_RULES.md Part 3
+  - All reference tables now in ENFORCEMENT_RULES.md Part 4
+
+### Technical
+- Consolidation eliminates maintenance burden of keeping two files in sync
+- ~200 lines of duplication removed
+- Improved clarity with single authoritative source for enforcement rules
+- Gap maintained at Module 14 position with deprecation note in _COMMON/README.md
+
+---
+
 ## [0.12.10] - 2025-11-23
 
 ### Added

@@ -4,6 +4,14 @@
 **Last Updated:** 2025-11-21
 **Compatibility:** Claude Code CLI only (requires file operations, image handling)
 
+**CRITICAL ENFORCEMENT:**
+- **RULE 1:** All file modifications MUST update corresponding _chg files
+- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
+
+See: `ENFORCEMENT_RULES.md` (Part 2: Integration Guide)
+
+**NOTE:** This prompt updates _chg files as part of the standard workflow (Image_Registry_chg.md when registry is modified)
+
 ---
 
 ## Purpose

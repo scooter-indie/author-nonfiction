@@ -9,7 +9,7 @@ Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full bef
 - **RULE 1:** All file modifications MUST update corresponding _chg files
 - **RULE 2:** All Manuscript/ changes must go through appropriate prompts
 
-See: `Process/_COMMON/14_Enforcement_Rules_Module.md` for complete details
+See: `ENFORCEMENT_RULES.md` (Part 2: Integration Guide)
 
 **VISUAL SYSTEM VERSION:** v0.12.7 - Unified directory structure
 - **Location:** `Manuscript/images/` (single flat directory)
