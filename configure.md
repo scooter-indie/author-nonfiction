@@ -64,41 +64,81 @@ Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
 
 ### Step 0.5: Check Required Tools
 
-**Check for required command-line tools:**
+**Required tools:**
+1. **git** - Version control (required)
+2. **jq** - JSON processing (required for initialization scripts)
 
-1. **git** - Required for version control
-2. **jq** - Required for JSON processing in initialization scripts
+---
 
-**For CLI:** Run these commands to check:
+**If in Claude Code CLI:**
+
+Run these checks directly:
 ```bash
 git --version
 jq --version
 ```
 
-**If git is missing:**
+---
+
+**If in Claude Desktop:**
+
+**⏸️ ASK USER:**
 ```
-Install git:
-- Windows: winget install Git.Git (or https://git-scm.com/)
-- macOS: brew install git
-- Linux: sudo apt install git
+I need to verify that git and jq are installed.
+
+Do you have both git and jq installed?
+- "yes" - Both are installed, continue
+- "no" or "not sure" - I'll provide installation instructions
 ```
 
-**If jq is missing:**
+**WAIT for user response.**
+
+**If user says "no" or "not sure":**
+
+Provide these **Windows-friendly instructions**:
+
 ```
-Install jq:
-- Windows: winget install jqlang.jq
-- macOS: brew install jq
-- Linux: sudo apt install jq
+┌─────────────────────────────────────────────────────────────┐
+│ INSTALLING REQUIRED TOOLS (Windows)                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ STEP 1: Install Git for Windows                             │
+│                                                             │
+│   1. Download from: https://git-scm.com/download/win        │
+│   2. Run the installer                                      │
+│   3. Accept all default options                             │
+│   4. This gives you Git Bash (a terminal for git commands)  │
+│                                                             │
+│ STEP 2: Install jq (JSON processor)                         │
+│                                                             │
+│   EASIEST METHOD - Using winget:                            │
+│   1. Open PowerShell (search "PowerShell" in Start menu)    │
+│   2. Type: winget install jqlang.jq                         │
+│   3. Press Enter and follow prompts                         │
+│                                                             │
+│   ALTERNATIVE - Manual download:                            │
+│   1. Go to: https://jqlang.org/download/                    │
+│   2. Download "jq-win64.exe"                                │
+│   3. Rename it to "jq.exe"                                  │
+│   4. Move it to C:\Program Files\Git\usr\bin\               │
+│                                                             │
+│ AFTER INSTALLING BOTH:                                      │
+│   Close and reopen any terminals, then say "done"           │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-**⏸️ STOP AND ASK USER** if any tools are missing:
+**For macOS users:**
 ```
-Required tool(s) missing: [git/jq]
-
-Please install the missing tool(s) and say "done" to continue.
+brew install git jq
 ```
 
-**WAIT for user response before continuing.**
+**For Linux users:**
+```
+sudo apt install git jq
+```
+
+**WAIT for user to say "done" before continuing.**
 
 ---
 
