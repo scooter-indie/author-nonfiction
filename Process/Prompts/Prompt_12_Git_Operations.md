@@ -513,3 +513,16 @@ prompt_9_verbose: false  # Skip detailed explanations
 ---
 
 *Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 9)*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 12 Git Operations complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 12 Git Operations from context'**
+
+This will reclaim tokens for your next operation."

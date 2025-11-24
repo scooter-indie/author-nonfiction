@@ -1084,3 +1084,16 @@ I'll use WebSearch to find real, verifiable sources and auto-insert citations wi
 *Created: v0.11.0*
 *Purpose: Citation finding and verification workflow*
 *Type: Content enhancement - requires user verification*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 14 Citation Finder complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 14 Citation Finder from context'**
+
+This will reclaim tokens for your next operation."

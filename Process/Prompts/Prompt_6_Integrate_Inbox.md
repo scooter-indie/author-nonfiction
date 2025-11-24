@@ -261,3 +261,16 @@ I'll scan your Manuscript/Inbox/ directory now and show you what I find.
 **Last Updated:** 2025-11-23
 
 *Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 4)*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 6 Integrate Inbox complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 6 Integrate Inbox from context'**
+
+This will reclaim tokens for your next operation."

@@ -344,3 +344,16 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 ---
 
 *Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 10)*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 10 Dashboard complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 10 Dashboard from context'**
+
+This will reclaim tokens for your next operation."

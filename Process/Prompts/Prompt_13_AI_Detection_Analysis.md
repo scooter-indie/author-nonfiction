@@ -571,3 +571,16 @@ Recommendations will be actionable, specific, and designed to strengthen your un
 *Created: v0.11.0*
 *Purpose: Content authenticity and voice analysis*
 *Type: Quality control - read-only analysis*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 13 AI Detection Analysis complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 13 AI Detection Analysis from context'**
+
+This will reclaim tokens for your next operation."

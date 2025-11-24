@@ -816,3 +816,16 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 *Reference: Process/_COMMON/10_Style_Consistency_Protocol.md*
 *Templates: Process/Templates/Chapter_Style_Template.md, Style_Overrides_Template.md*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 11 Style Manager complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 11 Style Manager from context'**
+
+This will reclaim tokens for your next operation."

@@ -444,3 +444,16 @@ Use the report to:
 ---
 
 *Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 6)*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 8 Consistency complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 8 Consistency from context'**
+
+This will reclaim tokens for your next operation."

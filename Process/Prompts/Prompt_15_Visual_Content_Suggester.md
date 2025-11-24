@@ -1126,3 +1126,16 @@ All visuals will be:
 *Created: v0.11.0*
 *Purpose: Visual content analysis and text-based visual creation*
 *Type: Content enhancement - creates visual assets and updates tracking*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 15 Visual Content Suggester complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 15 Visual Content Suggester from context'**
+
+This will reclaim tokens for your next operation."

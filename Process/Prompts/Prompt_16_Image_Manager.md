@@ -1409,3 +1409,16 @@ Integration:
 
 🤖 **This prompt is part of the AI-Assisted Nonfiction Authoring Framework v0.13.0**
 📖 **For help:** See `Process/Prompts/README.md` or `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 16 Image Manager complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 16 Image Manager from context'**
+
+This will reclaim tokens for your next operation."

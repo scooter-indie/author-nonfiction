@@ -591,3 +591,16 @@ I will display:
 ---
 
 *Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 7)*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 9 Export complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 9 Export from context'**
+
+This will reclaim tokens for your next operation."

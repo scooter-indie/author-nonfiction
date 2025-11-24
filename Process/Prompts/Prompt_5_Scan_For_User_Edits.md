@@ -311,3 +311,16 @@ I'll now scan for out-of-sync files and update their change tracking.
 **Last Updated:** 2025-11-23
 
 *Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 10)*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 5 Scan For User Edits complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 5 Scan For User Edits from context'**
+
+This will reclaim tokens for your next operation."

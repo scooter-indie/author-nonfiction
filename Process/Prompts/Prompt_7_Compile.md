@@ -138,3 +138,16 @@ You can choose a different format when running the compilation:
 ---
 
 *Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 7)*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 7 Compile complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 7 Compile from context'**
+
+This will reclaim tokens for your next operation."
