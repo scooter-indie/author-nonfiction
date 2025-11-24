@@ -1,6 +1,6 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**Version:** 0.12.10
+**Version:** 0.13.0
 **Compatibility:** HYBRID (Desktop Q&A → CLI execution)
 
 **Workflow:**
@@ -8,7 +8,8 @@
 - **Claude Code CLI:** Reads `.config/init.json` → runs bash script → completes AI tasks
 
 **FIRST ACTION - MANDATORY:**
-Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
+1. Read `Process/_COMMON/18_Lock_Management_Module.md`
+2. Read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
@@ -46,6 +47,97 @@ Creates a complete nonfiction book project structure:
 ---
 
 ## Execution Flow
+
+### Step 0: Lock Management
+
+**Initialize Lock System:**
+
+1. Check if `.locks/` directory exists
+   - If not: Create `.locks/` directory
+
+2. Check if `.locks/locks.json` exists
+   - If not: Create with empty structure:
+     ```json
+     {
+       "locks": []
+     }
+     ```
+
+**Generate Instance ID:**
+
+Create unique instance identifier for this session:
+- Format: `CLI-[5-digit-random]` or `Desktop-[5-digit-random]`
+- Example: `CLI-12345`, `Desktop-67890`
+- Reuse same ID for all locks in this session
+
+**Acquire Lock: ProjectConfig**
+
+Resources needed for this prompt: `ProjectConfig`
+
+1. Read `.locks/locks.json`
+
+2. Check if `ProjectConfig` is locked:
+   - Search `locks` array for entry where `"resource": "ProjectConfig"`
+
+3. **If lock exists:**
+   - Calculate age: `current_time - lock.timestamp`
+
+   - **If age < 15 minutes:**
+     ```
+     ⚠️ ProjectConfig is currently locked by another instance.
+
+     Lock details:
+     - Resource: ProjectConfig
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     Another initialization may be in progress.
+
+     Options:
+     1. Wait for lock to clear (checks every 5 seconds)
+     2. Cancel operation
+
+     Choose option (1-2):
+     ```
+
+   - **If age >= 15 minutes:**
+     ```
+     ⚠️ ProjectConfig has a stale lock (older than 15 minutes).
+
+     Lock details:
+     - Resource: ProjectConfig
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     This lock may be from a crashed instance.
+
+     Options:
+     1. Override stale lock and continue
+     2. Cancel operation
+
+     Choose option (1-2):
+     ```
+
+4. **If user chooses to wait (Option 1):**
+   - Poll every 5 seconds
+   - Re-check `.locks/locks.json`
+   - If lock cleared: Proceed to acquire
+   - If timeout (2 minutes): Ask to cancel or override
+
+5. **If user cancels:**
+   - Exit prompt without changes
+
+6. **If no lock OR override approved:**
+   - Add lock entry:
+     ```json
+     {
+       "resource": "ProjectConfig",
+       "timestamp": "[ISO-8601-timestamp]",
+       "instance": "[instance_id]"
+     }
+     ```
+   - Write updated JSON to `.locks/locks.json`
+   - Proceed with initialization
 
 ### Step 1: Environment Detection
 
@@ -92,17 +184,22 @@ Creates a complete nonfiction book project structure:
    - Store as: `chapters` array with `{number, title}`
 
 9. **Writing style selection:**
-   - Present 9 options from `Process/Style_Examples.md`:
-     1. Academic Authority
-     2. Conversational Expert
-     3. Narrative Storyteller
-     4. Business Professional
-     5. Technical Precision
-     6. Investigative Journalist
-     7. Practical Guide
-     8. Inspirational Teacher
-     9. Scientific Communicator
-   - Store as: `style`
+   - Read `Process/Styles/Style_Catalog.md` to load the catalog
+   - Present category-based selection:
+     ```
+     I've loaded 19 writing styles organized into 5 categories:
+
+     1. Academic & Research (4 styles)
+     2. Business & Professional (2 styles)
+     3. Narrative & Storytelling (4 styles)
+     4. Personal Development & How-To (3 styles)
+     5. Cultural & Social Commentary (6 styles)
+
+     Which category best fits your book? (1-5, or 'browse all')
+     ```
+   - When user selects category, show styles from that category
+   - Offer to show example passages from individual style files (optional)
+   - Once user selects style, store as: `style`
 
 ### Step 2b: Create .config directory and all JSON files
 
@@ -290,7 +387,7 @@ This will detect pandoc/typst and update `toolsAvailable` automatically.
 
 **4b. Generate Style_Guide.md**
 
-Read the selected style from `Process/Style_Examples.md` and create:
+Read the selected style from the appropriate file in `Process/Styles/[Category]/[StyleName].md` and create:
 
 **`Manuscript/Style/Style_Guide.md`:**
 
@@ -299,13 +396,14 @@ Read the selected style from `Process/Style_Examples.md` and create:
 
 **Book:** [title from init.json]
 **Style:** [style name from init.json]
+**Category:** [category from Style_Catalog.md]
 **Last Updated:** [CONFIRMED_DATE]
 
 ---
 
 ## Selected Style: [Style Name]
 
-[Full style definition from Process/Style_Examples.md]
+[Full style definition from Process/Styles/[Category]/[StyleName].md]
 
 ---
 
@@ -580,6 +678,24 @@ Git status:
   • [X] files tracked
 ```
 
+### Step 8: Release Locks
+
+**CRITICAL:** Release locks even if operation fails or errors occur.
+
+**Release ProjectConfig lock:**
+
+1. Read `.locks/locks.json`
+
+2. Remove lock entry:
+   - Filter `locks` array to remove where `"resource": "ProjectConfig"` AND `"instance": "[your_instance_id]"`
+
+3. Write updated JSON to `.locks/locks.json`
+
+**Confirmation:**
+```
+✓ Lock released: ProjectConfig
+```
+
 ---
 
 ## Re-Initialization (Smart Merge)
@@ -683,5 +799,16 @@ Which option?
 
 ---
 
-**Version:** 0.12.10
-**Last Updated:** 2025-11-21
+## Lock Management Notes
+
+**Concurrency Support (v0.13.0+):**
+- This prompt locks `ProjectConfig` to prevent simultaneous initialization
+- Lock is held from Step 0 through Step 8
+- Lock is released even if initialization fails
+- Stale locks (>15 minutes) can be overridden
+- See `Process/_COMMON/18_Lock_Management_Module.md` for complete details
+
+---
+
+**Version:** 0.13.0
+**Last Updated:** 2025-11-23

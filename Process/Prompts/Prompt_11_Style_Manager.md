@@ -1,10 +1,13 @@
 # Execute Prompt 11: Style Manager
 
+**Version:** 0.13.0
 **HYBRID:** Works in both Claude Desktop and Claude Code CLI with mixed interaction.
 
 Desktop MCP copies large files for processing which can break down with many chapter files. For validation and scanning operations that read multiple files, CLI is more reliable.
 
-**BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
+**FIRST ACTION - MANDATORY:**
+1. Read `Process/_COMMON/18_Lock_Management_Module.md`
+2. Read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
@@ -68,6 +71,99 @@ Section Style (Optional - HTML comments in content)
 
 ---
 
+## Step 0: Lock Management
+
+**Initialize Lock System:**
+
+1. Check if `.locks/` directory exists
+   - If not: Create `.locks/` directory
+
+2. Check if `.locks/locks.json` exists
+   - If not: Create with empty structure:
+     ```json
+     {
+       "locks": []
+     }
+     ```
+
+**Generate Instance ID:**
+
+Create unique instance identifier for this session:
+- Format: `CLI-[5-digit-random]` or `Desktop-[5-digit-random]`
+- Example: `CLI-12345`, `Desktop-67890`
+- Reuse same ID for all locks in this session
+
+**Acquire Lock: StyleSystem**
+
+Resources needed for this prompt: `StyleSystem`
+
+1. Read `.locks/locks.json`
+
+2. Check if `StyleSystem` is locked:
+   - Search `locks` array for entry where `"resource": "StyleSystem"`
+
+3. **If lock exists:**
+   - Calculate age: `current_time - lock.timestamp`
+
+   - **If age < 15 minutes:**
+     ```
+     ⚠️ StyleSystem is currently locked by another instance.
+
+     Lock details:
+     - Resource: StyleSystem
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     Another style operation may be in progress.
+
+     Options:
+     1. Wait for lock to clear (checks every 5 seconds)
+     2. Cancel operation
+
+     Choose option (1-2):
+     ```
+
+   - **If age >= 15 minutes:**
+     ```
+     ⚠️ StyleSystem has a stale lock (older than 15 minutes).
+
+     Lock details:
+     - Resource: StyleSystem
+     - Locked at: [timestamp] ([X] minutes ago)
+     - Instance: [instance]
+
+     This lock may be from a crashed instance.
+
+     Options:
+     1. Override stale lock and continue
+     2. Cancel operation
+
+     Choose option (1-2):
+     ```
+
+4. **If user chooses to wait (Option 1):**
+   - Poll every 5 seconds
+   - Re-check `.locks/locks.json`
+   - If lock cleared: Proceed to acquire
+   - If timeout (2 minutes): Ask to cancel or override
+
+5. **If user cancels:**
+   - Exit prompt without changes
+
+6. **If no lock OR override approved:**
+   - Add lock entry:
+     ```json
+     {
+       "resource": "StyleSystem",
+       "timestamp": "[ISO-8601-timestamp]",
+       "instance": "[instance_id]"
+     }
+     ```
+   - Write updated JSON to `.locks/locks.json`
+   - Proceed with style management operations
+
+---
+
 ## Operations Available
 
 ### 1. Add Chapter Override
@@ -100,7 +196,7 @@ Change the book-level style with impact analysis on existing chapters.
 **I'll ask:**
 1. Which chapter needs a style override?
 2. Which style should override the book-level style?
-   - Framework style (from Process/Style_Examples.md)
+   - Framework style (from Process/Styles/Style_Catalog.md - 19 styles across 5 categories)
    - Custom style (from Manuscript/Style/Custom_Styles.md)
    - Create new custom style
 3. What's the rationale for this override?
@@ -285,7 +381,7 @@ Next Steps:
 3. Scan for orphaned chapter style files:
    - Find Chapter_XX_style.md files not in registry
 4. Validate all referenced styles exist:
-   - Check against Style_Guide.md, Custom_Styles.md, Style_Examples.md
+   - Check against Style_Guide.md, Custom_Styles.md, and Process/Styles/ catalog (19 framework styles)
 5. Validate section override markers (if enabled):
    - Check for unclosed markers
    - Check for undefined styles
@@ -305,11 +401,11 @@ Chapter-Level Overrides: 3 listed
 
 ✅ Chapter_03: Technical Precision
   - File exists: Chapter_03_style.md ✓
-  - Style exists: Process/Style_Examples.md ✓
+  - Style exists: Process/Styles/Academic/Technical_Precision.md ✓
 
 ✅ Chapter_07: Narrative Storyteller
   - File exists: Chapter_07_style.md ✓
-  - Style exists: Process/Style_Examples.md ✓
+  - Style exists: Process/Styles/Narrative/Narrative_Storyteller.md ✓
 
 ❌ Chapter_09: Business Authority
   - File missing: Chapter_09_style.md NOT FOUND
@@ -668,6 +764,37 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 ---
 
+## Release Locks
+
+**CRITICAL:** Release locks even if operation fails or errors occur.
+
+**Release acquired lock:**
+
+1. Read `.locks/locks.json`
+
+2. Remove lock entry:
+   - Filter `locks` array to remove where `"resource": "StyleSystem"` AND `"instance": "[your_instance_id]"`
+
+3. Write updated JSON to `.locks/locks.json`
+
+**Confirmation:**
+```
+✓ Lock released: StyleSystem
+```
+
+---
+
+## Lock Management Notes
+
+**Concurrency Support (v0.13.0+):**
+- This prompt locks `StyleSystem` to prevent conflicting style changes
+- Lock is held from Step 0 through completion
+- Lock is released even if operation fails
+- Stale locks (>15 minutes) can be overridden
+- See `Process/_COMMON/18_Lock_Management_Module.md` for complete details
+
+---
+
 ## Ready to Begin?
 
 **Which style management operation would you like to perform?**
@@ -681,6 +808,9 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 7. Change Book-Level Style
 
 ---
+
+**Version:** 0.13.0
+**Last Updated:** 2025-11-23
 
 *Reference: Process/_COMMON/10_Style_Consistency_Protocol.md*
 *Templates: Process/Templates/Chapter_Style_Template.md, Style_Overrides_Template.md*

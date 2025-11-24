@@ -52,6 +52,7 @@ This is the **AI-Assisted Nonfiction Authoring Framework** - a comprehensive sys
 - **Flexibility**: Easy reorganization and restructuring
 - **Quality**: Built-in validation and consistency checking
 - **Safety**: Git version control with commits before major operations
+- **Concurrency**: Lock management for multi-instance editing (v0.13.0+)
 
 ### File Format
 
@@ -68,7 +69,14 @@ Process/
 ├── FRAMEWORK_CORE.md                                # NEW v0.13.0: Instant-load essentials
 ├── AI-Assisted_Nonfiction_Authoring_Process.md    # Complete framework documentation (on-demand)
 ├── Anti-Hallucination_Guidelines.md                # Critical rules for AI accuracy (on-demand)
-├── Style_Examples.md                                # 9 curated writing styles
+├── Styles/                                          # Modular style library (v0.13.0+)
+│   ├── Style_Catalog.md                             # Master catalog of 19 styles
+│   ├── README.md                                    # Style library guide
+│   ├── Academic/                                    # Academic & Research (4 styles)
+│   ├── Professional/                                # Business & Professional (2 styles)
+│   ├── Narrative/                                   # Narrative & Storytelling (4 styles)
+│   ├── Personal/                                    # Personal Development (3 styles)
+│   └── Cultural/                                    # Cultural & Social Commentary (6 styles)
 ├── Prompts/
 │   ├── README.md                                    # Prompt usage guide (on-demand)
 │   ├── QUICK_REFERENCE.md                           # Workflow quick reference (on-demand)
@@ -336,17 +344,36 @@ Section Style (Optional Override)
 - Monitors 30% override threshold (guideline for appropriate book-level choice)
 - Documents style transitions for smooth reader experience
 
-**9 Framework Styles Available:**
+**19 Framework Styles Available Across 5 Categories:**
 
+**Academic & Research (4 styles):**
 1. **Academic Authority** - Scholarly, research-based
-2. **Conversational Expert** - Business/professional, accessible
-3. **Narrative Storyteller** - Memoir-adjacent, first-person
-4. **Business Professional** - Management/leadership focused
-5. **Technical Precision** - Technical guides, systematic
-6. **Investigative Journalist** - Evidence-based revelation
-7. **Practical Guide** - How-to, step-by-step
-8. **Inspirational Teacher** - Personal development, motivational
-9. **Scientific Communicator** - Popular science, wonder with rigor
+2. **Scientific Communicator** - Popular science, wonder with rigor
+3. **Technical Precision** - Technical guides, systematic
+4. **Medical/Health Narrative** - Clinical knowledge + human experience
+
+**Business & Professional (2 styles):**
+5. **Business Professional** - Management/leadership focused
+6. **Conversational Expert** - Business/professional, accessible
+
+**Narrative & Storytelling (4 styles):**
+7. **Narrative Storyteller** - Memoir-adjacent, first-person
+8. **Historical Chronicler** - Narrative history, scholarly storytelling
+9. **Investigative Journalist** - Evidence-based revelation
+10. **Confessional Memoir** - Raw honesty, vulnerability
+
+**Personal Development & How-To (3 styles):**
+11. **Practical Guide** - How-to, step-by-step
+12. **Inspirational Teacher** - Personal development, motivational
+13. **Philosophical Contemplative** - Reflective inquiry, ethics
+
+**Cultural & Social Commentary (6 styles):**
+14. **Cultural Critic** - Sharp observation, essayistic
+15. **Satirical Humorist** - Witty, ironic, comedic
+16. **Activist Advocate** - Social justice, call to action
+17. **Lyrical Nature Writer** - Poetic, sensory, ecological
+18. **Spiritual/Religious Writer** - Contemplative, sacred traditions
+19. **Sports Writer** - Athletic narratives, competitive drama
 
 **How to Use:**
 - **Prompt 1** (Initialize): Select book-level style, creates Style_Overrides.md
@@ -356,7 +383,7 @@ Section Style (Optional Override)
 - **Prompt 10** (Dashboard): Shows style distribution summary
 - **Prompt 11** (Style Manager): Add/remove/analyze overrides, validate registry
 
-**Location:** `Process/Style_Examples.md` contains complete style definitions with examples.
+**Location:** `Process/Styles/Style_Catalog.md` contains the master catalog. Individual style files are in category subdirectories (Academic/, Professional/, Narrative/, Personal/, Cultural/).
 
 ---
 

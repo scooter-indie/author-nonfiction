@@ -383,7 +383,9 @@ The Writing Style System helps authors define, maintain, and apply consistent vo
 ### File Locations
 
 **Framework Level (Process/):**
-- `Process/Style_Examples.md` - 9 curated framework styles with complete examples
+- `Process/Styles/Style_Catalog.md` - Master catalog of 19 framework styles
+- `Process/Styles/README.md` - Style library usage guide
+- `Process/Styles/[Category]/[StyleName].md` - Individual style files organized by category
 - `Process/Templates/Style_Guide_Template.md` - Template for project configuration
 - `Process/Templates/Custom_Styles_Template.md` - Template for custom styles
 
@@ -393,17 +395,36 @@ The Writing Style System helps authors define, maintain, and apply consistent vo
 
 ### Framework Styles
 
-The framework provides 9 professionally curated styles:
+The framework provides 19 professionally curated styles organized into 5 categories:
 
+**Academic & Research (4 styles):**
 1. **Academic Authority** - Scholarly, research-based, third-person formal
-2. **Conversational Expert** - Business/professional, second-person accessible
-3. **Narrative Storyteller** - Memoir-adjacent, first-person with scenes
-4. **Business Professional** - Management/leadership, action-oriented
-5. **Technical Precision** - Technical guides, detailed and systematic
-6. **Investigative Journalist** - Exposés, evidence-based revelation
-7. **Practical Guide** - How-to, step-by-step instructional
-8. **Inspirational Teacher** - Personal development, motivational
-9. **Scientific Communicator** - Popular science, wonder with rigor
+2. **Scientific Communicator** - Popular science, wonder with rigor
+3. **Technical Precision** - Technical guides, detailed and systematic
+4. **Medical/Health Narrative** - Clinical knowledge + human experience, patient-centered
+
+**Business & Professional (2 styles):**
+5. **Business Professional** - Management/leadership, action-oriented
+6. **Conversational Expert** - Business/professional, second-person accessible
+
+**Narrative & Storytelling (4 styles):**
+7. **Narrative Storyteller** - Memoir-adjacent, first-person with scenes
+8. **Historical Chronicler** - Narrative history, scholarly storytelling
+9. **Investigative Journalist** - Exposés, evidence-based revelation
+10. **Confessional Memoir** - Raw honesty, vulnerability, unflinching self-examination
+
+**Personal Development & How-To (3 styles):**
+11. **Practical Guide** - How-to, step-by-step instructional
+12. **Inspirational Teacher** - Personal development, motivational
+13. **Philosophical Contemplative** - Reflective inquiry, ethics, big questions
+
+**Cultural & Social Commentary (6 styles):**
+14. **Cultural Critic** - Sharp observation, essayistic, analytical
+15. **Satirical Humorist** - Witty, ironic, comedic truth-telling
+16. **Activist Advocate** - Social justice, advocacy, call to action
+17. **Lyrical Nature Writer** - Poetic, sensory, ecological, place-based
+18. **Spiritual/Religious Writer** - Contemplative, sacred traditions, invitational
+19. **Sports Writer** - Athletic narratives, competitive drama
 
 Each style includes:
 - Voice characteristics (person, formality, sentence structure, vocabulary)
@@ -561,6 +582,278 @@ Each style includes:
 - Share Style/Style_Guide.md for alignment
 - Document project-specific conventions in Custom_Styles.md
 - Use style checking to maintain consistency across authors
+
+---
+
+## Concurrent Editing (v0.13.0+)
+
+### Overview
+
+**New in v0.13.0:** The framework now supports safe concurrent editing, allowing you to run multiple Claude instances (CLI or Desktop) simultaneously on different parts of your book.
+
+**Key Features:**
+- Work on different chapters at the same time
+- Automatic conflict prevention via resource-level locking
+- 15-minute stale lock timeout for crash recovery
+- Manual lock management via Dashboard (Prompt 10)
+- Works in both Claude Code CLI and Claude Desktop
+
+### How Lock Management Works
+
+The framework uses a **resource-level lock system** to coordinate between multiple Claude instances:
+
+**Lock Process:**
+1. When a prompt needs to modify a resource (e.g., Chapter 5), it checks for existing locks
+2. If unlocked, the prompt acquires a lock on that resource
+3. The prompt performs its work (reading, modifying, committing)
+4. After completion, the lock is released automatically
+5. Other instances can then access that resource
+
+**Lock Storage:**
+- Locks stored in `.locks/locks.json` (automatically created on first use)
+- Added to `.gitignore` (locks are local, never committed)
+- JSON format tracks resource name, timestamp, and instance identifier
+
+### Lockable Resources
+
+The system locks at the resource level, not the entire project:
+
+| Resource Type | What It Locks | Example |
+|---------------|---------------|---------|
+| **Chapter** | Individual chapter files and change tracking | `Chapter_01`, `Chapter_05`, `Chapter_12` |
+| **FrontMatter** | All front matter files | Title page, dedication, preface, etc. |
+| **BackMatter** | All back matter files | Appendices, glossary, bibliography, index |
+| **StyleSystem** | Style configuration files | Style_Guide.md, Style_Overrides.md |
+| **QuoteRegistry** | Chapter quotes file | Chapter_Quotes.md |
+| **ImageRegistry** | Image registry file(s) | Image_Registry.md (or split registries) |
+| **ProjectConfig** | Project configuration files | .config/*.json files |
+
+### Prompts That Acquire Locks
+
+**Write-operation prompts** (acquire locks before modifying):
+
+- **Prompt 1:** Initialize - Locks `ProjectConfig`
+- **Prompt 2:** Add Chapter - Locks new `Chapter_XX` and `ProjectConfig`
+- **Prompt 3:** Change by Chg - Locks `Chapter_XX` being modified
+- **Prompt 4:** Interactive Change - Locks `Chapter_XX` being modified
+- **Prompt 5:** Scan For User Edits - Locks each `Chapter_XX` being scanned
+- **Prompt 6:** Integrate Inbox - Locks depend on content type
+- **Prompt 11:** Style Manager - Locks `StyleSystem`
+- **Prompt 14:** Citation Finder - Locks `Chapter_XX` and possibly `BackMatter`
+- **Prompt 15:** Visual Content Suggester - Locks `Chapter_XX` and `ImageRegistry`
+- **Prompt 16:** Image Manager - Locks `ImageRegistry` and possibly `Chapter_XX`
+
+**Read-only prompts** (no locks needed):
+
+- **Prompt 7:** Compile - Reads files, writes to `Drafts/` (not locked)
+- **Prompt 8:** Consistency Checker - Read-only analysis
+- **Prompt 9:** Export - Reads `Manuscript/`, writes to `Exports/`
+- **Prompt 10:** Dashboard - Read-only, but displays lock status
+- **Prompt 12:** Git Operations - Doesn't modify manuscript files directly
+- **Prompt 13:** AI Detection Analysis - Read-only analysis
+
+### Lock Conflict Resolution
+
+**When a prompt encounters an active lock:**
+
+**Scenario 1: Lock is recent (< 15 minutes old)**
+```
+⚠️ Chapter_05 is currently locked by another instance.
+
+Lock details:
+- Resource: Chapter_05
+- Locked at: 2025-11-23 10:30:00 (5 minutes ago)
+- Instance: Desktop-67890
+
+Options:
+1. Wait for lock to clear (checks every 5 seconds)
+2. Cancel operation
+3. Override lock (not recommended)
+
+Choose option (1-3):
+```
+
+**User can:**
+- **Wait** - Polls every 5 seconds until lock clears, then proceeds automatically
+- **Cancel** - Exits without making changes
+- **Override** - Forces lock acquisition (not recommended for active locks)
+
+**Scenario 2: Lock is stale (>= 15 minutes old)**
+```
+⚠️ Chapter_05 has a stale lock (older than 15 minutes).
+
+Lock details:
+- Resource: Chapter_05
+- Locked at: 2025-11-23 10:00:00 (23 minutes ago)
+- Instance: CLI-12345
+
+This lock may be from a crashed instance.
+
+Options:
+1. Override stale lock and continue
+2. Cancel operation
+
+Choose option (1-2):
+```
+
+**User can:**
+- **Override** - Safe to proceed, likely from crashed instance
+- **Cancel** - Exit if uncertain
+
+### Working with Multiple Instances
+
+**Best Practices:**
+
+1. **Work on different chapters simultaneously**
+   ```
+   Terminal 1: Execute Prompt 3 for Chapter 3
+   Terminal 2: Execute Prompt 4 for Chapter 7
+   → No conflict, both work at the same time
+   ```
+
+2. **Check Dashboard before starting**
+   ```
+   Run Prompt 10 to see:
+   - Which resources are currently locked
+   - Any stale locks that need clearing
+   - Overall system status
+   ```
+
+3. **Wait rather than override**
+   ```
+   If lock is active (< 15 minutes):
+   → Choose "Wait" option
+   → System polls and proceeds automatically when clear
+
+   If lock is stale (>= 15 minutes):
+   → Safe to override (likely crashed instance)
+   ```
+
+4. **Clear stale locks after crashes**
+   ```
+   Use Prompt 10 Dashboard → "Clear All Locks"
+   → Removes all locks (with confirmation)
+   → Fresh start for new work
+   ```
+
+### Dashboard Lock Management
+
+**Prompt 10 (Dashboard) shows lock status:**
+
+**Example output:**
+```markdown
+## Active Locks
+
+**Current locks:**
+- Chapter_03: Locked 5 minutes ago (CLI-12345)
+- StyleSystem: Locked 12 minutes ago (Desktop-67890)
+
+**Stale locks (>15 minutes):**
+- Chapter_07: Locked 23 minutes ago (CLI-99999) ⚠️ STALE
+
+Total: 2 active locks, 1 stale lock
+
+---
+
+To clear all locks manually, use the "Clear All Locks" operation.
+```
+
+**Clear All Locks operation:**
+1. Shows current locks (active and stale)
+2. Warns about clearing active locks
+3. Requires confirmation
+4. Clears all locks if confirmed
+
+### Technical Implementation
+
+**Lock File Format** (`.locks/locks.json`):
+```json
+{
+  "locks": [
+    {
+      "resource": "Chapter_03",
+      "timestamp": "2025-11-23T10:30:00Z",
+      "instance": "CLI-12345"
+    },
+    {
+      "resource": "StyleSystem",
+      "timestamp": "2025-11-23T10:32:00Z",
+      "instance": "Desktop-67890"
+    }
+  ]
+}
+```
+
+**Instance Identifiers:**
+- Format: `[Environment]-[RandomID]`
+- Examples: `CLI-12345`, `Desktop-67890`
+- Generated once per session, reused for all locks in that session
+
+**Lock Lifecycle:**
+1. **Acquire** - Check for existing lock, add new entry if clear
+2. **Hold** - Lock remains while prompt works (typically 1-5 minutes)
+3. **Release** - Remove lock entry when work completes (always, even on error)
+4. **Timeout** - Locks older than 15 minutes become "stale" and can be overridden
+
+### Error Handling
+
+**Lock File Corruption:**
+- Backup corrupted file to `.locks/locks.json.corrupt.[timestamp]`
+- Create fresh lock file with empty locks array
+- Warn user and proceed with operation
+
+**Crash Recovery:**
+- If instance crashes, lock remains in file
+- After 15 minutes, becomes stale
+- Next instance can safely override stale lock
+- Or use "Clear All Locks" to manually clean up
+
+**Concurrent Acquisition (rare):**
+- Small window where two instances might both add locks
+- Detection: Multiple locks for same resource
+- Recovery: Clear All Locks and retry
+
+### Limitations
+
+1. **Local machine only** - Locks don't coordinate across different computers (same git repo, different machines)
+2. **Small race condition window** - Rare possibility of concurrent acquisition
+3. **Requires user discipline** - Users can override active locks (but warned)
+4. **JSON-based** - Not industrial-strength, but sufficient for solo author with multiple instances
+
+**Mitigation:** Git still protects against data loss. Locks prevent conflicts; git recovers from them if they occur.
+
+### Use Cases
+
+**Multiple terminals, same machine:**
+```
+Terminal 1: Draft Chapter 3 (Prompt 4)
+Terminal 2: Revise Chapter 7 (Prompt 3)
+Terminal 3: Check progress (Prompt 10)
+→ All work simultaneously without conflicts
+```
+
+**CLI + Desktop together:**
+```
+Claude Code CLI: Run Consistency Check (Prompt 8) - read-only
+Claude Desktop: Edit Chapter 5 (Prompt 4) - acquires lock
+→ No conflict, both proceed
+```
+
+**Sequential editing of same chapter:**
+```
+Instance 1: Edit Chapter 5, holds lock
+Instance 2: Tries to edit Chapter 5
+→ Waits for lock to clear
+→ Instance 1 finishes, releases lock
+→ Instance 2 acquires lock automatically
+→ Instance 2 proceeds with its edits
+```
+
+### Complete Documentation
+
+For complete technical details on the lock management system, see:
+- **Module documentation:** `Process/_COMMON/18_Lock_Management_Module.md`
+- **Quick reference:** `Process/Prompts/QUICK_REFERENCE.md` (section: "Working with Multiple Instances")
 
 ---
 
