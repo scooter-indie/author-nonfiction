@@ -1,4 +1,4 @@
-# Framework Core (v0.13.0)
+# Framework Core (v0.13.1)
 
 **Purpose:** Instant-load essential framework knowledge for immediate session readiness
 **Load Time:** ~2,000 words (2,500-3,000 tokens)
@@ -406,8 +406,8 @@ Section Style (Optional Override)
 
 ## 10. Framework Version & Support
 
-**Framework Version:** 0.13.0
-**Release Date:** 2025-11-23
+**Framework Version:** 0.13.1
+**Release Date:** 2025-11-24
 **Loading Strategy:** Instant-load core + on-demand detailed docs
 
 **Token Efficiency:**

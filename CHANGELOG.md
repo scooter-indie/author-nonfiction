@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.15.0] - 2025-11-24
+## [0.13.1] - 2025-11-24
 
 ### Added
 - **Token-Optimized Prompt Architecture** - Core + Reference file pattern for 65-75% token reduction
@@ -28,10 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `Prompt_10_Reference.md` - Dashboard examples, metrics calculations
   - `Prompt_11_Reference.md` - Style operations, transition analysis
   - `Prompt_12_Reference.md` - Git operation examples
-  - `Prompt_13_Reference.md` - AI indicator details (from v0.14.0)
-  - `Prompt_14_Reference.md` - Citation examples (from v0.14.0)
-  - `Prompt_15_Reference.md` - Visual templates (from v0.14.0)
-  - `Prompt_16_Reference.md` - Image management details (from v0.14.0)
+  - `Prompt_13_Reference.md` - AI indicator details
+  - `Prompt_14_Reference.md` - Citation examples
+  - `Prompt_15_Reference.md` - Visual templates
+  - `Prompt_16_Reference.md` - Image management details
 
 - **Prompt_Essentials.md** - Shared essentials loaded once per session
   - Lock management protocol
@@ -76,55 +76,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Phase 3: Remaining prompts (2, 5, 10, 12)
 - Backward compatible - no changes to workflow or functionality
 - Reference files load on-demand, reducing typical session token usage by 60%+
-
----
-
-## [0.14.0] - 2025-11-24
-
-### Added
-- **Image Registry Splitting** - Automatic chapter-based registry splitting for large image collections
-  - Module 19 (Image Registry Splitting Module) - Complete split algorithm and coordination
-  - Threshold monitoring: Warning at 200 entries, recommendation at 300, strong warning at 400+
-  - Chapter-based registries: `Image_Registry_Chapter_XX.md` for each chapter with images
-  - Master index: `Image_Registry.md` becomes overview with distribution table and stats
-  - Backward compatible: Single registry mode preserved for small projects (<300 images)
-  - 89% token reduction for typical operations (read chapter registry only)
-  - Scalability to 1,000+ images without context exhaustion
-
-- **New Templates:**
-  - `Process/Templates/Image_Registry_Master_template.md` - Master index template
-  - `Process/Templates/Image_Registry_Chapter_template.md` - Chapter registry template
-
-### Changed
-- **Prompt 16 (Image Manager) v0.14.0** - Full split registry support
-  - Added Mode 5: Split Registry (manual or automatic trigger)
-  - Registry type detection in all modes
-  - Chapter-aware operations for split mode
-  - Master index statistics updates
-
-- **Prompt 15 (Visual Content Suggester) v0.14.0** - Split registry support
-  - Registry type detection before operations
-  - Add entries to chapter registries in split mode
-  - Create chapter registry if doesn't exist
-
-- **Prompt 8 (Consistency) v0.14.0** - Split registry validation
-  - Per-chapter validation reporting for split mode
-  - Aggregate results across all chapter registries
-
-- **Prompt 10 (Dashboard) v0.14.0** - Visual assets reporting
-  - Registry type detection and reporting
-  - Per-chapter distribution summary in split mode
-  - Visual asset statistics in dashboard
-
-- **Prompt 6 (Integrate Inbox) v0.14.0** - Chapter detection for images
-  - Registry type detection for asset integration
-  - Chapter detection from filename patterns
-  - Split mode registry updates
-
-### Technical
-- Module 19 added to Process/_COMMON/
-- All image-related prompts now auto-detect registry type
-- Lock management (`ImageRegistry` resource) covers all split registry files
 
 ---
 

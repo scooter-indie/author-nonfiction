@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.13.0
+**Framework Version:** 0.13.1
 **Session Context Document for Claude Code**
 
 ---
@@ -579,7 +579,7 @@ When Claude Code starts in this directory:
 ✅ **Initialization complete** - Verbose report displayed (85-90% faster than v0.12.10)
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
 
-**v0.13.0 Improvement:** Session startup is now 85-90% faster with on-demand loading strategy.
+**v0.13.1 Improvement:** Session startup is now 85-90% faster with on-demand loading strategy.
 
 **Note:** The `/fw-init` command (in `.claude/commands/fw-init.md`) performs the complete Session Startup Protocol. Do NOT execute any prompts until `/fw-init` completes.
 
@@ -643,12 +643,12 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
-**Framework Version:** 0.13.0
-**Last Updated:** 2025-11-23
+**Framework Version:** 0.13.1
+**Last Updated:** 2025-11-24
 **Performance:** 85-90% faster session startup with on-demand loading
 
 ---
 
 *This document ensures Claude Code has full framework context at session startup*
-*v0.13.0: Lightweight instant-load strategy with on-demand documentation loading*
+*v0.13.1: Lightweight instant-load strategy with on-demand documentation loading*
 *Session startup now loads ~3,000 tokens instead of 27,000+ tokens*
