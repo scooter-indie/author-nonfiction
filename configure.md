@@ -26,17 +26,18 @@
 
 This configuration script will:
 
-1. **Verify framework installation** - Check all required files are present
-2. **Check git status** - Warn if uncommitted changes exist (for updates)
-3. **Apply migrations** (updates only) - Update project structure for new version
-4. **Clean outdated files** (updates only) - Remove obsolete framework files
-5. **Setup git repository** - Initialize if not present
-6. **Connect to remote** (optional) - Help you set up GitHub/GitLab remote
-7. **Discover export tools** - Run detection script to find pandoc/typst, update manifest
-8. **Create manifest/update version** - Track installation or update
-9. **Verify Claude Code integration** - Ensure book-writing-assistant is ready
-10. **Create initial commit** - Verify git is working
-11. **Provide next steps** - Guide you to start writing
+1. **Confirm date** - Verify system date is correct
+2. **Check required tools** - Verify git and jq are installed
+3. **Verify framework installation** - Check all required files are present
+4. **Check git status** - Warn if uncommitted changes exist (for updates)
+5. **Apply migrations** (updates only) - Update project structure for new version
+6. **Clean outdated files** (updates only) - Remove obsolete framework files
+7. **Setup git repository** - Initialize if not present
+8. **Connect to remote** (optional) - Help you set up GitHub/GitLab remote
+9. **Discover export tools** (optional) - Detect pandoc/typst for exports
+10. **Create manifest/update version** - Track installation or update
+11. **Create initial commit** - Commit framework files to git
+12. **Provide next steps** - Guide you to start writing
 
 ---
 
@@ -58,6 +59,46 @@ Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
 - **If user provides different date:** Store as `CONFIRMED_DATE=[user's date]`
 
 **IMPORTANT:** Use CONFIRMED_DATE for ALL date operations during this session.
+
+---
+
+### Step 0.5: Check Required Tools
+
+**Check for required command-line tools:**
+
+1. **git** - Required for version control
+2. **jq** - Required for JSON processing in initialization scripts
+
+**For CLI:** Run these commands to check:
+```bash
+git --version
+jq --version
+```
+
+**If git is missing:**
+```
+Install git:
+- Windows: winget install Git.Git (or https://git-scm.com/)
+- macOS: brew install git
+- Linux: sudo apt install git
+```
+
+**If jq is missing:**
+```
+Install jq:
+- Windows: winget install jqlang.jq
+- macOS: brew install jq
+- Linux: sudo apt install jq
+```
+
+**⏸️ STOP AND ASK USER** if any tools are missing:
+```
+Required tool(s) missing: [git/jq]
+
+Please install the missing tool(s) and say "done" to continue.
+```
+
+**WAIT for user response before continuing.**
 
 ---
 
@@ -418,29 +459,13 @@ I will:
 
 ### Step 5: Git Repository Setup
 
-I will check if git is installed:
+**Note:** Git was verified in Step 0.5.
 
-**Git Not Found:**
-
-**⏸️ STOP AND ASK USER:**
-```
-⚠️ Git Not Found
-
-Git is required for version control. Please install it:
-- Windows: https://git-scm.com/ or run: winget install Git.Git
-- macOS: brew install git
-- Linux: sudo apt install git
-
-After installing, say "done" to continue.
-Or say "skip" to continue without git (not recommended).
-```
-
-**WAIT for user response before continuing.**
-
-**Git Found:**
 - Check if `.git` directory exists
-- If not: Run `git init`
+- If not: Run `git init && git branch -M main`
 - Verify git repository is ready
+
+Report: `✓ Git repository initialized`
 
 ### Step 6: Remote Repository Setup
 
