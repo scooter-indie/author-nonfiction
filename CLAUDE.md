@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.12.10
+**Framework Version:** 0.13.0
 **Session Context Document for Claude Code**
 
 ---
@@ -13,23 +13,19 @@
 /fw-init
 ```
 
-This slash command performs the Session Startup Protocol by loading all framework documentation (~20,000-30,000 tokens):
-- system-instructions.md (framework rules and compatibility)
-- Process/AI-Assisted_Nonfiction_Authoring_Process.md (comprehensive guide)
-- Process/Anti-Hallucination_Guidelines.md (accuracy protocols)
-- Process/Prompts/QUICK_REFERENCE.md (workflow guide)
-- Process/Prompts/README.md (detailed prompt documentation)
-- Process/Styles/README.md (writing styles library)
+This slash command performs the Session Startup Protocol with the new lightweight loading strategy (~3,000 tokens):
+- Process/FRAMEWORK_CORE.md (essential framework knowledge - instant load)
 - PROJECT_CONTEXT.md (if book project exists)
+- Additional docs load on-demand when needed
 
 **Why this is mandatory:**
-- Loads complete, up-to-date framework rules
-- Explains chapter structure (subdirectories vs flat files)
-- Defines when to use each prompt
-- Prevents common errors like creating files in wrong locations
+- Loads essential framework rules instantly (~3,000 tokens vs 27,000+ in v0.12.10)
+- 85-90% faster session startup
 - Activates Anti-Hallucination Protocol (ASK FIRST verification)
+- Loads prompt compatibility matrix (CLI vs Desktop)
 - Checks for existing book project context
 - Provides verbose initialization report
+- Additional docs load on-demand when needed
 
 **IMPORTANT:** Do NOT execute any prompts until `/fw-init` completes successfully.
 
@@ -69,12 +65,13 @@ This installation contains the **Process/** directory with the complete framewor
 
 ```
 Process/
-├── AI-Assisted_Nonfiction_Authoring_Process.md    # Complete framework documentation
-├── Anti-Hallucination_Guidelines.md                # Critical rules for AI accuracy
+├── FRAMEWORK_CORE.md                                # NEW v0.13.0: Instant-load essentials
+├── AI-Assisted_Nonfiction_Authoring_Process.md    # Complete framework documentation (on-demand)
+├── Anti-Hallucination_Guidelines.md                # Critical rules for AI accuracy (on-demand)
 ├── Style_Examples.md                                # 9 curated writing styles
 ├── Prompts/
-│   ├── README.md                                    # Prompt usage guide
-│   ├── QUICK_REFERENCE.md                           # Workflow quick reference
+│   ├── README.md                                    # Prompt usage guide (on-demand)
+│   ├── QUICK_REFERENCE.md                           # Workflow quick reference (on-demand)
 │   ├── Prompt_1_Initialize.md                       # Create new book project
 │   ├── Prompt_2_Add_Chapter.md                      # Add chapters
 │   ├── Prompt_3_Change_by_Chg.md                    # Automated revision workflow
@@ -103,7 +100,7 @@ Process/
 
 ## Critical: Anti-Hallucination Guidelines
 
-**ALWAYS** read and apply `Process/Anti-Hallucination_Guidelines.md` before executing any prompt.
+**The Anti-Hallucination Protocol is loaded from FRAMEWORK_CORE.md at session startup.**
 
 **MANDATORY VERIFICATION PROTOCOL:**
 - **ASK BEFORE generating** examples, anecdotes, statistics, or quotes
@@ -112,13 +109,7 @@ Process/
 - **ALWAYS use labels**: REAL vs HYPOTHETICAL vs GENERIC
 - **ALWAYS verify**: ⏳ Pending | ⚠ Needs Citation | ✓ Verified
 
-Key rules:
-- Never fabricate quotes, statistics, or citations
-- Mark uncertain content clearly with [VERIFY] or [CITATION NEEDED]
-- Verify facts before stating them
-- Use proper quote verification status (⏳/⚠/✓)
-- Never guess attributions
-- Ask user for real experiences before creating examples
+**Full protocol details:** Loaded in FRAMEWORK_CORE.md (Section 1) or load `Process/Anti-Hallucination_Guidelines.md` on-demand
 
 ---
 
@@ -447,14 +438,15 @@ The framework includes centralized quote/epigraph management:
 
 ## Important Files to Reference
 
-### Must Read:
-- `Process/Anti-Hallucination_Guidelines.md` - Critical rules for accuracy
+### Always Loaded at Startup:
+- `Process/FRAMEWORK_CORE.md` - Essential framework knowledge (instant load)
+
+### Load On-Demand When Needed:
+- `Process/Anti-Hallucination_Guidelines.md` - Full accuracy protocol details
 - `Process/Prompts/QUICK_REFERENCE.md` - Workflow guide
-
-### Comprehensive Documentation:
 - `Process/AI-Assisted_Nonfiction_Authoring_Process.md` - Complete framework guide
-
-### Style Library:
+- `Process/Prompts/README.md` - Detailed prompt documentation
+- `Process/Styles/README.md` - Style library details
 - `Process/Style_Examples.md` - 9 curated professional styles
 
 ---
@@ -465,18 +457,16 @@ When Claude Code starts in this directory:
 
 ✅ **MANDATORY: Run `/fw-init` command** - User types `/fw-init` at session start
 ✅ **CLAUDE.md auto-loaded** - Framework context from system
-✅ **Initialization in progress** - `/fw-init` loads all framework documentation:
-   - system-instructions.md
-   - Process/AI-Assisted_Nonfiction_Authoring_Process.md
-   - Process/Anti-Hallucination_Guidelines.md
-   - Process/Prompts/QUICK_REFERENCE.md
-   - Process/Prompts/README.md
-   - Process/Styles/README.md
-   - PROJECT_CONTEXT.md (if exists)
+✅ **Initialization in progress** - `/fw-init` loads essential framework documentation (~3,000 tokens):
+   - Process/FRAMEWORK_CORE.md (instant load - all essential knowledge)
+   - PROJECT_CONTEXT.md (if book project exists)
+   - Additional docs load on-demand when needed
 ✅ **Anti-Hallucination Protocol Active** - ASK before assuming user experiences
 ✅ **CONFIRM DATE WITH USER** - See Date Confirmation Protocol below
-✅ **Initialization complete** - Verbose report displayed
+✅ **Initialization complete** - Verbose report displayed (85-90% faster than v0.12.10)
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
+
+**v0.13.0 Improvement:** Session startup is now 85-90% faster with on-demand loading strategy.
 
 **Note:** The `/fw-init` command (in `.claude/commands/fw-init.md`) performs the complete Session Startup Protocol. Do NOT execute any prompts until `/fw-init` completes.
 
@@ -540,10 +530,12 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
-**Framework Version:** 0.12.10
+**Framework Version:** 0.13.0
 **Last Updated:** 2025-11-23
+**Performance:** 85-90% faster session startup with on-demand loading
 
 ---
 
 *This document ensures Claude Code has full framework context at session startup*
-*User can immediately execute any prompt without additional context loading*
+*v0.13.0: Lightweight instant-load strategy with on-demand documentation loading*
+*Session startup now loads ~3,000 tokens instead of 27,000+ tokens*
