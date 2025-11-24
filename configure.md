@@ -520,6 +520,8 @@ glab repo create my-book --private
 
 ### Step 7: Export Tool Discovery (Optional)
 
+**Note:** Git was already verified in Step 0.5. This step focuses on **optional** export tools.
+
 **⏸️ STOP AND ASK USER:**
 
 Ask the user:
@@ -541,6 +543,8 @@ Run the detection script:
 ```bash
 bash scripts/detect-tools.sh .config/manifest.json
 ```
+
+The script will confirm git (already verified) and check for pandoc/typst availability.
 
 Display results and continue to Step 8.
 
