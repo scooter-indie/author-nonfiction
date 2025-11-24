@@ -36,13 +36,13 @@ jobs:
       - name: Verify version matches files
         run: |
           VERSION=${{ steps.version.outputs.version }}
-          FILE_VERSION=$(grep -m 1 "^\*\*Version:\*\*" Process/AI-Assisted_Nonfiction_Authoring_Process.md | sed 's/.*Version:\*\* //')
+          FILE_VERSION=$(grep -m 1 "^\*\*Version:\*\*" Documentation/AI-Assisted_Nonfiction_Authoring_Process.md | sed 's/.*Version:\*\* //')
           echo "Tag version: $VERSION"
           echo "File version: $FILE_VERSION"
           if [ "$VERSION" != "$FILE_VERSION" ]; then
             echo "ERROR: Version mismatch!"
             echo "Git tag version ($VERSION) doesn't match file version ($FILE_VERSION)"
-            echo "Please update Process/AI-Assisted_Nonfiction_Authoring_Process.md first"
+            echo "Please update Documentation/AI-Assisted_Nonfiction_Authoring_Process.md first"
             exit 1
           fi
 
