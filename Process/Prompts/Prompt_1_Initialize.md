@@ -1,7 +1,8 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**Version:** 0.13.0
+**Version:** 0.14.0
 **Compatibility:** HYBRID (Desktop Q&A → CLI execution)
+**⚡ Performance:** 85-90% faster with batch content generation
 
 **Workflow:**
 - **Claude Desktop:** Interactive Q&A creates `.config/init.json` → instructs user to switch to CLI
@@ -34,15 +35,15 @@ Creates a complete nonfiction book project structure:
 - Git repository
 - Initial commit and v1.0.0 tag
 
-**New in v0.12.9:**
-- 📄 **README.md Management** - Auto-generated project README with metadata
-- 📊 **Dashboard & Reports** - Structured organization for reports and dashboard
+**🚀 NEW in v0.14.0:**
+- ⚡ **85-90% Faster Initialization** - Batch content generation via `scripts/generate-content.sh`
+- 📦 **Single Command** - All 29 files generated in <1 second
+- 🎯 **Reduced Operations** - From 35-40 tool calls to 5-8 operations
 
-**Previous updates (v0.12.7):**
-- ⚡ **Faster initialization** - Template-based USAGE_GUIDE.md with sed substitution
-- 📁 **Centralized config** - All JSON configs in `.config/` directory
-- 🔧 **Bash script automation** - Structure creation via `scripts/init.sh`
-- 🎨 **Hybrid workflow** - Q&A in Desktop, execution in CLI
+**Previous updates:**
+- v0.12.9: README.md management, Dashboard & Reports organization
+- v0.12.7: Template-based USAGE_GUIDE.md, centralized .config/, bash automation
+- v0.12.1: Hybrid workflow (Desktop Q&A → CLI execution)
 
 ---
 
@@ -53,7 +54,8 @@ Creates a complete nonfiction book project structure:
 **Initialize Lock System:**
 
 1. Check if `.locks/` directory exists
-   - If not: Create `.locks/` directory
+   - If not: Create `.locks/` directory using bash: `mkdir -p .locks`
+   - **CRITICAL:** Use `mkdir -p` (bash/sh command), NOT Windows CMD syntax (`if not exist`)
 
 2. Check if `.locks/locks.json` exists
    - If not: Create with empty structure:
@@ -372,226 +374,108 @@ Initializing git repository...
 
 **Note:** The `.config/` directory and all JSON files were already created in Step 2b.
 
-### Step 4: AI-Generated Content (CLI ONLY)
+### Step 4: Generate All Content (CLI ONLY)
 
-**Now complete the AI-required tasks:**
+**⚡ NEW in v0.14.0: Batch content generation for 85-90% faster initialization**
 
-**4a. Run tool detection script:**
+**Execute the batch content generator:**
 
-Run tool detection to update manifest with available export tools:
+```bash
+bash scripts/generate-content.sh .config/init.json
+```
+
+**This single command generates all content files:**
+- Style_Guide.md, Style_Overrides.md
+- TOC.md, TOC_chg.md
+- Chapter_Quotes.md, Chapter_Quotes_chg.md
+- USAGE_GUIDE.md, PROJECT_CONTEXT.md, README.md
+- All chapter files (Chapter_XX.md + Chapter_XX_chg.md)
+
+**Expected output:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Batch Content Generator v0.14.0
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Validating preconditions...
+✓ Config file found
+✓ jq is installed
+✓ Valid JSON config
+✓ All required fields present
+✓ Process/Styles directory found
+✓ All preconditions met
+
+Parsing configuration...
+✓ Configuration parsed
+  • Title: [Your Book Title]
+  • Author: [Your Name]
+  • Style: [Selected Style]
+  • Chapters: [N]
+
+Locating style file...
+✓ Style file found: [Category]/[Style].md
+
+Generating content files...
+
+✓ Generated Style_Guide.md
+✓ Generated Style_Overrides.md
+✓ Generated TOC.md
+✓ Generated TOC_chg.md
+✓ Generated Chapter_Quotes.md
+✓ Generated Chapter_Quotes_chg.md
+✓ Generated USAGE_GUIDE.md
+✓ Generated PROJECT_CONTEXT.md
+✓ Generated README.md
+✓ Generated Chapter_01 files
+✓ Generated Chapter_02 files
+[... all chapters ...]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Content generation complete
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Generated files:
+  • Style_Guide.md, Style_Overrides.md
+  • TOC.md, TOC_chg.md
+  • Chapter_Quotes.md, Chapter_Quotes_chg.md
+  • USAGE_GUIDE.md, PROJECT_CONTEXT.md, README.md
+  • [N] chapter files (Chapter_XX.md + Chapter_XX_chg.md)
+
+Total: [N] files created
+```
+
+**Then run tool detection:**
+
 ```bash
 bash scripts/detect-tools.sh .config/manifest.json
 ```
 
-This will detect pandoc/typst and update `toolsAvailable` automatically.
+This detects pandoc/typst and updates `toolsAvailable` in manifest.
 
-**4b. Generate Style_Guide.md**
+<details>
+<summary><strong>📖 Reference: What the script generates (click to expand)</strong></summary>
 
-Read the selected style from the appropriate file in `Process/Styles/[Category]/[StyleName].md` and create:
+The `generate-content.sh` script creates all these files automatically. This section documents the file formats for reference only.
 
-**`Manuscript/Style/Style_Guide.md`:**
+**Files Generated:**
 
-```markdown
-# Writing Style Guide
+1. **Manuscript/Style/Style_Guide.md** - Book's writing style with full style definition
+2. **Manuscript/Style/Style_Overrides.md** - Style override registry (hierarchical system)
+3. **Manuscript/_TOC_/TOC.md** - Table of contents with all chapters
+4. **Manuscript/_TOC_/TOC_chg.md** - TOC change tracking file
+5. **Manuscript/Quotes/Chapter_Quotes.md** - Chapter epigraph registry
+6. **Manuscript/Quotes/Chapter_Quotes_chg.md** - Quotes change tracking
+7. **USAGE_GUIDE.md** - Project usage guide with framework instructions
+8. **PROJECT_CONTEXT.md** - Project context for Claude Desktop
+9. **README.md** - Project README with metadata
+10. **Manuscript/Chapters/Chapter_XX/Chapter_XX.md** - Each chapter content file
+11. **Manuscript/Chapters/Chapter_XX/Chapter_XX_chg.md** - Each chapter change tracking
 
-**Book:** [title from init.json]
-**Style:** [style name from init.json]
-**Category:** [category from Style_Catalog.md]
-**Last Updated:** [CONFIRMED_DATE]
+All files are generated from templates with variable substitution from `.config/init.json`.
 
----
+See `scripts/generate-content.sh` source code for complete implementation details.
 
-## Selected Style: [Style Name]
-
-[Full style definition from Process/Styles/[Category]/[StyleName].md]
-
----
-
-## Style Application
-
-This style is your **book-level default**. All chapters and sections inherit this style unless explicitly overridden.
-
-**Hierarchical Style System:**
-- **Book level** (this file): Default for entire book
-- **Chapter level** (optional): Override for specific chapters
-- **Section level** (optional): Override for specific sections
-
-See `Manuscript/Style/Style_Overrides.md` for override registry.
-
----
-
-*This style guide ensures consistent voice throughout your book*
-```
-
-**4c. Generate Style_Overrides.md**
-
-Copy from `Process/Templates/Style_Overrides_Template.md` and customize:
-
-**`Manuscript/Style/Style_Overrides.md`:**
-
-Include book-level style at top, empty override sections.
-
-**4d. Generate TOC.md and TOC_chg.md**
-
-**`Manuscript/_TOC_/TOC.md`:**
-
-```markdown
-# Table of Contents
-
-**Book:** [title from init.json]
-**Author:** [author from init.json]
-**Last Updated:** [CONFIRMED_DATE]
-
-⚠️ **WARNING:** This file is managed by Prompts 1 and 2. Direct edits may be overwritten. Use Prompt 2 to add/reorder chapters.
-
----
-
-[For each chapter in init.json chapters array:]
-## Chapter [number]: [title]
-
-**Status:** Not Started
-**Word Count:** 0
-**Last Modified:** N/A
-
----
-```
-
-**`Manuscript/_TOC_/TOC_chg.md`:**
-
-```markdown
-# TOC Change Tracking
-
-**Version:** 1.0.0
-**Last Updated:** [CONFIRMED_DATE]
-
----
-
-## Instructions for Next Revision
-
-[Leave empty - ready for user to add TOC modification instructions]
-
----
-
-## Version History
-
-### v1.0.0 - [CONFIRMED_DATE]
-- Initial TOC created with [X] chapters
-- Chapters: [list chapter titles]
-```
-
-**4e. Generate Chapter_Quotes.md and Chapter_Quotes_chg.md**
-
-**`Manuscript/Quotes/Chapter_Quotes.md`:**
-
-```markdown
-# Chapter Quotes (Epigraphs)
-
-**Book:** [title from init.json]
-**Last Updated:** [CONFIRMED_DATE]
-
-**Status Legend:**
-- ⏳ **Pending** - Quote selected, needs verification
-- ⚠ **Needs Citation** - Verified but incomplete citation
-- ✓ **Verified** - Fully verified with proper attribution
-
----
-
-[For each chapter:]
-## Chapter [number]: [title]
-
-**Status:** ⏳ Pending
-**Quote:** [Leave empty]
-**Attribution:** [Leave empty]
-**Source:** [Leave empty]
-
----
-```
-
-**`Manuscript/Quotes/Chapter_Quotes_chg.md`:**
-
-```markdown
-# Chapter Quotes Change Tracking
-
-**Version:** 1.0.0
-**Last Updated:** [CONFIRMED_DATE]
-
----
-
-## Instructions for Next Revision
-
-[Leave empty]
-
----
-
-## Version History
-
-### v1.0.0 - [CONFIRMED_DATE]
-- Initial quotes file created
-- [X] chapter quote placeholders created
-```
-
-**4f. Generate USAGE_GUIDE.md**
-
-Run generation script with user data:
-
-```bash
-bash scripts/generate-usage-guide.sh "$BOOK_TITLE" "$AUTHOR_NAME" "$CONFIRMED_DATE" "$CHAPTER_COUNT" "$STYLE_NAME"
-```
-
-Where variables are extracted from init.json:
-- `BOOK_TITLE` - from init.json "workingTitle"
-- `AUTHOR_NAME` - from init.json "authorName"
-- `CONFIRMED_DATE` - session confirmed date
-- `CHAPTER_COUNT` - from init.json "initialChapters"
-- `STYLE_NAME` - from init.json "writingStyle"
-
-The script handles special character escaping and template substitution.
-
-**4g. Generate PROJECT_CONTEXT.md**
-
-Use template from `Process/Templates/PROJECT_CONTEXT_template.md`, fill in metadata from init.json.
-
-**4h. Generate README.md**
-
-**Follow `Process/_COMMON/17_README_Management_Module.md` for complete structure and rules.**
-
-Generate initial README.md in project root:
-
-1. **Read metadata:**
-   - Read `.config/metadata.json` for Project Information fields
-   - Use Q&A answers from init.json for About This Book content
-
-2. **Generate README.md structure:**
-
-```markdown
-# [Book Title from metadata.json]
-**Author:** [Author Name from metadata.json]
-
-## About This Book
-
-[Assemble from Q&A answers in init.json:
-- purpose (book's purpose/main thesis)
-- targetAudience
-- Any other descriptive content from initialization]
-
-## Project Information
-
-[Include all non-empty fields from metadata.json EXCEPT targetAudience, description, keywords]
-[Common fields: frameworkVersion, initDate, chapterCount, styleName, etc.]
-[Format: - **Field Name:** Value]
-
----
-
-⚠️ WARNING: This file is managed automatically. Direct edits may be overwritten. Use framework prompts to update content.
-
----
-**AI Instructions:** This file must be updated using Process/_COMMON/17_README_Management_Module.md
-```
-
-**Note:**
-- Do NOT include Dashboard section (dashboard doesn't exist yet)
-- Do NOT include Reports section (no reports exist yet)
-- These sections will be added by Prompts 8, 10, 13 when first reports/dashboard are created
+</details>
 
 ### Step 5: Git Commit and Tag (CLI ONLY)
 

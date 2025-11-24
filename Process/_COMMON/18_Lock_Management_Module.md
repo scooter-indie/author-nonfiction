@@ -94,7 +94,8 @@ Examples:
 
 **Operation:**
 1. Check if `.locks/` directory exists
-2. If not, create `.locks/` directory
+2. If not, create `.locks/` directory using bash: `mkdir -p .locks`
+   - **CRITICAL:** Use `mkdir -p` (bash/sh command), NOT Windows CMD syntax (`if not exist`)
 3. Check if `.locks/locks.json` exists
 4. If not, create with empty structure:
    ```json

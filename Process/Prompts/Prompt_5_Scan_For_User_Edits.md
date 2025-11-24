@@ -36,7 +36,9 @@ I will scan your project for content files that have been modified but their cor
 **Initialize Lock System:**
 
 1. Check if `.locks/` directory exists
-   - If not: Create `.locks/` directory
+   - If not: Create `.locks/` directory using bash: `mkdir -p .locks`
+   - **CRITICAL:** Use `mkdir -p` (bash/sh command), NOT Windows CMD syntax (`if not exist`)
+
 
 2. Check if `.locks/locks.json` exists
    - If not: Create with empty structure:

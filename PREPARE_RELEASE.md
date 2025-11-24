@@ -74,6 +74,25 @@ Update the version number in these files:
    - Line ~96: Token savings note
    - Line ~140: Version note in "Notes" section
 
+**Shell Scripts (Must update version headers):**
+9. `scripts/init.sh`
+   - Line ~5: `# Version: X.X.X`
+   - Line ~227: Version in banner: `Nonfiction Framework Initialization Script vX.X.X`
+
+10. `scripts/detect-tools.sh`
+   - Line ~5: `# Version: X.X.X`
+   - Line ~166: Version in banner: `Tool Detection Script vX.X.X`
+
+11. `scripts/generate-usage-guide.sh`
+   - Line ~5: `# Version: X.X.X`
+
+12. `scripts/generate-content.sh` ← NEW in v0.14.0
+   - Line ~3: `# Version: X.X.X`
+   - Line ~232: Version in banner: `Batch Content Generator vX.X.X`
+
+13. `Process/Scripts/compile-manuscript.sh`
+   - No version number currently (add if needed)
+
 **CHANGELOG.md:**
 - Add new version entry at top with today's date
 - Follow this format:
@@ -129,7 +148,7 @@ Update the version number in these files:
 Run this grep command to find any remaining old version references:
 
 ```bash
-grep -r "OLD_VERSION" --include="*.md" --include="*.json" . | grep -v ".git" | grep -v "node_modules" | grep -v "CHANGELOG.md"
+grep -r "OLD_VERSION" --include="*.md" --include="*.json" --include="*.sh" . | grep -v ".git" | grep -v "node_modules" | grep -v "CHANGELOG.md"
 ```
 
 **Note:** CHANGELOG.md will contain old versions in history - that's expected.
@@ -282,6 +301,10 @@ UPDATED:
 - .claude/commands/fw-init.md
 - Documentation/AI-Assisted_Nonfiction_Authoring_Process.md
 - CHANGELOG.md
+- scripts/init.sh
+- scripts/detect-tools.sh
+- scripts/generate-usage-guide.sh
+- scripts/generate-content.sh
 
 Prepared for vX.X.X release.
 
@@ -349,6 +372,12 @@ This list helps verify all version references are updated:
 - `system-instructions.md` - Header and footer version, token efficiency note
 - `.claude/commands/fw-init.md` - Version notes throughout ← NEW
 
+### Shell Scripts (Framework Automation)
+- `scripts/init.sh` - Header version comment and banner display
+- `scripts/detect-tools.sh` - Header version comment and banner display
+- `scripts/generate-usage-guide.sh` - Header version comment
+- `scripts/generate-content.sh` - Header version comment and banner display (NEW v0.14.0)
+
 ### Maintainer Tools (Root Level - Actively Used)
 - `PREPARE_RELEASE.md` - This file's header and footer version and date (stays at root)
 
@@ -402,7 +431,8 @@ Before creating a release, verify:
 - [ ] **system-instructions.md reviewed** for correct compatibility classifications
 - [ ] **`.nonfiction-migrations.json` verified** with correct migrations for this release
 - [ ] **Migration testing completed** if migrations are included in this release
-- [ ] All version numbers updated consistently across 8 files
+- [ ] All version numbers updated consistently across 11 files (8 docs + 3 shell scripts)
+- [ ] **Shell scripts verified** (init.sh, detect-tools.sh, generate-usage-guide.sh)
 - [ ] No uncommitted changes in repository
 - [ ] GitHub Actions workflow is functioning
 - [ ] Previous release (if any) completed successfully
@@ -431,7 +461,7 @@ If a release needs to be rolled back:
 **User:** "Prepare release 0.11.0"
 
 **Claude:**
-1. Updates version to 0.11.0 in all 8 files listed in Step 2
+1. Updates version to 0.11.0 in all 8 documentation files and 3 shell scripts listed in Step 2
 2. Updates dates to today's date
 3. **Reviews README.md** for prompt counts ("16 prompts" as of v0.12.1), download links, features
 4. **Reviews CHANGELOG.md** entry for 0.11.0 completeness
@@ -449,12 +479,12 @@ If a release needs to be rolled back:
 
 **Check current version in files:**
 ```bash
-grep -h "Version:" README.md Process/FRAMEWORK_CORE.md CLAUDE.md configure.md PREPARE_RELEASE.md system-instructions.md Documentation/AI-Assisted_Nonfiction_Authoring_Process.md | head -9
+grep -h "Version:" README.md Process/FRAMEWORK_CORE.md CLAUDE.md configure.md PREPARE_RELEASE.md system-instructions.md Documentation/AI-Assisted_Nonfiction_Authoring_Process.md scripts/*.sh | head -12
 ```
 
 **Find all version references:**
 ```bash
-grep -r "0\.10\.0" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md" | grep -v "Documentation/"
+grep -r "0\.10\.0" --include="*.md" --include="*.sh" . | grep -v ".git" | grep -v "CHANGELOG.md" | grep -v "Documentation/"
 ```
 
 **Review critical files for content:**
