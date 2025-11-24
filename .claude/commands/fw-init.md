@@ -78,6 +78,25 @@ Confirm the current working directory using context information.
 
 Report: `✓ Working directory: [PATH]`
 
+### 6. Confirm Date with User
+
+**⏸️ STOP AND ASK USER:**
+
+```
+Today's date from system: [DATE from <env>]
+
+Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
+```
+
+**WAIT for user response.**
+
+- **If user says "yes":** Store as `CONFIRMED_DATE=[DATE]`
+- **If user provides different date:** Store as `CONFIRMED_DATE=[user's date]`
+
+Report: `✓ Date confirmed: [CONFIRMED_DATE]`
+
+**IMPORTANT:** Use CONFIRMED_DATE for ALL date operations during this session (file timestamps, completion dates, etc.)
+
 ---
 
 ## Initialization Complete
@@ -96,6 +115,7 @@ Token Savings: 85-90% reduction vs v0.12.10
 Prompts Available: 16 core prompts
 Book Project: [Found/Not Found]
 Working Directory: [PATH]
+Confirmed Date: [CONFIRMED_DATE]
 
 Compatibility Classification:
   • DESKTOP-FRIENDLY (6): Prompts 2, 3, 4, 5, 6, 10
