@@ -117,6 +117,8 @@
       "16_Citation_Management_Protocol.md",
       "17_README_Management_Module.md",
       "18_Lock_Management_Module.md",
+      "19_Image_Registry_Splitting_Module.md",
+      "20_JSON_Schema_Module.md",
       "README.md"
     ],
     "Process/Templates": [

@@ -90,6 +90,8 @@ Which style? (5-6)
 
 **CRITICAL:** Use exact field names shown below. The scripts validate these exact names.
 
+**See:** `Process/_COMMON/20_JSON_Schema_Module.md` for complete schema documentation.
+
 ### `.config/init.json`
 
 **Required fields:** `title`, `author`, `style`, `chapters`, `createdDate`
