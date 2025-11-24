@@ -3,7 +3,15 @@
 **CLI-ONLY:** Requires Claude Code CLI for bulk file analysis operations
 
 **FIRST ACTION - MANDATORY:**
-Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
+I acknowledge access to anti-hallucination protocols from FRAMEWORK_CORE.md (loaded at session startup via /fw-init).
+
+**Protocols available:**
+- Anti-Hallucination: Core rules in FRAMEWORK_CORE.md, full protocol in Process/Anti-Hallucination_Guidelines.md (load on-demand)
+
+**Load full module only if:**
+- Encountering edge cases or complex scenarios
+- Need detailed troubleshooting guidance
+- Require comprehensive protocol details
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files

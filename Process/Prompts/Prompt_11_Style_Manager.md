@@ -6,8 +6,16 @@
 Desktop MCP copies large files for processing which can break down with many chapter files. For validation and scanning operations that read multiple files, CLI is more reliable.
 
 **FIRST ACTION - MANDATORY:**
-1. Read `Process/_COMMON/18_Lock_Management_Module.md`
-2. Read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding
+I acknowledge access to lock management and anti-hallucination protocols from FRAMEWORK_CORE.md (loaded at session startup via /fw-init).
+
+**Protocols available:**
+- Lock Management: Essential rules in FRAMEWORK_CORE.md, full details in Process/_COMMON/18_Lock_Management_Module.md (load on-demand)
+- Anti-Hallucination: Core rules in FRAMEWORK_CORE.md, full protocol in Process/Anti-Hallucination_Guidelines.md (load on-demand)
+
+**Load full modules only if:**
+- Encountering edge cases or complex scenarios
+- Need detailed troubleshooting guidance
+- Require comprehensive protocol details
 
 **CRITICAL ENFORCEMENT:**
 - **RULE 1:** All file modifications MUST update corresponding _chg files
