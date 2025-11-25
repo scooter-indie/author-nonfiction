@@ -75,17 +75,11 @@ Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
 bash scripts/detect-tools.sh .config/manifest.json
 ```
 
-**If in Claude Desktop:** Provide this copy block for user to paste into Claude Code CLI:
+**If in Claude Desktop:** Provide this command for user to paste into Claude Code CLI:
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ bash scripts/detect-tools.sh .config/manifest.json          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+bash scripts/detect-tools.sh .config/manifest.json
 ```
-Tell user: "Copy the command above and paste it into Claude Code CLI. Return here with the output."
+Tell user: "Copy this command and paste it into Claude Code CLI. Return here with the output."
 
 **Analyze the output:**
 - `✓ Git detected` and `✓ jq detected` → Proceed to Step 1
@@ -96,38 +90,24 @@ Tell user: "Copy the command above and paste it into Claude Code CLI. Return her
 #### Installation Instructions (only if tools are missing)
 
 **Windows:**
+
+**Git (if missing):**
+1. Download from: https://git-scm.com/download/win
+2. Run the installer, accept all defaults
+
+**jq (if missing):**
+In Claude Code CLI, run:
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ INSTALLING REQUIRED TOOLS (Windows)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ Git (if missing):                                           │
-│   1. Download from: https://git-scm.com/download/win        │
-│   2. Run the installer, accept all defaults                 │
-│                                                             │
-│ jq (if missing):                                            │
-│   In Claude Code CLI, run: winget install jqlang.jq         │
-│                                                             │
-│   Or manual download:                                       │
-│     1. Go to: https://jqlang.org/download/                  │
-│     2. Download "jq-win64.exe"                              │
-│     3. Rename to "jq.exe"                                   │
-│     4. Move to C:\Program Files\Git\usr\bin\                │
-│                                                             │
-│ After installing: Close and reopen terminals, say "done"    │
-└─────────────────────────────────────────────────────────────┘
+winget install jqlang.jq
 ```
 
-**If in Claude Desktop:** Provide copy block for winget installation:
-```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ winget install jqlang.jq                                    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+Or manual download:
+1. Go to: https://jqlang.org/download/
+2. Download "jq-win64.exe"
+3. Rename to "jq.exe"
+4. Move to C:\Program Files\Git\usr\bin\
+
+After installing: Close and reopen terminals, say "done"
 
 **macOS (in Claude Code CLI):** `brew install git jq`
 
@@ -523,15 +503,9 @@ I will:
 git init && git branch -M main
 ```
 
-**If in Claude Desktop:** Provide copy block:
+**If in Claude Desktop:** Provide this command for user to paste into Claude Code CLI:
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ git init && git branch -M main                              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+git init && git branch -M main
 ```
 Tell user: "Copy and paste into Claude Code CLI, then return with the result."
 
@@ -582,34 +556,24 @@ glab auth login
 glab repo create my-book --private
 ```
 
-**If in Claude Desktop:** Provide copy blocks:
+**If in Claude Desktop:** Provide these commands for user to paste into Claude Code CLI:
 
 For GitHub:
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI (GitHub)                       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ gh auth login                                               │
-│                                                             │
-│ Then after authentication:                                  │
-│ gh repo create my-book --private --source=. --remote=origin │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+gh auth login
+```
+Then after authentication:
+```
+gh repo create my-book --private --source=. --remote=origin
 ```
 
 For GitLab:
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI (GitLab)                       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ glab auth login                                             │
-│                                                             │
-│ Then after authentication:                                  │
-│ glab repo create my-book --private                          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+glab auth login
+```
+Then after authentication:
+```
+glab repo create my-book --private
 ```
 
 **For existing repository or "url [your-url]":**
@@ -623,17 +587,11 @@ git branch -M main
 git remote -v
 ```
 
-**If in Claude Desktop:** Provide copy block (replace [url] with actual URL):
+**If in Claude Desktop:** Provide these commands (replace [url] with actual URL):
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ git remote add origin [url]                                 │
-│ git branch -M main                                          │
-│ git remote -v                                               │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+git remote add origin [url]
+git branch -M main
+git remote -v
 ```
 
 **Note**: I will NOT push to remote. Use Prompt 12 (Git Operations) when ready.
@@ -664,15 +622,9 @@ Would you like to detect export tools now?
 bash scripts/detect-tools.sh .config/manifest.json
 ```
 
-**If in Claude Desktop:** Provide copy block:
+**If in Claude Desktop:** Provide this command:
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ bash scripts/detect-tools.sh .config/manifest.json          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+bash scripts/detect-tools.sh .config/manifest.json
 ```
 Tell user: "Copy and paste into Claude Code CLI, then return with the result."
 
@@ -754,39 +706,26 @@ See CHANGELOG.md for details.
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-**If in Claude Desktop:** Provide copy block:
+**If in Claude Desktop:** Provide these commands:
 
 **For New Installations:**
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ git add . && git commit -m "Initialize nonfiction framework │
-│ v0.13.10                                                     │
-│                                                             │
-│ 🤖 Generated with [Claude Code](https://claude.com/claude-code) │
-│                                                             │
-│ Co-Authored-By: Claude <noreply@anthropic.com>"             │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+git add . && git commit -m "Initialize nonfiction framework v0.13.10
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 **For Updates:**
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ git add . && git commit -m "Update framework to v0.13.10     │
-│                                                             │
-│ See CHANGELOG.md for details.                               │
-│                                                             │
-│ 🤖 Generated with [Claude Code](https://claude.com/claude-code) │
-│                                                             │
-│ Co-Authored-By: Claude <noreply@anthropic.com>"             │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+git add . && git commit -m "Update framework to v0.13.10
+
+See CHANGELOG.md for details.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 Tell user: "Copy and paste into Claude Code CLI to create the commit."
 
@@ -913,15 +852,9 @@ Before updating the framework, you MUST commit your work.
 git add . && git commit -m "Save work before framework update"
 ```
 
-**If in Claude Desktop:** Provide copy block:
+**If in Claude Desktop:** Provide this command:
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ COPY THIS TO CLAUDE CODE CLI                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ git add . && git commit -m "Save work before update"        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+git add . && git commit -m "Save work before update"
 ```
 
 Then run this configuration again.
