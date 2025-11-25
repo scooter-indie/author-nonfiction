@@ -2,7 +2,7 @@
 
 ################################################################################
 # Tool Detection Script
-# Version: 0.13.7
+# Version: 0.13.8
 #
 # Purpose: Detect available export tools and update .config/manifest.json
 # Usage: bash scripts/detect-tools.sh [path-to-manifest.json]
@@ -40,12 +40,33 @@ detect_git() {
 detect_jq() {
     # Try command -v first, then check Windows locations
     # Note: tr -d '\r' removes Windows carriage returns
+    local JQ_CMD=""
+
     if command -v jq &> /dev/null; then
-        JQ_VERSION=$(jq --version | sed 's/jq-//' | tr -d '\r')
-        echo -e "${GREEN}✓ jq detected${NC} (version $JQ_VERSION)"
-        return 0
+        JQ_CMD="jq"
     elif command -v jq.exe &> /dev/null; then
-        JQ_VERSION=$(jq.exe --version | sed 's/jq-//' | tr -d '\r')
+        JQ_CMD="jq.exe"
+    else
+        # Check Windows winget installation path
+        # winget installs to: %LOCALAPPDATA%\Microsoft\WinGet\Packages\jqlang.jq_*\jq.exe
+        local WINGET_JQ=""
+        if [[ -n "$LOCALAPPDATA" ]]; then
+            # Convert Windows path to Unix path for Git Bash
+            local LOCAL_APP_DATA_UNIX=$(echo "$LOCALAPPDATA" | sed 's/\\/\//g' | sed 's/C:/\/c/')
+            WINGET_JQ=$(find "$LOCAL_APP_DATA_UNIX/Microsoft/WinGet/Packages" -name "jq.exe" 2>/dev/null | head -1)
+        fi
+        # Also try common Unix-style path
+        if [[ -z "$WINGET_JQ" && -d "/c/Users/$USER/AppData/Local/Microsoft/WinGet/Packages" ]]; then
+            WINGET_JQ=$(find "/c/Users/$USER/AppData/Local/Microsoft/WinGet/Packages" -name "jq.exe" 2>/dev/null | head -1)
+        fi
+
+        if [[ -n "$WINGET_JQ" && -x "$WINGET_JQ" ]]; then
+            JQ_CMD="$WINGET_JQ"
+        fi
+    fi
+
+    if [[ -n "$JQ_CMD" ]]; then
+        JQ_VERSION=$("$JQ_CMD" --version | sed 's/jq-//' | tr -d '\r')
         echo -e "${GREEN}✓ jq detected${NC} (version $JQ_VERSION)"
         return 0
     else
@@ -235,7 +256,7 @@ display_summary() {
 
 main() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}Tool Detection Script v0.13.7${NC}"
+    echo -e "${BLUE}Tool Detection Script v0.13.8${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 

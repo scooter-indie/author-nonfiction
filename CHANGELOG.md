@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.8] - 2025-11-24
+
+### Changed
+- **configure.md simplified for Desktop/CLI interaction** - Removed complex environment detection
+  - Simple header: CLI runs commands directly, Desktop asks user to copy/paste to CLI
+  - Step 0.5 now asks user to run detect-tools.sh in Claude Code CLI and share output
+  - No more automatic environment detection that could fail
+  - Works reliably in both Claude Code CLI and Claude Desktop
+
+### Fixed
+- **detect-tools.sh winget jq detection** - Script now finds jq installed via winget on Windows
+  - winget installs to `%LOCALAPPDATA%\Microsoft\WinGet\Packages\jqlang.jq_*\jq.exe`
+  - This path is not in Git Bash's PATH by default
+  - Script now searches winget package directory for jq.exe
+  - Converts Windows paths to Unix paths for Git Bash compatibility
+
+### Technical
+- **Release Type:** PATCH (Desktop/CLI workflow improvement)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, scripts/detect-tools.sh
+
+---
+
 ## [0.13.7] - 2025-11-24
 
 ### Added

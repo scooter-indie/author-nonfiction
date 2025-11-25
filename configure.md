@@ -1,33 +1,12 @@
 # Framework Configuration
 
-**AI-Assisted Nonfiction Authoring Framework v0.13.7**
+**AI-Assisted Nonfiction Authoring Framework v0.13.8**
 
 ---
 
-## FIRST: Detect Your Environment
+**For Claude Code CLI:** Execute all bash commands directly.
 
-**How to determine if you are in Claude Code CLI or Claude Desktop:**
-
-1. **If your system instructions contain "Claude Desktop Limitations" or "MCP Filesystem connector":**
-   - You are in **Claude Desktop**
-   - Set: `ENVIRONMENT=DESKTOP`
-   - You cannot run bash commands directly - guide user to run them in CLI
-
-2. **If you have the Bash tool available (can execute shell commands):**
-   - You are in **Claude Code CLI**
-   - Set: `ENVIRONMENT=CLI`
-   - Execute all bash commands directly
-
-**Throughout this document:**
-- **[CLI]** = Only for Claude Code CLI (execute directly)
-- **[DESKTOP]** = Only for Claude Desktop (guide user to run in CLI)
-- **[BOTH]** = Applies to both environments
-
----
-
-**[CLI] CRITICAL INSTRUCTION:**
-
-**BEFORE DOING ANYTHING ELSE:** Run `pwd` to verify your actual current working directory. Ignore any environment info about working directory - use only the result from `pwd` for all subsequent operations. All file paths and operations MUST be relative to the directory returned by `pwd`.
+**For Claude Desktop:** When you see a bash command you cannot run, ask the user to copy/paste it into Claude Code CLI and share the output with you.
 
 ---
 
@@ -71,7 +50,7 @@ Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
 
 ---
 
-### Step 0.5: Check Required Tools [BOTH]
+### Step 0.5: Check Required Tools
 
 **Required tools:**
 1. **git** - Version control (required)
@@ -79,36 +58,30 @@ Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
 
 ---
 
-#### [CLI] Claude Code CLI - Run Detection Script
-
-Execute this command NOW:
+**Run the tool detection script:**
 
 ```bash
 bash scripts/detect-tools.sh .config/manifest.json
 ```
 
-**Analyze the output:**
-- `✓ Git detected` and `✓ jq detected` → Proceed to Step 1
-- `✗ Git not found` or `✗ jq not found` → Show installation instructions below, wait for user
-
----
-
-#### [DESKTOP] Claude Desktop - Ask User
+**If you cannot run bash commands directly**, ask the user:
 
 **⏸️ ASK USER:**
 ```
-I need to verify that git and jq are installed.
+I need to run the tool detection script. Please copy and paste this command into Claude Code CLI:
 
-Please open a terminal (PowerShell, Command Prompt, or Terminal) and run:
-  git --version
-  jq --version
+bash scripts/detect-tools.sh .config/manifest.json
 
-Do both commands return version numbers?
-- "yes" - Both are installed, continue
-- "no" - I'll provide installation instructions
+Then paste the output here so I can see which tools are installed.
 ```
 
-**WAIT for user response.**
+**WAIT for user to provide the output.**
+
+---
+
+**Analyze the output:**
+- `✓ Git detected` and `✓ jq detected` → Proceed to Step 1
+- `✗ Git not found` or `✗ jq not found` → Show installation instructions below, wait for user
 
 ---
 
@@ -639,8 +612,8 @@ Continue to Step 8.
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.13.7",
-  "installedVersion": "0.13.7",
+  "frameworkVersion": "0.13.8",
+  "installedVersion": "0.13.8",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -661,8 +634,8 @@ I will:
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.13.7",
-  "installedVersion": "0.13.7",
+  "frameworkVersion": "0.13.8",
+  "installedVersion": "0.13.8",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -734,7 +707,7 @@ I will provide:
 ```
 ✅ Configuration Complete!
 
-Framework v0.13.7 installed successfully.
+Framework v0.13.8 installed successfully.
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
@@ -763,7 +736,7 @@ Framework v0.13.7 installed successfully.
 ```
 ✅ Framework Updated Successfully!
 
-Updated from v[old] to v0.13.7
+Updated from v[old] to v0.13.8
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Update committed
@@ -802,7 +775,7 @@ The following required files are missing:
 This suggests the framework was not fully extracted.
 
 Solutions:
-1. Re-extract nonfiction-v0.13.7.zip to this directory
+1. Re-extract nonfiction-v0.13.8.zip to this directory
 2. Ensure all files are extracted (not just some)
 3. Check file permissions
 
@@ -889,5 +862,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.13.7*
+*Framework Version: 0.13.8*
 *Configuration Script: configure.md*
