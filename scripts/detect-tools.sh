@@ -124,10 +124,8 @@ update_manifest() {
     local typst_available=$4
 
     if [[ ! -f "$MANIFEST_FILE" ]]; then
-        echo -e "${YELLOW}⚠ Manifest file not found: $MANIFEST_FILE${NC}"
-        echo -e "${YELLOW}Run configure.md first to create the manifest.${NC}"
-        echo -e "${YELLOW}Tool detection completed but results not saved.${NC}"
-        return 1
+        # Silently return - manifest will be created by configure.md Step 3
+        return 0
     fi
 
     # Check if jq is available for JSON manipulation (try both jq and jq.exe for Windows)
@@ -277,12 +275,9 @@ main() {
 
     echo ""
 
-    # Update manifest if it exists
+    # Update manifest if it exists (silently skip if not - configure.md creates it later)
     if [[ -f "$MANIFEST_FILE" ]]; then
         update_manifest "$GIT_AVAILABLE" "$JQ_AVAILABLE" "$PANDOC_AVAILABLE" "$TYPST_AVAILABLE"
-    else
-        echo -e "${YELLOW}⚠ Manifest file not found (run configure.md first)${NC}"
-        echo -e "${YELLOW}Detection results not saved to manifest${NC}"
     fi
 
     # Display summary
