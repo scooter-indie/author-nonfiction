@@ -88,7 +88,9 @@ echo ""
                 chapter_file="${chapter_dir}${chapter_name}.md"
 
                 if [ -f "$chapter_file" ]; then
-                    cat "$chapter_file"
+                    # Strip metadata block (Status, Word Count, Last Updated lines and following ---)
+                    sed -E '/^\*\*Status:\*\*/d; /^\*\*Word Count:\*\*/d; /^\*\*Last Updated:\*\*/d' "$chapter_file" | \
+                    sed '0,/^---$/d'
                     echo ""
                     if [ "$FORMAT" != "basic" ]; then
                         echo "---"
@@ -100,7 +102,9 @@ echo ""
         elif ls Manuscript/Chapters/Chapter_*.md &> /dev/null; then
             for chapter_file in Manuscript/Chapters/Chapter_*.md; do
                 if [ -f "$chapter_file" ]; then
-                    cat "$chapter_file"
+                    # Strip metadata block (Status, Word Count, Last Updated lines and following ---)
+                    sed -E '/^\*\*Status:\*\*/d; /^\*\*Word Count:\*\*/d; /^\*\*Last Updated:\*\*/d' "$chapter_file" | \
+                    sed '0,/^---$/d'
                     echo ""
                     if [ "$FORMAT" != "basic" ]; then
                         echo "---"
