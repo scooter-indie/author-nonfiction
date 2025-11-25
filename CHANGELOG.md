@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.7] - 2025-11-24
+
+### Added
+- **Environment detection in configure.md** - Claude now detects whether it's in CLI or Desktop mode
+  - Checks for "Claude Desktop Limitations" in system instructions → Desktop mode
+  - Checks for Bash tool availability → CLI mode
+  - Uses `[CLI]`, `[DESKTOP]`, `[BOTH]` tags throughout document for clear branching
+
+### Changed
+- **Step 0.5 restructured** - Separate paths for CLI and Desktop
+  - `[CLI]` runs detect-tools.sh automatically
+  - `[DESKTOP]` asks user to run version commands manually
+  - Installation instructions shown only when tools are actually missing
+
+### Technical
+- **Release Type:** PATCH (improved environment detection)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, CHANGELOG.md
+
+---
+
 ## [0.13.6] - 2025-11-24
 
 ### Fixed
