@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.13.5] - 2025-11-24
 
 ### Fixed
-- **configure.md tool detection workflow** - Step 0.5 now runs detect-tools.sh script before showing installation instructions
-  - Claude Code CLI: Runs `bash scripts/detect-tools.sh .config/manifest.json` to check all tools
-  - Only shows installation instructions if required tools (git, jq) are actually missing
-  - Prevents unnecessary installation instructions when tools are already installed
+- **configure.md tool detection workflow** - Step 0.5 now runs detect-tools.sh script AUTOMATICALLY
+  - Removed "If in Claude Code CLI" / "If in Claude Desktop" branching that caused wrong path selection
+  - Changed to imperative "ACTION: Run the detect-tools script NOW" instruction
+  - Added "IMPORTANT: Execute this command immediately. Do NOT ask the user if tools are installed"
+  - Only shows installation instructions AFTER running script if tools are actually missing
+  - Prevents unnecessary "Do you have both git and jq installed?" questions
 
 - **detect-tools.sh jq detection** - Script now properly detects jq as a required tool
   - Added `detect_jq()` function with Windows compatibility (jq.exe)
