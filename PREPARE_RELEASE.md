@@ -47,15 +47,18 @@ Update the version number in these files:
    - Line ~533: `**Framework Version:** X.X.X`
    - Line ~534: `**Last Updated:** YYYY-MM-DD`
 
-4. `configure.md`
+4. `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` ← CRITICAL (GitHub Action verifies this)
+   - Line ~3: `**Version:** X.X.X`
+
+5. `configure.md`
    - Line ~5: `**AI-Assisted Nonfiction Authoring Framework vX.X.X**`
    - Line ~418: `*Framework Version: X.X.X*`
 
-5. `INSTALLATION.md`
+6. `INSTALLATION.md`
    - All references to `vX.X.X` or `X.X.X`
    - Download links: `nonfiction-vX.X.X.zip`
 
-6. `PREPARE_RELEASE.md` (this file) ← STAYS at root
+7. `PREPARE_RELEASE.md` (this file) ← STAYS at root
    - Line ~3: `**Current Framework Version:** X.X.X`
    - Line ~4: `**Last Updated:** YYYY-MM-DD`
    - Line ~end: `**Framework Version:** X.X.X` (footer)
@@ -63,34 +66,34 @@ Update the version number in these files:
 
    **Self-Update:** This file updates its own version numbers as part of the release process.
 
-7. `system-instructions.md`
+8. `system-instructions.md`
    - Line ~3: `**Framework Version:** X.X.X`
    - Line ~552: `**Framework Version:** X.X.X` (footer)
    - Line ~553: `**Last Updated:** YYYY-MM-DD` (footer)
 
-8. `.claude/commands/fw-init.md` ← NEW
+9. `.claude/commands/fw-init.md`
    - Line ~7: Version note in improvement message
    - Line ~95: Framework version in completion report
    - Line ~96: Token savings note
    - Line ~140: Version note in "Notes" section
 
 **Shell Scripts (Must update version headers):**
-9. `scripts/init.sh`
-   - Line ~5: `# Version: X.X.X`
-   - Line ~227: Version in banner: `Nonfiction Framework Initialization Script vX.X.X`
+10. `scripts/init.sh`
+    - Line ~5: `# Version: X.X.X`
+    - Line ~227: Version in banner: `Nonfiction Framework Initialization Script vX.X.X`
 
-10. `scripts/detect-tools.sh`
-   - Line ~5: `# Version: X.X.X`
-   - Line ~166: Version in banner: `Tool Detection Script vX.X.X`
+11. `scripts/detect-tools.sh`
+    - Line ~5: `# Version: X.X.X`
+    - Line ~166: Version in banner: `Tool Detection Script vX.X.X`
 
-11. `scripts/generate-usage-guide.sh`
-   - Line ~5: `# Version: X.X.X`
+12. `scripts/generate-usage-guide.sh`
+    - Line ~5: `# Version: X.X.X`
 
-12. `scripts/generate-content.sh` ← NEW in v0.14.0
-   - Line ~3: `# Version: X.X.X`
-   - Line ~232: Version in banner: `Batch Content Generator vX.X.X`
+13. `scripts/generate-content.sh`
+    - Line ~3: `# Version: X.X.X`
+    - Line ~232: Version in banner: `Batch Content Generator vX.X.X`
 
-13. `Process/Scripts/compile-manuscript.sh`
+14. `Process/Scripts/compile-manuscript.sh`
    - No version number currently (add if needed)
 
 **CHANGELOG.md:**
