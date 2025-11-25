@@ -94,7 +94,18 @@ Update the version number in these files:
    - No version number currently (add if needed)
 
 **CHANGELOG.md:**
-- Add new version entry at top with today's date
+
+**First, review commits since last release to identify changes:**
+```bash
+# List all commits since last release tag
+git log --oneline v0.13.11..HEAD
+
+# For more detail including file changes
+git log --stat v0.13.11..HEAD
+```
+
+**Then add new version entry at top with today's date:**
+- Summarize commits into Added/Changed/Fixed/Technical categories
 - Follow this format:
 
 ```markdown
@@ -128,8 +139,9 @@ Update the version number in these files:
 - Verify footer version and date
 
 **3B. Review CHANGELOG.md:**
+- Run `git log --oneline v[PREV_VERSION]..HEAD` to see all commits
+- Verify all commits are reflected in CHANGELOG entry
 - Verify new version entry added at top
-- Check that all major changes are documented
 - Ensure version entry format is consistent
 - Verify date is correct (YYYY-MM-DD)
 - Check that Added/Changed/Fixed/Technical sections are complete
