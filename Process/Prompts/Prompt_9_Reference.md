@@ -77,25 +77,9 @@ AUTHOR_NAME="[from .config/metadata.json: book.author]"
 
 ---
 
-## Complete PDF Commands
+## Complete PDF Command (via Typst)
 
-### Option A: Via LaTeX (best quality)
-
-```bash
-"${PANDOC_PATH}" "${DRAFT_FILE}" \
-  -o "${OUTPUT_DIR}/${BOOK_TITLE}.pdf" \
-  --pdf-engine=xelatex \
-  --toc \
-  --toc-depth=2 \
-  --template="Manuscript/Style/template.latex" \
-  --variable documentclass=book \
-  --variable geometry:margin=1in \
-  --resource-path="Manuscript"
-```
-
-### Option B: Via Typst (modern, faster)
-
-**Method 1: Pandoc → Typst → PDF**
+**Two-step process (Pandoc → Typst → PDF):**
 
 ```bash
 # Convert markdown to Typst format
@@ -108,7 +92,9 @@ AUTHOR_NAME="[from .config/metadata.json: book.author]"
   "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
 ```
 
-**Method 2: Direct Typst with Custom Template**
+**NOTE:** Do NOT use `--pdf-engine=typst` - it has font fallback issues.
+
+**Advanced: Direct Typst with Custom Template**
 
 ```bash
 cat > "${OUTPUT_DIR}/${BOOK_TITLE}.typ" <<'TYPST_EOF'
@@ -146,10 +132,6 @@ TYPST_EOF
   "${OUTPUT_DIR}/${BOOK_TITLE}.typ" \
   "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
 ```
-
-**Typst vs LaTeX:**
-- ✅ **Typst**: Faster (10-100x), simpler syntax, better error messages
-- ✅ **LaTeX**: More mature, more packages, industry standard
 
 ---
 
@@ -209,7 +191,7 @@ unzip -t "${OUTPUT_DIR}/${BOOK_TITLE}.epub"
 - Editable in Microsoft Word
 
 **PDF:**
-- Generated via [LaTeX/Typst]
+- Generated via Typst
 - Print-ready quality
 - Fixed layout
 
@@ -271,19 +253,10 @@ Generated from: Drafts/Full_Draft_[date]_v[version].md
 **Error:** `typst: command not found`
 
 **Solution:**
-1. Install: `winget install typst` / `brew install typst`
-2. Or use LaTeX instead
-
-### LaTeX Not Found
-
-**Error:** `xelatex: command not found`
-
-**Solution:**
-1. Install TeX distribution:
-   - Windows: MiKTeX or TeX Live
-   - macOS: `brew install --cask mactex`
-   - Linux: `sudo apt install texlive-full`
-2. Or use Typst instead (faster, easier)
+Install Typst:
+- Windows: `winget install Typst.Typst`
+- macOS: `brew install typst`
+- Linux: Download from https://github.com/typst/typst/releases
 
 ---
 

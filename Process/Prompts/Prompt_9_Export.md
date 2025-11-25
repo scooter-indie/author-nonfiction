@@ -11,7 +11,7 @@ Reference `Process/Prompts/Prompt_Essentials.md` (loaded once per session via /f
 
 ## Quick Start
 
-Exports manuscript to DOCX, PDF, EPUB, or LaTeX formats. Validates content, compiles source, and generates export package.
+Exports manuscript to DOCX, PDF, or EPUB formats. Validates content, compiles source, and generates export package.
 
 **Pre-Export Checklist:**
 - ✓ Run Prompt 8 (Consistency) and fixed issues
@@ -42,7 +42,7 @@ Exports manuscript to DOCX, PDF, EPUB, or LaTeX formats. Validates content, comp
 **If customizing:**
 
 2. **Target format(s)?**
-   - Markdown, DOCX, PDF, EPUB, LaTeX
+   - Markdown, DOCX, PDF, EPUB
 
 3. **Citation style?**
    - APA, MLA, Chicago, Harvard
@@ -104,22 +104,12 @@ pandoc "${DRAFT_FILE}" \
   --toc --resource-path="Manuscript"
 ```
 
-**PDF (via Typst - RECOMMENDED):**
+**PDF (via Typst):**
 ```bash
-# Two-step process (avoids pandoc template font issues)
 pandoc "${DRAFT_FILE}" -o "${OUTPUT_DIR}/${BOOK_TITLE}.typ" --toc
 typst compile "${OUTPUT_DIR}/${BOOK_TITLE}.typ" "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
 ```
-**NOTE:** Do NOT use `--pdf-engine=typst` - it has font fallback issues.
-
-**PDF (via LaTeX - alternative):**
-```bash
-pandoc "${DRAFT_FILE}" \
-  -o "${OUTPUT_DIR}/${BOOK_TITLE}.pdf" \
-  --pdf-engine=xelatex \
-  --toc --resource-path="Manuscript"
-```
-Requires xelatex (TeX Live or MiKTeX).
+**NOTE:** Do NOT use `--pdf-engine=typst` - it has font fallback issues. Use two-step process above.
 
 ---
 
@@ -189,7 +179,7 @@ cp Manuscript/images/* "${OUTPUT_DIR}/images/" 2>/dev/null || true
 **Print (PDF):**
 - High resolution, print-ready
 - Specific page layout
-- Via LaTeX or Typst
+- Via Typst (two-step process)
 
 ---
 
