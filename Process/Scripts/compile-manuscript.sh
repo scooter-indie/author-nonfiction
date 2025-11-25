@@ -78,6 +78,41 @@ echo ""
         done
     fi
 
+    # Table of Contents (generated dynamically from chapters)
+    if [ -d "Manuscript/Chapters" ]; then
+        echo "<!-- TABLE OF CONTENTS -->"
+        echo ""
+        echo "# Table of Contents"
+        echo ""
+
+        # Generate TOC from chapter headings
+        if ls Manuscript/Chapters/Chapter_*/ &> /dev/null; then
+            for chapter_dir in Manuscript/Chapters/Chapter_*/; do
+                chapter_name=$(basename "$chapter_dir")
+                chapter_file="${chapter_dir}${chapter_name}.md"
+                if [ -f "$chapter_file" ]; then
+                    # Extract first heading (# Chapter XX: Title)
+                    head -1 "$chapter_file"
+                    echo ""
+                fi
+            done
+        elif ls Manuscript/Chapters/Chapter_*.md &> /dev/null; then
+            for chapter_file in Manuscript/Chapters/Chapter_*.md; do
+                if [ -f "$chapter_file" ]; then
+                    head -1 "$chapter_file"
+                    echo ""
+                fi
+            done
+        fi
+
+        echo "---"
+        echo ""
+        if [ "$FORMAT" != "basic" ]; then
+            echo '\\newpage'
+            echo ""
+        fi
+    fi
+
     # Main Content - Chapters
     if [ -d "Manuscript/Chapters" ]; then
         echo "<!-- MAIN CONTENT -->"
