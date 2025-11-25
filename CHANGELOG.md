@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.10] - 2025-11-25
+
+### Changed
+- **configure.md dual-platform support** - Now works in both Claude Code CLI and Claude Desktop
+  - Removed CLI-only restriction from v0.13.9
+  - Added "Environment Support" section explaining both environments
+  - All CLI commands have conditional paths: CLI executes directly, Desktop gets copy blocks
+  - Copy blocks use visual box format for easy identification
+
+- **Copy block pattern for Desktop users** - Every external tool operation provides copy blocks
+  - Tool detection script (Step 0.5)
+  - Git initialization (Step 5)
+  - Remote repository setup (Step 6) for GitHub/GitLab
+  - Export tool discovery (Step 7)
+  - Git commit (Step 9) for new installs and updates
+  - Error handling: uncommitted changes warning
+
+- **No direct shell interaction** - Users never paste into bash/cmd/PowerShell
+  - All commands route through Claude Code CLI
+  - Removed "Open PowerShell and run" instructions
+  - Copy blocks explicitly state "COPY THIS TO CLAUDE CODE CLI"
+
+- **Standard package manager assumptions** - Tool installation uses platform defaults
+  - Windows: winget for jq installation
+  - macOS: brew for git/jq
+  - Linux: apt for git/jq
+
+### Technical
+- **Release Type:** PATCH (dual-platform workflow improvement)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, Implemented/Startup-Requirements.md
+- **Implements:** Startup-Requirements.md (5 requirements)
+
+---
+
 ## [0.13.9] - 2025-11-24
 
 ### Changed

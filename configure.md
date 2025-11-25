@@ -1,26 +1,22 @@
 # Framework Configuration
 
-**AI-Assisted Nonfiction Authoring Framework v0.13.9**
+**AI-Assisted Nonfiction Authoring Framework v0.13.10**
 
 ---
 
-**⚠️ IMPORTANT: This configuration requires Claude Code CLI**
+## Environment Support
 
-This script runs multiple bash commands for git, tool detection, and file operations.
+This configuration supports both **Claude Desktop** and **Claude Code CLI**.
 
-**If you are in Claude Desktop**, tell the user:
-```
-Framework configuration requires Claude Code CLI.
+**Detect your environment:**
+- **Claude Desktop:** File operations via MCP Filesystem, CLI commands via copy blocks
+- **Claude Code CLI:** Direct execution of all commands
 
-Please:
-1. Open Claude Code CLI in this project directory
-2. Say: "run configure.md"
-
-Configuration will complete automatically in CLI mode.
-```
-**STOP HERE** - Do not continue in Desktop mode.
-
-**If you are in Claude Code CLI**: Continue with the steps below.
+**How this works:**
+1. Steps 0-3 work in both environments (Q&A and verification)
+2. Steps 4+ require CLI commands → Desktop users get **copy blocks**
+3. Desktop users paste copy blocks into Claude Code CLI for execution
+4. Users are NEVER expected to paste directly into bash/cmd/PowerShell
 
 ---
 
@@ -74,9 +70,22 @@ Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
 
 **Run the tool detection script:**
 
+**If in Claude Code CLI:** Execute directly:
 ```bash
 bash scripts/detect-tools.sh .config/manifest.json
 ```
+
+**If in Claude Desktop:** Provide this copy block for user to paste into Claude Code CLI:
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ bash scripts/detect-tools.sh .config/manifest.json          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+Tell user: "Copy the command above and paste it into Claude Code CLI. Return here with the output."
 
 **Analyze the output:**
 - `✓ Git detected` and `✓ jq detected` → Proceed to Step 1
@@ -97,10 +106,9 @@ bash scripts/detect-tools.sh .config/manifest.json
 │   2. Run the installer, accept all defaults                 │
 │                                                             │
 │ jq (if missing):                                            │
-│   Option 1 - Using winget:                                  │
-│     Open PowerShell and run: winget install jqlang.jq       │
+│   In Claude Code CLI, run: winget install jqlang.jq         │
 │                                                             │
-│   Option 2 - Manual download:                               │
+│   Or manual download:                                       │
 │     1. Go to: https://jqlang.org/download/                  │
 │     2. Download "jq-win64.exe"                              │
 │     3. Rename to "jq.exe"                                   │
@@ -110,9 +118,20 @@ bash scripts/detect-tools.sh .config/manifest.json
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**macOS:** `brew install git jq`
+**If in Claude Desktop:** Provide copy block for winget installation:
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ winget install jqlang.jq                                    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
-**Linux:** `sudo apt install git jq`
+**macOS (in Claude Code CLI):** `brew install git jq`
+
+**Linux (in Claude Code CLI):** `sudo apt install git jq`
 
 **WAIT for user to say "done" before continuing.**
 
@@ -497,8 +516,24 @@ I will:
 **Note:** Git was verified in Step 0.5.
 
 - Check if `.git` directory exists
-- If not: Run `git init && git branch -M main`
-- Verify git repository is ready
+- If not: Initialize git repository
+
+**If in Claude Code CLI:** Execute directly:
+```bash
+git init && git branch -M main
+```
+
+**If in Claude Desktop:** Provide copy block:
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ git init && git branch -M main                              │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+Tell user: "Copy and paste into Claude Code CLI, then return with the result."
 
 Report: `✓ Git repository initialized`
 
@@ -533,7 +568,7 @@ Options:
 
 **For new repository:**
 
-Run these commands:
+**If in Claude Code CLI:** Execute directly:
 
 For GitHub:
 ```bash
@@ -547,11 +582,59 @@ glab auth login
 glab repo create my-book --private
 ```
 
+**If in Claude Desktop:** Provide copy blocks:
+
+For GitHub:
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI (GitHub)                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ gh auth login                                               │
+│                                                             │
+│ Then after authentication:                                  │
+│ gh repo create my-book --private --source=. --remote=origin │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+For GitLab:
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI (GitLab)                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ glab auth login                                             │
+│                                                             │
+│ Then after authentication:                                  │
+│ glab repo create my-book --private                          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
 **For existing repository or "url [your-url]":**
 1. Get the URL from user
-2. Add remote: `git remote add origin [url]`
-3. Set up tracking: `git branch -M main`
-4. Verify: `git remote -v`
+2. Add remote and verify
+
+**If in Claude Code CLI:** Execute directly:
+```bash
+git remote add origin [url]
+git branch -M main
+git remote -v
+```
+
+**If in Claude Desktop:** Provide copy block (replace [url] with actual URL):
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ git remote add origin [url]                                 │
+│ git branch -M main                                          │
+│ git remote -v                                               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **Note**: I will NOT push to remote. Use Prompt 12 (Git Operations) when ready.
 
@@ -576,10 +659,22 @@ Would you like to detect export tools now?
 
 **If user says "yes" or "detect":**
 
-Run the detection script:
+**If in Claude Code CLI:** Execute directly:
 ```bash
 bash scripts/detect-tools.sh .config/manifest.json
 ```
+
+**If in Claude Desktop:** Provide copy block:
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ bash scripts/detect-tools.sh .config/manifest.json          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+Tell user: "Copy and paste into Claude Code CLI, then return with the result."
 
 The script will confirm git (already verified) and check for pandoc/typst availability.
 
@@ -597,8 +692,8 @@ Continue to Step 8.
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.13.9",
-  "installedVersion": "0.13.9",
+  "frameworkVersion": "0.13.10",
+  "installedVersion": "0.13.10",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -619,8 +714,8 @@ I will:
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.13.9",
-  "installedVersion": "0.13.9",
+  "frameworkVersion": "0.13.10",
+  "installedVersion": "0.13.10",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -637,9 +732,11 @@ I will:
 
 **Note:** Git repository was initialized in Step 5. Now we create the initial commit.
 
+**If in Claude Code CLI:** Execute directly:
+
 **For New Installations:**
 ```bash
-git add . && git commit -m "Initialize nonfiction framework v0.13.9
+git add . && git commit -m "Initialize nonfiction framework v0.13.10
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -648,7 +745,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 **For Updates:**
 ```bash
-git add . && git commit -m "Update framework to v0.13.9
+git add . && git commit -m "Update framework to v0.13.10
 
 See CHANGELOG.md for details.
 
@@ -656,6 +753,42 @@ See CHANGELOG.md for details.
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
+
+**If in Claude Desktop:** Provide copy block:
+
+**For New Installations:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ git add . && git commit -m "Initialize nonfiction framework │
+│ v0.13.10                                                     │
+│                                                             │
+│ 🤖 Generated with [Claude Code](https://claude.com/claude-code) │
+│                                                             │
+│ Co-Authored-By: Claude <noreply@anthropic.com>"             │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**For Updates:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ git add . && git commit -m "Update framework to v0.13.10     │
+│                                                             │
+│ See CHANGELOG.md for details.                               │
+│                                                             │
+│ 🤖 Generated with [Claude Code](https://claude.com/claude-code) │
+│                                                             │
+│ Co-Authored-By: Claude <noreply@anthropic.com>"             │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+Tell user: "Copy and paste into Claude Code CLI to create the commit."
 
 ### Step 10: Verify Book Writing Assistant
 
@@ -672,7 +805,7 @@ I will provide:
 ```
 ✅ Configuration Complete!
 
-Framework v0.13.9 installed successfully.
+Framework v0.13.10 installed successfully.
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
@@ -701,7 +834,7 @@ Framework v0.13.9 installed successfully.
 ```
 ✅ Framework Updated Successfully!
 
-Updated from v[old] to v0.13.9
+Updated from v[old] to v0.13.10
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Update committed
@@ -740,7 +873,7 @@ The following required files are missing:
 This suggests the framework was not fully extracted.
 
 Solutions:
-1. Re-extract nonfiction-v0.13.9.zip to this directory
+1. Re-extract nonfiction-v0.13.10.zip to this directory
 2. Ensure all files are extracted (not just some)
 3. Check file permissions
 
@@ -773,12 +906,25 @@ You have uncommitted changes in your repository:
 [show git status output]
 
 Before updating the framework, you MUST commit your work.
+```
 
-Open Claude Code CLI and run:
-  git add . && git commit -m "Save work before framework update"
+**If in Claude Code CLI:** Execute directly:
+```bash
+git add . && git commit -m "Save work before framework update"
+```
+
+**If in Claude Desktop:** Provide copy block:
+```
+┌─────────────────────────────────────────────────────────────┐
+│ COPY THIS TO CLAUDE CODE CLI                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ git add . && git commit -m "Save work before update"        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 Then run this configuration again.
-```
 
 ### Remote Connection Failed
 
@@ -827,5 +973,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.13.9*
+*Framework Version: 0.13.10*
 *Configuration Script: configure.md*
