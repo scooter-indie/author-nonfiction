@@ -12,6 +12,9 @@ VERSION="${1}"
 DATE="${2}"
 FORMAT="${3:-formatted}"
 
+# Strip leading "v" from version if present (prevents vv1.0.0)
+VERSION="${VERSION#v}"
+
 if [ -z "$VERSION" ] || [ -z "$DATE" ]; then
     echo "Error: VERSION and DATE are required"
     echo "Usage: compile-manuscript.sh VERSION DATE [FORMAT]"

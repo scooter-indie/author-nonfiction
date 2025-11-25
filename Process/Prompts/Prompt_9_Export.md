@@ -104,19 +104,22 @@ pandoc "${DRAFT_FILE}" \
   --toc --resource-path="Manuscript"
 ```
 
-**PDF (via LaTeX):**
+**PDF (via Typst - RECOMMENDED):**
+```bash
+# Two-step process (avoids pandoc template font issues)
+pandoc "${DRAFT_FILE}" -o "${OUTPUT_DIR}/${BOOK_TITLE}.typ" --toc
+typst compile "${OUTPUT_DIR}/${BOOK_TITLE}.typ" "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
+```
+**NOTE:** Do NOT use `--pdf-engine=typst` - it has font fallback issues.
+
+**PDF (via LaTeX - alternative):**
 ```bash
 pandoc "${DRAFT_FILE}" \
   -o "${OUTPUT_DIR}/${BOOK_TITLE}.pdf" \
   --pdf-engine=xelatex \
   --toc --resource-path="Manuscript"
 ```
-
-**PDF (via Typst):**
-```bash
-pandoc "${DRAFT_FILE}" -o "${OUTPUT_DIR}/${BOOK_TITLE}.typ"
-typst compile "${OUTPUT_DIR}/${BOOK_TITLE}.typ" "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
-```
+Requires xelatex (TeX Live or MiKTeX).
 
 ---
 
