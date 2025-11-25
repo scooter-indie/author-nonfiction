@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.9] - 2025-11-24
+
+### Changed
+- **configure.md requires Claude Code CLI** - Removed hybrid Desktop/CLI approach
+  - configure.md now explicitly requires CLI mode (has multiple bash operations)
+  - Desktop users are told to open Claude Code CLI at the start
+  - Removed redundant "If in Claude Desktop" branching throughout
+  - Cleaner, simpler document that works reliably in CLI
+
+### Technical
+- **Release Type:** PATCH (workflow simplification)
+- **Breaking Change:** No
+- **Files Updated:** configure.md
+
+---
+
 ## [0.13.8] - 2025-11-24
 
 ### Changed
