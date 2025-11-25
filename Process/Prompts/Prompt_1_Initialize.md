@@ -72,13 +72,17 @@ See: Prompt_Essentials.md → Lock Management
 
 ## Step 3: Create Config Files
 
-**Create `.config/` directory and 5 files:**
+**Prerequisite:** `.config/manifest.json` must exist (created by configure.md).
+If it doesn't exist, tell user: "Please run configure.md first to set up the framework."
+
+**Create 4 files in `.config/`:**
 
 **1. `.config/init.json`** - Q&A answers
 **2. `.config/project.json`** - Project settings
 **3. `.config/metadata.json`** - Book metadata
-**4. `.config/manifest.json`** - Framework tracking
-**5. `.config/migrations.json`** - Copy from template
+**4. `.config/migrations.json`** - Copy from template
+
+**Note:** manifest.json already exists from configure.md - do not overwrite it.
 
 ---
 
@@ -195,7 +199,8 @@ Options:
 ## Files Created
 
 **Configuration (`.config/`):**
-- init.json, project.json, metadata.json, manifest.json, migrations.json
+- init.json, project.json, metadata.json, migrations.json
+- (manifest.json already exists from configure.md)
 
 **Manuscript Structure:**
 - Chapters/, FrontMatter/, BackMatter/, Style/

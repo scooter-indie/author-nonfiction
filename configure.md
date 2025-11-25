@@ -130,36 +130,42 @@ I will:
 
 ### Step 2: Check Framework Installation
 
-I will verify these files exist:
-- `.config/manifest.json` (or legacy `.nonfiction-manifest.json`)
+I will verify these framework files exist:
 - `Process/` directory
 - `.claude/agents/book-writing-assistant.md`
 - `INSTALLATION.md`
 - `CLAUDE.md`
 - `system-instructions.md`
 - `.gitignore`
+- `Process/Templates/.config/manifest.json` (template for creating user manifest)
 
 If any are missing, I'll report the issue and stop.
+
+**Note:** `.config/manifest.json` is NOT checked here - it will be created in Step 3.
 
 ### Step 3: Detect Installation Type and Create/Update Manifest
 
 I will:
-1. Check if `.config/manifest.json` exists in project
+1. **Create `.config/` directory if it doesn't exist:**
+   ```bash
+   mkdir -p .config
+   ```
+2. Check if `.config/manifest.json` exists in project
    - If not, check for legacy `.nonfiction-manifest.json` in root
-2. **If manifest does NOT exist:**
+3. **If manifest does NOT exist:**
    - Read `Process/Templates/.config/manifest.json`
    - Create `.config/manifest.json` from template
    - This is a **New Installation**
-3. **If manifest DOES exist:**
+4. **If manifest DOES exist:**
    - Read existing `.config/manifest.json` (or migrate from `.nonfiction-manifest.json`)
    - Preserve `installedVersion` and `installedDate` (installation history)
    - Update only `frameworkVersion` and `releaseDate` from template
    - Add current update to `updateHistory` array
    - This is an **Update Installation**
-4. **If migrating from v0.12.0 or earlier:**
+5. **If migrating from v0.12.0 or earlier:**
    - Move `.nonfiction-manifest.json` → `.config/manifest.json`
    - Update structure to match new template
-5. Proceed with appropriate workflow
+6. Proceed with appropriate workflow
 
 **Manifest Structure:**
 ```json

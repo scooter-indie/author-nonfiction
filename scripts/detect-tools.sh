@@ -124,8 +124,9 @@ update_manifest() {
     local typst_available=$4
 
     if [[ ! -f "$MANIFEST_FILE" ]]; then
-        echo -e "${RED}✗ Manifest file not found: $MANIFEST_FILE${NC}"
-        echo -e "${YELLOW}Run this script after Prompt 1 initialization${NC}"
+        echo -e "${YELLOW}⚠ Manifest file not found: $MANIFEST_FILE${NC}"
+        echo -e "${YELLOW}Run configure.md first to create the manifest.${NC}"
+        echo -e "${YELLOW}Tool detection completed but results not saved.${NC}"
         return 1
     fi
 
@@ -280,7 +281,7 @@ main() {
     if [[ -f "$MANIFEST_FILE" ]]; then
         update_manifest "$GIT_AVAILABLE" "$JQ_AVAILABLE" "$PANDOC_AVAILABLE" "$TYPST_AVAILABLE"
     else
-        echo -e "${YELLOW}⚠ Manifest file not found (run after Prompt 1)${NC}"
+        echo -e "${YELLOW}⚠ Manifest file not found (run configure.md first)${NC}"
         echo -e "${YELLOW}Detection results not saved to manifest${NC}"
     fi
 
