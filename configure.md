@@ -2,7 +2,7 @@
 
 **HYBRID:** Start in Claude Desktop, switch to Claude Code CLI for commands
 
-**AI-Assisted Nonfiction Authoring Framework v0.13.4**
+**AI-Assisted Nonfiction Authoring Framework v0.13.5**
 
 **Claude Desktop users:**
 - ✅ File verification and creation via MCP Filesystem
@@ -71,11 +71,26 @@ Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
 
 **If in Claude Code CLI:**
 
-Run these checks directly:
+Run the detect-tools script to check for required and optional tools:
 ```bash
-git --version
-jq --version
+bash scripts/detect-tools.sh .config/manifest.json
 ```
+
+**Analyze the output:**
+- If git is missing: **STOP** - git is required, show installation instructions below
+- If jq is missing: **STOP** - jq is required, show installation instructions below
+- If pandoc/typst are missing: Note for later (optional, needed for Prompt 9 exports)
+
+**Only if git or jq is missing**, show installation instructions and wait for user:
+
+**⏸️ STOP AND ASK USER:**
+```
+Required tool(s) missing: [list missing tools]
+
+Please install the missing tool(s) using the instructions above, then say "done" to continue.
+```
+
+**WAIT for user response before continuing.**
 
 ---
 
@@ -94,8 +109,11 @@ Do you have both git and jq installed?
 
 **If user says "no" or "not sure":**
 
-Provide these **Windows-friendly instructions**:
+---
 
+**Installation Instructions (shown only if tools are missing):**
+
+**Windows:**
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ INSTALLING REQUIRED TOOLS (Windows)                         │
@@ -121,18 +139,18 @@ Provide these **Windows-friendly instructions**:
 │   3. Rename it to "jq.exe"                                  │
 │   4. Move it to C:\Program Files\Git\usr\bin\               │
 │                                                             │
-│ AFTER INSTALLING BOTH:                                      │
+│ AFTER INSTALLING:                                           │
 │   Close and reopen any terminals, then say "done"           │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**For macOS users:**
+**macOS:**
 ```
 brew install git jq
 ```
 
-**For Linux users:**
+**Linux:**
 ```
 sudo apt install git jq
 ```
@@ -630,8 +648,8 @@ Continue to Step 8.
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.13.4",
-  "installedVersion": "0.13.4",
+  "frameworkVersion": "0.13.5",
+  "installedVersion": "0.13.5",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -652,8 +670,8 @@ I will:
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.13.4",
-  "installedVersion": "0.13.4",
+  "frameworkVersion": "0.13.5",
+  "installedVersion": "0.13.5",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -725,7 +743,7 @@ I will provide:
 ```
 ✅ Configuration Complete!
 
-Framework v0.13.4 installed successfully.
+Framework v0.13.5 installed successfully.
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
@@ -754,7 +772,7 @@ Framework v0.13.4 installed successfully.
 ```
 ✅ Framework Updated Successfully!
 
-Updated from v[old] to v0.13.4
+Updated from v[old] to v0.13.5
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Update committed
@@ -793,7 +811,7 @@ The following required files are missing:
 This suggests the framework was not fully extracted.
 
 Solutions:
-1. Re-extract nonfiction-v0.13.4.zip to this directory
+1. Re-extract nonfiction-v0.13.5.zip to this directory
 2. Ensure all files are extracted (not just some)
 3. Check file permissions
 
@@ -880,5 +898,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.13.4*
+*Framework Version: 0.13.5*
 *Configuration Script: configure.md*

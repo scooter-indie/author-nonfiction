@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.5] - 2025-11-24
+
+### Fixed
+- **configure.md tool detection workflow** - Step 0.5 now runs detect-tools.sh script before showing installation instructions
+  - Claude Code CLI: Runs `bash scripts/detect-tools.sh .config/manifest.json` to check all tools
+  - Only shows installation instructions if required tools (git, jq) are actually missing
+  - Prevents unnecessary installation instructions when tools are already installed
+
+- **detect-tools.sh jq detection** - Script now properly detects jq as a required tool
+  - Added `detect_jq()` function with Windows compatibility (jq.exe)
+  - Separates "Required tools" (git, jq) from "Optional tools" (pandoc, typst) in output
+  - Shows red warning with installation instructions only for missing required tools
+  - Updates manifest with jq availability status
+
+### Technical
+- **Release Type:** PATCH (bug fix for tool detection workflow)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, scripts/detect-tools.sh
+
+---
+
 ## [0.13.4] - 2025-11-24
 
 ### Fixed

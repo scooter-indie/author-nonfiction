@@ -2,7 +2,7 @@
 
 ################################################################################
 # Tool Detection Script
-# Version: 0.13.4
+# Version: 0.13.5
 #
 # Purpose: Detect available export tools and update .config/manifest.json
 # Usage: bash scripts/detect-tools.sh [path-to-manifest.json]
@@ -32,7 +32,24 @@ detect_git() {
         echo -e "${GREEN}✓ Git detected${NC} (version $GIT_VERSION)"
         return 0
     else
-        echo -e "${RED}✗ Git not found${NC}"
+        echo -e "${RED}✗ Git not found${NC} (required)"
+        return 1
+    fi
+}
+
+detect_jq() {
+    # Try command -v first, then check Windows locations
+    # Note: tr -d '\r' removes Windows carriage returns
+    if command -v jq &> /dev/null; then
+        JQ_VERSION=$(jq --version | sed 's/jq-//' | tr -d '\r')
+        echo -e "${GREEN}✓ jq detected${NC} (version $JQ_VERSION)"
+        return 0
+    elif command -v jq.exe &> /dev/null; then
+        JQ_VERSION=$(jq.exe --version | sed 's/jq-//' | tr -d '\r')
+        echo -e "${GREEN}✓ jq detected${NC} (version $JQ_VERSION)"
+        return 0
+    else
+        echo -e "${RED}✗ jq not found${NC} (required)"
         return 1
     fi
 }
@@ -81,8 +98,9 @@ detect_typst() {
 
 update_manifest() {
     local git_available=$1
-    local pandoc_available=$2
-    local typst_available=$3
+    local jq_available=$2
+    local pandoc_available=$3
+    local typst_available=$4
 
     if [[ ! -f "$MANIFEST_FILE" ]]; then
         echo -e "${RED}✗ Manifest file not found: $MANIFEST_FILE${NC}"
@@ -101,7 +119,7 @@ update_manifest() {
     if [[ -n "$JQ_CMD" ]]; then
         # Use jq for clean JSON updates
         local temp_file=$(mktemp)
-        $JQ_CMD ".toolsAvailable.git = $git_available | .toolsAvailable.pandoc = $pandoc_available | .toolsAvailable.typst = $typst_available | .lastUpdated = \"$(date -I)\"" "$MANIFEST_FILE" > "$temp_file"
+        $JQ_CMD ".toolsAvailable.git = $git_available | .toolsAvailable.jq = $jq_available | .toolsAvailable.pandoc = $pandoc_available | .toolsAvailable.typst = $typst_available | .lastUpdated = \"$(date -I)\"" "$MANIFEST_FILE" > "$temp_file"
         mv "$temp_file" "$MANIFEST_FILE"
         echo -e "${GREEN}✓ Updated $MANIFEST_FILE${NC}"
     else
@@ -109,6 +127,7 @@ update_manifest() {
         echo -e "${YELLOW}⚠ jq not available, using sed for updates${NC}"
 
         sed -i "s/\"git\": [^,]*/\"git\": $git_available/" "$MANIFEST_FILE"
+        sed -i "s/\"jq\": [^,]*/\"jq\": $jq_available/" "$MANIFEST_FILE"
         sed -i "s/\"pandoc\": [^,]*/\"pandoc\": $pandoc_available/" "$MANIFEST_FILE"
         sed -i "s/\"typst\": [^,]*/\"typst\": $typst_available/" "$MANIFEST_FILE"
         sed -i "s/\"lastUpdated\": \"[^\"]*\"/\"lastUpdated\": \"$(date -I)\"/" "$MANIFEST_FILE"
@@ -123,8 +142,9 @@ update_manifest() {
 
 display_summary() {
     local git_available=$1
-    local pandoc_available=$2
-    local typst_available=$3
+    local jq_available=$2
+    local pandoc_available=$3
+    local typst_available=$4
 
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -132,13 +152,21 @@ display_summary() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
-    echo "Available tools:"
+    echo "Required tools:"
     if [[ $git_available == "true" ]]; then
         echo -e "  ${GREEN}✓${NC} Git - Version control (required)"
     else
         echo -e "  ${RED}✗${NC} Git - Version control (required)"
     fi
 
+    if [[ $jq_available == "true" ]]; then
+        echo -e "  ${GREEN}✓${NC} jq - JSON processing (required)"
+    else
+        echo -e "  ${RED}✗${NC} jq - JSON processing (required)"
+    fi
+
+    echo ""
+    echo "Optional tools:"
     if [[ $pandoc_available == "true" ]]; then
         echo -e "  ${GREEN}✓${NC} Pandoc - DOCX/PDF/EPUB export (Prompt 9)"
     else
@@ -153,9 +181,31 @@ display_summary() {
 
     echo ""
 
-    # Installation instructions for missing tools
+    # Installation instructions for missing required tools
+    if [[ $git_available == "false" ]] || [[ $jq_available == "false" ]]; then
+        echo -e "${RED}⚠ REQUIRED TOOLS MISSING - Install before continuing:${NC}"
+        echo ""
+
+        if [[ $git_available == "false" ]]; then
+            echo "  Git: https://git-scm.com/"
+            echo "  - Windows: winget install Git.Git (or https://git-scm.com/download/win)"
+            echo "  - macOS: brew install git"
+            echo "  - Linux: sudo apt install git"
+            echo ""
+        fi
+
+        if [[ $jq_available == "false" ]]; then
+            echo "  jq: https://jqlang.org/download/"
+            echo "  - Windows: winget install jqlang.jq"
+            echo "  - macOS: brew install jq"
+            echo "  - Linux: sudo apt install jq"
+            echo ""
+        fi
+    fi
+
+    # Installation instructions for missing optional tools
     if [[ $pandoc_available == "false" ]] || [[ $typst_available == "false" ]]; then
-        echo -e "${YELLOW}Installation instructions:${NC}"
+        echo -e "${YELLOW}Optional tools (for Prompt 9 exports):${NC}"
         echo ""
 
         if [[ $pandoc_available == "false" ]]; then
@@ -173,10 +223,9 @@ display_summary() {
             echo "  - Linux: Download from releases"
             echo ""
         fi
-
-        echo -e "${BLUE}After installing, run this script again to update detection.${NC}"
     fi
 
+    echo -e "${BLUE}After installing tools, run this script again to update detection.${NC}"
     echo ""
 }
 
@@ -186,7 +235,7 @@ display_summary() {
 
 main() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}Tool Detection Script v0.13.4${NC}"
+    echo -e "${BLUE}Tool Detection Script v0.13.5${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
@@ -196,8 +245,11 @@ main() {
     echo "Detecting available tools..."
     echo ""
 
-    # Detect tools
+    # Detect required tools
     detect_git && GIT_AVAILABLE="true" || GIT_AVAILABLE="false"
+    detect_jq && JQ_AVAILABLE="true" || JQ_AVAILABLE="false"
+
+    # Detect optional tools
     detect_pandoc && PANDOC_AVAILABLE="true" || PANDOC_AVAILABLE="false"
     detect_typst && TYPST_AVAILABLE="true" || TYPST_AVAILABLE="false"
 
@@ -205,14 +257,14 @@ main() {
 
     # Update manifest if it exists
     if [[ -f "$MANIFEST_FILE" ]]; then
-        update_manifest "$GIT_AVAILABLE" "$PANDOC_AVAILABLE" "$TYPST_AVAILABLE"
+        update_manifest "$GIT_AVAILABLE" "$JQ_AVAILABLE" "$PANDOC_AVAILABLE" "$TYPST_AVAILABLE"
     else
         echo -e "${YELLOW}⚠ Manifest file not found (run after Prompt 1)${NC}"
         echo -e "${YELLOW}Detection results not saved to manifest${NC}"
     fi
 
     # Display summary
-    display_summary "$GIT_AVAILABLE" "$PANDOC_AVAILABLE" "$TYPST_AVAILABLE"
+    display_summary "$GIT_AVAILABLE" "$JQ_AVAILABLE" "$PANDOC_AVAILABLE" "$TYPST_AVAILABLE"
 }
 
 # Run main function
