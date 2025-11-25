@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.12] - 2025-11-25
+
+### Changed
+- **PDF export simplified to Typst-only** - Removed LaTeX option from Prompt 9
+  - Two-step process: pandoc→typ, then typst compile
+  - Avoids `--pdf-engine=typst` font fallback errors
+  - Cleaner, more reliable PDF generation
+
+- **DOCX export improved** - Better page breaks and user guidance
+  - Changed `---` to `\newpage` for proper page breaks in Word
+  - Added note about "Update fields?" dialog (user can click No)
+
+- **Style selection presentation** - Consistent two-step format in Prompt 1 Question 9
+  - Step 1: Category selection (numbered 1-5)
+  - Step 2: Style selection (numbered 1-N within category)
+  - Fixed inconsistent formatting between Prompt_1_Initialize.md and Prompt_1_Reference.md
+
+### Added
+- **PREPARE_RELEASE.md git log instructions** - Added workflow for CHANGELOG generation
+  - `git log --oneline <last-tag>..HEAD` to review commits
+  - `git log --stat <last-tag>..HEAD` for detailed file changes
+  - Helps identify all changes for release notes
+
+- **/fw-init reminder after Prompt 1** - Session Cleanup now reminds users to run `/fw-init`
+  - Critical for loading new project context after initialization
+  - Prevents users from attempting to execute prompts without framework loaded
+
+### Fixed
+- **Compile script metadata leak** - Chapter metadata no longer appears in compiled output
+  - Status, Word Count, Last Updated lines are now stripped
+  - Clean manuscript compilation for export
+
+- **Version string double-v bug** - Fixed `vv1.0.0` appearing in filenames
+  - Added `VERSION="${VERSION#v}"` to strip leading "v" if present
+  - Affects compile-manuscript.sh output filenames
+
+- **detect-tools.sh silent skip** - No longer silently skips when manifest missing
+  - Now returns cleanly, manifest created by configure.md Step 3
+
+### Technical
+- **Release Type:** PATCH (bug fixes, workflow improvements)
+- **Breaking Change:** No
+- **Files Updated:** Prompt_1_Initialize.md, Prompt_1_Reference.md, Prompt_9_Export.md, Prompt_9_Reference.md, compile-manuscript.sh, PREPARE_RELEASE.md, detect-tools.sh
+
+---
+
 ## [0.13.11] - 2025-11-25
 
 ### Changed

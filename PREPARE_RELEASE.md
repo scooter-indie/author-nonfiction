@@ -1,6 +1,6 @@
 # Prepare Release
 
-**Current Framework Version:** 0.13.11
+**Current Framework Version:** 0.13.12
 **Last Updated:** 2025-11-25
 
 ---
@@ -98,10 +98,10 @@ Update the version number in these files:
 **First, review commits since last release to identify changes:**
 ```bash
 # List all commits since last release tag
-git log --oneline v0.13.11..HEAD
+git log --oneline v0.13.12..HEAD
 
 # For more detail including file changes
-git log --stat v0.13.11..HEAD
+git log --stat v0.13.12..HEAD
 ```
 
 **Then add new version entry at top with today's date:**
@@ -525,7 +525,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.13.11
+**Framework Version:** 0.13.12
 **Last Updated:** 2025-11-25
 
 *This file is for framework maintainers only - not included in release packages*
