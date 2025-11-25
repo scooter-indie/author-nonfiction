@@ -103,6 +103,7 @@ pandoc "${DRAFT_FILE}" \
   --reference-doc="Manuscript/Style/reference.docx" \
   --toc --resource-path="Manuscript"
 ```
+**NOTE:** Word may ask "update fields?" when opening - click No (TOC is already generated).
 
 **PDF (via Typst):**
 ```bash

@@ -71,7 +71,7 @@ echo ""
                 cat "$file"
                 echo ""
                 if [ "$FORMAT" != "basic" ]; then
-                    echo "---"
+                    echo '\\newpage'
                     echo ""
                 fi
             fi
@@ -96,7 +96,8 @@ echo ""
                     sed '0,/^---$/d'
                     echo ""
                     if [ "$FORMAT" != "basic" ]; then
-                        echo "---"
+                        # Use \newpage for page breaks (works in DOCX/PDF)
+                        echo '\\newpage'
                         echo ""
                     fi
                 fi
@@ -110,7 +111,8 @@ echo ""
                     sed '0,/^---$/d'
                     echo ""
                     if [ "$FORMAT" != "basic" ]; then
-                        echo "---"
+                        # Use \newpage for page breaks (works in DOCX/PDF)
+                        echo '\\newpage'
                         echo ""
                     fi
                 fi
@@ -130,7 +132,7 @@ echo ""
                 cat "$file"
                 echo ""
                 if [ "$FORMAT" != "basic" ]; then
-                    echo "---"
+                    echo '\\newpage'
                     echo ""
                 fi
             fi
