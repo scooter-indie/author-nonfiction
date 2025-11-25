@@ -243,4 +243,6 @@ Options:
 
 Tell user: "✓ Prompt 1 Initialize complete.
 
+**IMPORTANT:** Run `/fw-init` now to load your new project context.
+
 To free up tokens, say: **'Clear Prompt 1 from context'**"
