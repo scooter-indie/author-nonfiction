@@ -2,7 +2,7 @@
 
 **HYBRID:** Start in Claude Desktop, switch to Claude Code CLI for commands
 
-**AI-Assisted Nonfiction Authoring Framework v0.13.5**
+**AI-Assisted Nonfiction Authoring Framework v0.13.6**
 
 **Claude Desktop users:**
 - ✅ File verification and creation via MCP Filesystem
@@ -620,8 +620,8 @@ Continue to Step 8.
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.13.5",
-  "installedVersion": "0.13.5",
+  "frameworkVersion": "0.13.6",
+  "installedVersion": "0.13.6",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -642,8 +642,8 @@ I will:
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.13.5",
-  "installedVersion": "0.13.5",
+  "frameworkVersion": "0.13.6",
+  "installedVersion": "0.13.6",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -715,7 +715,7 @@ I will provide:
 ```
 ✅ Configuration Complete!
 
-Framework v0.13.5 installed successfully.
+Framework v0.13.6 installed successfully.
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
@@ -744,7 +744,7 @@ Framework v0.13.5 installed successfully.
 ```
 ✅ Framework Updated Successfully!
 
-Updated from v[old] to v0.13.5
+Updated from v[old] to v0.13.6
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Update committed
@@ -783,7 +783,7 @@ The following required files are missing:
 This suggests the framework was not fully extracted.
 
 Solutions:
-1. Re-extract nonfiction-v0.13.5.zip to this directory
+1. Re-extract nonfiction-v0.13.6.zip to this directory
 2. Ensure all files are extracted (not just some)
 3. Check file permissions
 
@@ -870,5 +870,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.13.5*
+*Framework Version: 0.13.6*
 *Configuration Script: configure.md*

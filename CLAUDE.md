@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.13.5
+**Framework Version:** 0.13.6
 **Session Context Document for Claude Code**
 
 ---
@@ -643,12 +643,12 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
-**Framework Version:** 0.13.5
+**Framework Version:** 0.13.6
 **Last Updated:** 2025-11-24
 **Performance:** 85-90% faster session startup with on-demand loading
 
 ---
 
 *This document ensures Claude Code has full framework context at session startup*
-*v0.13.5: Lightweight instant-load strategy with on-demand documentation loading*
+*v0.13.6: Lightweight instant-load strategy with on-demand documentation loading*
 *Session startup now loads ~3,000 tokens instead of 27,000+ tokens*

@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.6] - 2025-11-24
+
+### Fixed
+- **configure.md Step 0.5 imperative instruction** - Strengthened language to ensure detect-tools script runs automatically
+  - Previous v0.13.5 fix still allowed Claude to skip to asking users
+  - Now uses "ACTION: Run the detect-tools script NOW" with explicit "Do NOT ask the user" instruction
+
+### Technical
+- **Release Type:** PATCH (refinement of v0.13.5 fix)
+- **Breaking Change:** No
+- **Files Updated:** configure.md
+
+---
+
 ## [0.13.5] - 2025-11-24
 
 ### Fixed
