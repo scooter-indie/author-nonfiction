@@ -50,39 +50,79 @@ That date is in the past. Please provide a future date (after [CONFIRMED_DATE]).
 **Q8:** How many chapters and what are their topics/titles?
 > "8 chapters: Introduction, History of Remote Work, Technology Requirements, Management Strategies, Employee Well-being, Legal Considerations, Case Studies, Future Trends"
 
-**Q9:** Writing style selection - which category?
+**Q9:** Writing style selection - two-step process:
 
+**Step A - Show categories:**
 ```
-I've loaded 19 writing styles in 5 categories:
+5 style categories available:
 
 1. Academic & Research (4 styles)
 2. Business & Professional (2 styles)
 3. Narrative & Storytelling (4 styles)
-4. Personal Development & How-To (3 styles)
+4. Personal Development (3 styles)
 5. Cultural & Social Commentary (6 styles)
 
-Which category best fits? (1-5, or 'browse all')
+Which category? (1-5, or "all" to see everything)
 ```
 
 > "2"
 
+**Step B - Show styles in selected category:**
 ```
-Business & Professional styles:
+Business & Professional:
 
+1. Business Professional
+   Management/leadership, data-driven
+
+2. Conversational Expert
+   Accessible expertise, friendly tone
+
+Which style? (1-2)
+```
+
+> "2 - Conversational Expert"
+
+**Alternative - If user says "all":**
+```
+All 19 styles:
+
+ACADEMIC & RESEARCH:
+1. Academic Authority
+2. Scientific Communicator
+3. Technical Precision
+4. Medical/Health Narrative
+
+BUSINESS & PROFESSIONAL:
 5. Business Professional
-   - Management/leadership focused
-   - Data-driven arguments
-   - Professional tone
-
 6. Conversational Expert
-   - Accessible business writing
-   - Friendly but authoritative
-   - Practical examples
 
-Which style? (5-6)
+NARRATIVE & STORYTELLING:
+7. Narrative Storyteller
+8. Historical Chronicler
+9. Investigative Journalist
+10. Confessional Memoir
+
+PERSONAL DEVELOPMENT:
+11. Practical Guide
+12. Inspirational Teacher
+13. Philosophical Contemplative
+
+CULTURAL & SOCIAL:
+14. Cultural Critic
+15. Satirical Humorist
+16. Activist Advocate
+17. Lyrical Nature Writer
+18. Spiritual/Religious Writer
+19. Sports Writer
+
+Which style? (1-19)
 ```
 
-> "6 - Conversational Expert"
+**Formatting Notes:**
+- Use numbered list (1-19) for consistent presentation
+- Keep descriptions short (one line max)
+- Use ALL CAPS for category headers
+- Leave blank line between categories
 
 ---
 

@@ -66,7 +66,21 @@ See: Prompt_Essentials.md → Lock Management
    - If date is in the past or today, ask again: "That date is in the past. Please provide a future date."
 7. **Existing TOC file?** (path or no)
 8. **If no TOC:** Number and titles of chapters?
-9. **Writing style?** (19 framework styles in 5 categories)
+9. **Writing style?** Present in TWO steps:
+
+   **Step A - Show categories:**
+   ```
+   5 style categories available:
+   1. Academic & Research (4 styles)
+   2. Business & Professional (2 styles)
+   3. Narrative & Storytelling (4 styles)
+   4. Personal Development (3 styles)
+   5. Cultural & Social Commentary (6 styles)
+
+   Which category? (1-5, or "all" to see everything)
+   ```
+
+   **Step B - Show styles in selected category** (or all if requested)
 
 ---
 
