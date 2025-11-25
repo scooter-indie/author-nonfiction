@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.11] - 2025-11-25
+
+### Changed
+- **Simplified copy blocks** - Removed ASCII box decorations from configure.md
+  - Plain code blocks are sufficient and cleaner
+  - Reduced file size by ~70 lines
+
+- **Manifest creation flow** - configure.md now owns manifest creation
+  - configure.md Step 2: No longer requires manifest (created in Step 3)
+  - configure.md Step 3: Explicitly creates `.config/` directory before manifest
+  - Prompt 1 Step 3: No longer creates manifest, adds prerequisite check
+  - detect-tools.sh: Messages now say "run configure.md first"
+
+### Fixed
+- **Tool detection message** - No longer tells users to "run after Prompt 1"
+  - Updated to "run configure.md first" since manifest is created there
+  - Users never need to run detect-tools.sh manually
+
+### Technical
+- **Release Type:** PATCH (workflow improvement)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, Prompt_1_Initialize.md, detect-tools.sh
+
+---
+
 ## [0.13.10] - 2025-11-25
 
 ### Changed
