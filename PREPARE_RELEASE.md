@@ -15,6 +15,42 @@ This document guides Claude through preparing a new framework release by updatin
 
 ## Release Preparation Workflow
 
+### Step 0: Verify Repository State (REQUIRED)
+
+**Before starting ANY release work, verify the repository is clean:**
+
+1. **Check for uncommitted changes:**
+   ```bash
+   git status
+   ```
+
+2. **If working tree is dirty (uncommitted changes exist):**
+   - **STOP** - Do not proceed with release
+   - Ask user: "There are uncommitted changes. Would you like to:
+     - A) Commit them now before proceeding?
+     - B) Stash them temporarily?
+     - C) Abort the release process?"
+   - Wait for user decision and execute chosen action
+
+3. **If working tree is clean, verify remote sync (optional but recommended):**
+   ```bash
+   git fetch origin
+   git status
+   ```
+   - If behind remote: `git pull`
+   - If ahead of remote: Note this - changes will be pushed with release
+
+4. **Confirm ready state:**
+   ```
+   ✓ Working tree clean
+   ✓ No uncommitted changes
+   ✓ Ready to proceed with release
+   ```
+
+**Only proceed to Step 1 after confirming clean repository state.**
+
+---
+
 ### Step 1: Determine New Version Number
 
 Ask the user:
@@ -501,7 +537,7 @@ Before creating a release, verify:
 - [ ] **Migration testing completed** if migrations are included in this release
 - [ ] All version numbers updated consistently across 11 files (8 docs + 3 shell scripts)
 - [ ] **Shell scripts verified** (init.sh, detect-tools.sh, generate-usage-guide.sh)
-- [ ] No uncommitted changes in repository
+- [ ] **Repository state verified** (Step 0 completed - no uncommitted changes)
 - [ ] GitHub Actions workflow is functioning
 - [ ] Previous release (if any) completed successfully
 
