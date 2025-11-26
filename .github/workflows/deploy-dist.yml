@@ -132,16 +132,21 @@ jobs:
           **Version:** ${VERSION} | [Changelog](CHANGELOG.md)
           README
 
-      - name: Push to distribution repo
+      - name: Deploy via PR to distribution repo
         env:
           DEPLOY_TOKEN: ${{ secrets.DEPLOY_REPO_TOKEN }}
+          GH_TOKEN: ${{ secrets.DEPLOY_REPO_TOKEN }}
         run: |
           VERSION=${{ steps.version.outputs.version }}
+          BRANCH="release-v${VERSION}"
 
           # Clone the dist repo
           git clone https://x-access-token:${DEPLOY_TOKEN}@github.com/scooter-indie/author-nonfiction-dist.git deploy-repo
 
           cd deploy-repo
+
+          # Create release branch
+          git checkout -b "${BRANCH}"
 
           # Remove all files except .git
           find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
@@ -154,7 +159,7 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-          # Commit and push
+          # Commit changes
           git add -A
           git commit -m "Release v${VERSION}
 
@@ -162,11 +167,28 @@ jobs:
 
           Release: https://github.com/scooter-indie/author-nonfiction/releases/tag/v${VERSION}" || echo "No changes to commit"
 
-          # Create version tag
-          git tag "v${VERSION}"
+          # Push branch
+          git push origin "${BRANCH}"
 
-          # Push commit and tag
-          git push origin main --tags
+          # Create PR and auto-merge (0 approvals required)
+          gh pr create \
+            --repo scooter-indie/author-nonfiction-dist \
+            --base main \
+            --head "${BRANCH}" \
+            --title "Release v${VERSION}" \
+            --body "Automated deployment from [scooter-indie/author-nonfiction](https://github.com/scooter-indie/author-nonfiction/releases/tag/v${VERSION})"
+
+          # Merge the PR immediately (branch protection allows 0 approvals)
+          gh pr merge "${BRANCH}" \
+            --repo scooter-indie/author-nonfiction-dist \
+            --merge \
+            --delete-branch
+
+          # Create and push version tag
+          git checkout main
+          git pull origin main
+          git tag "v${VERSION}"
+          git push origin "v${VERSION}"
 
       - name: Summary
         run: |
