@@ -36,7 +36,7 @@ Exports manuscript to DOCX, PDF, or EPUB formats. Validates content, compiles so
 **Ask user:**
 
 1. **Use default settings?**
-   - Default: DOCX, Chicago citation, include all elements
+   - Default: DOCX + PDF + EPUB, Chicago citation, include all elements
    - Or: Customize now
 
 **If customizing:**
