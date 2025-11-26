@@ -501,8 +501,67 @@ I will:
 
 **Note:** Git was verified in Step 0.5.
 
-- Check if `.git` directory exists
-- If not: Initialize git repository
+**Check git status:**
+
+1. Check if `.git` directory exists
+2. If `.git` exists: Check if this was cloned from the distribution repo
+3. If `.git` doesn't exist: Initialize new repository
+
+---
+
+**Case A: Cloned from Distribution Repo**
+
+If `.git` exists, check if `origin` points to `author-nonfiction-dist`:
+
+**If in Claude Code CLI:** Execute directly:
+```bash
+git remote get-url origin 2>/dev/null | grep -q "author-nonfiction-dist" && echo "DIST_CLONE=true" || echo "DIST_CLONE=false"
+```
+
+**If in Claude Desktop:** Provide this command for user to paste into Claude Code CLI:
+```
+git remote get-url origin 2>/dev/null | grep -q "author-nonfiction-dist" && echo "DIST_CLONE=true" || echo "DIST_CLONE=false"
+```
+
+**If `DIST_CLONE=true`:**
+
+Rename `origin` to `upstream` so user can add their own remote later:
+
+**If in Claude Code CLI:** Execute directly:
+```bash
+git remote rename origin upstream
+```
+
+**If in Claude Desktop:** Provide this command:
+```
+git remote rename origin upstream
+```
+
+Report:
+```
+✓ Distribution repo detected
+✓ Remote renamed: origin → upstream
+
+Framework updates: git pull upstream main
+Your book repo: git remote add origin [your-repo-url]
+```
+
+Then **skip to Step 7** (Remote setup not needed - upstream is already configured).
+
+---
+
+**Case B: Existing Git Repo (not from dist)**
+
+If `.git` exists but `DIST_CLONE=false`:
+- This is an existing project being updated
+- No remote changes needed
+- Report: `✓ Existing git repository detected`
+
+---
+
+**Case C: No Git Repo**
+
+If `.git` does NOT exist, initialize:
 
 **If in Claude Code CLI:** Execute directly:
 ```bash
@@ -519,11 +578,13 @@ Report: `✓ Git repository initialized`
 
 ### Step 6: Remote Repository Setup
 
+**Note:** If you cloned from the distribution repo (Case A in Step 5), `upstream` is already configured for framework updates. This step lets you add your own `origin` for backing up your book.
+
 **⏸️ STOP AND ASK USER:**
 ```
 Step 6: Remote Repository Setup
 
-Do you want to connect this project to a remote git repository (GitHub, GitLab, etc.)?
+Do you want to connect this project to a remote git repository for your book (GitHub, GitLab, etc.)?
 
 Options:
 1. "no" or "skip" - Work locally only (you handle backups)
@@ -755,6 +816,7 @@ Framework v0.14.0 installed successfully.
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
 🌐 Remote repository: [Connected to X / Not configured / Working locally]
+⬆️ Framework updates: [If cloned from dist: "git pull upstream main" / Otherwise: omit this line]
 ✅ Book writing assistant: Ready
 
 📚 Next Steps:
@@ -773,6 +835,7 @@ Framework v0.14.0 installed successfully.
    - Style Library: Process/Style_Examples.md
 
 💡 Tip: Run Prompt 8 (Dashboard) weekly to track your progress!
+💡 Tip: Update framework with "git pull upstream main" when new versions release!
 ```
 
 **For Updates:**
