@@ -256,11 +256,11 @@ jobs:
             --merge \
             --delete-branch
 
-          # Create and push version tag
+          # Create and push version tag (skip if already exists)
           git checkout main
           git pull origin main
-          git tag "v${VERSION}"
-          git push origin "v${VERSION}"
+          git tag "v${VERSION}" 2>/dev/null || echo "Tag v${VERSION} already exists, skipping"
+          git push origin "v${VERSION}" 2>/dev/null || echo "Tag v${VERSION} already pushed, skipping"
 
       - name: Summary
         run: |
