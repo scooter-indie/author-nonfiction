@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.14.0
+**Framework Version:** 0.14.1
 **Session Context Document for Claude Code**
 
 ---
@@ -127,7 +127,7 @@ Process/
 
 Claude Code sessions have a 200,000 token budget. Framework prompts can consume significant tokens, leaving less room for your actual content work.
 
-**v0.14.0 Improvements:**
+**v0.14.1 Improvements:**
 - **Prompt 4:** Reduced from 53,000 → 2,000 tokens (95% reduction)
 - **All prompts:** Added session cleanup instructions
 - **Result:** 98% of session tokens available for content (vs 60% in v0.13.0)
@@ -138,7 +138,7 @@ After a prompt completes, clear it from context to reclaim tokens:
 
 **Specific Prompt:**
 - "Clear Prompt 1 from context" (saves ~25,000 tokens)
-- "Clear Prompt 4 from context" (saves ~2,000 tokens in v0.14.0)
+- "Clear Prompt 4 from context" (saves ~2,000 tokens in v0.14.1)
 - "Remove Prompt 8 from session" (saves ~20,000 tokens)
 
 **All Prompts:**
@@ -175,15 +175,15 @@ Ask: "How many tokens do I have remaining?"
 1. Start: 200,000 tokens
 2. Load Prompt 1: ~175,000 remaining
 3. Clear Prompt 1: ~200,000 reclaimed
-4. Load Prompt 4: ~198,000 remaining (v0.14.0)
+4. Load Prompt 4: ~198,000 remaining (v0.14.1)
 5. Clear Prompt 4: ~200,000 reclaimed
 6. Work on content: ~195,000 available
 
 **Best practice:** Clear prompts immediately after completion for maximum available tokens.
 
-### Framework Token Usage (v0.14.0)
+### Framework Token Usage (v0.14.1)
 
-| Prompt | Tokens (v0.13.0) | Tokens (v0.14.0) | Savings |
+| Prompt | Tokens (v0.13.0) | Tokens (v0.14.1) | Savings |
 |--------|------------------|------------------|---------|
 | Prompt 1 | ~25,000 | ~25,000 | 0* |
 | Prompt 2 | ~15,000 | ~15,000 | 0* |
@@ -642,7 +642,7 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
-**Framework Version:** 0.14.0
+**Framework Version:** 0.14.1
 **Last Updated:** 2025-11-26
 **Performance:** 85-90% faster session startup with on-demand loading
 
