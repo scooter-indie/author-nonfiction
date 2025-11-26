@@ -78,16 +78,21 @@ echo "Output: $OUTPUT_FILE"
 echo ""
 
 {
-    # Header with metadata
+    # Header with metadata (wrapped in HTML comment to hide from export)
+    echo "<!--"
+    echo "COMPILE_METADATA"
+    echo "Title: $BOOK_TITLE"
+    echo "Author: $AUTHOR_NAME"
+    echo "Compile: #${VERSION_PADDED}"
+    echo "Compiled: $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "Format: $FORMAT"
+    echo "-->"
+    echo ""
     echo "# $BOOK_TITLE"
     echo ""
-    echo "**Author:** $AUTHOR_NAME"
-    echo "**Compile:** #${VERSION_PADDED}"
-    echo "**Compiled:** $(date '+%Y-%m-%d %H:%M:%S')"
-    echo "**Format:** $FORMAT"
-    echo ""
-    echo "---"
-    echo ""
+
+    # Get current year for placeholder substitution
+    CURRENT_YEAR=$(date '+%Y')
 
     # Front Matter
     if [ -d "Manuscript/FrontMatter" ]; then
@@ -95,10 +100,16 @@ echo ""
         echo ""
         for file in Manuscript/FrontMatter/*.md; do
             if [ -f "$file" ]; then
-                cat "$file"
+                # Substitute placeholders with metadata values
+                sed -e "s/\[YEAR\]/$CURRENT_YEAR/g" \
+                    -e "s/\[AUTHOR NAME\]/$AUTHOR_NAME/g" \
+                    -e "s/\[AUTHOR\]/$AUTHOR_NAME/g" \
+                    -e "s/\[Book Title\]/$BOOK_TITLE/g" \
+                    -e "s/\[BOOK TITLE\]/$BOOK_TITLE/g" \
+                    "$file"
                 echo ""
                 if [ "$FORMAT" != "basic" ]; then
-                    echo '\\newpage'
+                    echo '<div style="page-break-before: always;"></div>'
                     echo ""
                 fi
             fi
@@ -135,7 +146,7 @@ echo ""
         echo "---"
         echo ""
         if [ "$FORMAT" != "basic" ]; then
-            echo '\\newpage'
+            echo '<div style="page-break-before: always;"></div>'
             echo ""
         fi
     fi
@@ -158,8 +169,7 @@ echo ""
                     sed '0,/^---$/d'
                     echo ""
                     if [ "$FORMAT" != "basic" ]; then
-                        # Use \newpage for page breaks (works in DOCX/PDF)
-                        echo '\\newpage'
+                        echo '<div style="page-break-before: always;"></div>'
                         echo ""
                     fi
                 fi
@@ -173,8 +183,7 @@ echo ""
                     sed '0,/^---$/d'
                     echo ""
                     if [ "$FORMAT" != "basic" ]; then
-                        # Use \newpage for page breaks (works in DOCX/PDF)
-                        echo '\\newpage'
+                        echo '<div style="page-break-before: always;"></div>'
                         echo ""
                     fi
                 fi
@@ -191,10 +200,16 @@ echo ""
         echo ""
         for file in Manuscript/BackMatter/*.md; do
             if [ -f "$file" ]; then
-                cat "$file"
+                # Substitute placeholders with metadata values
+                sed -e "s/\[YEAR\]/$CURRENT_YEAR/g" \
+                    -e "s/\[AUTHOR NAME\]/$AUTHOR_NAME/g" \
+                    -e "s/\[AUTHOR\]/$AUTHOR_NAME/g" \
+                    -e "s/\[Book Title\]/$BOOK_TITLE/g" \
+                    -e "s/\[BOOK TITLE\]/$BOOK_TITLE/g" \
+                    "$file"
                 echo ""
                 if [ "$FORMAT" != "basic" ]; then
-                    echo '\\newpage'
+                    echo '<div style="page-break-before: always;"></div>'
                     echo ""
                 fi
             fi
