@@ -819,6 +819,11 @@ Framework v0.14.1 installed successfully.
 ⬆️ Framework updates: [If cloned from dist: "git pull upstream main" / Otherwise: omit this line]
 ✅ Book writing assistant: Ready
 
+⚠️ IMPORTANT: At the start of every FUTURE Claude Code session, run:
+   /fw-init
+   This loads the framework and prepares Claude for prompt execution.
+   For THIS session, you're already set up and ready to proceed.
+
 📚 Next Steps:
 
 1. Execute Prompt 1 to initialize your book project:
@@ -851,6 +856,11 @@ Updated from v[old] to v0.14.1
 
 📋 What Changed:
 [Display relevant sections from CHANGELOG.md]
+
+⚠️ IMPORTANT: At the start of every FUTURE Claude Code session, run:
+   /fw-init
+   This loads the framework and prepares Claude for prompt execution.
+   For THIS session, you're already set up and ready to proceed.
 
 📚 Next Steps:
 
