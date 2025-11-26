@@ -13,19 +13,17 @@
 /fw-init
 ```
 
-This slash command performs the Session Startup Protocol with the new lightweight loading strategy (~3,000 tokens):
-- Process/FRAMEWORK_CORE.md (essential framework knowledge - instant load)
+This slash command performs the Session Startup Protocol:
+- Process/FRAMEWORK_CORE.md (essential framework knowledge)
 - PROJECT_CONTEXT.md (if book project exists)
 - Additional docs load on-demand when needed
 
 **Why this is mandatory:**
-- Loads essential framework rules instantly (~3,000 tokens vs 27,000+ in v0.12.10)
-- 85-90% faster session startup
+- Loads essential framework rules
 - Activates Anti-Hallucination Protocol (ASK FIRST verification)
 - Loads prompt compatibility matrix (CLI vs Desktop)
 - Checks for existing book project context
 - Provides verbose initialization report
-- Additional docs load on-demand when needed
 
 **IMPORTANT:** Do NOT execute any prompts until `/fw-init` completes successfully.
 
@@ -127,11 +125,6 @@ Process/
 
 Claude Code sessions have a 200,000 token budget. Framework prompts can consume significant tokens, leaving less room for your actual content work.
 
-**v0.14.1 Improvements:**
-- **Prompt 4:** Reduced from 53,000 → 2,000 tokens (95% reduction)
-- **All prompts:** Added session cleanup instructions
-- **Result:** 98% of session tokens available for content (vs 60% in v0.13.0)
-
 ### Clear Completed Prompts
 
 After a prompt completes, clear it from context to reclaim tokens:
@@ -173,38 +166,11 @@ Ask: "How many tokens do I have remaining?"
 
 **Typical session flow:**
 1. Start: 200,000 tokens
-2. Load Prompt 1: ~175,000 remaining
-3. Clear Prompt 1: ~200,000 reclaimed
-4. Load Prompt 4: ~198,000 remaining (v0.14.1)
-5. Clear Prompt 4: ~200,000 reclaimed
-6. Work on content: ~195,000 available
+2. Load Prompt: tokens consumed
+3. Clear Prompt: tokens reclaimed
+4. Work on content: most tokens available
 
 **Best practice:** Clear prompts immediately after completion for maximum available tokens.
-
-### Framework Token Usage (v0.14.1)
-
-| Prompt | Tokens (v0.13.0) | Tokens (v0.14.1) | Savings |
-|--------|------------------|------------------|---------|
-| Prompt 1 | ~25,000 | ~25,000 | 0* |
-| Prompt 2 | ~15,000 | ~15,000 | 0* |
-| Prompt 3 | ~18,000 | ~18,000 | 0* |
-| **Prompt 4** | **~53,000** | **~2,000** | **51,000** ✅ |
-| Prompt 5 | ~12,000 | ~12,000 | 0* |
-| Prompt 6 | ~14,000 | ~14,000 | 0* |
-| Prompt 7 | ~16,000 | ~16,000 | 0* |
-| Prompt 8 | ~20,000 | ~20,000 | 0* |
-| Prompt 9 | ~15,000 | ~15,000 | 0* |
-| Prompt 10 | ~12,000 | ~12,000 | 0* |
-| Prompt 11 | ~16,000 | ~16,000 | 0* |
-| Prompt 12 | ~10,000 | ~10,000 | 0* |
-| Prompt 13 | ~18,000 | ~18,000 | 0* |
-| Prompt 14 | ~22,000 | ~22,000 | 0* |
-| Prompt 15 | ~20,000 | ~20,000 | 0* |
-| Prompt 16 | ~25,000 | ~25,000 | 0* |
-
-*Future optimizations (Phase 2 & v0.15.0) will reduce these further
-
-**Key improvement:** Prompt 4 now 95% more efficient, enabling 26x more editing sessions per token budget!
 
 ---
 
@@ -570,16 +536,14 @@ When Claude Code starts in this directory:
 
 ✅ **MANDATORY: Run `/fw-init` command** - User types `/fw-init` at session start
 ✅ **CLAUDE.md auto-loaded** - Framework context from system
-✅ **Initialization in progress** - `/fw-init` loads essential framework documentation (~3,000 tokens):
-   - Process/FRAMEWORK_CORE.md (instant load - all essential knowledge)
+✅ **Initialization in progress** - `/fw-init` loads essential framework documentation:
+   - Process/FRAMEWORK_CORE.md (essential knowledge)
    - PROJECT_CONTEXT.md (if book project exists)
    - Additional docs load on-demand when needed
 ✅ **Anti-Hallucination Protocol Active** - ASK before assuming user experiences
 ✅ **CONFIRM DATE WITH USER** - See Date Confirmation Protocol below
-✅ **Initialization complete** - Verbose report displayed (85-90% faster than v0.12.10)
+✅ **Initialization complete** - Verbose report displayed
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
-
-**v0.13.0 Improvement:** Session startup is now 85-90% faster with on-demand loading strategy.
 
 **Note:** The `/fw-init` command (in `.claude/commands/fw-init.md`) performs the complete Session Startup Protocol. Do NOT execute any prompts until `/fw-init` completes.
 
@@ -644,10 +608,7 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 **Framework Version:** 0.14.1
 **Last Updated:** 2025-11-26
-**Performance:** 85-90% faster session startup with on-demand loading
 
 ---
 
 *This document ensures Claude Code has full framework context at session startup*
-*v0.13.12: Dual-platform configure.md with copy blocks for Desktop users*
-*Session startup now loads ~3,000 tokens instead of 27,000+ tokens*
