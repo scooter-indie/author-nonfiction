@@ -71,7 +71,9 @@ cat .claude/settings.local.json
 ## Step 3: Compile Source
 
 ```bash
-bash Process/Scripts/compile-manuscript.sh publication
+# Compile and capture output filename
+DRAFT_FILE=$(bash Process/Scripts/compile-manuscript.sh publication | grep "^OUTPUT_FILE:" | cut -d' ' -f2)
+echo "Using draft: $DRAFT_FILE"
 ```
 
 **Creates:** `Drafts/[Project-Name]-publication-vNN.md`

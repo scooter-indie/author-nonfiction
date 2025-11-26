@@ -224,3 +224,6 @@ echo "  Words: $WORD_COUNT"
 echo "  Lines: $LINE_COUNT"
 echo "  Format: $FORMAT"
 echo ""
+
+# Parseable output for script integration (must be last line)
+echo "OUTPUT_FILE: $OUTPUT_FILE"

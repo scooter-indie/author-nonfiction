@@ -34,8 +34,8 @@ EXISTING=$(ls Manuscript/Exports/${PROJECT_NAME}-v*.* 2>/dev/null | \
   sed 's/.*-v\([0-9]*\)\..*/\1/' | sort -n | uniq | tail -1)
 EXPORT_VERSION=$(printf "%02d" $((${EXISTING:-0} + 1)))
 
-# Source and output
-DRAFT_FILE="Manuscript/Drafts/${PROJECT_NAME}-publication-v[NN].md"  # Use latest
+# Compile and capture output filename
+DRAFT_FILE=$(bash Process/Scripts/compile-manuscript.sh publication | grep "^OUTPUT_FILE:" | cut -d' ' -f2)
 OUTPUT_DIR="Manuscript/Exports"
 
 # Create EPUB with all options
