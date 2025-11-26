@@ -46,14 +46,12 @@ Wait for explicit instruction like:
 - "do the work"
 - "implement the fix"
 
-**Step 3: Commit and close (AFTER WORK COMPLETE)**
+**Step 3: Commit and set to In Review (AFTER WORK COMPLETE)**
 
 ```bash
 git commit -m "Fix: [description] (#[issue-number])
 
 [details]
-
-Fixes #[issue-number]
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -61,10 +59,30 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 ```bash
-gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
-  --comment "Fixed in commit [commit-hash]
+gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
+  --body "Fixed in commit [commit-hash]
 
-  [brief summary of changes]"
+[brief summary of changes]"
+```
+
+```bash
+gh issue edit [issue-number] --repo scooter-indie/author-nonfiction \
+  --remove-project-status "In progress" --add-project-status "In review"
+```
+
+Then report: "Issue #[number] ready for review. Say 'Done' to close it."
+
+**Step 4: Close issue (ONLY WHEN USER SAYS "DONE")**
+
+Wait for explicit instruction like:
+- "done"
+- "close it"
+- "looks good"
+- "approved"
+
+```bash
+gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
+  --comment "Resolved and closed."
 ```
 
 ---
@@ -99,14 +117,12 @@ Wait for explicit instruction like:
 - "do the work"
 - "build it"
 
-**Step 3: Commit and close (AFTER WORK COMPLETE)**
+**Step 3: Commit and set to In Review (AFTER WORK COMPLETE)**
 
 ```bash
 git commit -m "[description] (#[issue-number])
 
 [details]
-
-Fixes #[issue-number]
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -114,10 +130,30 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 ```bash
-gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
-  --comment "Implemented in commit [commit-hash]
+gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
+  --body "Implemented in commit [commit-hash]
 
-  [brief summary of changes]"
+[brief summary of changes]"
+```
+
+```bash
+gh issue edit [issue-number] --repo scooter-indie/author-nonfiction \
+  --remove-project-status "In progress" --add-project-status "In review"
+```
+
+Then report: "Issue #[number] ready for review. Say 'Done' to close it."
+
+**Step 4: Close issue (ONLY WHEN USER SAYS "DONE")**
+
+Wait for explicit instruction like:
+- "done"
+- "close it"
+- "looks good"
+- "approved"
+
+```bash
+gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
+  --comment "Resolved and closed."
 ```
 
 ---
@@ -171,7 +207,7 @@ Wait for explicit instruction like:
 - "build it"
 - "do the work"
 
-**Step 3: Move proposal and close (AFTER IMPLEMENTATION COMPLETE)**
+**Step 3: Move proposal and set to In Review (AFTER IMPLEMENTATION COMPLETE)**
 
 1. Move proposal to Implemented:
 ```bash
@@ -184,19 +220,37 @@ git commit -m "[description] (#[issue-number])
 
 [details]
 
-Fixes #[issue-number]
-
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-3. Close the issue:
+3. Comment and set to In Review:
+```bash
+gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
+  --body "Implemented in commit [commit-hash]
+
+Proposal moved to Proposal/Implemented/[Feature-Name].md"
+```
+
+```bash
+gh issue edit [issue-number] --repo scooter-indie/author-nonfiction \
+  --remove-project-status "In progress" --add-project-status "In review"
+```
+
+Then report: "Issue #[number] ready for review. Say 'Done' to close it."
+
+**Step 4: Close issue (ONLY WHEN USER SAYS "DONE")**
+
+Wait for explicit instruction like:
+- "done"
+- "close it"
+- "looks good"
+- "approved"
+
 ```bash
 gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
-  --comment "Implemented in commit [commit-hash]
-
-  Proposal moved to Proposal/Implemented/[Feature-Name].md"
+  --comment "Resolved and closed."
 ```
 
 ---
@@ -294,7 +348,8 @@ After running `/gh-workflow`, Claude will:
 - **Create proposals** in Proposal/ directory when requested
 - **Wait for explicit instruction** before working on any issue or implementing proposals
 - Reference issue numbers in commits
-- Close issues with commit hashes when work is complete
+- **Set issues to "In review"** with commit hash when work is complete
+- **Wait for user to say "Done"** before closing issues
 - **Move implemented proposals** to Proposal/Implemented/
 - **Link sub-issues** to parent using `gh sub-issue add` extension
 - **Ask about epic label** when creating sub-issues for a parent issue
@@ -308,12 +363,12 @@ Project: scooter-indie/author-nonfiction
 Board:   https://github.com/users/scooter-indie/projects/9/views/1
 
 Workflows enabled:
-• Finding → Create issue (label: finding) → [WAIT] → Work when told → Commit → Close
-• Enhancement → Create issue (label: enhancement) → [WAIT] → Work when told → Commit → Close
-• Proposal → Create doc + issue → Commit → [WAIT] → Implement when told → Move to Implemented/ → Close
+• Finding → Create issue → [WAIT] → Work when told → Commit → In Review → [WAIT for "Done"] → Close
+• Enhancement → Create issue → [WAIT] → Work when told → Commit → In Review → [WAIT for "Done"] → Close
+• Proposal → Create doc + issue → [WAIT] → Implement → Move to Implemented/ → In Review → [WAIT for "Done"] → Close
 • Sub-Issue → Create sub-issues → Link to parent (gh sub-issue) → Ask about epic label → Update parent if yes
 
-Issues are created automatically. Work begins only when you say.
+Issues are created automatically. Work begins only when you say. Issues close only when you say "Done".
 ```
 
 ---
