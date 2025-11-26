@@ -4,8 +4,6 @@ Initialize the AI-Assisted Nonfiction Authoring Framework for this session.
 
 This command loads essential framework documentation and prepares Claude for executing prompts. You MUST run `/fw-init` at the start of every session before executing any prompts.
 
-**v0.14.1 Improvement:** 85-90% faster initialization with on-demand loading strategy.
-
 ---
 
 ## Initialization Sequence
@@ -25,9 +23,7 @@ Read `Process/FRAMEWORK_CORE.md` to load essential framework knowledge:
 - On-demand loading guide
 - Quick workflows reference
 
-**Estimated load:** ~2,000 words (2,500-3,000 tokens)
-
-Report: `✓ FRAMEWORK_CORE.md loaded (~2,000 words, 3,000 tokens)`
+Report: `✓ FRAMEWORK_CORE.md loaded`
 
 ### 2. Scan Available Prompts
 
@@ -105,13 +101,10 @@ After completing all steps above, provide a summary report:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Framework Initialization Complete (v0.14.1)
+Framework Initialization Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Framework Version: [VERSION]
-Initialization Load: ~2,000 words (3,000 tokens)
-Token Savings: 85-90% reduction vs v0.12.10
-
 Prompts Available: 16 core prompts
 Book Project: [Found/Not Found]
 Working Directory: [PATH]
@@ -155,8 +148,7 @@ Ready! How can I help with your nonfiction authoring project?
 
 ## Notes
 
-- **v0.14.1:** This initialization loads ~2,000 words (3,000 tokens) - 85-90% reduction from v0.12.10
 - Required at the start of every Claude Code session
 - Can be re-run mid-session if context is lost or session becomes very long
-- Additional docs load on-demand to save tokens and speed
+- Additional docs load on-demand as needed
 - Makes essential framework knowledge immediately available for prompt execution

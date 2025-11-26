@@ -1,8 +1,7 @@
 # Framework Core (v0.14.1)
 
-**Purpose:** Instant-load essential framework knowledge for immediate session readiness
-**Load Time:** ~2,000 words (2,500-3,000 tokens)
-**Loading Strategy:** Instant load at startup, on-demand loading for detailed docs
+**Purpose:** Essential framework knowledge for immediate session readiness
+**Loading Strategy:** Load at startup, on-demand loading for detailed docs
 
 ---
 
@@ -408,12 +407,7 @@ Section Style (Optional Override)
 
 **Framework Version:** 0.14.1
 **Release Date:** 2025-11-26
-**Loading Strategy:** Instant-load core + on-demand detailed docs
-
-**Token Efficiency:**
-- **Startup load:** ~2,000 words (2,500-3,000 tokens)
-- **Reduction:** 85-90% compared to v0.12.10
-- **On-demand loads:** 1,500-7,000 tokens per doc as needed
+**Loading Strategy:** Core at startup, detailed docs on-demand
 
 **Support Resources:**
 - **Issues:** https://github.com/scooter-indie/author-nonfiction/issues
@@ -433,16 +427,12 @@ Section Style (Optional Override)
 ✅ **Git Integration** - Version control essentials
 ✅ **On-Demand Loading Guide** - How to load detailed docs
 ✅ **Quick Workflows** - Common task patterns
-✅ **Framework Metadata** - Version, support, token efficiency
-
-**Total Load:** ~2,000 words = 2,500-3,000 tokens
-**Time Savings:** 5-10x faster session startup
-**Token Savings:** 22,000-25,000 tokens available for actual work
+✅ **Framework Metadata** - Version and support info
 
 **You are now ready to execute any prompt or answer framework questions.**
 **Load additional documentation on-demand as needed.**
 
 ---
 
-*This is the instant-load essential framework knowledge file*
+*This is the essential framework knowledge file*
 *Everything else loads on-demand when you need it*
