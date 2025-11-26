@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.14.2] - 2025-11-26
+
+### Changed
+- **gh-workflow command** - Enhanced GitHub workflow integration (#79)
+  - Integrated `gh-pm` extension for project board status updates
+  - Added "In Review" step between work completion and issue closing
+  - Removed invalid `--add-project-status` flags
+  - Updated proposal to combine `gh-sub-issue` and `gh-pm` into `gh-project-tools`
+
+- **configure.md** - Added `/fw-init` reminder to completion messages (#76)
+  - Users now see clear instructions to run `/fw-init` at start of future sessions
+  - Helps prevent users from trying to execute prompts without framework loaded
+
+- **deploy-dist.yml** - Changed to PR-based deployment workflow
+  - More controlled deployment process for distribution repository
+
+### Fixed
+- **fw-init command** - Removed outdated token savings messaging (#77)
+  - Cleaned up messaging that no longer applies to current architecture
+
+- **dist repo remote** - Fixed remote configuration to disable push access (#75)
+  - Users cannot accidentally push to upstream distribution repository
+
+### Technical
+- **Release Type:** PATCH (workflow improvements, bug fixes)
+- **Breaking Change:** No
+- **Files Updated:** gh-workflow.md, configure.md, deploy-dist.yml, fw-init.md
+
+---
+
 ## [0.14.1] - 2025-11-26
 
 ### Fixed
