@@ -216,41 +216,91 @@ If any unexpected references found, update them.
 - `.config/migrations.json` template MUST be included in release zip
 - All 5 .config templates must be present (init, project, metadata, manifest, migrations)
 
-### Step 4.6: Generate Framework Files Manifest
+### Step 4.6: Sync Framework Files Manifest (AUTOMATED)
 
-**Generate the framework files manifest for this release:**
+**Automatically synchronize the manifest with actual framework files:**
 
-The manifest lists all framework files that should exist in a clean installation. This enables configure.md to clean up outdated files during updates.
+The manifest lists all framework files that should exist in a clean installation. This step ensures the manifest is **always accurate** by scanning the filesystem and updating automatically.
 
-1. **Generate current file listing:**
-   ```bash
-   # List all framework files
-   find Process -type f | sort > /tmp/process_files.txt
-   ls -1 INSTALLATION.md CLAUDE.md configure.md system-instructions.md .gitignore .nonfiction-migrations.json 2>/dev/null > /tmp/root_files.txt
-   find .claude -type f | sort > /tmp/claude_files.txt
-   find scripts -type f | sort > /tmp/scripts_files.txt
-   ```
+**CRITICAL:** This step must ADD files that exist but aren't in the manifest, and REMOVE entries for files that no longer exist. Never rely on manual tracking.
 
-2. **Update `Process/Templates/framework_files_manifest.json`:**
-   - Open `Process/Templates/framework_files_manifest.json`
-   - Update `"version"` to match `NEW_VERSION`
-   - Update `"generatedDate"` to today's date (YYYY-MM-DD)
-   - Verify all files listed in manifest still exist
-   - Add any new files created in this release
-   - Remove any files that were deleted in this release
+#### 4.6.1: Scan Actual Framework Files
 
-3. **Validate manifest structure:**
-   ```bash
-   # Check JSON is valid
-   cat Process/Templates/framework_files_manifest.json | jq .
-   ```
+**Directories to include in manifest:**
+- `Process/` - All subdirectories and files (excluding Documentation/)
+- `scripts/` - Shell scripts for automation
+- `.claude/` - Claude Code configuration
+- Root config files: `INSTALLATION.md`, `CLAUDE.md`, `configure.md`, `system-instructions.md`, `.gitignore`
 
-4. **Verify completeness:**
-   - Compare manifest against actual files
-   - Ensure all `.md` files in Process/ are listed
-   - Ensure all prompts (Prompt_1 through Prompt_16, Prompt_99) are listed
-   - Ensure all modules (_COMMON/01-17) are listed
-   - Ensure all templates are listed
+**Directories to EXCLUDE from manifest:**
+- `Documentation/` - Maintainer docs, not in user releases
+- `Proposal/` - Design proposals, not in user releases
+- `.github/` - GitHub workflows, not in user releases
+- `PREPARE_RELEASE.md` - Maintainer tool, not in user releases
+- `CHANGELOG.md` - Maintainer file, not in user releases
+- `.nonfiction-migrations.json` - Root migrations file (template is in Process/Templates/.config/)
+
+#### 4.6.2: Perform Manifest Sync
+
+**For each manifest section, compare filesystem against manifest entries:**
+
+1. **Read current manifest:** `Process/Templates/framework_files_manifest.json`
+
+2. **For each directory section in manifest:**
+
+   a. **Scan actual files** in that directory
+
+   b. **Compare against manifest entries:**
+      - Files on disk but NOT in manifest → **ADD to manifest**
+      - Files in manifest but NOT on disk → **REMOVE from manifest**
+
+   c. **Report changes:**
+      ```
+      Manifest sync for [directory]:
+        ADDED: [list of new files]
+        REMOVED: [list of deleted files]
+        UNCHANGED: [count] files
+      ```
+
+3. **Check for new directories** not yet in manifest:
+   - Scan `Process/` for subdirectories not represented in manifest
+   - Add new directory sections as needed
+
+4. **Update metadata:**
+   - Set `"version"` to `NEW_VERSION`
+   - Set `"generatedDate"` to today's date (YYYY-MM-DD)
+
+#### 4.6.3: Validation Checklist
+
+After sync, verify:
+
+- [ ] All files in `Process/Prompts/` are listed (16 prompts + references + README + QUICK_REFERENCE)
+- [ ] All files in `Process/_COMMON/` are listed (modules 01-20+)
+- [ ] All files in `Process/Templates/` are listed (all templates including .config/)
+- [ ] All files in `Process/Styles/` and subdirectories are listed
+- [ ] All files in `Process/Scripts/` are listed
+- [ ] All files in `scripts/` are listed
+- [ ] All files in `.claude/` and subdirectories are listed
+- [ ] Root files match: INSTALLATION.md, CLAUDE.md, configure.md, system-instructions.md, .gitignore
+- [ ] JSON is valid (no syntax errors)
+
+#### 4.6.4: Report Summary
+
+**Display sync summary:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Framework Files Manifest Sync Complete
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Version: [NEW_VERSION]
+Generated: [TODAY'S DATE]
+
+Files Added:   [count] ([list if any])
+Files Removed: [count] ([list if any])
+Total Files:   [count]
+
+Manifest saved: Process/Templates/framework_files_manifest.json
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 **IMPORTANT: Step 4.7 - Documentation/ Directory Exclusion**
 
@@ -259,22 +309,24 @@ The `Documentation/` directory contains maintainer documentation and is NOT incl
 - Only Process/, scripts/, .claude/, and root config files are included in releases
 - PREPARE_RELEASE.md stays at root (actively used for every release)
 - Users get FRAMEWORK_CORE.md (instant load) + on-demand docs from Process/
-   - Ensure .claude/ files are listed (README.md, hooks.json)
-   - Ensure .claude/agents/ are listed (book-writing-assistant.md)
-   - Ensure .claude/commands/ are listed (fw-init.md)
 
 **Example manifest structure:**
 ```json
 {
-  "version": "0.13.3",
-  "generatedDate": "2025-11-23",
+  "version": "0.14.0",
+  "generatedDate": "2025-11-26",
   "files": {
-    "root": ["INSTALLATION.md", "CLAUDE.md", ...],
+    "root": ["INSTALLATION.md", "CLAUDE.md", "configure.md", "system-instructions.md", ".gitignore"],
+    "scripts": ["init.sh", "detect-tools.sh", "generate-usage-guide.sh", "generate-content.sh", "README.md"],
     "Process": ["FRAMEWORK_CORE.md", "Anti-Hallucination_Guidelines.md", ...],
-    "Process/Prompts": ["Prompt_1_Initialize.md", "README.md", "QUICK_REFERENCE.md", ...],
-    "Process/_COMMON": ["01_Prompt_Structure_Template.md", ...],
-    "Process/Templates": ["Chapter_Style_Template.md", ...],
-    "Process/Styles": ["README.md", "Style_Catalog.md", ...],
+    "Process/Prompts": ["Prompt_1_Initialize.md", "Prompt_1_Reference.md", ..., "README.md", "QUICK_REFERENCE.md"],
+    "Process/_COMMON": ["01_Prompt_Structure_Template.md", ..., "README.md"],
+    "Process/Templates": ["Image_Registry_template.md", "Image_Registry_Master_template.md", "Image_Registry_Chapter_template.md", ...],
+    "Process/Templates/.config": ["init.json", "project.json", "metadata.json", "manifest.json", "migrations.json", "README.md"],
+    "Process/Styles": ["README.md", "Style_Catalog.md"],
+    "Process/Styles/Academic": ["Academic_Authority.md", ...],
+    "Process/Scripts": ["compile-manuscript.sh", "README.md"],
+    "Process/Testing": ["Hierarchical_Style_Testing_Checklist.md"],
     ".claude": ["README.md", "hooks.json"],
     ".claude/agents": ["book-writing-assistant.md"],
     ".claude/commands": ["fw-init.md"]
@@ -282,7 +334,7 @@ The `Documentation/` directory contains maintainer documentation and is NOT incl
 }
 ```
 
-**Note:** Documentation/ directory is NOT in manifest - it's excluded from user releases
+**Note:** Documentation/, Proposal/, .github/, PREPARE_RELEASE.md, CHANGELOG.md are NOT in manifest - excluded from user releases
 
 **Why this matters:**
 - During framework updates, configure.md will:
@@ -292,6 +344,7 @@ The `Documentation/` directory contains maintainer documentation and is NOT incl
   4. Preserve user content (Manuscript/, etc. - never touched)
 - Prevents accumulation of obsolete framework files
 - Keeps installation clean and up-to-date
+- **Automated sync prevents missing files like the Image_Registry templates issue**
 
 **Commit the updated manifest:**
 ```bash
