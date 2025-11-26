@@ -259,3 +259,16 @@ After successful release:
 ---
 
 *This prompt is for framework maintainers only. It is excluded from production distributions.*
+
+---
+
+## Session Cleanup
+
+**After this prompt completes:**
+
+Tell user: "✓ Prompt 99 Build Release complete.
+
+To free up tokens for your next task, you can say:
+**'Clear Prompt 99 Build Release from context'**
+
+This will reclaim tokens for your next operation."

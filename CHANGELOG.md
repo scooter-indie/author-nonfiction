@@ -7,6 +7,512 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.14] - 2025-11-26
+
+### Added
+- **Step 0: Verify Repository State** in PREPARE_RELEASE.md (#64)
+  - Checks for uncommitted changes before starting release
+  - Provides options: commit, stash, or abort if dirty
+  - Optionally verifies remote sync status
+
+### Fixed
+- **Framework manifest sync** - Missing Image_Registry templates added (#63)
+  - `Image_Registry_Master_template.md` now in manifest
+  - `Image_Registry_Chapter_template.md` now in manifest
+- **Framework manifest cleanup** - Removed 4 non-existent file entries
+  - `14_Enforcement_Rules_Module.md` (never created)
+  - `Prompt_13_Reference.md` (never created)
+  - `Prompt_14_Reference.md` (never created)
+  - `Prompt_15_Reference.md` (never created)
+
+### Changed
+- **PREPARE_RELEASE.md Step 4.6** - Now automated manifest sync (#63)
+  - Scans filesystem for actual framework files
+  - Compares against manifest entries
+  - Adds files on disk but not in manifest
+  - Removes manifest entries for deleted files
+  - Prevents missing files in future releases
+
+---
+
+## [0.13.13] - 2025-11-25
+
+### Added
+- **reference.docx template** - Default Word styling template for DOCX exports (#44)
+  - Generated from pandoc's default reference.docx
+  - Copied to `Manuscript/Style/reference.docx` during initialization
+  - Prompt 9 falls back to `Process/Templates/reference.docx` if project copy missing
+
+- **Typst book template** - Professional PDF styling with `book-template.typ` (#45)
+  - Page setup (US Letter, binding margins)
+  - Typography (Linux Libertine, justified paragraphs)
+  - Chapter/section heading styles with proper formatting
+  - Header/footer with page numbers
+  - Title page, copyright page, dedication page functions
+  - Epigraph function for chapter quotes
+  - Block quote and code block styling
+
+- **Sequential versioning for drafts** - Auto-increment compile versions (#58)
+  - New naming: `[Project-Name]-[format]-vNN.md` (e.g., `My-Book-publication-v03.md`)
+  - Project name sanitized to URL-safe slug
+  - Format types: basic, formatted, publication
+  - Version auto-detected from existing files
+
+- **Sequential versioning for exports** - Independent from draft versions (#58)
+  - Export versions increment independently from compile versions
+  - Flat directory structure: `Manuscript/Exports/My-Book-v01.epub`
+  - All export formats share same version number
+
+- **Export workflow integration** - Script output capture for automation (#60)
+  - compile-manuscript.sh outputs parseable `OUTPUT_FILE: <path>` line
+  - Prompt 9 captures filename via grep for use in export commands
+  - Enables seamless draft→export workflow
+
+- **Export tools installation section** - USAGE_GUIDE_template.md now includes pandoc/typst guidance
+
+### Fixed
+- **Table of Contents** - Now properly generated from chapter headings in compiled manuscript
+- **gitignore template** - Added scripts/, .claude/commands/, CHANGELOG.md to excluded files
+- **Release checklist** - Added AI-Assisted_Nonfiction_Authoring_Process.md to version verification
+
+### Technical
+- **Release Type:** MINOR (new features, workflow improvements)
+- **Breaking Change:** No - existing projects work without modification
+- **Files Updated:** compile-manuscript.sh (major rewrite), Prompt_7_Compile.md, Prompt_7_Reference.md, Prompt_9_Export.md, Prompt_9_Reference.md, init.sh, book-template.typ (new), reference.docx (new), USAGE_GUIDE_template.md, gitignore_template, PREPARE_RELEASE.md
+
+---
+
+## [0.13.12] - 2025-11-25
+
+### Changed
+- **PDF export simplified to Typst-only** - Removed LaTeX option from Prompt 9
+  - Two-step process: pandoc→typ, then typst compile
+  - Avoids `--pdf-engine=typst` font fallback errors
+  - Cleaner, more reliable PDF generation
+
+- **DOCX export improved** - Better page breaks and user guidance
+  - Changed `---` to `\newpage` for proper page breaks in Word
+  - Added note about "Update fields?" dialog (user can click No)
+
+- **Style selection presentation** - Consistent two-step format in Prompt 1 Question 9
+  - Step 1: Category selection (numbered 1-5)
+  - Step 2: Style selection (numbered 1-N within category)
+  - Fixed inconsistent formatting between Prompt_1_Initialize.md and Prompt_1_Reference.md
+
+### Added
+- **PREPARE_RELEASE.md git log instructions** - Added workflow for CHANGELOG generation
+  - `git log --oneline <last-tag>..HEAD` to review commits
+  - `git log --stat <last-tag>..HEAD` for detailed file changes
+  - Helps identify all changes for release notes
+
+- **/fw-init reminder after Prompt 1** - Session Cleanup now reminds users to run `/fw-init`
+  - Critical for loading new project context after initialization
+  - Prevents users from attempting to execute prompts without framework loaded
+
+### Fixed
+- **Compile script metadata leak** - Chapter metadata no longer appears in compiled output
+  - Status, Word Count, Last Updated lines are now stripped
+  - Clean manuscript compilation for export
+
+- **Version string double-v bug** - Fixed `vv1.0.0` appearing in filenames
+  - Added `VERSION="${VERSION#v}"` to strip leading "v" if present
+  - Affects compile-manuscript.sh output filenames
+
+- **detect-tools.sh silent skip** - No longer silently skips when manifest missing
+  - Now returns cleanly, manifest created by configure.md Step 3
+
+### Technical
+- **Release Type:** PATCH (bug fixes, workflow improvements)
+- **Breaking Change:** No
+- **Files Updated:** Prompt_1_Initialize.md, Prompt_1_Reference.md, Prompt_9_Export.md, Prompt_9_Reference.md, compile-manuscript.sh, PREPARE_RELEASE.md, detect-tools.sh
+
+---
+
+## [0.13.11] - 2025-11-25
+
+### Changed
+- **Simplified copy blocks** - Removed ASCII box decorations from configure.md
+  - Plain code blocks are sufficient and cleaner
+  - Reduced file size by ~70 lines
+
+- **Manifest creation flow** - configure.md now owns manifest creation
+  - configure.md Step 2: No longer requires manifest (created in Step 3)
+  - configure.md Step 3: Explicitly creates `.config/` directory before manifest
+  - Prompt 1 Step 3: No longer creates manifest, adds prerequisite check
+  - detect-tools.sh: Messages now say "run configure.md first"
+
+### Fixed
+- **Tool detection message** - No longer tells users to "run after Prompt 1"
+  - Updated to "run configure.md first" since manifest is created there
+  - Users never need to run detect-tools.sh manually
+
+### Technical
+- **Release Type:** PATCH (workflow improvement)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, Prompt_1_Initialize.md, detect-tools.sh
+
+---
+
+## [0.13.10] - 2025-11-25
+
+### Changed
+- **configure.md dual-platform support** - Now works in both Claude Code CLI and Claude Desktop
+  - Removed CLI-only restriction from v0.13.9
+  - Added "Environment Support" section explaining both environments
+  - All CLI commands have conditional paths: CLI executes directly, Desktop gets copy blocks
+  - Copy blocks use visual box format for easy identification
+
+- **Copy block pattern for Desktop users** - Every external tool operation provides copy blocks
+  - Tool detection script (Step 0.5)
+  - Git initialization (Step 5)
+  - Remote repository setup (Step 6) for GitHub/GitLab
+  - Export tool discovery (Step 7)
+  - Git commit (Step 9) for new installs and updates
+  - Error handling: uncommitted changes warning
+
+- **No direct shell interaction** - Users never paste into bash/cmd/PowerShell
+  - All commands route through Claude Code CLI
+  - Removed "Open PowerShell and run" instructions
+  - Copy blocks explicitly state "COPY THIS TO CLAUDE CODE CLI"
+
+- **Standard package manager assumptions** - Tool installation uses platform defaults
+  - Windows: winget for jq installation
+  - macOS: brew for git/jq
+  - Linux: apt for git/jq
+
+### Technical
+- **Release Type:** PATCH (dual-platform workflow improvement)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, Implemented/Startup-Requirements.md
+- **Implements:** Startup-Requirements.md (5 requirements)
+
+---
+
+## [0.13.9] - 2025-11-24
+
+### Changed
+- **configure.md requires Claude Code CLI** - Removed hybrid Desktop/CLI approach
+  - configure.md now explicitly requires CLI mode (has multiple bash operations)
+  - Desktop users are told to open Claude Code CLI at the start
+  - Removed redundant "If in Claude Desktop" branching throughout
+  - Cleaner, simpler document that works reliably in CLI
+
+### Technical
+- **Release Type:** PATCH (workflow simplification)
+- **Breaking Change:** No
+- **Files Updated:** configure.md
+
+---
+
+## [0.13.8] - 2025-11-24
+
+### Changed
+- **configure.md simplified for Desktop/CLI interaction** - Removed complex environment detection
+  - Simple header: CLI runs commands directly, Desktop asks user to copy/paste to CLI
+  - Step 0.5 now asks user to run detect-tools.sh in Claude Code CLI and share output
+  - No more automatic environment detection that could fail
+  - Works reliably in both Claude Code CLI and Claude Desktop
+
+### Fixed
+- **detect-tools.sh winget jq detection** - Script now finds jq installed via winget on Windows
+  - winget installs to `%LOCALAPPDATA%\Microsoft\WinGet\Packages\jqlang.jq_*\jq.exe`
+  - This path is not in Git Bash's PATH by default
+  - Script now searches winget package directory for jq.exe
+  - Converts Windows paths to Unix paths for Git Bash compatibility
+
+### Technical
+- **Release Type:** PATCH (Desktop/CLI workflow improvement)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, scripts/detect-tools.sh
+
+---
+
+## [0.13.7] - 2025-11-24
+
+### Added
+- **Environment detection in configure.md** - Claude now detects whether it's in CLI or Desktop mode
+  - Checks for "Claude Desktop Limitations" in system instructions → Desktop mode
+  - Checks for Bash tool availability → CLI mode
+  - Uses `[CLI]`, `[DESKTOP]`, `[BOTH]` tags throughout document for clear branching
+
+### Changed
+- **Step 0.5 restructured** - Separate paths for CLI and Desktop
+  - `[CLI]` runs detect-tools.sh automatically
+  - `[DESKTOP]` asks user to run version commands manually
+  - Installation instructions shown only when tools are actually missing
+
+### Technical
+- **Release Type:** PATCH (improved environment detection)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, CHANGELOG.md
+
+---
+
+## [0.13.6] - 2025-11-24
+
+### Fixed
+- **configure.md Step 0.5 imperative instruction** - Strengthened language to ensure detect-tools script runs automatically
+  - Previous v0.13.5 fix still allowed Claude to skip to asking users
+  - Now uses "ACTION: Run the detect-tools script NOW" with explicit "Do NOT ask the user" instruction
+
+### Technical
+- **Release Type:** PATCH (refinement of v0.13.5 fix)
+- **Breaking Change:** No
+- **Files Updated:** configure.md
+
+---
+
+## [0.13.5] - 2025-11-24
+
+### Fixed
+- **configure.md tool detection workflow** - Step 0.5 now runs detect-tools.sh script AUTOMATICALLY
+  - Removed "If in Claude Code CLI" / "If in Claude Desktop" branching that caused wrong path selection
+  - Changed to imperative "ACTION: Run the detect-tools script NOW" instruction
+  - Added "IMPORTANT: Execute this command immediately. Do NOT ask the user if tools are installed"
+  - Only shows installation instructions AFTER running script if tools are actually missing
+  - Prevents unnecessary "Do you have both git and jq installed?" questions
+
+- **detect-tools.sh jq detection** - Script now properly detects jq as a required tool
+  - Added `detect_jq()` function with Windows compatibility (jq.exe)
+  - Separates "Required tools" (git, jq) from "Optional tools" (pandoc, typst) in output
+  - Shows red warning with installation instructions only for missing required tools
+  - Updates manifest with jq availability status
+
+### Technical
+- **Release Type:** PATCH (bug fix for tool detection workflow)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, scripts/detect-tools.sh
+
+---
+
+## [0.13.4] - 2025-11-24
+
+### Fixed
+- **configure.md CLI command clarity** - All bash command sections now explicitly direct users to Claude Code CLI
+  - Step 6 (remote setup): Clear "If in Claude Code CLI" vs "If in Claude Desktop" branching
+  - Step 7 (tool detection): Explicit instructions for both environments
+  - Step 9 (git commit): Detailed user-facing instructions for Claude Desktop users
+  - Error handling section (uncommitted changes): Simplified command display
+
+- **Windows user experience improvements:**
+  - detect-tools.sh now checks for `.exe` variants (pandoc.exe, typst.exe, jq.exe)
+  - Added Windows path checks for Pandoc at `/c/Program Files/Pandoc/pandoc.exe`
+  - Fixed carriage return (`\r`) in version output with `tr -d '\r'`
+  - Windows-friendly tool installation instructions (no bash knowledge required)
+
+### Technical
+- **Release Type:** PATCH (UX improvements for Windows and Claude Desktop users)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, detect-tools.sh
+
+---
+
+## [0.13.3] - 2025-11-24
+
+### Added
+- **Module 20: JSON Schema and Structure Standards** - Authoritative reference for all .config/ JSON files
+  - Canonical schemas for init.json, project.json, metadata.json, manifest.json, migrations.json
+  - Required vs optional field definitions
+  - Field naming conventions (camelCase, exact names like `style` not `writingStyle`)
+  - Validation rules (dates in YYYY-MM-DD, chapter arrays, style name matching)
+  - Common error messages and fixes
+  - Integration notes for scripts
+
+### Fixed
+- **init.json field name enforcement** - Scripts now strictly require `style` field (not `writingStyle`)
+  - generate-content.sh validates exact field names per Module 20
+  - Prompt_1_Reference.md references Module 20 for schema documentation
+
+### Technical
+- **Release Type:** PATCH (new module, stricter validation)
+- **Breaking Change:** No (clarifies existing requirement)
+- **New Module:** Process/_COMMON/20_JSON_Schema_Module.md
+- **Files Updated:** generate-content.sh, Prompt_1_Reference.md, _COMMON/README.md, framework_files_manifest.json
+
+---
+
+## [0.13.2] - 2025-11-24
+
+### Added
+- **Date Confirmation in configure.md** - Step 0 now confirms today's date before any operations
+  - Prevents incorrect dates in generated files when system date is wrong
+  - User can confirm or provide correct date in YYYY-MM-DD format
+
+- **jq Dependency Check** - Step 0.5 validates required tools before initialization
+  - Checks for git (required) and jq (required for JSON processing)
+  - Provides installation instructions for missing tools
+  - Prevents cryptic errors during generate-content.sh execution
+
+- **Date Confirmation in /fw-init** - Step 6 confirms date during session startup
+  - Ensures CONFIRMED_DATE is set for all session operations
+  - Added to initialization summary report
+
+- **Target Completion Date Validation** - Prompt 1 now validates future dates
+  - Date must be after CONFIRMED_DATE (today)
+  - Prompts user to re-enter if date is in the past
+
+### Fixed
+- **configure.md User Decision Points** - All steps requiring user input now explicitly pause
+  - Added `⏸️ STOP AND ASK USER` and `WAIT for user response` markers
+  - Affected steps: 4.5 (migration retry), 4.7 (cleanup), 5 (git missing), 6 (remote setup), 7 (tool detection), 9 (commit)
+  - Prevents steps from running together without waiting for user input
+
+### Technical
+- **Release Type:** PATCH (bug fixes and UX improvements)
+- **Breaking Change:** No
+- **Files Updated:** configure.md, fw-init.md, Prompt_1_Initialize.md, Prompt_1_Reference.md, all version-numbered files
+
+---
+
+## [0.13.1] - 2025-11-24
+
+### Added
+- **Token-Optimized Prompt Architecture** - Core + Reference file pattern for 65-75% token reduction
+  - All 15 prompts optimized with consistent pattern
+  - Core files contain essential workflow (~3,000-6,500 tokens)
+  - Reference files contain detailed examples and troubleshooting (load on-demand)
+  - Total framework token savings: ~150,000 tokens across all prompts
+
+- **15 New Reference Files:**
+  - `Prompt_1_Reference.md` - Q&A examples, config formats
+  - `Prompt_2_Reference.md` - Chapter templates, renumbering logic
+  - `Prompt_3_Reference.md` - _chg file structure, style resolution
+  - `Prompt_5_Reference.md` - Change detection, version inference
+  - `Prompt_6_Reference.md` - Integration examples, lock scenarios
+  - `Prompt_7_Reference.md` - Compilation options, script details
+  - `Prompt_8_Reference.md` - Analysis criteria, report examples
+  - `Prompt_9_Reference.md` - Export commands, format options
+  - `Prompt_10_Reference.md` - Dashboard examples, metrics calculations
+  - `Prompt_11_Reference.md` - Style operations, transition analysis
+  - `Prompt_12_Reference.md` - Git operation examples
+  - `Prompt_13_Reference.md` - AI indicator details
+  - `Prompt_14_Reference.md` - Citation examples
+  - `Prompt_15_Reference.md` - Visual templates
+  - `Prompt_16_Reference.md` - Image management details
+
+- **Prompt_Essentials.md** - Shared essentials loaded once per session
+  - Lock management protocol
+  - Anti-hallucination rules
+  - Git commit format templates
+  - Style resolution algorithm
+  - Date handling protocol
+  - Semantic versioning guide
+  - Change tracking format
+
+### Changed
+- **All 15 Prompts Optimized** - Reduced token footprint while maintaining functionality
+
+  | Prompt | Old Size | New Size | Reduction |
+  |--------|----------|----------|-----------|
+  | Prompt 1 | ~500 lines | ~225 lines | 70% |
+  | Prompt 2 | ~310 lines | ~200 lines | 65% |
+  | Prompt 3 | ~520 lines | ~170 lines | 67% |
+  | Prompt 5 | ~340 lines | ~155 lines | 65% |
+  | Prompt 6 | ~400 lines | ~190 lines | 65% |
+  | Prompt 7 | ~500 lines | ~130 lines | 75% |
+  | Prompt 8 | ~477 lines | ~180 lines | 75% |
+  | Prompt 9 | ~530 lines | ~160 lines | 70% |
+  | Prompt 10 | ~378 lines | ~150 lines | 70% |
+  | Prompt 11 | ~650 lines | ~200 lines | 70% |
+  | Prompt 12 | ~530 lines | ~200 lines | 75% |
+  | Prompt 13 | ~500 lines | ~205 lines | 75% |
+  | Prompt 14 | ~600 lines | ~240 lines | 75% |
+  | Prompt 15 | ~700 lines | ~256 lines | 75% |
+  | Prompt 16 | ~850 lines | ~240 lines | 74% |
+
+- **Session Cleanup Instructions** - All prompts now include:
+  - Completion message with prompt name
+  - Token reclamation instruction for users
+  - Example: "Clear Prompt X from context"
+
+### Technical
+- Implemented from Proposal/OTHER_PROMPTS_OPTIMIZATION.md
+- Three-phase implementation:
+  - Phase 1: High-value prompts (3, 8, 13, 14, 15, 16)
+  - Phase 2: Medium-value prompts (1, 6, 7, 9, 11)
+  - Phase 3: Remaining prompts (2, 5, 10, 12)
+- Backward compatible - no changes to workflow or functionality
+- Reference files load on-demand, reducing typical session token usage by 60%+
+
+---
+
+## [0.13.0] - 2025-11-23
+
+### Added
+- **Modular Style Library (Phase 2)** - Complete integration of 19-style catalog system
+  - Prompt 1: Category-based style selection with progressive disclosure (5 categories → 19 styles)
+  - Prompt 11: Updated to use Style_Catalog.md for override management
+  - Style_Guide.md now includes category metadata
+  - 57% token reduction in style selection (280 lines vs 650 lines)
+  - Category organization: Academic (4), Professional (2), Narrative (4), Personal (3), Cultural (6)
+
+- **Concurrency Lock Management** - File-based locking for multi-instance safety
+  - 10 prompts updated with lock management (Prompts 1, 2, 3, 4, 5, 6, 10, 14, 15, 16)
+  - .locks/locks.json tracking with unique instance IDs
+  - Resource-level locking (Chapter_XX, ProjectConfig, Image_Registry)
+  - Conflict detection with retry/cancel/override options
+  - Added .locks/ to gitignore_template
+
+- **Documentation/ directory** - New maintainer documentation directory (NOT in user releases)
+  - Documentation/README.md - Directory guide for maintainers
+  - Documentation/Development/ - Future contributor guides
+  - Documentation/Archive/ - Historical proposals
+  - PREPARE_RELEASE.md stays at root (actively used)
+
+### Changed
+- **Phase 2: Documentation Consolidation** - Eliminated ~2,370 words of redundancy (~75% reduction)
+  - AI-Assisted_Nonfiction_Authoring_Process.md: Reduced 16 prompt descriptions to 2-3 sentence summaries with reference to Prompts/README.md (~1,200 words saved)
+  - Prompts/README.md: Replaced "Common Workflows" section with reference to QUICK_REFERENCE.md (~750 words saved)
+  - QUICK_REFERENCE.md: Reduced hierarchical style system from 28 lines to 8 lines with reference to Styles/README.md (~120 words saved)
+  - Prompts/README.md: Replaced detailed quote management with 15-line summary and reference (~150 words saved)
+  - Updated "9 styles" → "19 styles (v2.0)" for accuracy
+  - All unique content preserved, only redundancy removed
+
+- **Phase 3: Documentation Migration** - Moved AI-Assisted Process to Documentation/
+  - `Process/AI-Assisted_Nonfiction_Authoring_Process.md` → `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md`
+  - Updated all references across framework (CLAUDE.md, fw-init.md, system-instructions.md, FRAMEWORK_CORE.md, Prompts/README.md, QUICK_REFERENCE.md)
+  - Documentation/ excluded from user release packages (maintainer-only content)
+  - Users get FRAMEWORK_CORE.md (instant load) + on-demand docs from Process/
+
+- **Phase 3.5: PREPARE_RELEASE.md Updates** - Comprehensive release preparation updates
+  - Added FRAMEWORK_CORE.md to Critical Files list (#2)
+  - Added .claude/commands/fw-init.md to Critical Files list (#8)
+  - Removed AI-Assisted Process from Critical Files (moved to Documentation/)
+  - PREPARE_RELEASE.md stays at root (noted explicitly)
+  - Updated "Files That Should Contain Version Numbers" section with new organization
+  - Added Step 4.7: Documentation/ Directory Exclusion note
+  - Updated commit message template with new file list
+  - Updated grep command examples to exclude Documentation/
+  - Updated manifest example structure (v0.13.0, no Documentation/)
+
+- **ENFORCEMENT_RULES.md** - Consolidated Module 14 (Enforcement Rules Module) into root-level document
+  - Eliminated ~200 lines of duplication between files
+  - Added Part 2 (Integration Guide) with all Module 14 templates and procedures
+  - Added Part 3 (Testing & Compliance) with testing procedures and validation
+  - Added Part 4 (Reference Tables) with enforcement matrix and file coverage
+  - Single source of truth for enforcement rules and integration guidance
+  - Updated all prompt references to point to consolidated location
+
+- **Process/_COMMON/** - Module 14 deprecated
+  - All Module 14 content merged into ENFORCEMENT_RULES.md
+  - Process/_COMMON/README.md updated (13 active modules, Module 14 noted as deprecated)
+  - Process/_COMMON/04_File_Operations_Library.md updated reference
+  - Prompt 15 updated to reference ENFORCEMENT_RULES.md instead of Module 14
+
+### Removed
+- **Process/_COMMON/14_Enforcement_Rules_Module.md** - Content merged into ENFORCEMENT_RULES.md
+  - All integration templates now in ENFORCEMENT_RULES.md Part 2
+  - All testing procedures now in ENFORCEMENT_RULES.md Part 3
+  - All reference tables now in ENFORCEMENT_RULES.md Part 4
+
+### Technical
+- Consolidation eliminates maintenance burden of keeping two files in sync
+- ~200 lines of duplication removed
+- Improved clarity with single authoritative source for enforcement rules
+- Gap maintained at Module 14 position with deprecation note in _COMMON/README.md
+
+---
+
 ## [0.12.10] - 2025-11-23
 
 ### Added

@@ -94,7 +94,8 @@ Examples:
 
 **Operation:**
 1. Check if `.locks/` directory exists
-2. If not, create `.locks/` directory
+2. If not, create `.locks/` directory using bash: `mkdir -p .locks`
+   - **CRITICAL:** Use `mkdir -p` (bash/sh command), NOT Windows CMD syntax (`if not exist`)
 3. Check if `.locks/locks.json` exists
 4. If not, create with empty structure:
    ```json
@@ -435,37 +436,37 @@ To clear all locks manually, use the "Clear All Locks" operation.
 
 ## Implementation Checklist
 
-### Phase 1: Infrastructure (v0.13.0)
+### Phase 1: Infrastructure (v0.13.0) ✅
 
-- [ ] Create `.locks/` directory (via prompts, not pre-created)
-- [ ] Add `.locks/` to `.gitignore`
-- [ ] Document this module (18_Lock_Management_Module.md)
-- [ ] Update `CLAUDE.md` to reference lock system for concurrent editing
+- [x] Create `.locks/` directory (via prompts, not pre-created)
+- [x] Add `.locks/` to `.gitignore`
+- [x] Document this module (18_Lock_Management_Module.md)
+- [x] Update `CLAUDE.md` to reference lock system for concurrent editing
 
-### Phase 2: Prompt Updates (v0.13.0)
+### Phase 2: Prompt Updates (v0.13.0) ✅
 
 Update prompts to use locks:
 
-- [ ] Prompt 1: Initialize
-- [ ] Prompt 2: Add Chapter
-- [ ] Prompt 3: Change by Chg
-- [ ] Prompt 4: Interactive Change
-- [ ] Prompt 5: Scan For User Edits
-- [ ] Prompt 6: Integrate Inbox
-- [ ] Prompt 11: Style Manager
-- [ ] Prompt 14: Citation Finder
-- [ ] Prompt 15: Visual Content Suggester
-- [ ] Prompt 16: Image Manager
+- [x] Prompt 1: Initialize
+- [x] Prompt 2: Add Chapter
+- [x] Prompt 3: Change by Chg
+- [x] Prompt 4: Interactive Change
+- [x] Prompt 5: Scan For User Edits
+- [x] Prompt 6: Integrate Inbox
+- [x] Prompt 11: Style Manager
+- [x] Prompt 14: Citation Finder
+- [x] Prompt 15: Visual Content Suggester
+- [x] Prompt 16: Image Manager
 
-### Phase 3: Dashboard Integration (v0.13.0)
+### Phase 3: Dashboard Integration (v0.13.0) ✅
 
-- [ ] Prompt 10: Display active locks, stale locks, clear all option
+- [x] Prompt 10: Display active locks, stale locks, clear all option
 
-### Phase 4: Documentation (v0.13.0)
+### Phase 4: Documentation (v0.13.0) ✅
 
-- [ ] Add concurrency section to `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
-- [ ] Update `Process/Prompts/QUICK_REFERENCE.md` with lock guidance
-- [ ] Simplify `Proposal/CONCURRENCY.md` to reference this module
+- [x] Add concurrency section to `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
+- [x] Update `Process/Prompts/QUICK_REFERENCE.md` with lock guidance
+- [x] Simplify `Proposal/CONCURRENCY.md` to reference this module
 
 ---
 

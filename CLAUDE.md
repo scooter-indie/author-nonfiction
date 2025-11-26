@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.12.10
+**Framework Version:** 0.13.14
 **Session Context Document for Claude Code**
 
 ---
@@ -13,23 +13,19 @@
 /fw-init
 ```
 
-This slash command performs the Session Startup Protocol by loading all framework documentation (~20,000-30,000 tokens):
-- system-instructions.md (framework rules and compatibility)
-- Process/AI-Assisted_Nonfiction_Authoring_Process.md (comprehensive guide)
-- Process/Anti-Hallucination_Guidelines.md (accuracy protocols)
-- Process/Prompts/QUICK_REFERENCE.md (workflow guide)
-- Process/Prompts/README.md (detailed prompt documentation)
-- Process/Styles/README.md (writing styles library)
+This slash command performs the Session Startup Protocol with the new lightweight loading strategy (~3,000 tokens):
+- Process/FRAMEWORK_CORE.md (essential framework knowledge - instant load)
 - PROJECT_CONTEXT.md (if book project exists)
+- Additional docs load on-demand when needed
 
 **Why this is mandatory:**
-- Loads complete, up-to-date framework rules
-- Explains chapter structure (subdirectories vs flat files)
-- Defines when to use each prompt
-- Prevents common errors like creating files in wrong locations
+- Loads essential framework rules instantly (~3,000 tokens vs 27,000+ in v0.12.10)
+- 85-90% faster session startup
 - Activates Anti-Hallucination Protocol (ASK FIRST verification)
+- Loads prompt compatibility matrix (CLI vs Desktop)
 - Checks for existing book project context
 - Provides verbose initialization report
+- Additional docs load on-demand when needed
 
 **IMPORTANT:** Do NOT execute any prompts until `/fw-init` completes successfully.
 
@@ -56,6 +52,7 @@ This is the **AI-Assisted Nonfiction Authoring Framework** - a comprehensive sys
 - **Flexibility**: Easy reorganization and restructuring
 - **Quality**: Built-in validation and consistency checking
 - **Safety**: Git version control with commits before major operations
+- **Concurrency**: Lock management for multi-instance editing (v0.13.0+)
 
 ### File Format
 
@@ -69,12 +66,20 @@ This installation contains the **Process/** directory with the complete framewor
 
 ```
 Process/
-├── AI-Assisted_Nonfiction_Authoring_Process.md    # Complete framework documentation
-├── Anti-Hallucination_Guidelines.md                # Critical rules for AI accuracy
-├── Style_Examples.md                                # 9 curated writing styles
+├── FRAMEWORK_CORE.md                                # NEW v0.13.0: Instant-load essentials
+├── AI-Assisted_Nonfiction_Authoring_Process.md    # Complete framework documentation (on-demand)
+├── Anti-Hallucination_Guidelines.md                # Critical rules for AI accuracy (on-demand)
+├── Styles/                                          # Modular style library (v0.13.0+)
+│   ├── Style_Catalog.md                             # Master catalog of 19 styles
+│   ├── README.md                                    # Style library guide
+│   ├── Academic/                                    # Academic & Research (4 styles)
+│   ├── Professional/                                # Business & Professional (2 styles)
+│   ├── Narrative/                                   # Narrative & Storytelling (4 styles)
+│   ├── Personal/                                    # Personal Development (3 styles)
+│   └── Cultural/                                    # Cultural & Social Commentary (6 styles)
 ├── Prompts/
-│   ├── README.md                                    # Prompt usage guide
-│   ├── QUICK_REFERENCE.md                           # Workflow quick reference
+│   ├── README.md                                    # Prompt usage guide (on-demand)
+│   ├── QUICK_REFERENCE.md                           # Workflow quick reference (on-demand)
 │   ├── Prompt_1_Initialize.md                       # Create new book project
 │   ├── Prompt_2_Add_Chapter.md                      # Add chapters
 │   ├── Prompt_3_Change_by_Chg.md                    # Automated revision workflow
@@ -103,7 +108,7 @@ Process/
 
 ## Critical: Anti-Hallucination Guidelines
 
-**ALWAYS** read and apply `Process/Anti-Hallucination_Guidelines.md` before executing any prompt.
+**The Anti-Hallucination Protocol is loaded from FRAMEWORK_CORE.md at session startup.**
 
 **MANDATORY VERIFICATION PROTOCOL:**
 - **ASK BEFORE generating** examples, anecdotes, statistics, or quotes
@@ -112,13 +117,94 @@ Process/
 - **ALWAYS use labels**: REAL vs HYPOTHETICAL vs GENERIC
 - **ALWAYS verify**: ⏳ Pending | ⚠ Needs Citation | ✓ Verified
 
-Key rules:
-- Never fabricate quotes, statistics, or citations
-- Mark uncertain content clearly with [VERIFY] or [CITATION NEEDED]
-- Verify facts before stating them
-- Use proper quote verification status (⏳/⚠/✓)
-- Never guess attributions
-- Ask user for real experiences before creating examples
+**Full protocol details:** Loaded in FRAMEWORK_CORE.md (Section 1) or load `Process/Anti-Hallucination_Guidelines.md` on-demand
+
+---
+
+## Token Management Best Practices
+
+### Why Token Management Matters
+
+Claude Code sessions have a 200,000 token budget. Framework prompts can consume significant tokens, leaving less room for your actual content work.
+
+**v0.14.0 Improvements:**
+- **Prompt 4:** Reduced from 53,000 → 2,000 tokens (95% reduction)
+- **All prompts:** Added session cleanup instructions
+- **Result:** 98% of session tokens available for content (vs 60% in v0.13.0)
+
+### Clear Completed Prompts
+
+After a prompt completes, clear it from context to reclaim tokens:
+
+**Specific Prompt:**
+- "Clear Prompt 1 from context" (saves ~25,000 tokens)
+- "Clear Prompt 4 from context" (saves ~2,000 tokens in v0.14.0)
+- "Remove Prompt 8 from session" (saves ~20,000 tokens)
+
+**All Prompts:**
+- "Clear all framework prompts"
+- "Reset context, keep only my content"
+
+### When to Clear Context
+
+**✅ Always clear after:**
+- **Prompt 1 (Initialize)** - One-time setup, no longer needed
+- **Prompt 2 (Add Chapter)** - After adding chapter
+- **Prompt 4 (Interactive Change)** - After writing instructions
+- **Prompt 7 (Compile)** - After compilation complete
+- **Prompt 8 (Consistency)** - After review complete
+- **Prompt 9 (Export)** - After export complete
+- **Prompt 10 (Dashboard)** - After viewing dashboard
+- **Prompt 13 (AI Detection)** - After analysis complete
+- **Prompt 14 (Citation Finder)** - After citations added
+- **Prompt 15 (Visual Content)** - After visuals created
+- **Prompt 16 (Image Manager)** - After images organized
+
+**⚠️ Keep in context if:**
+- **Prompt 3 (Change by Chg)** - If applying multiple _chg files in sequence
+- **Prompt 5 (Scan Edits)** - If scanning multiple files
+- **Prompt 6 (Integrate Inbox)** - If processing multiple inbox items
+- **Prompt 11 (Style Manager)** - If managing multiple style overrides
+
+### Token Budget Awareness
+
+**Check remaining tokens:**
+Ask: "How many tokens do I have remaining?"
+
+**Typical session flow:**
+1. Start: 200,000 tokens
+2. Load Prompt 1: ~175,000 remaining
+3. Clear Prompt 1: ~200,000 reclaimed
+4. Load Prompt 4: ~198,000 remaining (v0.14.0)
+5. Clear Prompt 4: ~200,000 reclaimed
+6. Work on content: ~195,000 available
+
+**Best practice:** Clear prompts immediately after completion for maximum available tokens.
+
+### Framework Token Usage (v0.14.0)
+
+| Prompt | Tokens (v0.13.0) | Tokens (v0.14.0) | Savings |
+|--------|------------------|------------------|---------|
+| Prompt 1 | ~25,000 | ~25,000 | 0* |
+| Prompt 2 | ~15,000 | ~15,000 | 0* |
+| Prompt 3 | ~18,000 | ~18,000 | 0* |
+| **Prompt 4** | **~53,000** | **~2,000** | **51,000** ✅ |
+| Prompt 5 | ~12,000 | ~12,000 | 0* |
+| Prompt 6 | ~14,000 | ~14,000 | 0* |
+| Prompt 7 | ~16,000 | ~16,000 | 0* |
+| Prompt 8 | ~20,000 | ~20,000 | 0* |
+| Prompt 9 | ~15,000 | ~15,000 | 0* |
+| Prompt 10 | ~12,000 | ~12,000 | 0* |
+| Prompt 11 | ~16,000 | ~16,000 | 0* |
+| Prompt 12 | ~10,000 | ~10,000 | 0* |
+| Prompt 13 | ~18,000 | ~18,000 | 0* |
+| Prompt 14 | ~22,000 | ~22,000 | 0* |
+| Prompt 15 | ~20,000 | ~20,000 | 0* |
+| Prompt 16 | ~25,000 | ~25,000 | 0* |
+
+*Future optimizations (Phase 2 & v0.15.0) will reduce these further
+
+**Key improvement:** Prompt 4 now 95% more efficient, enabling 26x more editing sessions per token budget!
 
 ---
 
@@ -129,7 +215,7 @@ Key rules:
 If this is your first time using the framework:
 
 1. **Read the framework documentation:**
-   - `Process/AI-Assisted_Nonfiction_Authoring_Process.md` (comprehensive guide)
+   - `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` (comprehensive guide)
    - `Process/Prompts/QUICK_REFERENCE.md` (quick workflows)
 
 2. **Initialize your book project:**
@@ -218,7 +304,7 @@ Claude will read the appropriate prompt file and execute it.
 ### Prompt 7: Compile Complete Manuscript
 **Purpose:** Generate single file with entire manuscript
 **When:** Review entire book, prepare for editing
-**Output:** `Drafts/Full_Draft_[date]_v[version].md`
+**Output:** `Drafts/[Project-Name]-[format]-vNN.md`
 
 ### Prompt 8: Consistency Checker
 **Purpose:** Check for consistency issues across all content
@@ -228,7 +314,7 @@ Claude will read the appropriate prompt file and execute it.
 ### Prompt 9: Export and Format
 **Purpose:** Export to DOCX, PDF, EPUB, LaTeX
 **When:** Preparing for publication or submission
-**Output:** Formatted files in `Exports/[date]/` directory
+**Output:** `Exports/[Project-Name]-vNN.[format]`
 
 ### Prompt 10: Progress Dashboard
 **Purpose:** Generate progress report and project status
@@ -345,17 +431,36 @@ Section Style (Optional Override)
 - Monitors 30% override threshold (guideline for appropriate book-level choice)
 - Documents style transitions for smooth reader experience
 
-**9 Framework Styles Available:**
+**19 Framework Styles Available Across 5 Categories:**
 
+**Academic & Research (4 styles):**
 1. **Academic Authority** - Scholarly, research-based
-2. **Conversational Expert** - Business/professional, accessible
-3. **Narrative Storyteller** - Memoir-adjacent, first-person
-4. **Business Professional** - Management/leadership focused
-5. **Technical Precision** - Technical guides, systematic
-6. **Investigative Journalist** - Evidence-based revelation
-7. **Practical Guide** - How-to, step-by-step
-8. **Inspirational Teacher** - Personal development, motivational
-9. **Scientific Communicator** - Popular science, wonder with rigor
+2. **Scientific Communicator** - Popular science, wonder with rigor
+3. **Technical Precision** - Technical guides, systematic
+4. **Medical/Health Narrative** - Clinical knowledge + human experience
+
+**Business & Professional (2 styles):**
+5. **Business Professional** - Management/leadership focused
+6. **Conversational Expert** - Business/professional, accessible
+
+**Narrative & Storytelling (4 styles):**
+7. **Narrative Storyteller** - Memoir-adjacent, first-person
+8. **Historical Chronicler** - Narrative history, scholarly storytelling
+9. **Investigative Journalist** - Evidence-based revelation
+10. **Confessional Memoir** - Raw honesty, vulnerability
+
+**Personal Development & How-To (3 styles):**
+11. **Practical Guide** - How-to, step-by-step
+12. **Inspirational Teacher** - Personal development, motivational
+13. **Philosophical Contemplative** - Reflective inquiry, ethics
+
+**Cultural & Social Commentary (6 styles):**
+14. **Cultural Critic** - Sharp observation, essayistic
+15. **Satirical Humorist** - Witty, ironic, comedic
+16. **Activist Advocate** - Social justice, call to action
+17. **Lyrical Nature Writer** - Poetic, sensory, ecological
+18. **Spiritual/Religious Writer** - Contemplative, sacred traditions
+19. **Sports Writer** - Athletic narratives, competitive drama
 
 **How to Use:**
 - **Prompt 1** (Initialize): Select book-level style, creates Style_Overrides.md
@@ -365,7 +470,7 @@ Section Style (Optional Override)
 - **Prompt 10** (Dashboard): Shows style distribution summary
 - **Prompt 11** (Style Manager): Add/remove/analyze overrides, validate registry
 
-**Location:** `Process/Style_Examples.md` contains complete style definitions with examples.
+**Location:** `Process/Styles/Style_Catalog.md` contains the master catalog. Individual style files are in category subdirectories (Academic/, Professional/, Narrative/, Personal/, Cultural/).
 
 ---
 
@@ -447,15 +552,15 @@ The framework includes centralized quote/epigraph management:
 
 ## Important Files to Reference
 
-### Must Read:
-- `Process/Anti-Hallucination_Guidelines.md` - Critical rules for accuracy
+### Always Loaded at Startup:
+- `Process/FRAMEWORK_CORE.md` - Essential framework knowledge (instant load)
+
+### Load On-Demand When Needed:
+- `Process/Anti-Hallucination_Guidelines.md` - Full accuracy protocol details
 - `Process/Prompts/QUICK_REFERENCE.md` - Workflow guide
-
-### Comprehensive Documentation:
-- `Process/AI-Assisted_Nonfiction_Authoring_Process.md` - Complete framework guide
-
-### Style Library:
-- `Process/Style_Examples.md` - 9 curated professional styles
+- `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` - Complete framework guide
+- `Process/Prompts/README.md` - Detailed prompt documentation
+- `Process/Styles/README.md` - Style library details
 
 ---
 
@@ -465,18 +570,16 @@ When Claude Code starts in this directory:
 
 ✅ **MANDATORY: Run `/fw-init` command** - User types `/fw-init` at session start
 ✅ **CLAUDE.md auto-loaded** - Framework context from system
-✅ **Initialization in progress** - `/fw-init` loads all framework documentation:
-   - system-instructions.md
-   - Process/AI-Assisted_Nonfiction_Authoring_Process.md
-   - Process/Anti-Hallucination_Guidelines.md
-   - Process/Prompts/QUICK_REFERENCE.md
-   - Process/Prompts/README.md
-   - Process/Styles/README.md
-   - PROJECT_CONTEXT.md (if exists)
+✅ **Initialization in progress** - `/fw-init` loads essential framework documentation (~3,000 tokens):
+   - Process/FRAMEWORK_CORE.md (instant load - all essential knowledge)
+   - PROJECT_CONTEXT.md (if book project exists)
+   - Additional docs load on-demand when needed
 ✅ **Anti-Hallucination Protocol Active** - ASK before assuming user experiences
 ✅ **CONFIRM DATE WITH USER** - See Date Confirmation Protocol below
-✅ **Initialization complete** - Verbose report displayed
+✅ **Initialization complete** - Verbose report displayed (85-90% faster than v0.12.10)
 ✅ **Ready to execute prompts** - User can say "Execute Prompt X"
+
+**v0.13.0 Improvement:** Session startup is now 85-90% faster with on-demand loading strategy.
 
 **Note:** The `/fw-init` command (in `.claude/commands/fw-init.md`) performs the complete Session Startup Protocol. Do NOT execute any prompts until `/fw-init` completes.
 
@@ -505,11 +608,10 @@ When Claude Code starts in this directory:
 
 - **Always use ISO format:** `YYYY-MM-DD` (e.g., `2025-11-20`)
 - This format is used for:
-  - Filenames: `Full_Draft_2025-11-20_v1.0.0.md`
-  - Directory names: `Exports/2025-11-20/`
   - Chapter creation metadata
   - Git commit messages
   - Dashboard reports
+  - Compiled file metadata headers
 
 ### Passing Date to Agents
 
@@ -524,26 +626,28 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 - **Prompt 1 (Initialize):** Creates initial project structure with date metadata
 - **Prompt 2 (Add Chapter):** Writes chapter creation date
-- **Prompt 7 (Compile):** Creates `Full_Draft_[date]_v[version].md`
-- **Prompt 9 (Export):** Creates `Exports/[date]/` directory
+- **Prompt 7 (Compile):** Writes compile timestamp in metadata header
+- **Prompt 10 (Dashboard):** Reports with current date
 
-**All date-writing prompts have been updated with explicit reminders to use CONFIRMED_DATE.**
+**Note:** Compiled drafts and exports use sequential versioning (vNN) instead of date-based filenames.
 
 ---
 
 ## Support
 
-- **Documentation:** `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
+- **Documentation:** `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md`
 - **Quick Reference:** `Process/Prompts/QUICK_REFERENCE.md`
 - **Issues/Bugs:** https://github.com/scooter-indie/author-nonfiction/issues
 - **Releases:** https://github.com/scooter-indie/author-nonfiction/releases
 
 ---
 
-**Framework Version:** 0.12.10
-**Last Updated:** 2025-11-23
+**Framework Version:** 0.13.14
+**Last Updated:** 2025-11-26
+**Performance:** 85-90% faster session startup with on-demand loading
 
 ---
 
 *This document ensures Claude Code has full framework context at session startup*
-*User can immediately execute any prompt without additional context loading*
+*v0.13.12: Dual-platform configure.md with copy blocks for Desktop users*
+*Session startup now loads ~3,000 tokens instead of 27,000+ tokens*

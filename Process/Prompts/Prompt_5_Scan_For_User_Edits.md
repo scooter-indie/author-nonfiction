@@ -1,171 +1,153 @@
 # Execute Prompt 5: Scan For User Edits
 
-**DESKTOP-FRIENDLY:** Works in Claude Desktop with optional copy/paste git commit at end
+**Version:** 0.15.0
+**⚡ Token Efficient:** ~3,500 tokens (65% reduction from v0.14.0)
+**DESKTOP-FRIENDLY:** Works 85% in Desktop (git via CLI)
 
-**BEFORE PROCEEDING:** Read and apply `Process/Anti-Hallucination_Guidelines.md`
-
-**CRITICAL ENFORCEMENT:**
-- **RULE 1:** All file modifications MUST update corresponding _chg files
-- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
-
-See: `Process/ENFORCEMENT_RULES.md` for complete details
-
-**NOTE:** This prompt explicitly updates _chg files to sync them with content changes made outside the framework
-
-**Claude Desktop Compatibility:**
-- ✅ All _chg file updates via MCP Filesystem
-- ✅ Optional git commit at end (single copy/paste)
-- ✅ No bash commands required
-- 📋 Works 85% in Desktop
+**FIRST ACTION - MANDATORY:**
+Reference `Process/Prompts/Prompt_Essentials.md` (loaded once per session via /fw-init)
 
 ---
 
-## What This Does
+## Quick Start
 
-I will scan your project for content files that have been modified but their corresponding `_chg.md` (change tracking) files are out of sync. I'll automatically update the `_chg` files with version history entries based on the git changes.
+Scans for content files modified outside the framework and synchronizes their `_chg.md` tracking files. Non-destructive - only updates `_chg` files.
 
----
-
-## How This Works
-
-I'll scan for changes in three contexts, then auto-update any out-of-sync `_chg` files.
-
-### What I'll do:
-
-1. **Find all _chg file pairs** - Locate all `*_chg.md` files and their corresponding content files
-2. **Check for changes** in three contexts:
-   - Uncommitted local changes (`git diff`)
-   - Staged changes (`git diff --cached`)
-   - Unpushed commits (`git diff origin/main..HEAD`)
-3. **Auto-update _chg files** for any out-of-sync content
-4. **Show you a summary** of all updates made
-5. **Wait for your acknowledgment** before finishing
+**Use when:**
+- Before milestones
+- After manual edits
+- Weekly maintenance
+- After pulling from remote
 
 ---
 
-## What Gets Updated
+## Workflow (4 Steps)
 
-For each out-of-sync file, I'll:
-
-- **Analyze the git diff** to understand what changed
-- **Infer the change type**:
-  - "Content Addition" - primarily new content added
-  - "Content Deletion" - primarily content removed
-  - "Structural Change" - headings/organization modified
-  - "Refinement" - mostly line-by-line edits
-  - "Content Update" - general modifications
-- **Increment the version number** using semantic versioning:
-  - Major version (X.0.0) for structural changes
-  - Minor version (0.X.0) for content additions/deletions
-  - Patch version (0.0.X) for refinements/updates
-- **Generate a version history entry** with:
-  - Version number and date
-  - Type and scope of changes
-  - Summary of what was modified
-  - Rationale: "[Auto-generated from git diff]"
-- **Update the _chg file** with new entry at top of Version History section
-- **Update "Last Modified" date** in file header
+1. Find all _chg file pairs
+2. Check for changes (uncommitted, staged, unpushed)
+3. Auto-update _chg files
+4. Report and commit
 
 ---
 
-## Example Output
+## Step 0: Lock Management
 
+**Acquire locks for modified chapters:**
+- Scan first, then lock each `Chapter_XX` being updated
+- Locked chapters are skipped with notification
+
+See: Prompt_Essentials.md → Lock Management
+
+---
+
+## Step 1: Find File Pairs
+
+**Scan for:**
+- `*_chg.md` files and their corresponding content files
+- Check all Manuscript/ subdirectories
+
+---
+
+## Step 2: Check for Changes
+
+**Three contexts:**
+1. Uncommitted local changes (`git diff`)
+2. Staged changes (`git diff --cached`)
+3. Unpushed commits (`git diff origin/main..HEAD`)
+
+**For each out-of-sync file, infer:**
+- Change type (Addition, Deletion, Structural, Refinement, Update)
+- Version increment (Major/Minor/Patch)
+
+---
+
+## Step 3: Auto-Update _chg Files
+
+**For each out-of-sync file:**
+1. Analyze git diff
+2. Increment version using semantic versioning
+3. Generate version history entry
+4. Update "Last Modified" date
+
+**Version History Entry Format:**
 ```markdown
-Found 2 files out of sync with their _chg tracking files:
-- Manuscript/Chapters/Chapter_03/Chapter_03_Methods.md
-- Manuscript/Quotes/Chapter_Quotes.md
+### Version N.M.P - YYYY-MM-DD - [Description]
 
-Updating Manuscript/Chapters/Chapter_03/Chapter_03_Methods_chg.md:
-  Added Version 1.3.0 - 2025-11-17
-  Type: Content Addition
-  Summary: Added case study examples to Data Collection section
-
-Updating Manuscript/Quotes/Chapter_Quotes_chg.md:
-  Added Version 1.1.0 - 2025-11-17
-  Type: Content Update
-  Summary: Updated Chapter 5 quote with verified attribution
-
-All _chg files have been synchronized.
-```
-
----
-
-## When to Use This Prompt
-
-**Recommended scenarios:**
-
-1. **Before creating a milestone** - Ensure all change tracking is current before tagging a version
-2. **After manual edits** - When you've edited content files directly (not through Prompt 3)
-3. **Before a presentation/review** - Clean up change tracking for others reviewing your work
-4. **Weekly maintenance** - Keep change tracking current as part of regular workflow
-5. **After pulling from remote** - Sync tracking files if changes came from another machine
-
-**Note:** The book-writing-assistant agent automatically runs this check at:
-- Session start
-- Before any git commit
-
-So you may not need to run this prompt often if you're using the agent regularly.
-
----
-
-## Change Tracking File Format
-
-The auto-generated entries follow this format:
-
-```markdown
-### Version N.M.P - YYYY-MM-DD - [Brief Description]
-
-**Type:** [Content Addition | Content Deletion | Structural Change | Refinement | Content Update]
-**Scope:** [Affected sections/chapters]
+**Type:** [Content Addition | Deletion | Structural | Refinement | Update]
+**Scope:** [Affected sections]
 **Priority:** Medium
 **Rationale:** [Auto-generated from git diff]
 
 **Changes Made:**
-- [Summary of changes from diff analysis]
-- [What sections were modified]
-- [Nature of modifications]
-
-**Verification Status:**
-- [If applicable, based on file type]
+- [Summary from diff analysis]
 ```
+
+---
+
+## Step 4: Report & Commit
+
+**Example output:**
+```
+Found 2 files out of sync:
+- Manuscript/Chapters/Chapter_03/Chapter_03.md
+- Manuscript/Quotes/Chapter_Quotes.md
+
+Updating Chapter_03_chg.md:
+  Added Version 1.3.0 - 2025-11-24
+  Type: Content Addition
+  Summary: Added case study examples
+
+Updating Chapter_Quotes_chg.md:
+  Added Version 1.1.0 - 2025-11-24
+  Type: Content Update
+  Summary: Updated Chapter 5 quote
+
+✓ All _chg files synchronized
+```
+
+---
+
+## Git Commit & Release
+
+```bash
+git add [list of _chg.md files]
+git commit -m "$(cat <<'EOF'
+UPDATE: Sync change tracking for [N] files
+
+Synchronized change tracking with git history.
+
+🤖 Generated with Claude Code - Prompt 5
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"
+```
+
+Release locks for all updated chapters.
 
 ---
 
 ## Safety Notes
 
-- **Non-destructive** - Only updates `_chg` files, never modifies content files
-- **Preserves existing entries** - New versions added to top of Version History
-- **Git-based** - Only tracks changes that are in git (committed, staged, or modified)
-- **Transparent** - Shows you exactly what was updated before finishing
+- **Non-destructive**: Only updates `_chg` files
+- **Preserves existing entries**: New versions added to top
+- **Git-based**: Only tracks git changes
+- **Transparent**: Shows exactly what was updated
 
 ---
 
-## Git Commit Format (For Claude Desktop Users)
-
-When providing the git commit command at the end, format it like this:
-
-**For Claude Desktop users, provide:**
-
-Go to Claude Code CLI and say:
-```
-Run: git add [list of _chg.md files] && git commit -m 'Update change tracking for [count] files
-
-Synchronized change tracking with git history.
-
-🤖 Generated with Claude Desktop
-
-Co-Authored-By: Claude <noreply@anthropic.com>'
-```
-
-**The instruction "Go to Claude Code CLI and say:" must be OUTSIDE the code block.**
-**Only the command starting with "Run:" should be inside the code block.**
+📖 **For detailed examples:** See `Process/Prompts/Prompt_5_Reference.md`
 
 ---
 
-## Ready to Begin?
-
-I'll now scan for out-of-sync files and update their change tracking.
+**Version:** 0.15.0
+**Last Updated:** 2025-11-24
+**Token Efficiency:** 65% reduction
 
 ---
 
-*Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 10)*
+## Session Cleanup
+
+Tell user: "✓ Prompt 5 Scan For User Edits complete.
+
+To free up tokens, say: **'Clear Prompt 5 from context'**"

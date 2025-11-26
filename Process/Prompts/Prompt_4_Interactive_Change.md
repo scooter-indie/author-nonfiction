@@ -1,205 +1,156 @@
 # Execute Prompt 4: Interactive Change
 
-**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem + single copy/paste git commit at end
-
-**FIRST ACTION - MANDATORY:**
-Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
-
-**CRITICAL ENFORCEMENT:**
-- **RULE 1:** All file modifications MUST update corresponding _chg files
-- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
-
-See: `Process/ENFORCEMENT_RULES.md` for complete details
-
-**DATE CONFIRMATION REQUIRED:**
-- **USE CONFIRMED_DATE from session startup** (see CLAUDE.md Date Confirmation Protocol)
-- **NEVER use raw `<env>` date** without confirmation
-- Pass confirmed date to any spawned agents: "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
-
-**AGENT INSTRUCTIONS:**
-When spawning agents (using Task tool), include in agent prompt:
-- "FIRST ACTION: Read Process/Anti-Hallucination_Guidelines.md before proceeding."
-- "Today's confirmed date is [CONFIRMED_DATE]. Use this date for all operations."
-
-**Claude Desktop Compatibility:**
-- ✅ All file operations via MCP Filesystem connector
-- ✅ Single git commit command provided as copy/paste at end
-- ✅ No bash commands required during execution
-- 📋 Works 95% in Desktop
+**Version:** 0.14.0
+**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem
+**⚡ Token Efficient:** ~2,000 tokens (95% reduction from v0.13.0)
 
 ---
 
-## What This Does
+## Quick Start
 
-I will have an **interactive conversation** with you about changes to your content, then write clear instructions to the appropriate `_chg.md` file. This is an **alternative to manually editing _chg files** - you describe what you want in natural language, and I formalize it.
+**I will have an interactive conversation with you about changes to your content, then write clear instructions to the `_chg.md` file.**
 
-**Workflow difference:**
-- **Prompt 3 (Change_by_Chg)**: You manually write instructions in _chg file → Execute Prompt 3 → Changes applied
-- **Prompt 4 (Interactive_Change)**: You describe changes conversationally → I write to _chg file → Optionally execute Prompt 3
+### Workflow (6 Steps)
 
-**When to use Prompt 4:**
-- You want to discuss changes interactively before committing
-- You're not sure how to phrase instructions
-- You want to explore different approaches through conversation
-- You want me to help structure your revision ideas
-
-**When to use Prompt 3:**
-- You already know exactly what changes you want
-- You prefer to write instructions yourself
-- You're following a pre-planned revision outline
+1. **Lock chapter** → Acquire lock for the chapter you're editing
+2. **Ask you:** "Which file do you want to edit?"
+3. **Converse:** Have natural conversation about desired changes
+4. **Write instructions:** Format instructions clearly in `_chg.md` file
+5. **Show you:** Display instructions for review (yes/edit/cancel)
+6. **Apply now?** Optionally execute Prompt 3 to apply changes immediately
 
 ---
 
-## How This Works
+## Step 0: Lock Management
 
-### My Workflow:
+**Initialize locks:**
+- Create `.locks/` directory: `mkdir -p .locks`
+- Create `.locks/locks.json` if not exists: `{"locks": []}`
+- Generate instance ID: `CLI-[5-digit-random]` or `Desktop-[5-digit-random]`
 
-**Step 1: Ask which file to edit**
+**Acquire lock:**
+- User specifies file → Determine chapter (e.g., `Chapter_03.md` → Resource: `Chapter_03`)
+- Check if `Chapter_XX` is locked
+- If locked < 15 min: Offer to wait or cancel
+- If locked >= 15 min (stale): Offer to override or cancel
+- Acquire lock:
+  ```json
+  {
+    "resource": "Chapter_XX",
+    "timestamp": "[ISO-8601]",
+    "instance": "[instance_id]"
+  }
+  ```
 
-I'll ask: "Which file do you want to edit?"
-
-Available file types:
-- **Chapters**: `Manuscript/Chapters/Chapter_XX/Chapter_XX.md`
-- **Front Matter**: `Manuscript/FrontMatter/Title_Page.md`, `Preface.md`, `Dedication.md`, etc.
-- **Back Matter**: `Manuscript/BackMatter/Appendix_A.md`, `Bibliography.md`, etc.
-- **Quotes**: `Manuscript/Quotes/Chapter_Quotes.md`
-- **Style**: `Manuscript/Style/Style_Guide.md`, `Style_Overrides.md`
-- **TOC**: `Manuscript/_TOC_/TOC.md` (⚠️ WARNING: Managed by Prompts 1 and 2)
-
-**Special case - TOC editing:**
-If you select TOC, I'll warn you:
-> "⚠️ WARNING: TOC.md is managed by Prompts 1 and 2. Direct edits may be overwritten when adding/reordering chapters. Are you sure you want to edit it? (yes/no)"
-
-If you say yes, I'll proceed. If no, I'll stop.
+**Full lock protocol:** See `Process/_COMMON/18_Lock_Management_Module.md`
 
 ---
 
-**Step 2: Conversational editing session**
+## Step 1: Ask Which File
 
-I'll engage in a natural conversation to understand your desired changes:
+**Available file types:**
+- Chapters: `Manuscript/Chapters/Chapter_XX/Chapter_XX.md`
+- Front Matter: `Manuscript/FrontMatter/*.md`
+- Back Matter: `Manuscript/BackMatter/*.md`
+- Quotes: `Manuscript/Quotes/Chapter_Quotes.md`
+- Style: `Manuscript/Style/*.md`
+- TOC: `Manuscript/_TOC_/TOC.md` ⚠️ Managed by Prompts 1/2
 
-**Example conversation:**
-```
-Me: What changes would you like to make to this file?
+**TOC warning:** If user selects TOC, warn: "⚠️ TOC is managed by Prompts 1 and 2. Direct edits may be overwritten. Continue? (yes/no)"
 
-You: I want to improve the introduction
+---
 
-Me: Can you be more specific? What aspects of the introduction need work?
+## Step 2: Conversational Editing
 
-You: It's too dry. I want to start with a compelling anecdote
-
-Me: Great! Do you have a specific anecdote in mind, or would you like me to help develop one?
-
-You: I have one - about a client who struggled with writer's block
-
-Me: Perfect. What should the anecdote illustrate?
-
-You: That writer's block often comes from perfectionism, not lack of ideas
-
-Me: Excellent. Should this anecdote replace the current opening paragraph, or come after the thesis statement?
-
-You: Replace the current opening
-
-Me: Anything else you want to change in the introduction?
-
-You: Yes, add a transition to the first section that's smoother
-
-Me: Got it. Any other changes to this file?
-
-You: No, that's all
-```
-
-**I'll ask clarifying questions like:**
+**Ask clarifying questions:**
+- What changes would you like to make?
+- Can you be more specific about [aspect]?
 - Where exactly should this change go?
 - Should I replace existing content or add to it?
-- What's the purpose/rationale for this change?
-- Do you have specific examples or should I mark them as placeholders?
-- Are there any constraints I should know about?
+- Do you have specific examples or should I mark placeholders?
+- What's the rationale for this change?
+- Anything else you want to change?
 
-**You can:**
-- Refine instructions as we talk
-- Add more changes during conversation
-- Say "that's all" when done
+**Continue until user says:** "That's all" or "No more changes"
 
 ---
 
-**Step 3: Write to _chg file**
+## Step 3: Write to _chg File
 
-I'll format your instructions clearly in the `_chg.md` file following these conventions:
+**Format instructions in `[filename]_chg.md`:**
 
 ```markdown
-## REWRITE INSTRUCTIONS
-
 ### [INSTRUCTIONS FOR THIS REVISION]
 
-[Date: YYYY-MM-DD]
+[Date: CONFIRMED_DATE]
 
 **Changes requested:**
 
-1. Replace opening paragraph with anecdote about client and writer's block
-   - Anecdote should illustrate: Writer's block comes from perfectionism, not lack of ideas
-   - Use client example: [PROVIDE REAL EXAMPLE - do not fabricate]
-   - Placement: Replace current opening paragraph (lines 1-5)
+1. [Clear, actionable instruction]
+   - [Specific details]
+   - Placement: [Where in file]
+   - [Any constraints or notes]
 
-2. Improve transition to first section
-   - Current transition is abrupt
-   - Create smoother flow from anecdote to Section 1 ("Understanding the Problem")
-   - Goal: Connect personal story to broader thesis
+2. [Next instruction]
+   - [Details]
 
-**Priority:** Medium
-**Rationale:** Introduction needs to hook reader with concrete example before presenting thesis
-**Estimated scope:** Minor revision (patch version bump)
+**Priority:** [High/Medium/Low]
+**Rationale:** [Why these changes are needed]
+**Estimated scope:** [Major/Minor/Patch version bump]
+
+**Anti-Hallucination Notes:**
+- [PROVIDE REAL EXAMPLE - do not fabricate]
+- [CITATION NEEDED: statistic about X]
+- [VERIFY QUOTE from Author Name]
+- ⏳ Pending verification
 ```
 
-**Anti-Hallucination markers I'll use:**
-- `[PROVIDE REAL EXAMPLE - do not fabricate]` - Prompts you to supply real content
-- `[CITATION NEEDED]` - Statistics or claims needing sources
-- `[VERIFY QUOTE]` - Quotes needing source verification
-- `⏳ Pending` - Content needing user confirmation
+**Anti-Hallucination Protocol:**
+- **ASK before** suggesting examples/anecdotes/statistics/quotes
+- **NEVER fabricate** - use placeholders instead
+- **Mark clearly**: `[PROVIDE REAL EXAMPLE]`, `[CITATION NEEDED]`, `[VERIFY QUOTE]`
+- See: `Process/Anti-Hallucination_Guidelines.md`
 
 ---
 
-**Step 4: Show you the instructions**
+## Step 4: Show Instructions for Review
 
-I'll display the formatted instructions and ask:
+Display formatted instructions and ask:
 > "Here are the instructions I'll write to the _chg file. Do these accurately capture what you want? (yes/edit/cancel)"
 
-**Your options:**
-- **yes**: Proceed to write and commit
-- **edit**: Tell me what to adjust, I'll revise
-- **cancel**: Abort without writing anything
+**Options:**
+- **yes**: Proceed to commit
+- **edit**: Revise based on feedback
+- **cancel**: Abort without writing
 
 ---
 
-**Step 5: Commit _chg file**
+## Step 5: Commit _chg File
 
-**For Claude Code CLI users:**
-I'll automatically commit the _chg file with this message format:
+**Claude Code CLI (auto-commit):**
 ```
-Add change instructions for [filename]
+git add [chg-file] && git commit -m "Add change instructions for [filename]
 
-Interactive session via Prompt 4 (Interactive_Change)
+Interactive session via Prompt 4
 
 Changes planned:
-- [Brief summary of changes]
+- [Brief summary]
 
 Next step: Execute Prompt 3 to apply changes
 
 🤖 Generated with Claude Code
 
-Co-Authored-By: Claude <noreply@anthropic.com>
+Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-**For Claude Desktop users:**
-I'll provide this command to copy/paste into Claude Code CLI:
-
+**Claude Desktop (copy/paste command):**
 ```
-Run: git add [path-to-chg-file] && git commit -m 'Add change instructions for [filename]
+Run: git add [chg-file] && git commit -m 'Add change instructions for [filename]
 
-Interactive session via Prompt 4 (Interactive_Change)
+Interactive session via Prompt 4
 
 Changes planned:
-- [Brief summary of changes]
+- [Brief summary]
 
 Next step: Execute Prompt 3 to apply changes
 
@@ -210,221 +161,65 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 ---
 
-**Step 6: Offer to apply changes**
+## Step 6: Apply Changes Now?
 
-After committing the _chg file, I'll ask:
-> "Apply changes now? (yes/no)"
+Ask: "Apply changes now? (yes/no)"
 
-**If you say YES:**
-- I'll automatically execute Prompt 3 (Change_by_Chg) in the same session
-- Your changes will be applied immediately
-- Both the _chg file (with instructions) and content file (with changes) will be committed
+**If YES:**
+- Execute Prompt 3 (Change_by_Chg) immediately
+- Changes applied in same session
+- Lock passes to Prompt 3 execution
 
-**If you say NO:**
-- Session ends here
-- You can execute Prompt 3 later when ready
-- The _chg file contains your instructions and is committed
-
----
-
-## Example Full Session
-
-**User:** Execute Prompt 4
-
-**Me:** Which file do you want to edit?
-
-**User:** Chapter 3
-
-**Me:** I'll work with `Manuscript/Chapters/Chapter_03/Chapter_03.md`. What changes would you like to make?
-
-**User:** The data collection section is too technical
-
-**Me:** Can you elaborate? What specifically makes it too technical?
-
-**User:** Too much jargon, and no concrete examples
-
-**Me:** Got it. Would you like me to:
-A) Simplify the language (reduce jargon)
-B) Add concrete examples
-C) Both
-
-**User:** Both
-
-**Me:** For the examples - do you have specific examples in mind, or should I add placeholders for you to fill in?
-
-**User:** I have examples from my research
-
-**Me:** Perfect. How many examples should I tell Prompt 3 to add?
-
-**User:** Two examples
-
-**Me:** Where should they go in the section?
-
-**User:** After the explanation of each survey method
-
-**Me:** Great. Anything else you want to change?
-
-**User:** No, that's it
-
-**Me:** Here are the instructions I'll write to the _chg file:
-
-```markdown
-### [INSTRUCTIONS FOR THIS REVISION]
-
-[Date: 2025-11-20]
-
-**Changes requested:**
-
-1. Simplify language in "Data Collection" section
-   - Remove or explain jargon (identify terms that need simplification)
-   - Use more accessible language for general audience
-   - Maintain technical accuracy while improving clarity
-
-2. Add concrete examples from research
-   - Add example #1 after survey method explanation (paragraph 3)
-   - Add example #2 after survey method explanation (paragraph 7)
-   - Examples should be: [PROVIDE REAL RESEARCH EXAMPLES - do not fabricate]
-   - Format: Brief description (2-3 sentences) showing method in practice
-
-**Priority:** High
-**Rationale:** Section is currently too dense for target audience; needs concrete grounding
-**Estimated scope:** Minor revision (0.X.0)
-```
-
-Do these accurately capture what you want? (yes/edit/cancel)
-
-**User:** yes
-
-**Me:** ✓ Instructions written to `Manuscript/Chapters/Chapter_03/Chapter_03_chg.md`
-
-[Provides git commit command for Claude Desktop users, or auto-commits for CLI users]
-
-Apply changes now? (yes/no)
-
-**User:** yes
-
-**Me:** [Automatically executes Prompt 3: Change_by_Chg]
-
-[Applies changes, creates second commit with modified content]
-
-✓ Changes applied successfully!
+**If NO:**
+- Session ends
+- Instructions saved in _chg file (committed)
+- User can execute Prompt 3 later
 
 ---
 
-## Anti-Hallucination Integration
+## Release Locks
 
-**During the conversational editing phase:**
+**CRITICAL:** Release lock even if operation fails.
 
-I will **ASK YOU** before suggesting:
-- Specific examples or anecdotes (never fabricate)
-- Statistics or data (request source or mark [CITATION NEEDED])
-- Quotes (request source or mark ⏳ Pending)
-- Personal experiences (confirm if REAL vs HYPOTHETICAL)
-
-**In the _chg file instructions:**
-
-I will use clear markers:
-- `[PROVIDE REAL EXAMPLE - do not fabricate]`
-- `[CITATION NEEDED: statistic about X]`
-- `[VERIFY QUOTE from Author Name]`
-- `⏳ Pending verification`
-
-**When Prompt 3 executes:**
-
-It will see these markers and:
-- Pause to ask you for real examples
-- Request citations for statistics
-- Verify quote sources
-- Never fabricate content
-
-See: `Process/Anti-Hallucination_Guidelines.md` for complete protocol
+1. Read `.locks/locks.json`
+2. Remove lock where `"resource": "Chapter_XX"` AND `"instance": "[instance_id]"`
+3. Write updated JSON
+4. Confirm: `✓ Lock released: Chapter_XX`
 
 ---
 
-## Style Consistency
+## Session Cleanup
 
-**The instructions I write will consider:**
+**After this prompt completes:**
 
-1. **Active style resolution** (hierarchical system v0.10.1+):
-   - Book-level style (Style_Guide.md)
-   - Chapter-level override (Chapter_XX_style.md if exists)
-   - Section-level override (HTML markers in content)
+Tell user: "✓ Prompt 4 complete. Instructions saved to `[filename]_chg.md`.
 
-2. **Style notes in instructions:**
-   If the file has a style override, I'll note it:
-   ```markdown
-   **Style note:** This chapter uses [Style Name] override
-   - Maintain [key characteristics]
-   - Changes should align with this style
-   ```
+To free up tokens for your next task, you can say:
+**'Clear Prompt 4 from context'**
 
-See: `Process/_COMMON/10_Style_Consistency_Protocol.md`
+This will save ~2,000 tokens (or ~53,000 tokens in v0.13.0) for your next editing session."
 
 ---
 
 ## Important Notes
 
-### About TOC Editing
+**Prompt 4 vs Prompt 3:**
+- **Prompt 4**: Conversational, exploratory → I help write instructions → Optional immediate execution
+- **Prompt 3**: Direct execution → You write instructions → Always executes immediately
 
-**⚠️ WARNING:** `Manuscript/_TOC_/TOC.md` is managed by Prompts 1 and 2.
-
-The TOC file has a warning header:
-> "⚠️ WARNING: This file is managed by Prompts 1 and 2. Direct edits may be overwritten. Use Prompt 2 to add/reorder chapters."
-
-**If you insist on editing TOC:**
-- I'll allow it but warn you about potential overwrites
-- Your changes may be lost if you later use Prompt 2
-- Only use for minor fixes (typos, formatting)
-- For structural changes (adding/reordering chapters), use Prompt 2
-
-### Difference from Prompt 3
-
-**Prompt 4 (Interactive_Change):**
-- Conversational, exploratory
-- I help you formulate instructions
-- Writes to _chg file for you
-- Optional immediate execution
-
-**Prompt 3 (Change_by_Chg):**
-- Direct execution
-- You write instructions yourself
-- Reads _chg file and applies
-- Always executes immediately
-
-**Both can work together:**
+**They work together:**
 1. Use Prompt 4 to discuss and write instructions
 2. Say "no" to immediate application
-3. Later, use Prompt 3 to apply when ready
+3. Use Prompt 3 later to apply when ready
 
-### Process/_COMMON Modules Used
+**Style Consistency:**
+- Instructions consider active style (book/chapter/section overrides)
+- Note style overrides in instructions if present
+- See: `Process/_COMMON/10_Style_Consistency_Protocol.md`
 
-This prompt uses:
-- **Module 01:** Prompt Structure Template
-- **Module 02:** Desktop Compatibility (DESKTOP-FRIENDLY)
-- **Module 03:** Anti-Hallucination Protocols (Level 3)
-- **Module 04:** File Operations Library (_chg file writes)
-- **Module 05:** Git Integration Module (commit format)
-- **Module 06:** Validation Protocols (file existence checks)
-- **Module 08:** Semantic Versioning Guide (scope estimation)
-- **Module 10:** Style Consistency Protocol (style resolution)
-- **Module 11:** Interactive Patterns (conversational Q&A)
-- **Module 14:** Enforcement Rules (RULE 1 compliance)
-
----
-
-## Git Commit Format
-
-See: `Process/_COMMON/05_Git_Integration_Module.md` for commit format templates
-
-**For Claude Desktop users**, the git commit command format is:
-
-```
-Run: git add [file-path] && git commit -m 'Commit message here
-
-🤖 Generated with Claude Desktop
-
-Co-Authored-By: Claude <noreply@anthropic.com>'
-```
+**Date Handling:**
+- Use CONFIRMED_DATE from session startup (see CLAUDE.md)
+- NEVER use raw `<env>` date without confirmation
 
 ---
 
@@ -436,6 +231,20 @@ Just tell me which file you want to work on, and we'll start the conversation!
 
 ---
 
-*Reference: Process/_COMMON/11_Interactive_Patterns.md*
-*Created: v0.11.0*
+📖 **For detailed examples, edge cases, and full workflows:** See `Process/Prompts/Prompt_4_Reference.md`
+
+🔒 **For complete lock management details:** See `Process/_COMMON/18_Lock_Management_Module.md`
+
+🎨 **For style consistency rules:** See `Process/_COMMON/10_Style_Consistency_Protocol.md`
+
+⚠️ **For anti-hallucination protocol:** See `Process/Anti-Hallucination_Guidelines.md`
+
+---
+
+**Version:** 0.14.0
+**Last Updated:** 2025-11-24
+**Token Efficiency:** 95% reduction (53,000 → 2,000 tokens)
+
 *Prompt Type: Interactive content editing workflow*
+*Created: v0.11.0*
+*Optimized: v0.14.0*

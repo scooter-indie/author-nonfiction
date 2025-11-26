@@ -1,7 +1,7 @@
 # README Management Module
 
 **Module ID:** 17_README_Management_Module
-**Version:** 0.12.10
+**Version:** 0.13.0
 **Purpose:** Manage root-level README.md to prevent bloat and maintain consistent structure
 
 ---
@@ -278,7 +278,7 @@ A comprehensive guide to writing professional nonfiction books with AI assistanc
 
 ## Project Information
 
-- **Framework Version:** 0.12.10
+- **Framework Version:** 0.13.0
 - **Initialized:** 2025-11-21
 - **Chapters:** 12
 - **Writing Style:** Conversational Expert

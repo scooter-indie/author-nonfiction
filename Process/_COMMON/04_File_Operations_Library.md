@@ -615,5 +615,5 @@ def modify_manuscript_file(path, modifications):
 **Status:** Active
 **See Also:**
 - `08_Semantic_Versioning_Guide.md` (version increment rules)
-- `14_Enforcement_Rules_Module.md` (mandatory _chg updates)
+- `ENFORCEMENT_RULES.md` (mandatory _chg updates - Part 2: Integration Guide)
 - `05_Git_Integration_Module.md` (commit formatting)

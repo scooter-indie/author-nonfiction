@@ -121,47 +121,18 @@ This command loads all framework documentation and activates the Anti-Hallucinat
 
 ## Writing Style System - Hierarchical (v0.10.1+)
 
-The framework includes a comprehensive writing style system with 9 curated professional styles:
+The framework includes 19 curated professional styles (v2.0) across 5 categories.
 
-**Framework Styles Available:**
-- Academic Authority
-- Conversational Expert
-- Narrative Storyteller
-- Business Professional
-- Technical Precision
-- Investigative Journalist
-- Practical Guide
-- Inspirational Teacher
-- Scientific Communicator
-
-**Hierarchical System (v0.10.1):**
-```
-Book Style (Global Default in Style_Guide.md)
-  ↓ inherits
-Chapter Style (Optional - Chapter_XX_style.md)
-  ↓ inherits
-Section Style (Optional - HTML comments)
-```
-
-**How It Works:**
-1. **Prompt 1 (Initialize)**: Select book-level style, creates Style_Guide.md and Style_Overrides.md
-2. **Prompt 2 (Add Chapter)**: Optionally set chapter-level override when creating chapter
-3. **Prompt 3 (Change by Chg)**: Automatically resolves active style (section → chapter → book) and applies it
-4. **Prompt 4 (Interactive Change)**: Resolves active style and applies during conversational editing
-5. **Prompt 8 (Consistency)**: Analyzes distribution, transitions, and alignment across all levels
-6. **Prompt 10 (Dashboard)**: Shows style distribution summary and override percentage
-7. **Prompt 11 (Style Manager)**: Add/remove overrides, analyze transitions, validate registry
-8. **Book-writing-assistant agent**: Applies active style to all writing assistance
+**Hierarchical System:**
+Book Style (global) → Chapter Overrides (optional) → Section Overrides (optional)
 
 **Quick Actions:**
-- **Select book-level style**: Use Prompt 1 during initialization
-- **Add chapter override**: Prompt 2 (when creating chapter) or Prompt 11
-- **Add section override**: Use HTML markers `<!-- STYLE_OVERRIDE: StyleName -->` in content
-- **Create custom style**: Edit `Manuscript/Style/Custom_Styles.md`
-- **Change book-level style**: Prompt 11 → Change Book-Level Style (with impact analysis)
-- **View distribution**: Prompt 10 (Dashboard) or Prompt 11 → View Distribution
-- **Analyze transitions**: Prompt 11 → Analyze Transitions
-- **Check consistency**: Prompt 8 with hierarchical style analysis
+- Select style: Prompt 1 (Initialize) or Prompt 11 (Style Manager)
+- Add chapter override: Prompt 2 or Prompt 11
+- View distribution: Prompt 10 or Prompt 11
+- Check consistency: Prompt 8
+
+**For complete style library and detailed usage, see Process/Styles/README.md**
 
 ---
 
@@ -551,6 +522,100 @@ What do you want to do?
 | 13 | At milestones | Check authentic voice |
 | 14 | During revision | Visual enhancement |
 | 15 | As needed | Citation verification |
+
+---
+
+## Working with Multiple Instances (v0.13.0+)
+
+**New in v0.13.0:** You can now run multiple Claude instances safely, working on different parts of your book simultaneously.
+
+### How It Works
+
+The framework uses a **resource-level lock system** to prevent editing conflicts:
+
+- **Resource-level locks** - Locks individual chapters, style system, image registry, etc.
+- **15-minute timeout** - Stale locks from crashed instances automatically expire
+- **Override capability** - You can override stale locks when needed
+- **Works everywhere** - Both Claude Code CLI and Claude Desktop
+
+### Lock System Overview
+
+**When you execute a prompt that modifies content:**
+1. The prompt checks if that resource is locked
+2. If unlocked, acquires lock and proceeds
+3. If locked by another instance, offers options: wait, cancel, or override (if stale)
+4. After completing work, releases the lock
+
+**Resources that can be locked:**
+- Individual chapters (`Chapter_01`, `Chapter_02`, etc.)
+- `FrontMatter` - All front matter files
+- `BackMatter` - All back matter files
+- `StyleSystem` - Style guide and overrides
+- `QuoteRegistry` - Chapter quotes file
+- `ImageRegistry` - Image registry file(s)
+- `ProjectConfig` - Project configuration files
+
+### Working Safely with Multiple Instances
+
+**Best Practices:**
+- ✅ Work on **different chapters** in different instances - no conflicts
+- ✅ Check Dashboard (Prompt 10) to see what's currently locked
+- ✅ Wait for locks to clear rather than overriding active locks
+- ✅ Use "Clear All Locks" after crashes to clean up stale locks
+
+**Example Safe Workflow:**
+```
+Terminal 1: Edit Chapter 3 (acquires lock on Chapter_03)
+Terminal 2: Edit Chapter 7 (acquires lock on Chapter_07)
+→ No conflict, both work simultaneously
+```
+
+**Example Conflict Resolution:**
+```
+Terminal 1: Editing Chapter 5 (lock acquired)
+Terminal 2: Tries to edit Chapter 5
+→ Shows: "Chapter_05 is locked (3 minutes ago)"
+→ Options: Wait | Cancel | Override (if stale)
+→ Choose: Wait
+→ Terminal 1 finishes, releases lock
+→ Terminal 2 automatically acquires lock and proceeds
+```
+
+### Managing Locks
+
+**Check Current Locks:**
+- Run Prompt 10 (Dashboard) - shows all active and stale locks
+- See which resources are locked and by which instance
+
+**Clear Stale Locks:**
+- Dashboard shows "Clear All Locks" option
+- Removes all locks (use after crashes or when stuck)
+- Requires confirmation
+
+**Lock Timeout:**
+- Locks older than 15 minutes are considered "stale"
+- Stale locks can be overridden without waiting
+- Helps recover from crashed instances
+
+### Technical Details
+
+**Lock storage:** `.locks/locks.json` (automatically created, added to `.gitignore`)
+
+**Lock file not committed to git** - locks are local to your machine only
+
+**Prompts that acquire locks:**
+- Prompt 1 (Initialize), Prompt 2 (Add Chapter)
+- Prompt 3 (Change by Chg), Prompt 4 (Interactive Change)
+- Prompt 5 (Scan For User Edits), Prompt 6 (Integrate Inbox)
+- Prompt 11 (Style Manager), Prompt 14 (Citation Finder)
+- Prompt 15 (Visual Content Suggester), Prompt 16 (Image Manager)
+
+**Prompts that don't need locks (read-only):**
+- Prompt 7 (Compile), Prompt 8 (Consistency)
+- Prompt 9 (Export), Prompt 10 (Dashboard)
+- Prompt 12 (Git Operations), Prompt 13 (AI Detection)
+
+**For complete lock system details:** See `Process/_COMMON/18_Lock_Management_Module.md`
 
 ---
 

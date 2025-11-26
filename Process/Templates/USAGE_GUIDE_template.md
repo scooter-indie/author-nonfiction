@@ -2,7 +2,7 @@
 
 **Book:** {{BOOK_TITLE}}
 **Author:** {{AUTHOR_NAME}}
-**Framework Version:** 0.12.10
+**Framework Version:** 0.13.0
 **Initialized:** {{INIT_DATE}}
 
 ---
@@ -76,6 +76,55 @@ Validates terminology, style, cross-references.
 14. Citation Finder
 15. Visual Content Suggester
 16. Image Manager
+
+---
+
+## Export Tools (Optional)
+
+Prompt 9 (Export) requires external tools for DOCX/PDF/EPUB generation. These are **optional** - only needed when you're ready to export.
+
+### Check If Tools Are Installed
+
+Run in Claude Code CLI:
+```bash
+bash scripts/detect-tools.sh
+```
+
+Or manually check:
+```bash
+pandoc --version
+typst --version
+```
+
+### Installation Instructions
+
+**Pandoc** (Required for DOCX/EPUB, optional for PDF):
+
+| Platform | Command |
+|----------|---------|
+| Windows | `winget install JohnMacFarlane.Pandoc` |
+| macOS | `brew install pandoc` |
+| Linux | `sudo apt install pandoc` |
+
+Official: https://pandoc.org/installing.html
+
+**Typst** (Required for PDF):
+
+| Platform | Command |
+|----------|---------|
+| Windows | `winget install Typst.Typst` |
+| macOS | `brew install typst` |
+| Linux | Download from [releases](https://github.com/typst/typst/releases) |
+
+Official: https://github.com/typst/typst#installation
+
+### Export Formats
+
+| Format | Tools Required |
+|--------|----------------|
+| DOCX | Pandoc |
+| EPUB | Pandoc |
+| PDF | Pandoc + Typst |
 
 ---
 

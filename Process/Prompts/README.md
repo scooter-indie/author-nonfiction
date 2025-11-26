@@ -220,7 +220,7 @@ The `/fw-init` slash command:
 
 **Quote insertion**: Verified (✓) quotes automatically inserted as chapter epigraphs; compilation report shows quote status
 
-**Output**: `Drafts/Full_Draft_[date]_v[version].md` with statistics and quote completion metrics
+**Output**: `Drafts/[Project-Name]-[format]-vNN.md` with statistics and quote completion metrics
 
 ---
 
@@ -248,7 +248,7 @@ The `/fw-init` slash command:
 
 **Settings**: Stored in `.config/project.json`, can customize per export
 
-**Output**: Formatted files in `Exports/[date]/` directory
+**Output**: `Exports/[Project-Name]-vNN.[format]` files
 
 ---
 
@@ -419,102 +419,32 @@ When Prompt 3 completes:
 
 ## Common Workflows
 
-### Daily Writing Session
-1. Work on content in your editor
-2. Run **Prompt 12** → Status to check git state
-3. Write revision instructions in _chg files (or use **Prompt 4** for interactive editing)
-4. Run **Prompt 3** for each file (auto-commits)
-5. Run **Prompt 12** → Push at end of session
+**For complete workflow examples with detailed steps, see Process/Prompts/QUICK_REFERENCE.md**
 
-### Weekly Review
-1. **Prompt 5** → Scan for user edits (sync _chg files)
-2. **Prompt 10** → Progress Dashboard
-3. **Prompt 8** → Consistency Check
-4. **Prompt 7** → Compile manuscript for review
-5. Fix issues using **Prompt 3** or **Prompt 4**
-6. **Prompt 12** → Commit and push
+**Quick workflow summaries:**
 
-### Adding New Content
-**Option A (Interactive):**
-- **Prompt 2** → Add Chapter (answer questions)
-
-**Option B (From Inbox):**
-- Place content in Inbox/
-- **Prompt 6** → Integrate Inbox
-
-### Milestone Workflow (25%, 50%, 75%, 100%)
-1. **Prompt 5** → Scan for user edits (sync _chg files)
-2. **Prompt 10** → Dashboard (verify progress)
-3. **Prompt 8** → Full consistency check
-4. **Prompt 13** → AI Detection Analysis (check authenticity)
-5. **Prompt 14** → Citation Finder (verify all citations)
-6. **Prompt 15** → Visual Content Suggester (add text-based visuals where helpful)
-7. **Prompt 16** → Image Manager Mode 2 (upgrade high-priority visuals)
-8. Fix all issues using **Prompt 3** or **Prompt 4**
-9. **Prompt 7** → Compile final version
-10. **Prompt 12** → Create tag (e.g., v1.0.0, first-draft)
-11. **Prompt 12** → Push with tags
-
-### Publication Preparation
-1. **Prompt 5** → Scan for user edits (final sync)
-2. **Prompt 10** → Verify 100% completion
-3. **Prompt 8** → Final consistency check
-4. **Prompt 13** → AI Detection Analysis (final authenticity check)
-5. **Prompt 14** → Citation Finder (verify all citations)
-6. **Prompt 15** → Visual Content Suggester (finalize text-based visuals)
-7. **Prompt 16** → Image Manager Mode 4 (validate all image references)
-8. **Prompt 3** or **Prompt 4** → Fix all remaining issues
-9. **Prompt 7** → Compile final manuscript
-10. **Prompt 9** → Export to required format(s)
-11. **Prompt 12** → Tag as publication-ready
+- **Daily Writing:** Work on content → Write _chg instructions → Run Prompt 3/4 → Push
+- **Weekly Review:** Scan edits (P5) → Dashboard (P10) → Consistency (P8) → Compile (P7) → Fix issues (P3/4) → Push
+- **Adding Chapters:** Interactive (P2) or from Inbox (P6)
+- **Milestones:** Dashboard → Consistency → AI Detection → Visual Content → Citations → Fix → Compile → Tag
+- **Publication:** Final checks (P5, P8, P13, P14, P15, P16) → Fixes (P3/4) → Compile (P7) → Export (P9) → Tag
 
 ### Quote Management Workflow
-**Adding/Updating Chapter Quotes:**
 
-1. Open `Quotes/Chapter_Quotes_chg.md`
-2. Add instructions in `[INSTRUCTIONS FOR THIS REVISION]` section:
-   ```markdown
-   Update quote for Chapter 05:
+**Quote status codes:** ⏳ Pending | ⚠ Needs Citation | ✓ Verified
 
-   Current Status: ⏳ Pending
-   New Status: ✓ Verified
-
-   Add verified quote:
-   Quote: "The scientific method is..."
-   Author: Carl Sagan
-   Source: The Demon-Haunted World
-   Year: 1995
-   Page: 27
-
-   Bibliography: Sagan, C. (1995)...
-   Notes: Verified from original text
-   ```
-3. Commit the _chg file
-4. **Prompt 3** → Change by Chg → Select `Quotes/Chapter_Quotes.md`
-5. AI updates quote and auto-archives instructions
-
-**Alternative (Interactive):**
-1. **Prompt 4** → Interactive Change
-2. Select `Quotes/Chapter_Quotes.md`
-3. Describe the quote update conversationally
-4. AI writes instructions to _chg file and optionally executes
-
-**Quote Verification Progression:**
-- ⏳ Pending → Quote needs to be selected
-- ⚠ Needs Citation → Quote selected but needs complete attribution
-- ✓ Verified → Quote fully verified with complete bibliographic info
-
-**Checking Quote Status:**
-- **Prompt 10** → Dashboard shows all quote statuses
-- **Prompt 8** → Consistency check validates quotes
-- **Prompt 7** → Compilation report shows which quotes will be inserted
+**Workflow:**
+- Use Prompt 3 or 4 to update `Quotes/Chapter_Quotes.md`
+- Prompt 10 (Dashboard) shows status for all chapters
+- Prompt 8 (Consistency) validates quotes
+- Prompt 7 (Compile) inserts verified quotes as epigraphs
 
 **Quality Targets:**
 - Before first compilation: 50% verified (✓)
 - Before major review: 80% verified (✓)
 - Before final draft: 100% verified (✓)
 
-**See also**: `Process/Anti-Hallucination_Guidelines.md` for quote verification rules and common misattribution examples
+**For complete quote management details and examples, see Documentation/AI-Assisted_Nonfiction_Authoring_Process.md (Quote Management Workflow section)**
 
 ---
 
@@ -629,11 +559,11 @@ When user says "Execute Prompt X" or "Run Prompt X":
 - Update PROJECT_CONTEXT.md if changes are significant
 
 FILE ACCESS:
-All prompts and documentation are in Process/ directory:
+All prompts and documentation are in Process/ and Documentation/ directories:
 - Process/Prompts/Prompt_[1-16]_*.md
 - Process/Anti-Hallucination_Guidelines.md
-- Process/Style_Examples.md
-- Process/AI-Assisted_Nonfiction_Authoring_Process.md
+- Process/Styles/ (19 curated styles)
+- Documentation/AI-Assisted_Nonfiction_Authoring_Process.md
 
 IMPORTANT: PROJECT_CONTEXT.md contains your current book project state. Reference it for:
 - Book title, author, and metadata
@@ -700,7 +630,7 @@ Done! Instructions captured and changes applied to version 1.3.0.
 
 ## Getting Help
 
-- **Process documentation**: `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
+- **Process documentation**: `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md`
 - **Quick reference**: `Process/Prompts/QUICK_REFERENCE.md`
 - **Anti-hallucination rules**: `Process/Anti-Hallucination_Guidelines.md`
 - **Claude Desktop setup**: See "Using with Claude Desktop" section above

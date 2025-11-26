@@ -1,116 +1,189 @@
 # Execute Prompt 6: Integrate Inbox
 
-**DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem (git via Claude Code CLI)
+**Version:** 0.15.0
+**⚡ Token Efficient:** ~4,000 tokens (65% reduction from v0.14.0)
+**DESKTOP-FRIENDLY:** Works 95% in Desktop (git via CLI)
 
 **FIRST ACTION - MANDATORY:**
-Use the Read tool to read `Process/Anti-Hallucination_Guidelines.md` in full before proceeding with ANY other actions or questions.
-
-**CRITICAL ENFORCEMENT:**
-- **RULE 1:** All file modifications MUST update corresponding _chg files
-- **RULE 2:** All Manuscript/ changes must go through appropriate prompts
-
-See: `Process/ENFORCEMENT_RULES.md` for complete details
-
-**AGENT INSTRUCTIONS:**
-When spawning agents (using Task tool), include in agent prompt:
-- "FIRST ACTION: Read Process/Anti-Hallucination_Guidelines.md before proceeding."
-
-**Claude Desktop Compatibility:**
-- ✅ All file operations via MCP Filesystem (read, write, move_file)
-- ✅ Git operations via Claude Code CLI (copy/paste commands at checkpoints)
-- 📋 Works 95% in Desktop
+Reference `Process/Prompts/Prompt_Essentials.md` (loaded once per session via /fw-init)
 
 ---
 
-## What This Does
+## Quick Start
 
-I will process all files in your `Manuscript/Inbox/` directory and help you integrate them into the appropriate locations in your book project.
+Processes files from `Manuscript/Inbox/` and integrates them into appropriate locations. Interactive workflow for each item.
+
+**Rejects:** TOC files (use Prompt 2 for chapters)
+
+---
+
+## Workflow (5 Steps)
+
+1. Scan Inbox directory
+2. Identify file types
+3. Interactive decisions per file
+4. Execute integration
+5. Archive processed files
+
+---
+
+## Step 0: Lock Management
+
+**Acquire locks based on content:**
+- After user decisions, lock target resources
+- Possible: `Chapter_XX`, `FrontMatter`, `BackMatter`, `ImageRegistry`
+
+See: Prompt_Essentials.md → Lock Management
+
+---
+
+## Step 1: Scan Inbox
+
+**I'll list all files and analyze:**
+- Content files (drafts, sections)
+- Reference materials (research, sources)
+- Assets (images, diagrams)
+
+---
+
+## Step 2: File Type Identification
+
+**Content files:**
+- Create new chapter (via Prompt 2)
+- Insert into existing chapter (via Prompt 3)
+- Add to front/back matter
+- Move to Research/
+
+**Reference materials:**
+- Research/Sources/
+- Research/Notes/
+- Research/References/
+- Extract bibliography entries
+
+**Assets (images):**
+- Move to `Manuscript/images/` with proper naming
+- Registry Type Detection:
+  - Single mode: Add to `Image_Registry.md`
+  - Split mode: Add to `Image_Registry_Chapter_XX.md`
+- Chapter Detection:
+  - From filename pattern (`chapter-03-diagram.png`)
+  - User specification
+  - Ask if not determinable
+
+---
+
+## Step 3: Interactive Decisions
+
+**For each file, I'll ask:**
+
+1. **Where should this go?**
+   - New chapter
+   - Existing chapter (which?)
+   - Research directory
+   - Front/back matter
+
+2. **How should it integrate?**
+   - Replace existing
+   - Insert at position
+   - Append
+   - Merge
+
+3. **Priority level?**
+
+---
+
+## Step 4: Execute Integration
+
+**Sequence:**
+1. Commit current state (safety)
+2. Acquire locks for targets
+3. Perform integration
+4. Update _chg files
+5. Update cross-references
+6. Commit changes
+
+---
+
+## Step 5: Archive
+
+**Move processed files to:**
+```
+Manuscript/Inbox/Processed_[CONFIRMED_DATE]/
+```
 
 ---
 
 ## Anti-Hallucination Note
 
-**When integrating content from Inbox** that contains examples, anecdotes, statistics, or quotes:
-- Follow the verification protocol detailed in Prompt 3's Anti-Hallucination Verification section
-- **ASK the user** to verify examples/anecdotes before integration
-- **Request sources** for statistics and quotes before adding them
-- **Use clear labels**: REAL vs HYPOTHETICAL vs GENERIC vs [CITATION NEEDED]
-- **Never assume** inbox content reflects the user's real experiences without confirmation
+**When integrating content with examples/anecdotes/statistics:**
+- **ASK user** to verify before integration
+- **Request sources** for statistics and quotes
+- **Use labels**: REAL vs HYPOTHETICAL vs GENERIC vs [CITATION NEEDED]
+- **Never assume** inbox content reflects user's real experiences
 
 ---
 
-## How This Works
+## Image Integration Details
 
-I'll scan the Inbox directory, analyze what you have, and work with you interactively to integrate each item.
+**Naming convention:**
+```
+fig-XX-YY-description.ext
+```
+- XX = Chapter number
+- YY = Figure number in chapter
+- description = kebab-case (3-5 words)
 
-### What I'll Do:
+**Chapter detection methods:**
+1. Filename pattern: `chapter-03-*.png` → Chapter 03
+2. User specifies: "Add to Chapter 5"
+3. Ask if not determinable
 
-1. **Scan Manuscript/Inbox/**: List all files and analyze their content
-
-2. **Identify file types**:
-   - Regular content files (drafts, sections, chapters)
-   - Reference materials (research notes, sources)
-   - Assets (images, diagrams, charts)
-   - **Special rule**: TOC files rejected if project already initialized
-
-3. **Present findings**: Show you what I found and suggest destinations
-
-4. **Interactive decisions**: For each file, I'll ask:
-   - Where should this go? (New chapter, existing chapter, research, back matter, etc.)
-   - How should it be integrated? (Replace, insert, append, merge)
-   - What priority level?
-
-5. **Execute integration**:
-   - Create git commit of current state (safety)
-   - Perform the integration based on your choices
-   - Update change tracking files
-   - Update cross-references if needed
-   - Create git commits for changes
-   - Archive processed files to `Manuscript/Inbox/Processed_[date]/`
-
-6. **Generate report**: Summary of all actions taken
+**Registry update:**
+```markdown
+### fig-03-02-workflow-diagram
+- **Figure:** 3.2
+- **Title:** Workflow Diagram
+- **Type:** Diagram
+- **Status:** 🖼️ Professional image (PNG)
+- **File:** `images/fig-03-02-workflow-diagram.png`
+- **Created:** [CONFIRMED_DATE] by Prompt 6
+```
 
 ---
 
-## Important Notes
+## Git Commit & Release
 
-### TOC Files After Initial Setup
+```bash
+git add Manuscript/
+git commit -m "$(cat <<'EOF'
+INTEGRATE: Inbox items processed v[version]
 
-**After your project is initialized, I will REJECT entire TOC files placed in Manuscript/Inbox/.**
+- [N] files integrated
+- [Destinations]
 
-Why? To maintain single source of truth:
-- Use **Prompt 2** to add individual chapters interactively
-- Use **Prompt 4** (this prompt) to integrate individual chapter content from Manuscript/Inbox/
-- Manuscript/_TOC_/TOC_chg.md is AI-managed only - you should not edit it manually
+🤖 Generated with Claude Code - Prompt 6
 
-### Integration Options
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"
+```
 
-Depending on the file type, I may suggest:
-
-**For content files:**
-- Create new chapter (uses Prompt 2 workflow)
-- Insert into existing chapter (uses Prompt 3 workflow)
-- Add to front/back matter
-- Move to Research/ directory
-
-**For reference materials:**
-- Add to Research/Sources/, Research/Notes/, or Research/References/
-- Extract bibliography entries
-- Link to relevant chapters
-
-**For assets:**
-- Organize into chapter-specific figures/ directories (Manuscript/Chapters/Chapter_XX/figures/)
-- Or into Research/Assets/ for general project assets
-- Update references in content files
+Release all acquired locks.
 
 ---
 
-## Ready to Begin?
-
-I'll scan your Manuscript/Inbox/ directory now and show you what I find.
-
-**Scanning Manuscript/Inbox/...**
+📖 **For detailed integration examples:** See `Process/Prompts/Prompt_6_Reference.md`
 
 ---
 
-*Reference: Process/AI-Assisted_Nonfiction_Authoring_Process.md (Prompt 4)*
+**Version:** 0.15.0
+**Last Updated:** 2025-11-24
+**Token Efficiency:** 65% reduction
+
+---
+
+## Session Cleanup
+
+Tell user: "✓ Prompt 6 Integrate Inbox complete.
+
+To free up tokens, say: **'Clear Prompt 6 from context'**"

@@ -1,6 +1,6 @@
 # Framework Common Modules
 
-**Framework Version:** 0.10.0
+**Framework Version:** 0.14.0
 **Directory:** Process/_COMMON/
 **Purpose:** Shared, reusable modules for all Execute Prompts
 
@@ -8,7 +8,7 @@
 
 ## Overview
 
-This directory contains 14 standardized modules that provide shared functionality across all Execute Prompts. These modules reduce duplication, ensure consistency, and serve as the single source of truth for common patterns.
+This directory contains 18 active modules that provide shared functionality across all Execute Prompts. (Module 14 deprecated in v0.13.0 - consolidated into root-level ENFORCEMENT_RULES.md) These modules reduce duplication, ensure consistency, and serve as the single source of truth for common patterns.
 
 **Benefits:**
 - ✅ **DRY Principle:** Single source of truth eliminates 2,500+ lines of duplication
@@ -21,14 +21,15 @@ This directory contains 14 standardized modules that provide shared functionalit
 
 ## Module Index
 
-### Foundation Modules (01-03, 14)
+### Foundation Modules (01-03)
 
 | Module | File | Purpose |
 |--------|------|---------|
 | 01 | `01_Prompt_Structure_Template.md` | Master template for all prompts |
 | 02 | `02_Desktop_Compatibility_Module.md` | Compatibility level definitions |
 | 03 | `03_Anti_Hallucination_Protocols.md` | Three-level verification system |
-| 14 | `14_Enforcement_Rules_Module.md` | Mandatory compliance rules integration |
+
+**Note:** Module 14 (Enforcement Rules) was consolidated into root-level `ENFORCEMENT_RULES.md` in v0.13.0 to eliminate duplication. See `ENFORCEMENT_RULES.md` (Part 2: Integration Guide) for enforcement rules and prompt integration templates.
 
 ### Core Operations (04-06)
 
@@ -54,6 +55,22 @@ This directory contains 14 standardized modules that provide shared functionalit
 | 11 | `11_Interactive_Patterns.md` | Question/answer templates |
 | 12 | `12_Workflow_Patterns.md` | Common workflow sequences |
 | 13 | `13_PROJECT_CONTEXT_Protocol.md` | Context file management |
+
+### Visual & Content Management (15-17)
+
+| Module | File | Purpose |
+|--------|------|---------|
+| 15 | `15_Visual_Asset_Management_Protocol.md` | Visual assets, registry, status codes |
+| 16 | `16_Citation_Management_Protocol.md` | Citation tracking and verification |
+| 17 | `17_README_Management_Module.md` | README file management |
+
+### Infrastructure (18-20)
+
+| Module | File | Purpose |
+|--------|------|---------|
+| 18 | `18_Lock_Management_Module.md` | Concurrent editing locks |
+| 19 | `19_Image_Registry_Splitting_Module.md` | Registry splitting for large collections |
+| 20 | `20_JSON_Schema_Module.md` | JSON schema standards for .config/ files (NEW v0.13.3) |
 
 ---
 
@@ -140,7 +157,7 @@ See: `05_Git_Integration_Module.md` for commit format templates
 - Module 01: Prompt structure includes enforcement notice
 - Module 04: File operations mandate _chg updates
 - Module 05: Git commits verify both files included
-- Module 14: Complete enforcement rule templates and validation
+- ENFORCEMENT_RULES.md: Complete enforcement rule templates and validation (Part 2: Integration Guide)
 
 **Result:** Impossible to violate Rule 1 when following module protocols
 
@@ -149,7 +166,7 @@ See: `05_Git_Integration_Module.md` for commit format templates
 **Integrated in:**
 - Module 01: Standard structure includes routing validation
 - Module 11: Routing response patterns
-- Module 14: Routing table and redirect templates
+- ENFORCEMENT_RULES.md: Routing table and redirect templates (Part 2: Integration Guide)
 
 **Result:** Clear routing guidance built into all prompts
 
@@ -175,9 +192,10 @@ See: `05_Git_Integration_Module.md` for commit format templates
    - Level 2: Contextual note (may generate content)
    - Level 3: Comprehensive (primary content generation)
 
-4. **Add enforcement notice (Module 14)**
+4. **Add enforcement notice (ENFORCEMENT_RULES.md)**
    - Include CRITICAL ENFORCEMENT section
    - Add appropriate NOTE for _chg behavior
+   - See Part 2: Integration Guide for templates
 
 5. **Reference relevant operational modules**
    - File operations (Module 04) if modifying files
@@ -193,10 +211,11 @@ See: `05_Git_Integration_Module.md` for commit format templates
    - Workflow patterns (Module 12) for common sequences
    - PROJECT_CONTEXT protocol (Module 13) if updating context
 
-7. **Validate against enforcement rules (Module 14)**
+7. **Validate against enforcement rules (ENFORCEMENT_RULES.md)**
    - Verify _chg update steps included (if modifying files)
    - Include pre-commit validation (if using git)
    - Add routing responses (if users might try direct modification)
+   - See Part 2: Integration Guide for compliance checklist
 
 ### Updating an Existing Prompt
 
@@ -211,7 +230,7 @@ See: `05_Git_Integration_Module.md` for commit format templates
 - [ ] Report formatting consistent (Module 09)
 - [ ] Interactive patterns standardized (Module 11)
 - [ ] Workflow sequences follow patterns (Module 12)
-- [ ] Enforcement rules compliance verified (Module 14)
+- [ ] Enforcement rules compliance verified (ENFORCEMENT_RULES.md)
 
 ---
 
@@ -238,8 +257,8 @@ See: `05_Git_Integration_Module.md` for commit format templates
 
 **Modules can reference other modules:**
 - Module 04 references Module 08 (versioning)
-- Module 04 references Module 14 (enforcement)
-- Module 05 references Module 14 (enforcement validation)
+- Module 04 references ENFORCEMENT_RULES.md (enforcement)
+- Module 05 references ENFORCEMENT_RULES.md (enforcement validation)
 - Module 03 references Module 07 (quote management)
 
 **When updating, check dependencies.**
@@ -311,7 +330,7 @@ See: `05_Git_Integration_Module.md` for commit format templates
 - Test: Broken cross-reference → Should find and flag
 - Test: Out-of-sync _chg file → Should identify
 
-**Module 14 (Enforcement):**
+**ENFORCEMENT_RULES.md (Enforcement):**
 - Test: Direct modification attempt → Should redirect to prompt
 - Test: Rule 1 violation → Should detect and fix
 - Test: Rule 2 violation → Should route correctly
@@ -357,9 +376,10 @@ See: `05_Git_Integration_Module.md` for commit format templates
 | 11 | ~200 | 10 | ~300-400 |
 | 12 | ~180 | 10 | ~100-150 |
 | 13 | ~150 | 3 | ~50-100 |
-| 14 | ~300 | 10 | ~400-600 |
 
-**Total modules: ~3,000 lines**
+**Note:** Module 14 was consolidated into ENFORCEMENT_RULES.md in v0.13.0 (eliminated ~200 lines of duplication)
+
+**Total modules: ~2,700 lines**
 **Total eliminated: ~2,500-3,500 lines**
 **Net savings: Break-even to +500 lines** (but MASSIVE consistency/maintainability gain)
 
@@ -419,8 +439,8 @@ See: `05_Git_Integration_Module.md` for commit format templates
 **Last Updated:** 2025-11-19
 **Status:** Active
 
-**Total Modules:** 14
-**Total Prompts Using Modules:** 10
+**Total Modules:** 18 active (Module 14 deprecated in v0.13.0)
+**Total Prompts Using Modules:** 16
 **Lines of Code Deduplicated:** ~2,500-3,500
 **Maintenance Improvement:** ~60% reduction in update effort
 **Consistency Improvement:** 100% (single source of truth)

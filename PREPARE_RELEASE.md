@@ -1,7 +1,7 @@
 # Prepare Release
 
-**Current Framework Version:** 0.12.10
-**Last Updated:** 2025-11-23
+**Current Framework Version:** 0.13.14
+**Last Updated:** 2025-11-26
 
 ---
 
@@ -14,6 +14,42 @@ This document guides Claude through preparing a new framework release by updatin
 ---
 
 ## Release Preparation Workflow
+
+### Step 0: Verify Repository State (REQUIRED)
+
+**Before starting ANY release work, verify the repository is clean:**
+
+1. **Check for uncommitted changes:**
+   ```bash
+   git status
+   ```
+
+2. **If working tree is dirty (uncommitted changes exist):**
+   - **STOP** - Do not proceed with release
+   - Ask user: "There are uncommitted changes. Would you like to:
+     - A) Commit them now before proceeding?
+     - B) Stash them temporarily?
+     - C) Abort the release process?"
+   - Wait for user decision and execute chosen action
+
+3. **If working tree is clean, verify remote sync (optional but recommended):**
+   ```bash
+   git fetch origin
+   git status
+   ```
+   - If behind remote: `git pull`
+   - If ahead of remote: Note this - changes will be pushed with release
+
+4. **Confirm ready state:**
+   ```
+   ✓ Working tree clean
+   ✓ No uncommitted changes
+   ✓ Ready to proceed with release
+   ```
+
+**Only proceed to Step 1 after confirming clean repository state.**
+
+---
 
 ### Step 1: Determine New Version Number
 
@@ -36,24 +72,29 @@ Update the version number in these files:
    - Line ~337: `**Release Date**: YYYY-MM-DD`
    - Review entire file for outdated prompt counts (should be "16 prompts" as of v0.12.1+)
 
-2. `Process/AI-Assisted_Nonfiction_Authoring_Process.md`
-   - Line ~3: `**Version:** X.X.X`
-   - Line ~4: `**Last Updated:** YYYY-MM-DD`
+2. `Process/FRAMEWORK_CORE.md` ← NEW
+   - Line ~3: `**Framework Version:** X.X.X`
+   - Line ~395: `**Framework Version:** X.X.X` (footer)
+   - Line ~396: `**Release Date:** YYYY-MM-DD` (footer)
+   - Line ~397: `**Token Efficiency:** [Note about token savings]`
 
 3. `CLAUDE.md`
    - Line ~3: `**Framework Version:** X.X.X`
-   - Line ~322: `**Framework Version:** X.X.X`
-   - Line ~323: `**Last Updated:** YYYY-MM-DD`
+   - Line ~533: `**Framework Version:** X.X.X`
+   - Line ~534: `**Last Updated:** YYYY-MM-DD`
 
-4. `configure.md`
+4. `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` ← CRITICAL (GitHub Action verifies this)
+   - Line ~3: `**Version:** X.X.X`
+
+5. `configure.md`
    - Line ~5: `**AI-Assisted Nonfiction Authoring Framework vX.X.X**`
    - Line ~418: `*Framework Version: X.X.X*`
 
-5. `INSTALLATION.md`
+6. `INSTALLATION.md`
    - All references to `vX.X.X` or `X.X.X`
    - Download links: `nonfiction-vX.X.X.zip`
 
-6. `PREPARE_RELEASE.md` (this file)
+7. `PREPARE_RELEASE.md` (this file) ← STAYS at root
    - Line ~3: `**Current Framework Version:** X.X.X`
    - Line ~4: `**Last Updated:** YYYY-MM-DD`
    - Line ~end: `**Framework Version:** X.X.X` (footer)
@@ -61,13 +102,49 @@ Update the version number in these files:
 
    **Self-Update:** This file updates its own version numbers as part of the release process.
 
-7. `system-instructions.md`
+8. `system-instructions.md`
    - Line ~3: `**Framework Version:** X.X.X`
-   - Line ~487: `**Framework Version:** X.X.X` (footer)
-   - Line ~488: `**Last Updated:** YYYY-MM-DD` (footer)
+   - Line ~552: `**Framework Version:** X.X.X` (footer)
+   - Line ~553: `**Last Updated:** YYYY-MM-DD` (footer)
+
+9. `.claude/commands/fw-init.md`
+   - Line ~7: Version note in improvement message
+   - Line ~95: Framework version in completion report
+   - Line ~96: Token savings note
+   - Line ~140: Version note in "Notes" section
+
+**Shell Scripts (Must update version headers):**
+10. `scripts/init.sh`
+    - Line ~5: `# Version: X.X.X`
+    - Line ~227: Version in banner: `Nonfiction Framework Initialization Script vX.X.X`
+
+11. `scripts/detect-tools.sh`
+    - Line ~5: `# Version: X.X.X`
+    - Line ~166: Version in banner: `Tool Detection Script vX.X.X`
+
+12. `scripts/generate-usage-guide.sh`
+    - Line ~5: `# Version: X.X.X`
+
+13. `scripts/generate-content.sh`
+    - Line ~3: `# Version: X.X.X`
+    - Line ~232: Version in banner: `Batch Content Generator vX.X.X`
+
+14. `Process/Scripts/compile-manuscript.sh`
+   - No version number currently (add if needed)
 
 **CHANGELOG.md:**
-- Add new version entry at top with today's date
+
+**First, review commits since last release to identify changes:**
+```bash
+# List all commits since last release tag
+git log --oneline v0.13.12..HEAD
+
+# For more detail including file changes
+git log --stat v0.13.12..HEAD
+```
+
+**Then add new version entry at top with today's date:**
+- Summarize commits into Added/Changed/Fixed/Technical categories
 - Follow this format:
 
 ```markdown
@@ -101,8 +178,9 @@ Update the version number in these files:
 - Verify footer version and date
 
 **3B. Review CHANGELOG.md:**
+- Run `git log --oneline v[PREV_VERSION]..HEAD` to see all commits
+- Verify all commits are reflected in CHANGELOG entry
 - Verify new version entry added at top
-- Check that all major changes are documented
 - Ensure version entry format is consistent
 - Verify date is correct (YYYY-MM-DD)
 - Check that Added/Changed/Fixed/Technical sections are complete
@@ -121,7 +199,7 @@ Update the version number in these files:
 Run this grep command to find any remaining old version references:
 
 ```bash
-grep -r "OLD_VERSION" --include="*.md" --include="*.json" . | grep -v ".git" | grep -v "node_modules" | grep -v "CHANGELOG.md"
+grep -r "OLD_VERSION" --include="*.md" --include="*.json" --include="*.sh" . | grep -v ".git" | grep -v "node_modules" | grep -v "CHANGELOG.md"
 ```
 
 **Note:** CHANGELOG.md will contain old versions in history - that's expected.
@@ -174,62 +252,125 @@ If any unexpected references found, update them.
 - `.config/migrations.json` template MUST be included in release zip
 - All 5 .config templates must be present (init, project, metadata, manifest, migrations)
 
-### Step 4.6: Generate Framework Files Manifest
+### Step 4.6: Sync Framework Files Manifest (AUTOMATED)
 
-**Generate the framework files manifest for this release:**
+**Automatically synchronize the manifest with actual framework files:**
 
-The manifest lists all framework files that should exist in a clean installation. This enables configure.md to clean up outdated files during updates.
+The manifest lists all framework files that should exist in a clean installation. This step ensures the manifest is **always accurate** by scanning the filesystem and updating automatically.
 
-1. **Generate current file listing:**
-   ```bash
-   # List all framework files
-   find Process -type f | sort > /tmp/process_files.txt
-   ls -1 INSTALLATION.md CLAUDE.md configure.md system-instructions.md .gitignore .nonfiction-migrations.json 2>/dev/null > /tmp/root_files.txt
-   find .claude -type f | sort > /tmp/claude_files.txt
-   find scripts -type f | sort > /tmp/scripts_files.txt
-   ```
+**CRITICAL:** This step must ADD files that exist but aren't in the manifest, and REMOVE entries for files that no longer exist. Never rely on manual tracking.
 
-2. **Update `Process/Templates/framework_files_manifest.json`:**
-   - Open `Process/Templates/framework_files_manifest.json`
-   - Update `"version"` to match `NEW_VERSION`
-   - Update `"generatedDate"` to today's date (YYYY-MM-DD)
-   - Verify all files listed in manifest still exist
-   - Add any new files created in this release
-   - Remove any files that were deleted in this release
+#### 4.6.1: Scan Actual Framework Files
 
-3. **Validate manifest structure:**
-   ```bash
-   # Check JSON is valid
-   cat Process/Templates/framework_files_manifest.json | jq .
-   ```
+**Directories to include in manifest:**
+- `Process/` - All subdirectories and files (excluding Documentation/)
+- `scripts/` - Shell scripts for automation
+- `.claude/` - Claude Code configuration
+- Root config files: `INSTALLATION.md`, `CLAUDE.md`, `configure.md`, `system-instructions.md`, `.gitignore`
 
-4. **Verify completeness:**
-   - Compare manifest against actual files
-   - Ensure all `.md` files in Process/ are listed
-   - Ensure all prompts (Prompt_1 through Prompt_16, Prompt_99) are listed
-   - Ensure all modules (_COMMON/01-17) are listed
-   - Ensure all templates are listed
-   - Ensure .claude/ files are listed (README.md, hooks.json)
-   - Ensure .claude/agents/ are listed (book-writing-assistant.md)
-   - Ensure .claude/commands/ are listed (fw-init.md)
+**Directories to EXCLUDE from manifest:**
+- `Documentation/` - Maintainer docs, not in user releases
+- `Proposal/` - Design proposals, not in user releases
+- `.github/` - GitHub workflows, not in user releases
+- `PREPARE_RELEASE.md` - Maintainer tool, not in user releases
+- `CHANGELOG.md` - Maintainer file, not in user releases
+- `.nonfiction-migrations.json` - Root migrations file (template is in Process/Templates/.config/)
+
+#### 4.6.2: Perform Manifest Sync
+
+**For each manifest section, compare filesystem against manifest entries:**
+
+1. **Read current manifest:** `Process/Templates/framework_files_manifest.json`
+
+2. **For each directory section in manifest:**
+
+   a. **Scan actual files** in that directory
+
+   b. **Compare against manifest entries:**
+      - Files on disk but NOT in manifest → **ADD to manifest**
+      - Files in manifest but NOT on disk → **REMOVE from manifest**
+
+   c. **Report changes:**
+      ```
+      Manifest sync for [directory]:
+        ADDED: [list of new files]
+        REMOVED: [list of deleted files]
+        UNCHANGED: [count] files
+      ```
+
+3. **Check for new directories** not yet in manifest:
+   - Scan `Process/` for subdirectories not represented in manifest
+   - Add new directory sections as needed
+
+4. **Update metadata:**
+   - Set `"version"` to `NEW_VERSION`
+   - Set `"generatedDate"` to today's date (YYYY-MM-DD)
+
+#### 4.6.3: Validation Checklist
+
+After sync, verify:
+
+- [ ] All files in `Process/Prompts/` are listed (16 prompts + references + README + QUICK_REFERENCE)
+- [ ] All files in `Process/_COMMON/` are listed (modules 01-20+)
+- [ ] All files in `Process/Templates/` are listed (all templates including .config/)
+- [ ] All files in `Process/Styles/` and subdirectories are listed
+- [ ] All files in `Process/Scripts/` are listed
+- [ ] All files in `scripts/` are listed
+- [ ] All files in `.claude/` and subdirectories are listed
+- [ ] Root files match: INSTALLATION.md, CLAUDE.md, configure.md, system-instructions.md, .gitignore
+- [ ] JSON is valid (no syntax errors)
+
+#### 4.6.4: Report Summary
+
+**Display sync summary:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Framework Files Manifest Sync Complete
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Version: [NEW_VERSION]
+Generated: [TODAY'S DATE]
+
+Files Added:   [count] ([list if any])
+Files Removed: [count] ([list if any])
+Total Files:   [count]
+
+Manifest saved: Process/Templates/framework_files_manifest.json
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**IMPORTANT: Step 4.7 - Documentation/ Directory Exclusion**
+
+The `Documentation/` directory contains maintainer documentation and is NOT included in user release packages:
+- Documentation/ is excluded in `.github/workflows/release.yml` build step
+- Only Process/, scripts/, .claude/, and root config files are included in releases
+- PREPARE_RELEASE.md stays at root (actively used for every release)
+- Users get FRAMEWORK_CORE.md (instant load) + on-demand docs from Process/
 
 **Example manifest structure:**
 ```json
 {
-  "version": "0.12.10",
-  "generatedDate": "2025-11-23",
+  "version": "0.14.0",
+  "generatedDate": "2025-11-26",
   "files": {
-    "root": ["INSTALLATION.md", "CLAUDE.md", ...],
-    "Process": ["AI-Assisted_Nonfiction_Authoring_Process.md", ...],
-    "Process/Prompts": ["Prompt_1_Initialize.md", ...],
-    "Process/_COMMON": ["01_Prompt_Structure_Template.md", ...],
-    "Process/Templates": ["Chapter_Style_Template.md", ...],
+    "root": ["INSTALLATION.md", "CLAUDE.md", "configure.md", "system-instructions.md", ".gitignore"],
+    "scripts": ["init.sh", "detect-tools.sh", "generate-usage-guide.sh", "generate-content.sh", "README.md"],
+    "Process": ["FRAMEWORK_CORE.md", "Anti-Hallucination_Guidelines.md", ...],
+    "Process/Prompts": ["Prompt_1_Initialize.md", "Prompt_1_Reference.md", ..., "README.md", "QUICK_REFERENCE.md"],
+    "Process/_COMMON": ["01_Prompt_Structure_Template.md", ..., "README.md"],
+    "Process/Templates": ["Image_Registry_template.md", "Image_Registry_Master_template.md", "Image_Registry_Chapter_template.md", ...],
+    "Process/Templates/.config": ["init.json", "project.json", "metadata.json", "manifest.json", "migrations.json", "README.md"],
+    "Process/Styles": ["README.md", "Style_Catalog.md"],
+    "Process/Styles/Academic": ["Academic_Authority.md", ...],
+    "Process/Scripts": ["compile-manuscript.sh", "README.md"],
+    "Process/Testing": ["Hierarchical_Style_Testing_Checklist.md"],
     ".claude": ["README.md", "hooks.json"],
     ".claude/agents": ["book-writing-assistant.md"],
     ".claude/commands": ["fw-init.md"]
   }
 }
 ```
+
+**Note:** Documentation/, Proposal/, .github/, PREPARE_RELEASE.md, CHANGELOG.md are NOT in manifest - excluded from user releases
 
 **Why this matters:**
 - During framework updates, configure.md will:
@@ -239,6 +380,7 @@ The manifest lists all framework files that should exist in a clean installation
   4. Preserve user content (Manuscript/, etc. - never touched)
 - Prevents accumulation of obsolete framework files
 - Keeps installation clean and up-to-date
+- **Automated sync prevents missing files like the Image_Registry templates issue**
 
 **Commit the updated manifest:**
 ```bash
@@ -254,13 +396,19 @@ git commit -m "Update all documentation to version X.X.X
 
 UPDATED:
 - README.md (root level)
-- Process/AI-Assisted_Nonfiction_Authoring_Process.md
+- Process/FRAMEWORK_CORE.md
 - CLAUDE.md
 - configure.md
 - INSTALLATION.md
 - PREPARE_RELEASE.md
 - system-instructions.md
+- .claude/commands/fw-init.md
+- Documentation/AI-Assisted_Nonfiction_Authoring_Process.md
 - CHANGELOG.md
+- scripts/init.sh
+- scripts/detect-tools.sh
+- scripts/generate-usage-guide.sh
+- scripts/generate-content.sh
 
 Prepared for vX.X.X release.
 
@@ -319,14 +467,26 @@ Check that the release includes:
 
 This list helps verify all version references are updated:
 
-### Framework Documentation
+### Framework Documentation (User-Facing)
 - `README.md` - Root level readme (header, footer, download links, prompt counts)
-- `Process/AI-Assisted_Nonfiction_Authoring_Process.md` - Header version and date
+- `Process/FRAMEWORK_CORE.md` - Header and footer version and date ← NEW
 - `CLAUDE.md` - Header and footer version and date
 - `configure.md` - Header and footer version
 - `INSTALLATION.md` - All download links and references
-- `PREPARE_RELEASE.md` - This file's header and footer version and date
-- `system-instructions.md` - Header and footer version, compatibility classifications
+- `system-instructions.md` - Header and footer version, token efficiency note
+- `.claude/commands/fw-init.md` - Version notes throughout ← NEW
+
+### Shell Scripts (Framework Automation)
+- `scripts/init.sh` - Header version comment and banner display
+- `scripts/detect-tools.sh` - Header version comment and banner display
+- `scripts/generate-usage-guide.sh` - Header version comment
+- `scripts/generate-content.sh` - Header version comment and banner display (NEW v0.14.0)
+
+### Maintainer Tools (Root Level - Actively Used)
+- `PREPARE_RELEASE.md` - This file's header and footer version and date (stays at root)
+
+### Maintainer Documentation (NOT in user releases)
+- `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` - Header version and date
 
 ### Generated During Installation (v0.12.1+)
 - `.config/init.json` - Created by Prompt 1 Q&A session
@@ -375,8 +535,9 @@ Before creating a release, verify:
 - [ ] **system-instructions.md reviewed** for correct compatibility classifications
 - [ ] **`.nonfiction-migrations.json` verified** with correct migrations for this release
 - [ ] **Migration testing completed** if migrations are included in this release
-- [ ] All version numbers updated consistently across 8 files
-- [ ] No uncommitted changes in repository
+- [ ] All version numbers updated consistently across 11 files (8 docs + 3 shell scripts)
+- [ ] **Shell scripts verified** (init.sh, detect-tools.sh, generate-usage-guide.sh)
+- [ ] **Repository state verified** (Step 0 completed - no uncommitted changes)
 - [ ] GitHub Actions workflow is functioning
 - [ ] Previous release (if any) completed successfully
 
@@ -404,7 +565,7 @@ If a release needs to be rolled back:
 **User:** "Prepare release 0.11.0"
 
 **Claude:**
-1. Updates version to 0.11.0 in all 8 files listed in Step 2
+1. Updates version to 0.11.0 in all 8 documentation files and 3 shell scripts listed in Step 2
 2. Updates dates to today's date
 3. **Reviews README.md** for prompt counts ("16 prompts" as of v0.12.1), download links, features
 4. **Reviews CHANGELOG.md** entry for 0.11.0 completeness
@@ -422,12 +583,12 @@ If a release needs to be rolled back:
 
 **Check current version in files:**
 ```bash
-grep -h "Version:" README.md Process/AI-Assisted_Nonfiction_Authoring_Process.md CLAUDE.md configure.md PREPARE_RELEASE.md system-instructions.md | head -8
+grep -h "Version:" README.md Process/FRAMEWORK_CORE.md CLAUDE.md configure.md PREPARE_RELEASE.md system-instructions.md Documentation/AI-Assisted_Nonfiction_Authoring_Process.md scripts/*.sh | head -12
 ```
 
 **Find all version references:**
 ```bash
-grep -r "0\.10\.0" --include="*.md" . | grep -v ".git" | grep -v "CHANGELOG.md"
+grep -r "0\.10\.0" --include="*.md" --include="*.sh" . | grep -v ".git" | grep -v "CHANGELOG.md" | grep -v "Documentation/"
 ```
 
 **Review critical files for content:**
@@ -456,7 +617,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.12.10
-**Last Updated:** 2025-11-23
+**Framework Version:** 0.13.14
+**Last Updated:** 2025-11-26
 
 *This file is for framework maintainers only - not included in release packages*

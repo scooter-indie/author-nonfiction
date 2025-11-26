@@ -1,24 +1,22 @@
 # Framework Configuration
 
-**HYBRID:** Works in Claude Desktop with copy/paste git commands throughout
-
-**AI-Assisted Nonfiction Authoring Framework v0.12.10**
-
-**Claude Desktop Compatibility:**
-- ✅ All file verification via MCP Filesystem
-- ✅ All file operations via MCP Filesystem
-- ⚠️ Requires copy/paste git commands: init, add, commit, remote add
-- 📋 Works 70% in Desktop
-
-**Claude Code CLI users:**
-- ✅ Full automation with direct git execution
-- 📋 Works 100% in CLI
+**AI-Assisted Nonfiction Authoring Framework v0.13.14**
 
 ---
 
-**CRITICAL INSTRUCTION FOR CLAUDE CODE:**
+## Environment Support
 
-**BEFORE DOING ANYTHING ELSE:** Run `pwd` to verify your actual current working directory. Ignore any environment info about working directory - use only the result from `pwd` for all subsequent operations. All file paths and operations MUST be relative to the directory returned by `pwd`.
+This configuration supports both **Claude Desktop** and **Claude Code CLI**.
+
+**Detect your environment:**
+- **Claude Desktop:** File operations via MCP Filesystem, CLI commands via copy blocks
+- **Claude Code CLI:** Direct execution of all commands
+
+**How this works:**
+1. Steps 0-3 work in both environments (Q&A and verification)
+2. Steps 4+ require CLI commands → Desktop users get **copy blocks**
+3. Desktop users paste copy blocks into Claude Code CLI for execution
+4. Users are NEVER expected to paste directly into bash/cmd/PowerShell
 
 ---
 
@@ -26,21 +24,102 @@
 
 This configuration script will:
 
-1. **Verify framework installation** - Check all required files are present
-2. **Check git status** - Warn if uncommitted changes exist (for updates)
-3. **Apply migrations** (updates only) - Update project structure for new version
-4. **Clean outdated files** (updates only) - Remove obsolete framework files
-5. **Setup git repository** - Initialize if not present
-6. **Connect to remote** (optional) - Help you set up GitHub/GitLab remote
-7. **Discover export tools** - Run detection script to find pandoc/typst, update manifest
-8. **Create manifest/update version** - Track installation or update
-9. **Verify Claude Code integration** - Ensure book-writing-assistant is ready
-10. **Create initial commit** - Verify git is working
-11. **Provide next steps** - Guide you to start writing
+1. **Confirm date** - Verify system date is correct
+2. **Check required tools** - Verify git and jq are installed
+3. **Verify framework installation** - Check all required files are present
+4. **Check git status** - Warn if uncommitted changes exist (for updates)
+5. **Apply migrations** (updates only) - Update project structure for new version
+6. **Clean outdated files** (updates only) - Remove obsolete framework files
+7. **Setup git repository** - Initialize if not present
+8. **Connect to remote** (optional) - Help you set up GitHub/GitLab remote
+9. **Discover export tools** (optional) - Detect pandoc/typst for exports
+10. **Create manifest/update version** - Track installation or update
+11. **Create initial commit** - Commit framework files to git
+12. **Provide next steps** - Guide you to start writing
 
 ---
 
 ## Configuration Process
+
+### Step 0: Confirm Date
+
+**⏸️ STOP AND ASK USER:**
+
+```
+Today's date from system: [DATE from <env>]
+
+Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
+```
+
+**WAIT for user response.**
+
+- **If user says "yes":** Store as `CONFIRMED_DATE=[DATE]`
+- **If user provides different date:** Store as `CONFIRMED_DATE=[user's date]`
+
+**IMPORTANT:** Use CONFIRMED_DATE for ALL date operations during this session.
+
+---
+
+### Step 0.5: Check Required Tools
+
+**Required tools:**
+1. **git** - Version control (required)
+2. **jq** - JSON processing (required for initialization scripts)
+
+---
+
+**Run the tool detection script:**
+
+**If in Claude Code CLI:** Execute directly:
+```bash
+bash scripts/detect-tools.sh .config/manifest.json
+```
+
+**If in Claude Desktop:** Provide this command for user to paste into Claude Code CLI:
+```
+bash scripts/detect-tools.sh .config/manifest.json
+```
+Tell user: "Copy this command and paste it into Claude Code CLI. Return here with the output."
+
+**Analyze the output:**
+- `✓ Git detected` and `✓ jq detected` → Proceed to Step 1
+- `✗ Git not found` or `✗ jq not found` → Show installation instructions below
+
+---
+
+#### Installation Instructions (only if tools are missing)
+
+**Windows:**
+
+**Git (if missing):**
+1. Download from: https://git-scm.com/download/win
+2. Run the installer, accept all defaults
+
+**jq (if missing):**
+In Claude Code CLI, run:
+```
+winget install jqlang.jq
+```
+
+Or manual download:
+1. Go to: https://jqlang.org/download/
+2. Download "jq-win64.exe"
+3. Rename to "jq.exe"
+4. Move to C:\Program Files\Git\usr\bin\
+
+After installing: Close and reopen terminals, say "done"
+
+**macOS (in Claude Code CLI):** `brew install git jq`
+
+**Linux (in Claude Code CLI):** `sudo apt install git jq`
+
+**WAIT for user to say "done" before continuing.**
+
+---
+
+**When all required tools are confirmed:** Proceed to Step 1.
+
+---
 
 ### Step 1: Verify Current Directory
 
@@ -51,36 +130,42 @@ I will:
 
 ### Step 2: Check Framework Installation
 
-I will verify these files exist:
-- `.config/manifest.json` (or legacy `.nonfiction-manifest.json`)
+I will verify these framework files exist:
 - `Process/` directory
 - `.claude/agents/book-writing-assistant.md`
 - `INSTALLATION.md`
 - `CLAUDE.md`
 - `system-instructions.md`
 - `.gitignore`
+- `Process/Templates/.config/manifest.json` (template for creating user manifest)
 
 If any are missing, I'll report the issue and stop.
+
+**Note:** `.config/manifest.json` is NOT checked here - it will be created in Step 3.
 
 ### Step 3: Detect Installation Type and Create/Update Manifest
 
 I will:
-1. Check if `.config/manifest.json` exists in project
+1. **Create `.config/` directory if it doesn't exist:**
+   ```bash
+   mkdir -p .config
+   ```
+2. Check if `.config/manifest.json` exists in project
    - If not, check for legacy `.nonfiction-manifest.json` in root
-2. **If manifest does NOT exist:**
+3. **If manifest does NOT exist:**
    - Read `Process/Templates/.config/manifest.json`
    - Create `.config/manifest.json` from template
    - This is a **New Installation**
-3. **If manifest DOES exist:**
+4. **If manifest DOES exist:**
    - Read existing `.config/manifest.json` (or migrate from `.nonfiction-manifest.json`)
    - Preserve `installedVersion` and `installedDate` (installation history)
    - Update only `frameworkVersion` and `releaseDate` from template
    - Add current update to `updateHistory` array
    - This is an **Update Installation**
-4. **If migrating from v0.12.0 or earlier:**
+5. **If migrating from v0.12.0 or earlier:**
    - Move `.nonfiction-manifest.json` → `.config/manifest.json`
    - Update structure to match new template
-5. Proceed with appropriate workflow
+6. Proceed with appropriate workflow
 
 **Manifest Structure:**
 ```json
@@ -109,13 +194,23 @@ I will:
 
 ### Step 4: Git Status Check (Updates Only)
 
-For updates, I will:
+**For NEW installations:** Skip to Step 5. Say:
+```
+Step 4: Skipped (new installation - no git status check needed)
+```
+
+**For UPDATES**, I will:
 1. Run `git status`
 2. Check for uncommitted changes
 3. **If found**: Stop and warn you to commit first
 4. **If clean**: Proceed with update
 
 ### Step 4.5: Apply Migrations (Updates Only)
+
+**For NEW installations:** Skip to Step 5. Say:
+```
+Step 4.5: Skipped (new installation - no migrations needed)
+```
 
 **This step only runs when updating from an older version.**
 
@@ -143,7 +238,8 @@ I will:
    - Execute each change in the migration
 5. For each change within a migration:
    - Attempt to apply automatically
-   - **If fails**: Ask "Migration step failed. (retry/abort)"
+   - **If fails**: **⏸️ STOP AND ASK USER:** "Migration step failed. (retry/abort)"
+     - **WAIT for user response**
      - retry: Try again
      - abort: Stop entire process (user must fix before continuing)
    - Track successful changes
@@ -296,6 +392,11 @@ REQUIRED ACTIONS:
 
 ### Step 4.7: Clean Outdated Framework Files (Updates Only)
 
+**For NEW installations:** Skip to Step 5. Say:
+```
+Step 4.7: Skipped (new installation - no cleanup needed)
+```
+
 **This step only runs when updating from an older version.**
 
 After applying migrations, I will clean up outdated framework files that are no longer part of the current version.
@@ -324,7 +425,9 @@ I will:
    done
    ```
 
-4. **Display files to be removed:**
+4. **Display files to be removed and ask user:**
+
+   **⏸️ STOP AND ASK USER:**
    ```
    📦 Framework Cleanup
 
@@ -342,7 +445,9 @@ I will:
    Proceed with cleanup? (yes/no)
    ```
 
-5. **Remove outdated files (if user confirms):**
+   **WAIT for user response before continuing.**
+
+5. **Remove outdated files (if user says "yes"):**
    ```bash
    # Remove each outdated file
    for file in [files-to-remove]; do
@@ -394,148 +499,150 @@ I will:
 
 ### Step 5: Git Repository Setup
 
-I will check if git is installed:
+**Note:** Git was verified in Step 0.5.
 
-**Git Not Found:**
-- Provide installation instructions for your platform:
-  - **Windows**: Download from https://git-scm.com/ or use `winget install Git.Git`
-  - **macOS**: Install via Homebrew: `brew install git` or download from https://git-scm.com/
-  - **Linux**: Use package manager: `sudo apt install git` or `sudo yum install git`
-- Stop and wait for you to install git
-
-**Git Found:**
 - Check if `.git` directory exists
-- If not: Run `git init`
-- Verify git repository is ready
+- If not: Initialize git repository
+
+**If in Claude Code CLI:** Execute directly:
+```bash
+git init && git branch -M main
+```
+
+**If in Claude Desktop:** Provide this command for user to paste into Claude Code CLI:
+```
+git init && git branch -M main
+```
+Tell user: "Copy and paste into Claude Code CLI, then return with the result."
+
+Report: `✓ Git repository initialized`
 
 ### Step 6: Remote Repository Setup
 
-I will ask you about remote repository:
+**⏸️ STOP AND ASK USER:**
+```
+Step 6: Remote Repository Setup
 
-**Question:** "Do you want to connect this project to a remote git repository?"
+Do you want to connect this project to a remote git repository (GitHub, GitLab, etc.)?
 
-**Option 1: No remote repository**
-- You'll work locally only
-- You're responsible for your own backups
-- Configuration continues
+Options:
+1. "no" or "skip" - Work locally only (you handle backups)
+2. "github" - Create/connect to GitHub repository
+3. "gitlab" - Create/connect to GitLab repository
+4. "url [your-url]" - I already have a repository URL
+```
 
-**Option 2: Create new remote repository**
+**WAIT for user response before continuing.**
 
-I'll ask: "Which platform?"
-- **GitHub** (most common)
-- **GitLab**
-- **Other** (Bitbucket, self-hosted, etc.)
+**If user says "no" or "skip":**
+- Tell user: "Working locally. You're responsible for backups."
+- Continue to Step 7.
 
-Then I'll provide instructions for **both methods**:
+**If user says "github" or "gitlab":**
 
-**Method A: Web UI (Recommended for beginners)**
-- Step-by-step instructions for creating repo via web browser
-- How to get the repository URL
-- Wait for you to provide URL
+**⏸️ ASK USER:** "Do you want to create a new repository or connect to an existing one?"
+- "new" - Create new repository
+- "existing" - Connect to existing repository URL
 
-**Method B: Command Line (Faster for developers)**
+**WAIT for response.**
+
+**For new repository:**
+
+**If in Claude Code CLI:** Execute directly:
 
 For GitHub:
 ```bash
-# Install GitHub CLI if needed: https://cli.github.com/
 gh auth login
 gh repo create my-book --private --source=. --remote=origin
 ```
 
 For GitLab:
 ```bash
-# Install GitLab CLI if needed
 glab auth login
 glab repo create my-book --private
-git remote add origin [returned-url]
 ```
 
-After you provide the URL or confirm CLI setup:
-- Verify remote is configured: `git remote -v`
+**If in Claude Desktop:** Provide these commands for user to paste into Claude Code CLI:
 
-**Option 3: Already have empty remote repository**
-
-I'll ask: "What is your repository URL?"
-- Example: `https://github.com/username/my-book.git`
-- Example: `git@github.com:username/my-book.git`
-
-Then I'll:
-1. Verify the current directory has content to preserve
-2. Add the remote: `git remote add origin [your-url]`
-3. Set up tracking: `git branch -M main`
-
-**Note**: I will NOT push to remote at this stage. You'll use Prompt 9 when ready to push.
-
-### Step 7: Export Tool Discovery
-
-Now I'll check what export tools are available on your system. This determines which export formats Prompt 9 can produce.
-
-**Note:** Git was already verified in Step 2. This script will re-confirm git and detect pandoc/typst for export functionality (Prompt 9).
-
-**To run the tool detection:**
-
-1. **Open Claude Code CLI** in your project directory
-2. **In Claude Code, say:**
-   ```
-   Run: bash scripts/detect-tools.sh .config/manifest.json
-   ```
-
-**The script will:**
-1. Re-confirm git availability (already verified in Step 2)
-2. Detect pandoc and typst for export tools (Prompt 9)
-3. Display version numbers for all detected tools
-4. Update `.config/manifest.json` with tool availability
-5. Provide installation instructions for missing tools
-
-**Expected output:**
+For GitHub:
 ```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Tool Detection Script v0.12.1
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Detecting available tools...
-
-✓ Git detected (version 2.43.0)
-✓ Pandoc detected (version 3.1.9)
-⊙ Typst not found (optional - alternative to LaTeX)
-
-✓ Updated .config/manifest.json
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Tool Detection Summary
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Available tools:
-  ✓ Git - Version control (required)
-  ✓ Pandoc - DOCX/PDF/EPUB export (Prompt 9)
-  ⊙ Typst - Install for fast PDF export
-
-Installation instructions:
-  Typst: https://github.com/typst/typst#installation
-  - Windows: winget install Typst.Typst
-  - macOS: brew install typst
-  - Linux: Download from releases
+gh auth login
+```
+Then after authentication:
+```
+gh repo create my-book --private --source=. --remote=origin
 ```
 
-**The manifest will be updated:**
-```json
-{
-  "frameworkVersion": "0.12.10",
-  "toolsAvailable": {
-    "git": true,
-    "pandoc": true,
-    "typst": false
-  },
-  "lastUpdated": "2025-11-21"
-}
+For GitLab:
+```
+glab auth login
+```
+Then after authentication:
+```
+glab repo create my-book --private
 ```
 
-**Why This Matters:**
-- Prompt 9 (Export) needs pandoc to convert markdown to DOCX/PDF/EPUB
-- Without pandoc, Prompt 9 can only export to markdown format
-- Typst is an optional modern alternative to LaTeX for PDF generation
-- Tool availability is stored in manifest for framework reference
-- You can re-run detection anytime: `bash scripts/detect-tools.sh`
+**For existing repository or "url [your-url]":**
+1. Get the URL from user
+2. Add remote and verify
+
+**If in Claude Code CLI:** Execute directly:
+```bash
+git remote add origin [url]
+git branch -M main
+git remote -v
+```
+
+**If in Claude Desktop:** Provide these commands (replace [url] with actual URL):
+```
+git remote add origin [url]
+git branch -M main
+git remote -v
+```
+
+**Note**: I will NOT push to remote. Use Prompt 12 (Git Operations) when ready.
+
+### Step 7: Export Tool Discovery (Optional)
+
+**Note:** Git was already verified in Step 0.5. This step focuses on **optional** export tools.
+
+**⏸️ STOP AND ASK USER:**
+
+Ask the user:
+```
+Step 7: Export Tool Discovery (Optional)
+
+Export tools (pandoc, typst) enable Prompt 9 to export your manuscript to DOCX, PDF, and EPUB formats.
+
+Would you like to detect export tools now?
+- "yes" or "detect" - Run tool detection
+- "skip" - Skip this step (you can run detection later)
+```
+
+**WAIT for user response before continuing.**
+
+**If user says "yes" or "detect":**
+
+**If in Claude Code CLI:** Execute directly:
+```bash
+bash scripts/detect-tools.sh .config/manifest.json
+```
+
+**If in Claude Desktop:** Provide this command:
+```
+bash scripts/detect-tools.sh .config/manifest.json
+```
+Tell user: "Copy and paste into Claude Code CLI, then return with the result."
+
+The script will confirm git (already verified) and check for pandoc/typst availability.
+
+Display results and continue to Step 8.
+
+**If user says "skip":**
+
+Tell user: "Skipping tool detection. You can run tool detection later from Claude Code CLI."
+
+Continue to Step 8.
 
 ### Step 8: Update Manifest
 
@@ -543,8 +650,8 @@ Installation instructions:
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.12.10",
-  "installedVersion": "0.12.10",
+  "frameworkVersion": "0.13.14",
+  "installedVersion": "0.13.14",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -561,12 +668,12 @@ I will update `.config/manifest.json`:
 I will:
 1. Read current `installedVersion` from manifest
 2. Display changelog (read from `CHANGELOG.md`)
-3. Show what's changed between your version and 0.12.7
+3. Show what's changed between your version and the new version
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.12.10",
-  "installedVersion": "0.12.10",
+  "frameworkVersion": "0.13.14",
+  "installedVersion": "0.13.14",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -581,39 +688,52 @@ I will:
 
 ### Step 9: Create Git Commit
 
-**For Claude Code CLI users:**
+**Note:** Git repository was initialized in Step 5. Now we create the initial commit.
 
-I will automatically execute the git commit with appropriate message.
-
-**For Claude Desktop users:**
-
-I will provide you with the git command to run in Claude Code CLI.
+**If in Claude Code CLI:** Execute directly:
 
 **For New Installations:**
+```bash
+git add . && git commit -m "Initialize nonfiction framework v0.13.14
 
-Open Claude Code CLI and say:
-```
-Run: git add . && git commit -m 'Initialize nonfiction framework v0.12.7
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-🤖 Generated with Claude Desktop
-
-Co-Authored-By: Claude <noreply@anthropic.com>'
+Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 **For Updates:**
-
-Open Claude Code CLI and say:
-```
-Run: git add .config/manifest.json && git commit -m 'Update framework from v[old] to v0.12.7
+```bash
+git add . && git commit -m "Update framework to v0.13.14
 
 See CHANGELOG.md for details.
 
-🤖 Generated with Claude Desktop
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-Co-Authored-By: Claude <noreply@anthropic.com>'
+Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-After running the command, verify commit succeeded with `git log -1`
+**If in Claude Desktop:** Provide these commands:
+
+**For New Installations:**
+```
+git add . && git commit -m "Initialize nonfiction framework v0.13.14
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+**For Updates:**
+```
+git add . && git commit -m "Update framework to v0.13.14
+
+See CHANGELOG.md for details.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+Tell user: "Copy and paste into Claude Code CLI to create the commit."
 
 ### Step 10: Verify Book Writing Assistant
 
@@ -630,7 +750,7 @@ I will provide:
 ```
 ✅ Configuration Complete!
 
-Framework v3.5.0 installed successfully.
+Framework v0.13.14 installed successfully.
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
@@ -659,7 +779,7 @@ Framework v3.5.0 installed successfully.
 ```
 ✅ Framework Updated Successfully!
 
-Updated from v[old] to v3.5.0
+Updated from v[old] to v0.13.14
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Update committed
@@ -698,7 +818,7 @@ The following required files are missing:
 This suggests the framework was not fully extracted.
 
 Solutions:
-1. Re-extract nonfiction-v3.5.0.zip to this directory
+1. Re-extract nonfiction-v0.13.14.zip to this directory
 2. Ensure all files are extracted (not just some)
 3. Check file permissions
 
@@ -733,9 +853,14 @@ You have uncommitted changes in your repository:
 Before updating the framework, you MUST commit your work.
 ```
 
-Open Claude Code CLI and say:
+**If in Claude Code CLI:** Execute directly:
+```bash
+git add . && git commit -m "Save work before framework update"
 ```
-Run: git add . && git commit -m 'Save work before framework update'
+
+**If in Claude Desktop:** Provide this command:
+```
+git add . && git commit -m "Save work before update"
 ```
 
 Then run this configuration again.
@@ -787,5 +912,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.12.10*
+*Framework Version: 0.13.14*
 *Configuration Script: configure.md*

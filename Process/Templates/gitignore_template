@@ -1,5 +1,8 @@
 # Framework Files (Do Not Track - Updated on Framework Upgrades)
 Process/
+scripts/
+.claude/commands/
+CHANGELOG.md
 INSTALLATION.md
 CLAUDE.md
 system-instructions.md
@@ -59,3 +62,6 @@ configure.md
 
 # Local Claude settings (may contain personal tokens)
 .claude/settings.local.json
+
+# Lock files (Concurrent editing - v0.13.0+)
+.locks/

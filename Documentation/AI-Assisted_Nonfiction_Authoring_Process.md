@@ -1,7 +1,7 @@
 # AI-Assisted Nonfiction Book Authoring Process
 
-**Version:** 0.12.10
-**Last Updated:** 2025-11-23
+**Version:** 0.13.14
+**Last Updated:** 2025-11-26
 **Purpose:** A comprehensive, systematic approach to authoring nonfiction books with AI assistance using Git version control
 
 ---
@@ -383,7 +383,9 @@ The Writing Style System helps authors define, maintain, and apply consistent vo
 ### File Locations
 
 **Framework Level (Process/):**
-- `Process/Style_Examples.md` - 9 curated framework styles with complete examples
+- `Process/Styles/Style_Catalog.md` - Master catalog of 19 framework styles
+- `Process/Styles/README.md` - Style library usage guide
+- `Process/Styles/[Category]/[StyleName].md` - Individual style files organized by category
 - `Process/Templates/Style_Guide_Template.md` - Template for project configuration
 - `Process/Templates/Custom_Styles_Template.md` - Template for custom styles
 
@@ -393,17 +395,36 @@ The Writing Style System helps authors define, maintain, and apply consistent vo
 
 ### Framework Styles
 
-The framework provides 9 professionally curated styles:
+The framework provides 19 professionally curated styles organized into 5 categories:
 
+**Academic & Research (4 styles):**
 1. **Academic Authority** - Scholarly, research-based, third-person formal
-2. **Conversational Expert** - Business/professional, second-person accessible
-3. **Narrative Storyteller** - Memoir-adjacent, first-person with scenes
-4. **Business Professional** - Management/leadership, action-oriented
-5. **Technical Precision** - Technical guides, detailed and systematic
-6. **Investigative Journalist** - Exposés, evidence-based revelation
-7. **Practical Guide** - How-to, step-by-step instructional
-8. **Inspirational Teacher** - Personal development, motivational
-9. **Scientific Communicator** - Popular science, wonder with rigor
+2. **Scientific Communicator** - Popular science, wonder with rigor
+3. **Technical Precision** - Technical guides, detailed and systematic
+4. **Medical/Health Narrative** - Clinical knowledge + human experience, patient-centered
+
+**Business & Professional (2 styles):**
+5. **Business Professional** - Management/leadership, action-oriented
+6. **Conversational Expert** - Business/professional, second-person accessible
+
+**Narrative & Storytelling (4 styles):**
+7. **Narrative Storyteller** - Memoir-adjacent, first-person with scenes
+8. **Historical Chronicler** - Narrative history, scholarly storytelling
+9. **Investigative Journalist** - Exposés, evidence-based revelation
+10. **Confessional Memoir** - Raw honesty, vulnerability, unflinching self-examination
+
+**Personal Development & How-To (3 styles):**
+11. **Practical Guide** - How-to, step-by-step instructional
+12. **Inspirational Teacher** - Personal development, motivational
+13. **Philosophical Contemplative** - Reflective inquiry, ethics, big questions
+
+**Cultural & Social Commentary (6 styles):**
+14. **Cultural Critic** - Sharp observation, essayistic, analytical
+15. **Satirical Humorist** - Witty, ironic, comedic truth-telling
+16. **Activist Advocate** - Social justice, advocacy, call to action
+17. **Lyrical Nature Writer** - Poetic, sensory, ecological, place-based
+18. **Spiritual/Religious Writer** - Contemplative, sacred traditions, invitational
+19. **Sports Writer** - Athletic narratives, competitive drama
 
 Each style includes:
 - Voice characteristics (person, formality, sentence structure, vocabulary)
@@ -564,362 +585,351 @@ Each style includes:
 
 ---
 
+## Concurrent Editing (v0.13.0+)
+
+### Overview
+
+**New in v0.13.0:** The framework now supports safe concurrent editing, allowing you to run multiple Claude instances (CLI or Desktop) simultaneously on different parts of your book.
+
+**Key Features:**
+- Work on different chapters at the same time
+- Automatic conflict prevention via resource-level locking
+- 15-minute stale lock timeout for crash recovery
+- Manual lock management via Dashboard (Prompt 10)
+- Works in both Claude Code CLI and Claude Desktop
+
+### How Lock Management Works
+
+The framework uses a **resource-level lock system** to coordinate between multiple Claude instances:
+
+**Lock Process:**
+1. When a prompt needs to modify a resource (e.g., Chapter 5), it checks for existing locks
+2. If unlocked, the prompt acquires a lock on that resource
+3. The prompt performs its work (reading, modifying, committing)
+4. After completion, the lock is released automatically
+5. Other instances can then access that resource
+
+**Lock Storage:**
+- Locks stored in `.locks/locks.json` (automatically created on first use)
+- Added to `.gitignore` (locks are local, never committed)
+- JSON format tracks resource name, timestamp, and instance identifier
+
+### Lockable Resources
+
+The system locks at the resource level, not the entire project:
+
+| Resource Type | What It Locks | Example |
+|---------------|---------------|---------|
+| **Chapter** | Individual chapter files and change tracking | `Chapter_01`, `Chapter_05`, `Chapter_12` |
+| **FrontMatter** | All front matter files | Title page, dedication, preface, etc. |
+| **BackMatter** | All back matter files | Appendices, glossary, bibliography, index |
+| **StyleSystem** | Style configuration files | Style_Guide.md, Style_Overrides.md |
+| **QuoteRegistry** | Chapter quotes file | Chapter_Quotes.md |
+| **ImageRegistry** | Image registry file(s) | Image_Registry.md (or split registries) |
+| **ProjectConfig** | Project configuration files | .config/*.json files |
+
+### Prompts That Acquire Locks
+
+**Write-operation prompts** (acquire locks before modifying):
+
+- **Prompt 1:** Initialize - Locks `ProjectConfig`
+- **Prompt 2:** Add Chapter - Locks new `Chapter_XX` and `ProjectConfig`
+- **Prompt 3:** Change by Chg - Locks `Chapter_XX` being modified
+- **Prompt 4:** Interactive Change - Locks `Chapter_XX` being modified
+- **Prompt 5:** Scan For User Edits - Locks each `Chapter_XX` being scanned
+- **Prompt 6:** Integrate Inbox - Locks depend on content type
+- **Prompt 11:** Style Manager - Locks `StyleSystem`
+- **Prompt 14:** Citation Finder - Locks `Chapter_XX` and possibly `BackMatter`
+- **Prompt 15:** Visual Content Suggester - Locks `Chapter_XX` and `ImageRegistry`
+- **Prompt 16:** Image Manager - Locks `ImageRegistry` and possibly `Chapter_XX`
+
+**Read-only prompts** (no locks needed):
+
+- **Prompt 7:** Compile - Reads files, writes to `Drafts/` (not locked)
+- **Prompt 8:** Consistency Checker - Read-only analysis
+- **Prompt 9:** Export - Reads `Manuscript/`, writes to `Exports/`
+- **Prompt 10:** Dashboard - Read-only, but displays lock status
+- **Prompt 12:** Git Operations - Doesn't modify manuscript files directly
+- **Prompt 13:** AI Detection Analysis - Read-only analysis
+
+### Lock Conflict Resolution
+
+**When a prompt encounters an active lock:**
+
+**Scenario 1: Lock is recent (< 15 minutes old)**
+```
+⚠️ Chapter_05 is currently locked by another instance.
+
+Lock details:
+- Resource: Chapter_05
+- Locked at: 2025-11-23 10:30:00 (5 minutes ago)
+- Instance: Desktop-67890
+
+Options:
+1. Wait for lock to clear (checks every 5 seconds)
+2. Cancel operation
+3. Override lock (not recommended)
+
+Choose option (1-3):
+```
+
+**User can:**
+- **Wait** - Polls every 5 seconds until lock clears, then proceeds automatically
+- **Cancel** - Exits without making changes
+- **Override** - Forces lock acquisition (not recommended for active locks)
+
+**Scenario 2: Lock is stale (>= 15 minutes old)**
+```
+⚠️ Chapter_05 has a stale lock (older than 15 minutes).
+
+Lock details:
+- Resource: Chapter_05
+- Locked at: 2025-11-23 10:00:00 (23 minutes ago)
+- Instance: CLI-12345
+
+This lock may be from a crashed instance.
+
+Options:
+1. Override stale lock and continue
+2. Cancel operation
+
+Choose option (1-2):
+```
+
+**User can:**
+- **Override** - Safe to proceed, likely from crashed instance
+- **Cancel** - Exit if uncertain
+
+### Working with Multiple Instances
+
+**Best Practices:**
+
+1. **Work on different chapters simultaneously**
+   ```
+   Terminal 1: Execute Prompt 3 for Chapter 3
+   Terminal 2: Execute Prompt 4 for Chapter 7
+   → No conflict, both work at the same time
+   ```
+
+2. **Check Dashboard before starting**
+   ```
+   Run Prompt 10 to see:
+   - Which resources are currently locked
+   - Any stale locks that need clearing
+   - Overall system status
+   ```
+
+3. **Wait rather than override**
+   ```
+   If lock is active (< 15 minutes):
+   → Choose "Wait" option
+   → System polls and proceeds automatically when clear
+
+   If lock is stale (>= 15 minutes):
+   → Safe to override (likely crashed instance)
+   ```
+
+4. **Clear stale locks after crashes**
+   ```
+   Use Prompt 10 Dashboard → "Clear All Locks"
+   → Removes all locks (with confirmation)
+   → Fresh start for new work
+   ```
+
+### Dashboard Lock Management
+
+**Prompt 10 (Dashboard) shows lock status:**
+
+**Example output:**
+```markdown
+## Active Locks
+
+**Current locks:**
+- Chapter_03: Locked 5 minutes ago (CLI-12345)
+- StyleSystem: Locked 12 minutes ago (Desktop-67890)
+
+**Stale locks (>15 minutes):**
+- Chapter_07: Locked 23 minutes ago (CLI-99999) ⚠️ STALE
+
+Total: 2 active locks, 1 stale lock
+
+---
+
+To clear all locks manually, use the "Clear All Locks" operation.
+```
+
+**Clear All Locks operation:**
+1. Shows current locks (active and stale)
+2. Warns about clearing active locks
+3. Requires confirmation
+4. Clears all locks if confirmed
+
+### Technical Implementation
+
+**Lock File Format** (`.locks/locks.json`):
+```json
+{
+  "locks": [
+    {
+      "resource": "Chapter_03",
+      "timestamp": "2025-11-23T10:30:00Z",
+      "instance": "CLI-12345"
+    },
+    {
+      "resource": "StyleSystem",
+      "timestamp": "2025-11-23T10:32:00Z",
+      "instance": "Desktop-67890"
+    }
+  ]
+}
+```
+
+**Instance Identifiers:**
+- Format: `[Environment]-[RandomID]`
+- Examples: `CLI-12345`, `Desktop-67890`
+- Generated once per session, reused for all locks in that session
+
+**Lock Lifecycle:**
+1. **Acquire** - Check for existing lock, add new entry if clear
+2. **Hold** - Lock remains while prompt works (typically 1-5 minutes)
+3. **Release** - Remove lock entry when work completes (always, even on error)
+4. **Timeout** - Locks older than 15 minutes become "stale" and can be overridden
+
+### Error Handling
+
+**Lock File Corruption:**
+- Backup corrupted file to `.locks/locks.json.corrupt.[timestamp]`
+- Create fresh lock file with empty locks array
+- Warn user and proceed with operation
+
+**Crash Recovery:**
+- If instance crashes, lock remains in file
+- After 15 minutes, becomes stale
+- Next instance can safely override stale lock
+- Or use "Clear All Locks" to manually clean up
+
+**Concurrent Acquisition (rare):**
+- Small window where two instances might both add locks
+- Detection: Multiple locks for same resource
+- Recovery: Clear All Locks and retry
+
+### Limitations
+
+1. **Local machine only** - Locks don't coordinate across different computers (same git repo, different machines)
+2. **Small race condition window** - Rare possibility of concurrent acquisition
+3. **Requires user discipline** - Users can override active locks (but warned)
+4. **JSON-based** - Not industrial-strength, but sufficient for solo author with multiple instances
+
+**Mitigation:** Git still protects against data loss. Locks prevent conflicts; git recovers from them if they occur.
+
+### Use Cases
+
+**Multiple terminals, same machine:**
+```
+Terminal 1: Draft Chapter 3 (Prompt 4)
+Terminal 2: Revise Chapter 7 (Prompt 3)
+Terminal 3: Check progress (Prompt 10)
+→ All work simultaneously without conflicts
+```
+
+**CLI + Desktop together:**
+```
+Claude Code CLI: Run Consistency Check (Prompt 8) - read-only
+Claude Desktop: Edit Chapter 5 (Prompt 4) - acquires lock
+→ No conflict, both proceed
+```
+
+**Sequential editing of same chapter:**
+```
+Instance 1: Edit Chapter 5, holds lock
+Instance 2: Tries to edit Chapter 5
+→ Waits for lock to clear
+→ Instance 1 finishes, releases lock
+→ Instance 2 acquires lock automatically
+→ Instance 2 proceeds with its edits
+```
+
+### Complete Documentation
+
+For complete technical details on the lock management system, see:
+- **Module documentation:** `Process/_COMMON/18_Lock_Management_Module.md`
+- **Quick reference:** `Process/Prompts/QUICK_REFERENCE.md` (section: "Working with Multiple Instances")
+
+---
+
 ## Core Prompts
 
-The AI-Assisted Nonfiction Authoring Process includes 15 core prompts for different aspects of book development. Each prompt is a conversational interface stored in `Process/Prompts/`.
+The AI-Assisted Nonfiction Authoring Process includes 16 core prompts for different aspects of book development. Each prompt is a conversational interface stored in `Process/Prompts/`.
 
 **How to use:** Copy a prompt file and paste into Claude Code. The AI will guide you through the process interactively.
+
+**For complete details on each prompt, see Process/Prompts/README.md**
 
 ---
 
 ### Prompt 1: Initialize Project Structure
-
-Creates complete project structure from scratch, including directory tree, configuration files, TOC, chapter placeholders, quote management setup, and git repository initialization.
-
-**When to use:** Starting a new book project
-
-**Key features:**
-- Flexible TOC input (manual or from existing file)
-- Parses multiple TOC formats (numbered lists, outlines, informal notes)
-- Complete directory structure generation with all placeholders
-- Quote management setup with ⏳ Pending status for all chapters
-- Git initialization with v1.0.0 tag
-- Configuration files (Project_Config.md, Project_Metadata.md, USAGE_GUIDE.md)
-
-**Interaction:** Fully interactive - AI asks about title, author, word count, TOC source, etc.
-
-**Output:** Complete ready-to-use project with git repo, all placeholders, and configuration
-
+Creates complete project structure from scratch. **Interactive:** Fully guided setup.
 **See:** `Process/Prompts/Prompt_1_Initialize.md` for execution
 
----
-
 ### Prompt 2: Add New Chapter
-
-Inserts a new chapter into existing book structure with automatic reorganization, renumbering, cross-reference updates, and quote entry creation.
-
-**When to use:** Adding a new chapter to your book
-
-**Key features:**
-- Interactive chapter creation or from Inbox content
-- Automatic file renumbering (increments affected chapters)
-- Cross-reference validation and updates
-- Quote entry creation (Status: ⏳ Pending)
-- Impact analysis and reporting
-- AI-managed TOC updates (user should not edit TOC_chg.md manually)
-
-**Interaction:** Choose interactive mode (quick questions) or Inbox-based integration
-
-**Output:** New chapter files, renumbered existing chapters, updated TOC, quote entry, git commits with clear trail
-
+Inserts new chapter with automatic reorganization and renumbering. **Interactive:** Quick questions or Inbox integration.
 **See:** `Process/Prompts/Prompt_2_Add_Chapter.md` for execution
 
----
-
 ### Prompt 3: Change by Chg
-
-Applies revisions to any content file based on instructions from corresponding _chg file, with automatic version history archiving. Automated workflow for executing pre-written instructions.
-
-**When to use:** PRIMARY workflow for all content revisions (chapters, quotes, front/back matter) when you've already written instructions
-
-**Key features:**
-- Reads instructions from _chg file automatically
-- Auto-archives completed instructions to Version History
-- Version number incrementation (semantic versioning)
-- Validation checks (cross-references, style, consistency)
-- Git commit with version information
-- Works with all content files including Chapter_Quotes.md
-
-**Interaction:**
-1. User writes instructions in _chg file
-2. User commits _chg file
-3. Execute Prompt 3
-4. AI reads, confirms, executes, archives
-
-**Output:** Modified content file, updated _chg file with archived instructions, git commit
-
+Automated workflow executing pre-written instructions from _chg files. **Interactive:** Minimal - reads _chg file and confirms.
 **See:** `Process/Prompts/Prompt_3_Change_by_Chg.md` for execution
 
----
-
 ### Prompt 4: Interactive Change
-
-Conversational editing workflow that writes instructions to _chg files based on discussion, then optionally executes them immediately. Alternative to manually writing _chg instructions.
-
-**When to use:** When you want to discuss changes interactively before applying them, or prefer conversational editing over manual instruction writing
-
-**Key features:**
-- Natural language discussion of desired changes
-- AI helps clarify intent and scope
-- Auto-generates structured instructions in _chg file format
-- Option to execute immediately (runs Prompt 3 workflow) or save for later
-- Perfect for exploratory editing or complex changes
-- Same validation and tracking as Prompt 3
-
-**Interaction:**
-1. Execute Prompt 4
-2. Discuss changes conversationally
-3. AI writes instructions to _chg file
-4. Choose: Execute now or commit for later
-
-**Output:** Instructions written to _chg file, optionally executed immediately with all Prompt 3 benefits
-
+Conversational editing that writes instructions to _chg files. **Interactive:** High - discuss changes, AI writes instructions, optionally execute.
 **See:** `Process/Prompts/Prompt_4_Interactive_Change.md` for execution
 
----
-
 ### Prompt 5: Scan For User Edits
-
-Synchronizes `_chg.md` (change tracking) files with content file modifications detected via git, auto-generating version history entries.
-
-**When to use:** After manual edits, before milestones, weekly maintenance, after pulling from remote
-
-**Key features:**
-- Scans for changes in three contexts: uncommitted, staged, and unpushed commits
-- Auto-detects all file pairs (content file + corresponding `_chg.md` file)
-- Analyzes git diffs to infer change type (Content Addition, Structural Change, Refinement, etc.)
-- Applies semantic versioning rules (major.minor.patch)
-- Generates properly formatted version history entries
-- Updates "Last Modified" dates in file headers
-
-**Interaction:** Minimal - AI runs automatic scan and shows summary of updates made
-
-**Output:** Updated `_chg` files with new version history entries documenting all changes
-
-**Note:** The book-writing-assistant agent automatically runs this check at session start and before commits, so manual execution is only needed for maintenance or when working outside the agent
-
+Synchronizes _chg files with manual edits detected via git. **Interactive:** Minimal - automatic scan.
 **See:** `Process/Prompts/Prompt_5_Scan_For_User_Edits.md` for execution
 
----
-
 ### Prompt 6: Integrate Content from Inbox
-
-Processes files from Inbox/ directory and integrates them into appropriate project locations with special handling for TOC files.
-
-**When to use:** Have content, references, or assets to integrate into project
-
-**Key features:**
-- Scans Inbox/ and categorizes files (content, TOC, assets, references)
-- Special TOC handling (merge, replace, or create parallel outline)
-- Flexible TOC parsing for various formats
-- Integration options (new chapter, append, merge, move to research)
-- Post-init TOC rejection (complete TOC files not allowed after initialization)
-- Archive processed files with timestamps
-
-**Interaction:** AI scans Inbox/, presents findings, asks about each file's destination and integration method
-
-**Output:** Integrated content, updated files, archived inbox items, git commits
-
+Processes files from Inbox/ directory into project. **Interactive:** Medium - per-file decisions.
 **See:** `Process/Prompts/Prompt_6_Integrate_Inbox.md` for execution
 
----
-
 ### Prompt 7: Compile Complete Manuscript
-
-Generates single Markdown file from all current content with verified quote insertion, statistics, and formatting options.
-
-**When to use:** Want to review entire book, prepare for editing, or create milestone draft
-
-**Key features:**
-- Assembles all content in order (front matter, TOC, chapters, back matter)
-- Inserts verified (✓) quotes as chapter epigraphs with proper formatting
-- Auto-generates table of contents from headings
-- Multiple format options (basic, formatted, publication-ready)
-- Statistics (word count, completion %, quote status)
-- Placeholder handling options
-
-**Interaction:** AI asks for version number and settings (or uses defaults from Project_Config.md)
-
-**Output:** `Drafts/Full_Draft_[date]_v[version].md` with statistics report and quote completion metrics
-
+Generates single file with entire manuscript. **Interactive:** Low - use defaults or customize.
 **See:** `Process/Prompts/Prompt_7_Compile.md` for execution
 
----
-
 ### Prompt 8: Consistency Checker
-
-Scans all content for consistency issues, style problems, cross-reference validity, and quote verification status.
-
-**When to use:** Weekly during active writing, at milestones (25%, 50%, 75%, 100%), before compilation/export
-
-**Key features:**
-- Terminology consistency analysis (variations, capitalization, acronyms)
-- Cross-reference validation (broken links, ambiguous references)
-- Style consistency (headings, lists, quotes, numbers, dates)
-- Fact consistency (contradictions, statistics, citations)
-- Tone/voice analysis (formality, perspective, tense)
-- Quote/epigraph verification (pending quotes, missing attributions, incomplete citations)
-
-**Interaction:** AI asks what scope (all chapters vs. specific) and which check types to run
-
-**Output:** Comprehensive report organized by priority (Critical/Warning/Suggestion) with quote verification status
-
+Scans all content for issues. **Interactive:** Medium - choose scope and check types.
 **See:** `Process/Prompts/Prompt_8_Consistency.md` for execution
 
----
-
 ### Prompt 9: Export and Format
-
-Generates output files in various formats (DOCX, PDF, EPUB, LaTeX) from source Markdown with proper formatting and asset handling.
-
-**When to use:** Preparing for publication, submission, or distribution
-
-**Key features:**
-- Multiple export formats with format-specific processing
-- Pre-export validation (consistency, cross-references, placeholders)
-- Bibliography formatting (APA, MLA, Chicago, custom)
-- Asset handling (images, diagrams, optimization)
-- Style mapping and typography settings
-- Export package generation
-
-**Interaction:** AI asks about format and settings (or uses defaults from Project_Config.md)
-
-**Output:** Formatted files in `Exports/[date]/` directory with assets and export report
-
+Exports to DOCX, PDF, EPUB, LaTeX. **Interactive:** Low - use defaults or customize.
 **See:** `Process/Prompts/Prompt_9_Export.md` for execution
 
----
-
 ### Prompt 10: Progress Dashboard
-
-Generates comprehensive status report showing word counts, completion metrics, git activity, quote verification status, and recommendations.
-
-**When to use:** Weekly check-ins, after major changes, at milestones
-
-**Key features:**
-- Chapter-by-chapter status and word counts
-- Git repository statistics (commits, branches, tags, recent activity)
-- Pending revisions summary by priority
-- Quote completion metrics (✓/⚠/⏳ status for all chapters)
-- Milestone tracking (25%, 50%, 75%, 100%)
-- Recommended next steps based on current state
-
-**Interaction:** AI asks Summary or Detailed report type
-
-**Output:** Comprehensive dashboard with all metrics, git status, quote status, and actionable recommendations
-
+Generates comprehensive status report. **Interactive:** Minimal - choose summary or detailed.
 **See:** `Process/Prompts/Prompt_10_Dashboard.md` for execution
 
----
-
 ### Prompt 11: Style Manager
-
-Manages the hierarchical style system including book/chapter/section style overrides, style distribution analysis, and registry validation.
-
-**When to use:** Adding/removing style overrides, analyzing style distribution, validating override registry, checking for threshold warnings
-
-**Key features:**
-- Add chapter-level style overrides with automatic registry updates
-- Remove overrides with cascade resolution (returns to book-level default)
-- Add section-level override markers with HTML comments
-- Analyze style distribution across entire book
-- Calculate override percentage vs. 30% guideline threshold
-- Validate registry consistency with actual chapter files
-- Document style transitions for reader experience
-
-**Interaction:** AI asks which operation (add/remove/analyze/validate), then operation-specific questions
-
-**Output:** Updated override files, style analysis reports, validated registry consistency
-
+Manages hierarchical style system. **Interactive:** Medium - operation-specific questions.
 **See:** `Process/Prompts/Prompt_11_Style_Manager.md` for execution
 
----
-
 ### Prompt 12: Git Operations
-
-Performs git version control operations (commit, tag, branch, log, status, push, pull) with safety checks and guided workflows.
-
-**When to use:** Manual git operations (commits, tagging milestones, branching, viewing history, remote sync)
-
-**Key features:**
-- Interactive commit workflow with staging and message suggestions
-- Tag creation for milestones (v1.0.0, first-draft, etc.)
-- Branch management (create, switch, merge, delete)
-- History viewing (commits, diffs, file-specific logs)
-- Remote operations (push, pull) with safety checks
-- Status reports (branch, uncommitted changes, unpushed commits)
-
-**Interaction:** AI asks which operation, then operation-specific questions with confirmation for significant actions
-
-**Output:** Git operation result, status confirmation, next recommended steps
-
+Performs git version control operations. **Interactive:** Medium - varies by operation.
 **See:** `Process/Prompts/Prompt_12_Git.md` for execution
 
----
-
 ### Prompt 13: AI Detection Analysis
-
-Analyzes chapters for AI-generated text indicators and provides authenticity scores with rewriting suggestions to ensure content sounds genuinely authored by you.
-
-**When to use:** After drafting new content, before milestones, when concerned about text sounding too "AI-like"
-
-**Key features:**
-- Analyzes individual chapters or entire manuscript
-- Detects common AI writing patterns (hedge phrases, formulaic structures, overused transitions)
-- Provides authenticity scores (0-100, higher is more authentic)
-- Flags specific passages with AI indicators
-- Offers rewriting suggestions to humanize flagged content
-- Tracks improvements between analysis runs
-- Helps maintain your authentic voice throughout
-
-**Interaction:** AI asks which chapters to analyze, then presents findings with prioritized recommendations
-
-**Output:** Comprehensive authenticity report with scores, flagged passages, and actionable rewriting suggestions
-
-**Note:** This is a diagnostic tool, not a judgment - it helps ensure your content sounds authentically yours rather than generically AI-generated
-
+Analyzes chapters for AI-generated text indicators. **Interactive:** Minimal - automatic analysis.
 **See:** `Process/Prompts/Prompt_13_AI_Detection_Analysis.md` for execution
 
----
+### Prompt 14: Citation Finder
+Finds and inserts citations with WebSearch verification. **Interactive:** Medium - source selection.
+**See:** `Process/Prompts/Prompt_14_Citation_Finder.md` for execution
 
-### Prompt 14: Visual Content Suggester
+### Prompt 15: Visual Content Suggester
+Creates text-based visuals (tables, diagrams, flowcharts). **Interactive:** Medium - visual placement.
+**See:** `Process/Prompts/Prompt_15_Visual_Content_Suggester.md` for execution
 
-Analyzes chapters and creates text-based visuals (tables, diagrams, flowcharts) to enhance understanding without requiring graphics software.
-
-**When to use:** After drafting content, during revision, when explanations need visual support
-
-**Key features:**
-- Scans chapters for concepts that benefit from visualization
-- Creates Markdown tables for comparisons and data
-- Generates ASCII diagrams for flowcharts and timelines
-- Formats structured lists for process steps and hierarchies
-- Suggests code blocks for formatted data displays
-- All visuals are text-based and version-control friendly
-- Easy to customize and maintain
-
-**Interaction:** AI analyzes chapters and presents suggested visuals with placement recommendations
-
-**Output:** Suggested visuals in Markdown format, ready to insert into content files
-
-**Note:** Enhances reader comprehension with visuals that integrate seamlessly into Markdown workflow
-
-**See:** `Process/Prompts/Prompt_14_Visual_Content_Suggester.md` for execution
-
----
-
-### Prompt 15: Citation Finder
-
-Finds and inserts citations with WebSearch verification to ensure accurate attribution and source availability.
-
-**When to use:** Adding factual claims, statistics, or expert quotes; verifying existing citations
-
-**Key features:**
-- Scans content for uncited claims that need attribution
-- Uses WebSearch to find authoritative sources
-- Validates source credibility and accessibility
-- Checks for working URLs
-- Formats citations consistently (APA, MLA, Chicago, etc.)
-- Adds citations to content inline
-- Updates bibliography automatically
-- Prevents citation fabrication through verification
-
-**Interaction:** AI asks which claims need citations or scans entire chapters for uncited content
-
-**Output:** Properly formatted citations with verified sources, added to content and bibliography
-
-**Note:** Ensures factual accuracy and proper attribution while preventing hallucinated citations
-
-**See:** `Process/Prompts/Prompt_15_Citation_Finder.md` for execution
+### Prompt 16: Image Manager
+Manages professional images and visual assets. **Interactive:** Medium - image operations.
+**See:** `Process/Prompts/Prompt_16_Image_Manager.md` for execution
 
 ---
 

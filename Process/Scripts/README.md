@@ -13,12 +13,10 @@
 
 **Usage:**
 ```bash
-bash Process/Scripts/compile-manuscript.sh VERSION DATE [FORMAT]
+bash Process/Scripts/compile-manuscript.sh [FORMAT]
 ```
 
 **Parameters:**
-- `VERSION` (required): Version number (e.g., "1.0.0")
-- `DATE` (required): Compilation date in YYYY-MM-DD format (use CONFIRMED_DATE from session)
 - `FORMAT` (optional): Compilation format
   - `basic` - Simple concatenation, minimal formatting
   - `formatted` - Proper hierarchy, page breaks, spacing (default)
@@ -26,12 +24,13 @@ bash Process/Scripts/compile-manuscript.sh VERSION DATE [FORMAT]
 
 **Example:**
 ```bash
-bash Process/Scripts/compile-manuscript.sh 1.0.0 2025-11-22 formatted
+bash Process/Scripts/compile-manuscript.sh formatted
 ```
 
 **Output:**
-- Creates: `Manuscript/Drafts/Full_Draft_[DATE]_v[VERSION].md`
-- Displays: Word count, line count, statistics
+- Creates: `Manuscript/Drafts/[Project-Name]-[format]-vNN.md`
+- Version number auto-increments based on existing files
+- Displays: Compile number, word count, line count, statistics
 
 **Requirements:**
 - `jq` (optional, for metadata extraction from .config/metadata.json)
@@ -78,5 +77,5 @@ Complex operations that require AI intelligence (epigraph insertion, TOC generat
 
 ---
 
-**Framework Version:** 0.12.10
+**Framework Version:** 0.13.0
 **Last Updated:** 2025-11-22
