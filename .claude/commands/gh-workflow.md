@@ -13,6 +13,21 @@ This command configures Claude to automatically manage GitHub issues during deve
 
 ---
 
+## Prerequisites
+
+The following GitHub CLI extensions must be installed:
+
+```bash
+gh extension install yahsan2/gh-pm        # Project status management
+gh extension install yahsan2/gh-sub-issue # Sub-issue linking
+```
+
+**Configuration:** `.gh-pm.yml` in repo root configures project board status values.
+
+**Status values:** `backlog`, `ready`, `in_progress`, `in_review`, `done`
+
+---
+
 ## Workflow Instructions
 
 When this command is executed, Claude should follow these workflows for the remainder of the session:
@@ -46,13 +61,10 @@ Wait for explicit instruction like:
 - "do the work"
 - "implement the fix"
 
-When starting work, add a comment to track status:
+Set project board status to In Progress:
 ```bash
-gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
-  --body "🔧 **Status: In Progress**"
+gh pm move [issue-number] --status in_progress
 ```
-
-**Note:** Project board status must be updated manually (gh CLI doesn't support simple status field updates).
 
 **Step 3: Commit and set to In Review (AFTER WORK COMPLETE)**
 
@@ -67,12 +79,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 ```bash
+gh pm move [issue-number] --status in_review
+```
+
+```bash
 gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
   --body "Fixed in commit [commit-hash]
 
-[brief summary of changes]
-
-📋 **Status: In Review**"
+[brief summary of changes]"
 ```
 
 Then report: "Issue #[number] ready for review. Say 'Done' to close it."
@@ -84,6 +98,10 @@ Wait for explicit instruction like:
 - "close it"
 - "looks good"
 - "approved"
+
+```bash
+gh pm move [issue-number] --status done
+```
 
 ```bash
 gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
@@ -122,13 +140,10 @@ Wait for explicit instruction like:
 - "do the work"
 - "build it"
 
-When starting work, add a comment to track status:
+Set project board status to In Progress:
 ```bash
-gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
-  --body "🔧 **Status: In Progress**"
+gh pm move [issue-number] --status in_progress
 ```
-
-**Note:** Project board status must be updated manually (gh CLI doesn't support simple status field updates).
 
 **Step 3: Commit and set to In Review (AFTER WORK COMPLETE)**
 
@@ -143,12 +158,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 ```bash
+gh pm move [issue-number] --status in_review
+```
+
+```bash
 gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
   --body "Implemented in commit [commit-hash]
 
-[brief summary of changes]
-
-📋 **Status: In Review**"
+[brief summary of changes]"
 ```
 
 Then report: "Issue #[number] ready for review. Say 'Done' to close it."
@@ -160,6 +177,10 @@ Wait for explicit instruction like:
 - "close it"
 - "looks good"
 - "approved"
+
+```bash
+gh pm move [issue-number] --status done
+```
 
 ```bash
 gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
@@ -217,13 +238,10 @@ Wait for explicit instruction like:
 - "build it"
 - "do the work"
 
-When starting work, add a comment to track status:
+Set project board status to In Progress:
 ```bash
-gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
-  --body "🔧 **Status: In Progress**"
+gh pm move [issue-number] --status in_progress
 ```
-
-**Note:** Project board status must be updated manually (gh CLI doesn't support simple status field updates).
 
 **Step 3: Move proposal and set to In Review (AFTER IMPLEMENTATION COMPLETE)**
 
@@ -243,14 +261,16 @@ git commit -m "[description] (#[issue-number])
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-3. Comment to track status:
+3. Set status and comment:
+```bash
+gh pm move [issue-number] --status in_review
+```
+
 ```bash
 gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
   --body "Implemented in commit [commit-hash]
 
-Proposal moved to Proposal/Implemented/[Feature-Name].md
-
-📋 **Status: In Review**"
+Proposal moved to Proposal/Implemented/[Feature-Name].md"
 ```
 
 Then report: "Issue #[number] ready for review. Say 'Done' to close it."
@@ -262,6 +282,10 @@ Wait for explicit instruction like:
 - "close it"
 - "looks good"
 - "approved"
+
+```bash
+gh pm move [issue-number] --status done
+```
 
 ```bash
 gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
@@ -362,7 +386,7 @@ This epic has been broken into the following sub-issues:
 - "open issue #[number] again"
 - Any request to reopen a closed issue
 
-**Action: Reopen and comment (AUTOMATIC)**
+**Action: Reopen and set status (AUTOMATIC)**
 
 When user requests to reopen an issue:
 
@@ -371,15 +395,10 @@ gh issue reopen [issue-number] --repo scooter-indie/author-nonfiction
 ```
 
 ```bash
-gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
-  --body "🔄 Reopened
-
-🔧 **Status: In Progress**"
+gh pm move [issue-number] --status in_progress
 ```
 
-**Note:** Project board status must be updated manually (gh CLI doesn't support simple status field updates).
-
-Then report: "Reopened issue #[number]. Project board status needs manual update."
+Then report: "Reopened issue #[number] and set status to In Progress."
 
 ---
 
@@ -391,13 +410,13 @@ After running `/gh-workflow`, Claude will:
 - **Create issues immediately** when user reports finding or requests enhancement
 - **Create proposals** in Proposal/ directory when requested
 - **Wait for explicit instruction** before working on any issue or implementing proposals
-- **Add status comments** to issues (In Progress / In Review) - project board status is manual
+- **Update project board status** via `gh pm move` (in_progress → in_review → done)
 - Reference issue numbers in commits
 - **Wait for user to say "Done"** before closing issues
 - **Move implemented proposals** to Proposal/Implemented/
 - **Link sub-issues** to parent using `gh sub-issue add` extension
 - **Ask about epic label** when creating sub-issues for a parent issue
-- **Reopen issues** and add status comment when requested
+- **Reopen issues** and set status to in_progress
 
 **Confirmation message after activation:**
 ```
@@ -406,15 +425,17 @@ GitHub Workflow Activated
 Project: scooter-indie/author-nonfiction
 Board:   https://github.com/users/scooter-indie/projects/9/views/1
 
+Extensions: gh-pm (status), gh-sub-issue (linking)
+
 Workflows enabled:
-• Finding → Create issue → [WAIT] → Work → Commit → [WAIT for "Done"] → Close
-• Enhancement → Create issue → [WAIT] → Work → Commit → [WAIT for "Done"] → Close
-• Proposal → Create doc + issue → [WAIT] → Implement → Move to Implemented/ → [WAIT for "Done"] → Close
+• Finding → Create issue → [WAIT] → In Progress → Work → Commit → In Review → [WAIT for "Done"] → Done → Close
+• Enhancement → Create issue → [WAIT] → In Progress → Work → Commit → In Review → [WAIT for "Done"] → Done → Close
+• Proposal → Create doc + issue → [WAIT] → In Progress → Implement → Move to Implemented/ → In Review → [WAIT for "Done"] → Done → Close
 • Sub-Issue → Create sub-issues → Link to parent (gh sub-issue) → Ask about epic label → Update parent if yes
-• Reopen → Reopen issue → Add status comment
+• Reopen → Reopen issue → In Progress
 
 Issues are created automatically. Work begins only when you say. Issues close only when you say "Done".
-Note: Project board status updates are manual (gh CLI limitation).
+Project board status updates automatically via gh-pm.
 ```
 
 ---
