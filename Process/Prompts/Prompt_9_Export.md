@@ -119,9 +119,9 @@ fi
 pandoc "${DRAFT_FILE}" \
   -o "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.docx" \
   --reference-doc="${REF_DOC}" \
-  --toc --resource-path="Manuscript"
+  --resource-path="Manuscript"
 ```
-**NOTE:** The reference.docx controls Word styling (fonts, margins, headings). Customize your copy in `Manuscript/Style/reference.docx` to match publisher requirements. Word may ask "update fields?" when opening - click No (TOC is already generated).
+**NOTE:** The reference.docx controls Word styling (fonts, margins, headings). Customize your copy in `Manuscript/Style/reference.docx` to match publisher requirements.
 
 **PDF (via Typst with Template):**
 ```bash

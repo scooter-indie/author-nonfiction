@@ -80,15 +80,14 @@ fi
 "${PANDOC_PATH}" "${DRAFT_FILE}" \
   -o "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.docx" \
   --reference-doc="${REF_DOC}" \
-  --toc \
-  --toc-depth=2 \
   --resource-path="Manuscript"
 ```
 
 **DOCX Options:**
 - `--reference-doc`: Word template that controls styling (fonts, margins, headings)
-- `--toc`: Generate table of contents
 - `--resource-path`: Images resolved from Manuscript/images/
+
+**Note:** TOC is intentionally omitted from DOCX export to avoid Word's "fields that may refer to other files" security warning. The compiled manuscript already contains a markdown TOC that renders as formatted text.
 
 **Note:** Uses same `PROJECT_NAME` and `EXPORT_VERSION` variables as EPUB export above.
 
