@@ -26,38 +26,46 @@ When this command is executed, Claude should follow these workflows for the rema
 - "Something's wrong with..."
 - Any report of unexpected behavior or missing functionality
 
-**Automatic workflow:**
+**Step 1: Create issue (AUTOMATIC)**
 
-1. **Create GitHub issue** with label `finding`:
-   ```bash
-   gh issue create --repo scooter-indie/author-nonfiction \
-     --title "Finding: [brief description]" \
-     --label "finding" \
-     --body "[detailed description of the finding]"
-   ```
+When user reports a finding, immediately create the issue:
+```bash
+gh issue create --repo scooter-indie/author-nonfiction \
+  --title "Finding: [brief description]" \
+  --label "finding" \
+  --body "[detailed description of the finding]"
+```
 
-2. **Work the issue** - Implement the fix
+Then report: "Created issue #[number]. Let me know when you want me to work on it."
 
-3. **Commit with issue reference**:
-   ```bash
-   git commit -m "Fix: [description] (#[issue-number])
+**Step 2: Work the issue (ONLY WHEN USER SAYS)**
 
-   [details]
+Wait for explicit instruction like:
+- "work issue #[number]"
+- "fix that"
+- "do the work"
+- "implement the fix"
 
-   Fixes #[issue-number]
+**Step 3: Commit and close (AFTER WORK COMPLETE)**
 
-   🤖 Generated with [Claude Code](https://claude.com/claude-code)
+```bash
+git commit -m "Fix: [description] (#[issue-number])
 
-   Co-Authored-By: Claude <noreply@anthropic.com>"
-   ```
+[details]
 
-4. **Close issue with commit reference**:
-   ```bash
-   gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
-     --comment "Fixed in commit [commit-hash]
+Fixes #[issue-number]
 
-     [brief summary of changes]"
-   ```
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+```bash
+gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
+  --comment "Fixed in commit [commit-hash]
+
+  [brief summary of changes]"
+```
 
 ---
 
@@ -71,38 +79,46 @@ When this command is executed, Claude should follow these workflows for the rema
 - "Proposal..."
 - Any request for new functionality
 
-**Automatic workflow:**
+**Step 1: Create issue (AUTOMATIC)**
 
-1. **Create GitHub issue** with label `enhancement`:
-   ```bash
-   gh issue create --repo scooter-indie/author-nonfiction \
-     --title "Enhancement: [brief description]" \
-     --label "enhancement" \
-     --body "[detailed description of the enhancement]"
-   ```
+When user requests an enhancement, immediately create the issue:
+```bash
+gh issue create --repo scooter-indie/author-nonfiction \
+  --title "Enhancement: [brief description]" \
+  --label "enhancement" \
+  --body "[detailed description of the enhancement]"
+```
 
-2. **Work the issue** - Implement the feature
+Then report: "Created issue #[number]. Let me know when you want me to work on it."
 
-3. **Commit with issue reference**:
-   ```bash
-   git commit -m "[description] (#[issue-number])
+**Step 2: Work the issue (ONLY WHEN USER SAYS)**
 
-   [details]
+Wait for explicit instruction like:
+- "work issue #[number]"
+- "implement that"
+- "do the work"
+- "build it"
 
-   Fixes #[issue-number]
+**Step 3: Commit and close (AFTER WORK COMPLETE)**
 
-   🤖 Generated with [Claude Code](https://claude.com/claude-code)
+```bash
+git commit -m "[description] (#[issue-number])
 
-   Co-Authored-By: Claude <noreply@anthropic.com>"
-   ```
+[details]
 
-4. **Close issue with commit reference**:
-   ```bash
-   gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
-     --comment "Implemented in commit [commit-hash]
+Fixes #[issue-number]
 
-     [brief summary of changes]"
-   ```
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+```bash
+gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
+  --comment "Implemented in commit [commit-hash]
+
+  [brief summary of changes]"
+```
 
 ---
 
@@ -111,7 +127,8 @@ When this command is executed, Claude should follow these workflows for the rema
 After running `/gh-workflow`, Claude will:
 
 - Automatically detect findings vs enhancements from user language
-- Create issues before starting work
+- **Create issues immediately** when user reports finding or requests enhancement
+- **Wait for explicit instruction** before working on any issue
 - Reference issue numbers in commits
 - Close issues with commit hashes when work is complete
 - Link all work to the project board
@@ -124,10 +141,10 @@ Project: scooter-indie/author-nonfiction
 Board:   https://github.com/users/scooter-indie/projects/9/views/1
 
 Workflows enabled:
-• Finding → Issue (label: finding) → Fix → Commit → Close
-• Enhancement → Issue (label: enhancement) → Implement → Commit → Close
+• Finding → Create issue (label: finding) → [WAIT] → Work when told → Commit → Close
+• Enhancement → Create issue (label: enhancement) → [WAIT] → Work when told → Commit → Close
 
-Ready to track issues automatically.
+Issues are created automatically. Work begins only when you say.
 ```
 
 ---
