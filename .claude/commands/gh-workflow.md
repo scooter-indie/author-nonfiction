@@ -201,6 +201,78 @@ gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
 
 ---
 
+### 4. Sub-Issue Workflow (Breaking Down Large Issues)
+
+**Trigger phrases:**
+- "Create sub-issues for..."
+- "Break this into phases..."
+- "Create phase issues for #[number]"
+- Any request to create child/sub-issues for a parent issue
+
+**Step 1: Create sub-issues**
+
+When user requests sub-issues, create them with reference to parent:
+```bash
+gh issue create --repo scooter-indie/author-nonfiction \
+  --title "[Phase/Sub-task]: [brief description]" \
+  --label "enhancement" \
+  --body "## Summary
+[description]
+
+## Parent Issue
+Part of #[parent-number]
+
+## Requirements
+[requirements]
+
+## Depends On
+[dependencies if any]"
+```
+
+**Step 2: Ask about epic label**
+
+After creating sub-issues, ASK the user:
+
+> "Sub-issues created. Should I label the parent issue #[number] as an 'epic'?
+> This will:
+> - Add the 'epic' label
+> - Remove the 'story' label if present
+>
+> (yes/no)"
+
+**Step 3: Apply epic label (IF USER SAYS YES)**
+
+```bash
+# Add epic label to parent
+gh issue edit [parent-number] --repo scooter-indie/author-nonfiction --add-label "epic"
+
+# Remove story label from parent if present
+gh issue edit [parent-number] --repo scooter-indie/author-nonfiction --remove-label "story"
+
+# Add story label to all sub-issues that don't have a label yet
+gh issue edit [sub-1] --repo scooter-indie/author-nonfiction --add-label "story"
+gh issue edit [sub-2] --repo scooter-indie/author-nonfiction --add-label "story"
+# ... repeat for each sub-issue
+```
+
+**Note:** Only add "story" label to sub-issues that were created without a specific label (e.g., "finding", "bug"). If a sub-issue already has a meaningful label, keep it.
+
+Then add a comment linking to sub-issues:
+```bash
+gh issue comment [parent-number] --repo scooter-indie/author-nonfiction \
+  --body "## Sub-Issues Created
+
+This epic has been broken into the following sub-issues:
+
+- #[sub-1] - [description]
+- #[sub-2] - [description]
+- #[sub-3] - [description]
+
+[additional context if any]"
+```
+
+---
+
 ## Session Behavior
 
 After running `/gh-workflow`, Claude will:
@@ -212,6 +284,7 @@ After running `/gh-workflow`, Claude will:
 - Reference issue numbers in commits
 - Close issues with commit hashes when work is complete
 - **Move implemented proposals** to Proposal/Implemented/
+- **Ask about epic label** when creating sub-issues for a parent issue
 - Link all work to the project board
 
 **Confirmation message after activation:**
@@ -225,6 +298,7 @@ Workflows enabled:
 • Finding → Create issue (label: finding) → [WAIT] → Work when told → Commit → Close
 • Enhancement → Create issue (label: enhancement) → [WAIT] → Work when told → Commit → Close
 • Proposal → Create doc + issue → Commit → [WAIT] → Implement when told → Move to Implemented/ → Close
+• Sub-Issue → Create sub-issues → Ask about epic label → Update parent if yes
 
 Issues are created automatically. Work begins only when you say.
 ```

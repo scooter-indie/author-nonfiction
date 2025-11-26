@@ -146,25 +146,26 @@ git stash pop  # Restore local changes if any
 #   - Description: "AI-Assisted Nonfiction Authoring Framework - Distribution"
 ```
 
-### 2. Replace Release Workflow
+### 2. Create New Deployment Workflow (Phased Approach)
 
-**File:** `.github/workflows/release.yml`
+**Strategy:** Keep existing `release.yml` during transition, add new `deploy-dist.yml` workflow.
 
-The new workflow is simpler - no zip creation, just push to dist repo:
+#### Phase 1: Add `deploy-dist.yml` (runs alongside existing workflow)
+
+**File:** `.github/workflows/deploy-dist.yml` (NEW)
 
 ```yaml
-name: Release Framework
+name: Deploy to Distribution Repo
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types: [published]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  release:
+  deploy-dist:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -193,6 +194,7 @@ jobs:
           find . -name "*_chg.md" -delete
           rm -f Process/Prompts/Prompt_99_Build_Release.md
           rm -f Process/Prompts/README.md
+          rm -rf Proposal/
 
       - name: Push to deployment repo
         env:
@@ -215,32 +217,127 @@ jobs:
           git tag "v${{ steps.version.outputs.version }}"
           git push origin main --tags
 
-      - name: Create GitHub Release (notes only)
+      - name: Summary
+        run: |
+          echo "✅ Deployed v${{ steps.version.outputs.version }} to distribution repo"
+          echo "📦 Clone: git clone https://github.com/scooter-indie/author-nonfiction-dist.git"
+```
+
+**Trigger:** Runs when a GitHub Release is published (after `release.yml` completes)
+
+#### Phase 2: Update `release.yml` (after dist workflow is validated)
+
+Modify existing workflow to update release notes with clone instructions:
+
+**File:** `.github/workflows/release.yml` (MODIFY - add to release notes)
+
+```yaml
+      # In the "Generate release notes" step, add:
+      echo "" >> release-notes-temp.md
+      echo "### Option C: Git Clone (Recommended)" >> release-notes-temp.md
+      echo "" >> release-notes-temp.md
+      echo "\`\`\`bash" >> release-notes-temp.md
+      echo "git clone https://github.com/scooter-indie/author-nonfiction-dist.git my-book" >> release-notes-temp.md
+      echo "cd my-book" >> release-notes-temp.md
+      echo "claude" >> release-notes-temp.md
+      echo "# Say: execute configure.md" >> release-notes-temp.md
+      echo "\`\`\`" >> release-notes-temp.md
+```
+
+#### Phase 3: Remove zip from `release.yml` (once clone is proven)
+
+After sufficient validation (e.g., 2-3 releases), update `release.yml`:
+- Remove zip creation steps
+- Remove checksum calculation
+- Remove zip upload to release
+- Keep only release notes pointing to clone instructions
+
+**Final `release.yml`:**
+
+```yaml
+name: Release Framework
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Verify version matches files
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          FILE_VERSION=$(grep -m 1 "^\*\*Version:\*\*" Documentation/AI-Assisted_Nonfiction_Authoring_Process.md | sed 's/.*Version:\*\* //')
+          if [ "$VERSION" != "$FILE_VERSION" ]; then
+            echo "ERROR: Version mismatch! Tag: $VERSION, File: $FILE_VERSION"
+            exit 1
+          fi
+
+      - name: Generate release notes
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          sed -n "/## \[$VERSION\]/,/^## \[/p" CHANGELOG.md | sed '$ d' > release-notes-temp.md
+
+          cat >> release-notes-temp.md <<EOF
+
+---
+
+## 📥 Installation
+
+\`\`\`bash
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git my-book
+cd my-book
+claude
+# Say: execute configure.md
+\`\`\`
+
+See [CHANGELOG.md](https://github.com/scooter-indie/author-nonfiction-dist/blob/main/CHANGELOG.md) for details.
+
+**Support:** https://github.com/${{ github.repository }}/issues
+EOF
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
-          name: v${{ steps.version.outputs.version }}
-          body: |
-            ## Installation
-
-            ```bash
-            git clone https://github.com/scooter-indie/author-nonfiction-dist.git my-book
-            cd my-book
-            claude
-            # Say: execute configure.md
-            ```
-
-            See [CHANGELOG.md](https://github.com/scooter-indie/author-nonfiction-dist/blob/main/CHANGELOG.md) for details.
+          name: Nonfiction Framework v${{ steps.version.outputs.version }}
+          body_path: release-notes-temp.md
           draft: false
           prerelease: false
+
+  # Trigger deployment to dist repo
+  deploy:
+    needs: release
+    uses: ./.github/workflows/deploy-dist.yml
 ```
 
-**Key changes from current workflow:**
-- No zip file creation
-- No checksum calculation
-- No zip upload to release
-- Release notes just point to clone instructions
-- Simpler, faster workflow
+**Phased Transition Timeline:**
+
+| Phase | Action | When |
+|-------|--------|------|
+| Phase 1 | Add `deploy-dist.yml`, keep zip workflow | Immediate |
+| Phase 2 | Add clone option to release notes | Next release |
+| Phase 3 | Remove zip from workflow | After 2-3 successful releases |
+
+**Benefits of phased approach:**
+- Can test dist deployment without breaking existing workflow
+- Users can use either method during transition
+- Easy rollback if issues discovered
+- Gradual migration reduces risk
 
 ### 3. Repository Configuration
 
@@ -495,20 +592,30 @@ Add version check to the `/fw-init` command:
 
 ```bash
 # In fw-init, after loading FRAMEWORK_CORE.md:
-git fetch upstream --tags --quiet 2>/dev/null
 
-LOCAL_VERSION=$(grep "frameworkVersion" .config/manifest.json | grep -oP '\d+\.\d+\.\d+')
-REMOTE_VERSION=$(git describe --tags --abbrev=0 upstream/main 2>/dev/null | sed 's/^v//')
+# Skip update check on development system (has Proposal/ directory)
+if [ -d "Proposal" ]; then
+  # Development system - don't check for updates
+  :
+else
+  # User installation - check for updates
+  git fetch upstream --tags --quiet 2>/dev/null
 
-if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "⬆️  Framework Update Available: v$REMOTE_VERSION"
-  echo "   Your version: v$LOCAL_VERSION"
-  echo ""
-  echo "   To update: git pull upstream main"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  LOCAL_VERSION=$(grep "frameworkVersion" .config/manifest.json | grep -oP '\d+\.\d+\.\d+')
+  REMOTE_VERSION=$(git describe --tags --abbrev=0 upstream/main 2>/dev/null | sed 's/^v//')
+
+  if [ "$LOCAL_VERSION" != "$REMOTE_VERSION" ]; then
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "⬆️  Framework Update Available: v$REMOTE_VERSION"
+    echo "   Your version: v$LOCAL_VERSION"
+    echo ""
+    echo "   To update: git pull upstream main"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  fi
 fi
 ```
+
+**Development system detection:** The `Proposal/` directory only exists in the development repository, not in user installations (it's excluded from the dist repo). This allows `/fw-init` to skip update checks when running on the dev system.
 
 **Pros:**
 - Automatic check at every session start
@@ -777,16 +884,44 @@ gh secret set DEPLOY_REPO_TOKEN --body "[token]"
 - [ ] Generate Personal Access Token for deployment
 - [ ] Add `DEPLOY_REPO_TOKEN` secret to main repo
 
-### Phase 2: Workflow Replacement
+### Phase 2: Add Deployment Workflow (Phased - keeps existing zip workflow)
+
+**GitHub Issue:** #70
 
 **Claude Code executes:**
-- Edit `.github/workflows/release.yml` directly (replace entire file)
+- Create new `.github/workflows/deploy-dist.yml` file
+- No changes to existing `release.yml` yet
 - No user action required
 
-- [ ] Replace `.github/workflows/release.yml` with new simplified workflow
-- [ ] Remove all zip-related steps
-- [ ] Add tagging logic for dist repo
-- [ ] Test workflow with a test release
+- [ ] Create `.github/workflows/deploy-dist.yml` (new workflow)
+- [ ] Workflow triggers on `release: [published]` event
+- [ ] Test deployment with next release (zip + dist both created)
+- [ ] Verify dist repo receives correct files
+
+### Phase 2b: Update Release Notes (after dist workflow validated)
+
+**GitHub Issue:** #71
+
+**Claude Code executes:**
+- Modify `.github/workflows/release.yml` to add clone option to release notes
+- Keep zip creation for now
+
+- [ ] Add "Option C: Git Clone" to release notes template
+- [ ] Position clone as recommended option
+
+### Phase 2c: Remove Zip Workflow (after 2-3 successful releases)
+
+**GitHub Issue:** #72
+
+**Claude Code executes:**
+- Modify `.github/workflows/release.yml` to remove zip steps
+- No user action required
+
+- [ ] Remove zip creation steps from `release.yml`
+- [ ] Remove checksum calculation
+- [ ] Remove zip upload to release
+- [ ] Update release notes to show clone-only instructions
+- [ ] Optionally: call `deploy-dist.yml` from `release.yml` as reusable workflow
 
 ### Phase 3: Documentation Updates
 
@@ -910,7 +1045,7 @@ The implementation simplifies the release workflow while providing a better expe
 
 ---
 
-**Proposal Version:** 1.5
+**Proposal Version:** 1.8
 **Author:** Claude (Opus 4.5)
 **Changes:**
 - v1.1 - Eliminated zip workflow entirely per user feedback
@@ -918,3 +1053,6 @@ The implementation simplifies the release workflow while providing a better expe
 - v1.3 - Added Claude Desktop update check via system-instructions.md (WebFetch)
 - v1.4 - Added PREPARE_RELEASE.md update requirements
 - v1.5 - Clarified Claude Code performs all implementation (user only approves + provides PAT)
+- v1.6 - Skip update check on development system (detect via Proposal/ directory)
+- v1.7 - Phased workflow approach: new `deploy-dist.yml` runs alongside existing `release.yml`, gradual transition over 2-3 releases
+- v1.8 - Created sub-issues for workflow phases (#70, #71, #72)
