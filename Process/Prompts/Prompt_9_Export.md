@@ -98,12 +98,19 @@ pandoc "${DRAFT_FILE}" \
 
 **DOCX:**
 ```bash
+# Use project reference.docx if exists, else framework template
+if [ -f "Manuscript/Style/reference.docx" ]; then
+  REF_DOC="Manuscript/Style/reference.docx"
+else
+  REF_DOC="Process/Templates/reference.docx"
+fi
+
 pandoc "${DRAFT_FILE}" \
   -o "${OUTPUT_DIR}/${BOOK_TITLE}.docx" \
-  --reference-doc="Manuscript/Style/reference.docx" \
+  --reference-doc="${REF_DOC}" \
   --toc --resource-path="Manuscript"
 ```
-**NOTE:** Word may ask "update fields?" when opening - click No (TOC is already generated).
+**NOTE:** The reference.docx controls Word styling (fonts, margins, headings). Customize your copy in `Manuscript/Style/reference.docx` to match publisher requirements. Word may ask "update fields?" when opening - click No (TOC is already generated).
 
 **PDF (via Typst with Template):**
 ```bash

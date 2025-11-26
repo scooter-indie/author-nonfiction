@@ -72,6 +72,7 @@ validate_preconditions() {
         "Copyright_template.md"
         "About_Author_template.md"
         "epub-style.css"
+        "reference.docx"
         "gitignore_template"
     )
 
@@ -173,6 +174,14 @@ copy_templates() {
         echo -e "${YELLOW}⊙ Preserved: Manuscript/Style/epub-style.css${NC}"
     fi
 
+    # DOCX reference template (skip if exists - preserve user customization)
+    if [[ ! -f "Manuscript/Style/reference.docx" ]]; then
+        cp "$PROJECT_ROOT/Process/Templates/reference.docx" "Manuscript/Style/reference.docx"
+        echo -e "${GREEN}✓ Copied: Manuscript/Style/reference.docx${NC}"
+    else
+        echo -e "${YELLOW}⊙ Preserved: Manuscript/Style/reference.docx${NC}"
+    fi
+
     # Git ignore (always overwrite)
     cp "$PROJECT_ROOT/Process/Templates/gitignore_template" ".gitignore"
     echo -e "${GREEN}✓ Copied: .gitignore${NC}"
@@ -208,7 +217,7 @@ print_summary() {
     echo ""
     echo -e "${BLUE}Structure created:${NC}"
     echo "  • 10 directories (Manuscript structure)"
-    echo "  • 5 template files copied"
+    echo "  • 6 template files copied"
     echo "  • Git repository initialized"
     echo ""
     echo -e "${YELLOW}Next steps:${NC}"

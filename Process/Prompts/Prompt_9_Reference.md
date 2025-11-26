@@ -62,18 +62,72 @@ AUTHOR_NAME="[from .config/metadata.json: book.author]"
 ## Complete DOCX Command
 
 ```bash
+# Use project reference.docx if exists, else framework template
+if [ -f "Manuscript/Style/reference.docx" ]; then
+  REF_DOC="Manuscript/Style/reference.docx"
+else
+  REF_DOC="Process/Templates/reference.docx"
+fi
+
 "${PANDOC_PATH}" "${DRAFT_FILE}" \
   -o "${OUTPUT_DIR}/${BOOK_TITLE}.docx" \
-  --reference-doc="Manuscript/Style/reference.docx" \
+  --reference-doc="${REF_DOC}" \
   --toc \
   --toc-depth=2 \
   --resource-path="Manuscript"
 ```
 
 **DOCX Options:**
-- `--reference-doc`: Custom Word template for styling
+- `--reference-doc`: Word template that controls styling (fonts, margins, headings)
 - `--toc`: Generate table of contents
 - `--resource-path`: Images resolved from Manuscript/images/
+
+---
+
+## DOCX Reference Template
+
+**Template Location:** `Process/Templates/reference.docx` (framework default)
+**Project Copy:** `Manuscript/Style/reference.docx` (customizable per-project)
+
+### What the Reference Document Controls
+
+The reference.docx file defines Word styles that pandoc applies to the output:
+- **Typography:** Body text font, size, line spacing
+- **Headings:** Fonts and sizes for H1-H4
+- **Page Layout:** Margins, paper size, orientation
+- **Headers/Footers:** Running headers, page numbers
+- **Paragraph Styles:** Indentation, spacing, alignment
+- **Block Quotes:** Indentation and styling
+- **Code Blocks:** Monospace font settings
+
+### Customizing the Template
+
+1. Open `Manuscript/Style/reference.docx` in Microsoft Word
+2. Modify the built-in styles (Home > Styles panel):
+   - **Normal** - Body text
+   - **Heading 1** - Chapter titles
+   - **Heading 2** - Section titles
+   - **Heading 3** - Subsection titles
+   - **Block Text** - Block quotes
+   - **Source Code** - Code blocks
+3. Adjust Page Layout (Layout tab):
+   - Margins, paper size, orientation
+4. Set up Headers/Footers (Insert > Header/Footer)
+5. Save the document
+
+### Publisher-Specific Templates
+
+Many publishers provide Word templates. To use them:
+1. Obtain the publisher's template
+2. Copy it to `Manuscript/Style/reference.docx`
+3. Run export - pandoc will use their styles
+
+### Resetting to Default
+
+To restore the framework default:
+```bash
+cp Process/Templates/reference.docx Manuscript/Style/reference.docx
+```
 
 ---
 
