@@ -9,19 +9,64 @@
 
 ## Executive Summary
 
-Create a new GitHub CLI extension called **gh-project-tools** that provides enhanced project board management capabilities. The extension will be based on [yahsan2/gh-sub-issue](https://github.com/yahsan2/gh-sub-issue) (MIT licensed) with proper attribution, and will expand beyond sub-issue management to include project status updates and future enhancements.
+Create a new GitHub CLI extension called **gh-project-tools** that combines the capabilities of two excellent extensions by [@yahsan2](https://github.com/yahsan2):
 
-The initial release will include:
+- **[gh-sub-issue](https://github.com/yahsan2/gh-sub-issue)** - Sub-issue/hierarchy management
+- **[gh-pm](https://github.com/yahsan2/gh-pm)** - Project board management
+
+Both are MIT licensed, allowing us to merge them into a unified tool with a consistent interface and room for future enhancements.
+
 ```bash
-# Existing sub-issue functionality (from gh-sub-issue)
-gh project-tools sub add 79 80 --repo owner/repo
-gh project-tools sub create 79 --title "Sub-task" --repo owner/repo
-gh project-tools sub list 79 --repo owner/repo
+# Sub-issue management (from gh-sub-issue)
+gh project-tools sub add 79 80
+gh project-tools sub create 79 --title "Sub-task"
+gh project-tools sub list 79
+gh project-tools sub remove 79 80
 
-# NEW: Status management
-gh project-tools status 79 "In Progress" --repo owner/repo
-gh project-tools status 79 --list
+# Project management (from gh-pm)
+gh project-tools list
+gh project-tools create --title "New issue"
+gh project-tools view 79
+gh project-tools move 79 --status in_progress
+gh project-tools split 79
+gh project-tools intake
+gh project-tools triage
+gh project-tools init
 ```
+
+---
+
+## Source Repositories
+
+### gh-sub-issue (v0.5.1)
+
+**Repository:** https://github.com/yahsan2/gh-sub-issue
+**License:** MIT
+**Purpose:** Manage sub-issues (child issues) with hierarchical task structures
+
+| Command | Description |
+|---------|-------------|
+| `add` | Link existing issues as sub-issues to a parent |
+| `create` | Create new issues directly connected to a parent |
+| `list` | Display all sub-issues attached to a parent |
+| `remove` | Unlink sub-issues from parent (without deletion) |
+
+### gh-pm (v0.6.7)
+
+**Repository:** https://github.com/yahsan2/gh-pm
+**License:** MIT
+**Purpose:** Streamline project management from the command line
+
+| Command | Description |
+|---------|-------------|
+| `init` | Initialize configuration with project detection |
+| `list` | List issues in project with filtering |
+| `create` | Create new issue with project metadata |
+| `view` | View issue details with project information |
+| `move` | Update issue status/priority fields |
+| `split` | Decompose issues into sub-issues |
+| `intake` | Find and add issues not in project |
+| `triage` | Bulk process issues with configurable rules |
 
 ---
 
@@ -29,34 +74,36 @@ gh project-tools status 79 --list
 
 ### New Repository: gh-project-tools
 
-Rather than forking and diverging from gh-sub-issue, we will create a fresh repository with a new identity that reflects the expanded scope.
+Create a fresh repository that combines both tools under a unified interface.
 
 **Repository:** `https://github.com/scooter-indie/gh-project-tools`
 
-### Why a New Repo Instead of Fork?
+### Why Combine?
 
-| Approach | Pros | Cons |
-|----------|------|------|
-| **Fork gh-sub-issue** | Easy setup, GitHub lineage | Name implies sub-issues only, fork badge suggests tracking upstream |
-| **New repo (chosen)** | Clean identity, name reflects scope, room to grow | Must copy code, manual upstream tracking |
+| Current State | Problem | Solution |
+|---------------|---------|----------|
+| Two separate extensions | Different install, different commands | Single unified tool |
+| `gh sub-issue` + `gh pm` | Overlapping concerns (both deal with issues/projects) | Consistent interface |
+| Separate maintenance | Track two upstreams | Single codebase |
 
 ### Attribution Requirements (MIT License)
 
-The original gh-sub-issue is MIT licensed, which permits:
+Both source repositories use the MIT License, which permits:
 - ✅ Commercial use
 - ✅ Modification
 - ✅ Distribution
 - ✅ Sublicensing
 
-**Required:** Include original copyright notice in LICENSE file.
+**Required:** Include both original copyright notices in LICENSE file.
 
 ### LICENSE File
 
 ```
 MIT License
 
-Copyright (c) 2024 scooter-indie
-Copyright (c) 2023 yahsan2 (original gh-sub-issue - https://github.com/yahsan2/gh-sub-issue)
+Copyright (c) 2025 scooter-indie
+Copyright (c) 2023-2024 yahsan2 (gh-sub-issue - https://github.com/yahsan2/gh-sub-issue)
+Copyright (c) 2023-2024 yahsan2 (gh-pm - https://github.com/yahsan2/gh-pm)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -79,263 +126,141 @@ SOFTWARE.
 
 ### README Attribution
 
-The README will include an acknowledgment section:
-
 ```markdown
 ## Acknowledgments
 
-This project is based on [gh-sub-issue](https://github.com/yahsan2/gh-sub-issue)
-by [@yahsan2](https://github.com/yahsan2), which provided the foundation for
-sub-issue management functionality. We extend our thanks for their excellent work.
+This project combines and extends two excellent GitHub CLI extensions by
+[@yahsan2](https://github.com/yahsan2):
+
+- **[gh-sub-issue](https://github.com/yahsan2/gh-sub-issue)** - Foundation for
+  sub-issue hierarchy management (`sub` commands)
+- **[gh-pm](https://github.com/yahsan2/gh-pm)** - Foundation for project board
+  management (`list`, `create`, `view`, `move`, `split`, `intake`, `triage`, `init`)
+
+We extend our sincere thanks for their excellent work making GitHub project
+management accessible from the command line.
 ```
-
-### Future Expansion Possibilities
-
-The gh-project-tools name allows for future commands:
-- `gh project-tools status` - Project board status management (this proposal)
-- `gh project-tools sub` - Sub-issue management (from gh-sub-issue)
-- `gh project-tools field` - Custom field management (future)
-- `gh project-tools move` - Move items between projects (future)
-- `gh project-tools bulk` - Batch operations (future)
 
 ---
 
-## Problem Statement
+## Combined Command Structure
 
-### Current Limitation
+### Command Hierarchy
 
-The GitHub CLI's `gh issue edit` command doesn't support project board status updates:
-
-```bash
-# This fails - flag doesn't exist
-gh issue edit 79 --add-project-status "In Progress"
-# Error: unknown flag: --add-project-status
+```
+gh project-tools
+├── sub                    # Sub-issue management (from gh-sub-issue)
+│   ├── add               # Link issues as sub-issues
+│   ├── create            # Create new sub-issue
+│   ├── list              # List sub-issues
+│   └── remove            # Unlink sub-issues
+├── list (ls)             # List project issues (from gh-pm)
+├── create                # Create issue with project metadata (from gh-pm)
+├── view                  # View issue details (from gh-pm)
+├── move                  # Update status/priority (from gh-pm)
+├── split                 # Decompose into sub-issues (from gh-pm)
+├── intake                # Find issues not in project (from gh-pm)
+├── triage                # Bulk process issues (from gh-pm)
+└── init                  # Initialize configuration (from gh-pm)
 ```
 
-### Why This Matters
+### Usage Examples
 
-Project boards are essential for workflow management. Without CLI support:
-- Automation scripts can't update issue status
-- CI/CD pipelines can't reflect work state
-- The `/gh-workflow` command in author-nonfiction can't track status programmatically
-
-### Current Workaround
-
-Status is tracked via issue comments (e.g., "🔧 **Status: In Progress**"), but this:
-- Doesn't update the actual project board
-- Requires manual board updates
-- Creates noise in issue history
-
-### Existing Solution Complexity
-
-The `gh project item-edit` command exists but requires multiple IDs:
 ```bash
-gh project item-edit --id ITEM_ID --project-id PROJECT_ID \
-  --field-id FIELD_ID --single-select-option-id OPTION_ID
-```
+# Initialize project configuration
+gh project-tools init
 
-Getting these IDs requires multiple GraphQL queries - too complex for inline use.
+# List issues in project
+gh project-tools list
+gh project-tools ls --status in_progress
+gh project-tools list --priority p0,p1 --format json
+
+# Create new issue
+gh project-tools create --title "New feature" --status backlog --priority p1
+
+# View issue details
+gh project-tools view 79
+
+# Update issue status/priority
+gh project-tools move 79 --status in_progress
+gh project-tools move 79 --status done --priority p0
+
+# Sub-issue management
+gh project-tools sub add 79 80 81        # Link 80, 81 as children of 79
+gh project-tools sub create 79 --title "Sub-task"
+gh project-tools sub list 79
+gh project-tools sub remove 79 80
+
+# Split issue into sub-issues
+gh project-tools split 79
+
+# Find issues not in project
+gh project-tools intake
+
+# Bulk triage
+gh project-tools triage
+```
 
 ---
 
-## Technical Design
-
-### Architecture
-
-The gh-project-tools extension will include a `status` command that:
-
-1. **Resolves issue to project item** - Query issue's project memberships
-2. **Gets Status field metadata** - Find field ID and available options
-3. **Executes status update** - Call `updateProjectV2ItemFieldValue` mutation
-
-### Command Interface
-
-```bash
-# Set status for an issue
-gh project-tools status <issue> <status-name> [flags]
-
-# List available statuses for an issue's project
-gh project-tools status <issue> --list [flags]
-
-# Flags
---repo, -R     Repository in owner/repo format (default: current repo)
---project, -p  Project number (if issue is in multiple projects)
---format       Output format: table, json (default: table)
-```
-
-### Examples
-
-```bash
-# Set issue #79 to "In Progress"
-gh project-tools status 79 "In Progress"
-
-# Set status in specific repo
-gh project-tools status 79 "Done" --repo scooter-indie/author-nonfiction
-
-# List available statuses
-gh project-tools status 79 --list
-# Output:
-# STATUS OPTIONS (Project: author-nonfiction)
-# - Backlog
-# - In Progress
-# - In Review
-# - Done
-
-# JSON output for scripting
-gh project-tools status 79 --list --format json
-```
-
-### GraphQL Queries
-
-#### 1. Get Issue's Project Items and Status Field
-
-```graphql
-query GetIssueProjectItems($owner: String!, $repo: String!, $number: Int!) {
-  repository(owner: $owner, name: $repo) {
-    issue(number: $number) {
-      id
-      title
-      projectItems(first: 10) {
-        nodes {
-          id
-          project {
-            id
-            number
-            title
-            field(name: "Status") {
-              ... on ProjectV2SingleSelectField {
-                id
-                name
-                options {
-                  id
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-#### 2. Update Status Field Value
-
-```graphql
-mutation UpdateProjectItemStatus(
-  $projectId: ID!
-  $itemId: ID!
-  $fieldId: ID!
-  $optionId: String!
-) {
-  updateProjectV2ItemFieldValue(
-    input: {
-      projectId: $projectId
-      itemId: $itemId
-      fieldId: $fieldId
-      value: { singleSelectOptionId: $optionId }
-    }
-  ) {
-    projectV2Item {
-      id
-    }
-  }
-}
-```
-
-### Go Implementation Structure
+## Go Implementation Structure
 
 ```
 gh-project-tools/
-├── main.go                 # Entry point
-├── go.mod                  # Module definition
-├── go.sum                  # Dependencies
-├── LICENSE                 # MIT with attribution
-├── README.md               # Documentation
-├── .goreleaser.yml         # Release config
+├── main.go                     # Entry point
+├── go.mod                      # github.com/scooter-indie/gh-project-tools
+├── go.sum                      # Dependencies
+├── LICENSE                     # MIT with dual attribution
+├── README.md                   # Documentation with acknowledgments
+├── .goreleaser.yml             # Release automation
+├── .gh-pm.yml.example          # Example configuration
+│
 ├── cmd/
-│   ├── root.go             # Root command (gh project-tools)
-│   ├── sub.go              # Sub-issue parent command (gh project-tools sub)
-│   ├── sub_add.go          # from gh-sub-issue
-│   ├── sub_create.go       # from gh-sub-issue
-│   ├── sub_list.go         # from gh-sub-issue
-│   ├── sub_remove.go       # from gh-sub-issue
-│   ├── status.go           # NEW - status command
-│   └── status_test.go      # NEW - status tests
+│   ├── root.go                 # Root command (gh project-tools)
+│   │
+│   │   # Sub-issue commands (from gh-sub-issue)
+│   ├── sub.go                  # Parent: gh project-tools sub
+│   ├── sub_add.go              # gh project-tools sub add
+│   ├── sub_add_test.go
+│   ├── sub_create.go           # gh project-tools sub create
+│   ├── sub_create_test.go
+│   ├── sub_list.go             # gh project-tools sub list
+│   ├── sub_list_test.go
+│   ├── sub_remove.go           # gh project-tools sub remove
+│   ├── sub_remove_test.go
+│   │
+│   │   # Project management commands (from gh-pm)
+│   ├── init.go                 # gh project-tools init
+│   ├── init_test.go
+│   ├── list.go                 # gh project-tools list
+│   ├── list_test.go
+│   ├── create.go               # gh project-tools create
+│   ├── create_test.go
+│   ├── view.go                 # gh project-tools view
+│   ├── view_test.go
+│   ├── move.go                 # gh project-tools move
+│   ├── move_test.go
+│   ├── split.go                # gh project-tools split
+│   ├── split_test.go
+│   ├── intake.go               # gh project-tools intake
+│   ├── intake_test.go
+│   ├── triage.go               # gh project-tools triage
+│   └── triage_test.go
+│
 └── internal/
-    ├── github/             # GitHub API helpers
-    │   ├── client.go       # GraphQL client
-    │   ├── issues.go       # Issue operations
-    │   └── projects.go     # Project operations
-    └── output/             # Output formatting
+    ├── config/                 # Configuration handling
+    │   ├── config.go           # .gh-pm.yml parsing
+    │   └── config_test.go
+    ├── github/                 # GitHub API helpers
+    │   ├── client.go           # GraphQL client
+    │   ├── issues.go           # Issue operations
+    │   ├── projects.go         # Project operations
+    │   └── subissues.go        # Sub-issue operations
+    └── output/                 # Output formatting
         ├── table.go
-        └── json.go
+        ├── json.go
+        └── csv.go
 ```
-
-### Key Functions in status.go
-
-```go
-package cmd
-
-import (
-    "fmt"
-    "github.com/spf13/cobra"
-)
-
-var statusCmd = &cobra.Command{
-    Use:   "status <issue> [status-name]",
-    Short: "Get or set project board status for an issue",
-    Long: `Get or set the project board status for a GitHub issue.
-
-Examples:
-  # Set issue #79 to "In Progress"
-  gh project-tools status 79 "In Progress"
-
-  # List available status options
-  gh project-tools status 79 --list
-
-  # Set status in a specific repository
-  gh project-tools status 79 "Done" -R owner/repo`,
-    RunE: runStatus,
-}
-
-func init() {
-    rootCmd.AddCommand(statusCmd)
-    statusCmd.Flags().BoolP("list", "l", false, "List available status options")
-    statusCmd.Flags().StringP("repo", "R", "", "Repository in owner/repo format")
-    statusCmd.Flags().IntP("project", "p", 0, "Project number (if multiple)")
-    statusCmd.Flags().StringP("format", "f", "table", "Output format: table, json")
-}
-
-func runStatus(cmd *cobra.Command, args []string) error {
-    // 1. Parse arguments
-    // 2. Resolve issue reference
-    // 3. Query project items
-    // 4. If --list, display options and return
-    // 5. Find matching status option
-    // 6. Execute mutation
-    // 7. Display result
-}
-
-func getIssueProjectItems(owner, repo string, number int) (*ProjectItemsResponse, error) {
-    // Execute GraphQL query to get project items
-}
-
-func updateItemStatus(projectId, itemId, fieldId, optionId string) error {
-    // Execute GraphQL mutation to update status
-}
-```
-
-### Error Handling
-
-| Scenario | Error Message |
-|----------|---------------|
-| Issue not in any project | `Error: Issue #79 is not part of any project` |
-| Issue in multiple projects (no --project flag) | `Error: Issue #79 is in multiple projects. Use --project to specify: [list]` |
-| Invalid status name | `Error: "Invalid" is not a valid status. Available: Backlog, In Progress, In Review, Done` |
-| No permission | `Error: You don't have permission to update this project` |
-| Status field not found | `Error: Project "name" doesn't have a Status field` |
 
 ---
 
@@ -344,36 +269,45 @@ func updateItemStatus(projectId, itemId, fieldId, optionId string) error {
 ### Phase 0: Repository Setup
 
 1. **Create new repo** `scooter-indie/gh-project-tools`
-2. **Copy source from gh-sub-issue** - Bring over core Go files
-3. **Update LICENSE** - Add dual copyright with yahsan2 attribution
-4. **Restructure commands** - Move sub-issue commands under `sub` parent
-5. **Update module name** - Change go.mod to `github.com/scooter-indie/gh-project-tools`
-6. **Update README** - New name, expanded scope, acknowledgments section
-7. **Verify builds** - Ensure `go build` works with restructured code
+2. **Initialize Go module** with proper module path
+3. **Create LICENSE** with dual yahsan2 attribution
+4. **Create README.md** with acknowledgments section
+5. **Set up .goreleaser.yml** for multi-platform builds
+6. **Create basic root.go** with version command
 
-### Phase 1: Status Command (MVP)
+### Phase 1: Integrate gh-sub-issue
 
-1. **Add status.go** with basic structure
-2. **Implement getIssueProjectItems()** - Query issue's project memberships
-3. **Implement --list flag** - Display available status options
-4. **Implement updateItemStatus()** - Execute the mutation
-5. **Add status_test.go** - Unit tests with mocked responses
+1. **Copy sub-issue source** from gh-sub-issue
+2. **Restructure as `sub` subcommand** (sub add, sub create, sub list, sub remove)
+3. **Update imports** to new module path
+4. **Run tests** to verify functionality
+5. **Update command help text** to reflect new structure
 
-### Phase 2: Polish & Edge Cases
+### Phase 2: Integrate gh-pm
 
-1. **Handle multiple projects** - Add --project flag support
-2. **Add JSON output** - For scripting and automation
-3. **Improve error messages** - Clear, actionable errors
-4. **Add integration tests** - Test against real GitHub API
+1. **Copy gh-pm source** for core commands
+2. **Integrate commands** (init, list, create, view, move, split, intake, triage)
+3. **Merge shared code** (GraphQL client, output formatting)
+4. **Update imports** to new module path
+5. **Run tests** to verify functionality
+6. **Ensure config file compatibility** (.gh-pm.yml format)
 
-### Phase 3: Documentation & Release
+### Phase 3: Unify & Polish
 
-1. **Complete README.md** - Full command documentation
-2. **Configure goreleaser** - Multi-platform builds
-3. **Create initial release** - Tag v0.1.0 and publish
-4. **Install extension** - `gh extension install scooter-indie/gh-project-tools`
-5. **Update gh-workflow.md** - Use new command in author-nonfiction
-6. **Delete old fork** - Remove scooter-indie/gh-sub-issue if no longer needed
+1. **Consolidate shared code** in internal/ packages
+2. **Ensure consistent error handling** across all commands
+3. **Ensure consistent output formatting** (table, json, csv)
+4. **Add integration tests** for combined workflows
+5. **Update all help text** for consistency
+
+### Phase 4: Documentation & Release
+
+1. **Complete README.md** with full command documentation
+2. **Add CHANGELOG.md** documenting the merge
+3. **Configure GitHub Actions** for CI/CD
+4. **Create initial release** v1.0.0
+5. **Publish to GitHub** for `gh extension install`
+6. **Update author-nonfiction gh-workflow.md** to use new tool
 
 ---
 
@@ -381,60 +315,70 @@ func updateItemStatus(projectId, itemId, fieldId, optionId string) error {
 
 After implementation, update `.claude/commands/gh-workflow.md`:
 
-### Before (current workaround)
+### Current (two extensions)
 ```bash
-gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
-  --body "🔧 **Status: In Progress**"
+gh pm move 79 --status in_progress
+gh sub-issue add 79 80
 ```
 
-### After (with gh-project-tools)
+### After (unified tool)
 ```bash
-gh project-tools status [issue-number] "In Progress" --repo scooter-indie/author-nonfiction
+gh project-tools move 79 --status in_progress
+gh project-tools sub add 79 80
 ```
 
-This provides:
-- Actual project board updates
-- No comment noise
-- Queryable status via `--list`
-- Scriptable automation
-
-### Sub-issue commands also available
-```bash
-# Link sub-issues (replaces gh sub-issue add)
-gh project-tools sub add [parent] [child] --repo scooter-indie/author-nonfiction
-```
+**Benefits:**
+- Single extension to install and maintain
+- Consistent command interface
+- Unified configuration
 
 ---
 
 ## Acceptance Criteria
 
-### Must Have (Phase 0 - Repo Setup)
+### Must Have (Phase 0-1 - Setup & Sub-issues)
 
 - [ ] New repo `scooter-indie/gh-project-tools` created
-- [ ] LICENSE includes yahsan2 attribution
+- [ ] LICENSE includes dual yahsan2 attribution
 - [ ] README includes acknowledgments section
-- [ ] Sub-issue commands work under `gh project-tools sub *`
-- [ ] `go build` succeeds
+- [ ] `gh project-tools sub add` works
+- [ ] `gh project-tools sub create` works
+- [ ] `gh project-tools sub list` works
+- [ ] `gh project-tools sub remove` works
+- [ ] All sub-issue tests pass
 
-### Must Have (Phase 1 - Status Command)
+### Must Have (Phase 2 - Project Management)
 
-- [ ] `gh project-tools status <issue> <status>` updates project board status
-- [ ] `gh project-tools status <issue> --list` shows available statuses
-- [ ] Works with issue numbers and URLs
-- [ ] Clear error messages for common failures
-- [ ] Unit tests with >80% coverage
+- [ ] `gh project-tools init` works
+- [ ] `gh project-tools list` works
+- [ ] `gh project-tools create` works
+- [ ] `gh project-tools view` works
+- [ ] `gh project-tools move` works
+- [ ] `gh project-tools split` works
+- [ ] `gh project-tools intake` works
+- [ ] `gh project-tools triage` works
+- [ ] Configuration file (.gh-pm.yml) compatible
+- [ ] All gh-pm tests pass
+
+### Must Have (Phase 3-4 - Polish & Release)
+
+- [ ] Consistent error messages across all commands
+- [ ] Consistent output formatting (table, json, csv)
+- [ ] `go build` succeeds on Linux, macOS, Windows
+- [ ] `gh extension install scooter-indie/gh-project-tools` works
+- [ ] README documents all commands
 
 ### Should Have
 
-- [ ] `--project` flag for issues in multiple projects
-- [ ] `--format json` output option
-- [ ] `--repo` flag for cross-repo operations
+- [ ] GitHub Actions CI/CD pipeline
+- [ ] Integration tests for combined workflows
+- [ ] Shell completions (bash, zsh, fish)
 
 ### Nice to Have
 
-- [ ] Fuzzy matching for status names (e.g., "progress" matches "In Progress")
-- [ ] Batch status updates for multiple issues
-- [ ] Status history query
+- [ ] Alias support (e.g., `ls` for `list`)
+- [ ] Interactive mode for triage
+- [ ] Dry-run mode for destructive operations
 
 ---
 
@@ -442,19 +386,21 @@ gh project-tools sub add [parent] [child] --repo scooter-indie/author-nonfiction
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| GitHub API changes | High | Pin to stable GraphQL schema version |
-| Rate limiting | Medium | Cache project metadata, batch queries |
-| Permission complexity | Medium | Clear error messages, document required scopes |
-| Multiple projects | Low | Require explicit --project flag |
+| Code incompatibility | High | Test each phase thoroughly before moving on |
+| Config format changes | Medium | Maintain .gh-pm.yml compatibility |
+| GitHub API changes | Medium | Pin to stable GraphQL schema version |
+| Upstream updates | Low | Document divergence, optionally backport fixes |
 
 ---
 
 ## Dependencies
 
 - **Go 1.21+** - Language runtime
-- **github.com/cli/go-gh** - GitHub CLI extension framework
-- **github.com/spf13/cobra** - CLI framework (already used)
-- **GitHub token scope** - `project` scope required (`gh auth refresh -s project`)
+- **github.com/cli/go-gh/v2** - GitHub CLI extension framework
+- **github.com/spf13/cobra** - CLI framework
+- **github.com/spf13/viper** - Configuration management
+- **gopkg.in/yaml.v3** - YAML parsing
+- **GitHub token scopes** - `repo`, `project` (for project board access)
 
 ---
 
@@ -462,22 +408,37 @@ gh project-tools sub add [parent] [child] --repo scooter-indie/author-nonfiction
 
 | Phase | Effort |
 |-------|--------|
-| Phase 0: Repo Setup | 1-2 hours |
-| Phase 1: Status MVP | 2-3 hours |
-| Phase 2: Polish | 1-2 hours |
-| Phase 3: Docs & Release | 1 hour |
-| **Total** | **5-8 hours** |
+| Phase 0: Repository Setup | 1 hour |
+| Phase 1: Integrate gh-sub-issue | 2-3 hours |
+| Phase 2: Integrate gh-pm | 3-4 hours |
+| Phase 3: Unify & Polish | 2-3 hours |
+| Phase 4: Docs & Release | 1-2 hours |
+| **Total** | **9-13 hours** |
+
+---
+
+## Future Enhancements
+
+Once the merged tool is stable, potential future additions:
+
+| Feature | Description |
+|---------|-------------|
+| `gh project-tools sync` | Sync issues across multiple projects |
+| `gh project-tools archive` | Bulk archive completed issues |
+| `gh project-tools report` | Generate project status reports |
+| `gh project-tools migrate` | Migrate issues between projects |
+| `gh project-tools template` | Apply issue templates |
 
 ---
 
 ## References
 
-- [GitHub GraphQL Mutations](https://docs.github.com/en/graphql/reference/mutations)
-- [Using the API to manage Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/using-the-api-to-manage-projects)
-- [Original gh-sub-issue by yahsan2](https://github.com/yahsan2/gh-sub-issue) - Foundation for sub-issue functionality
+- [gh-sub-issue by yahsan2](https://github.com/yahsan2/gh-sub-issue) - Sub-issue management
+- [gh-pm by yahsan2](https://github.com/yahsan2/gh-pm) - Project management
+- [GitHub GraphQL API](https://docs.github.com/en/graphql)
 - [GitHub CLI Extension Guide](https://docs.github.com/en/github-cli/github-cli/creating-github-cli-extensions)
-- [MIT License](https://opensource.org/licenses/MIT) - Permissive license allowing derivative works
+- [MIT License](https://opensource.org/licenses/MIT)
 
 ---
 
-*Proposal created for issue #79 - gh-workflow uses invalid --add-project-status flag*
+*Proposal to combine gh-sub-issue and gh-pm into unified gh-project-tools extension*
