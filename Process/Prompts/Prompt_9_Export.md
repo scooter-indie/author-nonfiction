@@ -71,24 +71,33 @@ cat .claude/settings.local.json
 ## Step 3: Compile Source
 
 ```bash
-bash Process/Scripts/compile-manuscript.sh VERSION CONFIRMED_DATE FORMAT
+bash Process/Scripts/compile-manuscript.sh publication
 ```
 
-**Creates:** `Drafts/Full_Draft_[CONFIRMED_DATE]_v[version].md`
+**Creates:** `Drafts/[Project-Name]-publication-vNN.md`
 
 ---
 
 ## Step 4: Generate Exports
 
-**Create export directory:**
+**Setup export versioning:**
 ```bash
-mkdir -p "Exports/[CONFIRMED_DATE]"
+# Sanitize project name
+PROJECT_NAME=$(echo "${BOOK_TITLE}" | sed 's/ /-/g' | sed 's/[^a-zA-Z0-9-]//g')
+
+# Find next export version (independent from draft versions)
+EXISTING=$(ls Manuscript/Exports/${PROJECT_NAME}-v*.* 2>/dev/null | \
+  sed 's/.*-v\([0-9]*\)\..*/\1/' | sort -n | uniq | tail -1)
+EXPORT_VERSION=$(printf "%02d" $((${EXISTING:-0} + 1)))
+
+OUTPUT_DIR="Manuscript/Exports"
+mkdir -p "${OUTPUT_DIR}"
 ```
 
 **EPUB:**
 ```bash
 pandoc "${DRAFT_FILE}" \
-  -o "${OUTPUT_DIR}/${BOOK_TITLE}.epub" \
+  -o "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.epub" \
   --metadata title="${BOOK_TITLE}" \
   --metadata author="${AUTHOR_NAME}" \
   --toc --toc-depth=2 \
@@ -106,7 +115,7 @@ else
 fi
 
 pandoc "${DRAFT_FILE}" \
-  -o "${OUTPUT_DIR}/${BOOK_TITLE}.docx" \
+  -o "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.docx" \
   --reference-doc="${REF_DOC}" \
   --toc --resource-path="Manuscript"
 ```
@@ -118,7 +127,7 @@ pandoc "${DRAFT_FILE}" \
 pandoc "${DRAFT_FILE}" -o "${OUTPUT_DIR}/content.typ" -t typst
 
 # Step 2: Create main file that imports template and content
-cat > "${OUTPUT_DIR}/${BOOK_TITLE}.typ" << 'EOF'
+cat > "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.typ" << 'EOF'
 #import "../../Process/Templates/book-template.typ": *
 
 #show: book.with(
@@ -134,34 +143,28 @@ cat > "${OUTPUT_DIR}/${BOOK_TITLE}.typ" << 'EOF'
 EOF
 
 # Step 3: Compile to PDF
-typst compile "${OUTPUT_DIR}/${BOOK_TITLE}.typ" "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
+typst compile "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.typ" \
+  "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.pdf"
+
+# Cleanup intermediate files
+rm -f "${OUTPUT_DIR}/content.typ" "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.typ"
 ```
 **NOTE:** Template provides professional book layout with title page, headers/footers, and styled headings.
 
 ---
 
-## Step 5: Export Package
+## Step 5: Completion
 
-**Copy assets:**
-```bash
-mkdir -p "${OUTPUT_DIR}/images"
-cp Manuscript/images/* "${OUTPUT_DIR}/images/" 2>/dev/null || true
+**Note:** Export files are saved directly to `Manuscript/Exports/` with versioned filenames. No additional packaging required.
+
+**Example output files:**
 ```
-
-**Create README:**
-```markdown
-# Export Information
-
-**Book:** ${BOOK_TITLE}
-**Author:** ${AUTHOR_NAME}
-**Date:** [CONFIRMED_DATE]
-**Version:** v[version]
-
-## Files
-- ${BOOK_TITLE}.epub
-- ${BOOK_TITLE}.docx (if generated)
-- ${BOOK_TITLE}.pdf (if generated)
-- images/
+Manuscript/Exports/
+├── My-Book-Title-v01.epub
+├── My-Book-Title-v01.docx
+├── My-Book-Title-v01.pdf
+├── My-Book-Title-v02.epub
+└── ...
 ```
 
 ---
@@ -171,14 +174,15 @@ cp Manuscript/images/* "${OUTPUT_DIR}/images/" 2>/dev/null || true
 ```
 ✅ Export Complete!
 
-📦 Export Location: Exports/[date]/
+📦 Export Location: Manuscript/Exports/
 
 📚 Files Generated:
-- [Book Title].epub (2.3 MB)
-- [Book Title].docx (1.8 MB)
-- images/ (15 files)
+- My-Book-Title-v03.epub (2.3 MB)
+- My-Book-Title-v03.docx (1.8 MB)
+- My-Book-Title-v03.pdf (1.5 MB)
 
 📊 Statistics:
+- Export version: #03
 - Word count: [N] words
 - Chapters: [N]
 - Images: [N]

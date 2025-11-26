@@ -1,28 +1,28 @@
 #!/bin/bash
 # Compile Complete Manuscript
-# Usage: compile-manuscript.sh VERSION DATE [FORMAT]
-# VERSION: e.g., "1.0.0"
-# DATE: YYYY-MM-DD (confirmed date from session)
+# Usage: compile-manuscript.sh [FORMAT]
 # FORMAT: basic|formatted|publication (default: formatted)
 
 set -e  # Exit on error
 
 # Parameters
-VERSION="${1}"
-DATE="${2}"
-FORMAT="${3:-formatted}"
+FORMAT="${1:-formatted}"
 
-# Strip leading "v" from version if present (prevents vv1.0.0)
-VERSION="${VERSION#v}"
-
-if [ -z "$VERSION" ] || [ -z "$DATE" ]; then
-    echo "Error: VERSION and DATE are required"
-    echo "Usage: compile-manuscript.sh VERSION DATE [FORMAT]"
+# Validate format
+if [[ ! "$FORMAT" =~ ^(basic|formatted|publication)$ ]]; then
+    echo "Error: FORMAT must be basic, formatted, or publication"
+    echo "Usage: compile-manuscript.sh [FORMAT]"
     exit 1
 fi
 
-# Output file
-OUTPUT_FILE="Manuscript/Drafts/Full_Draft_${DATE}_v${VERSION}.md"
+# Sanitize project name for filename
+sanitize_name() {
+    echo "$1" | \
+        sed 's/ /-/g' | \
+        sed 's/[^a-zA-Z0-9-]//g' | \
+        sed 's/--*/-/g' | \
+        sed 's/^-//;s/-$//'
+}
 
 # Create Drafts directory if needed
 mkdir -p Manuscript/Drafts
@@ -45,6 +45,33 @@ else
     fi
 fi
 
+# Sanitize project name for filename
+PROJECT_NAME=$(sanitize_name "$BOOK_TITLE")
+
+# Find highest existing version for this project and format
+find_next_version() {
+    local pattern="Manuscript/Drafts/${PROJECT_NAME}-${FORMAT}-v*.md"
+    local highest=0
+
+    for file in $pattern; do
+        if [ -f "$file" ]; then
+            # Extract version number from filename
+            local num=$(echo "$file" | sed "s/.*-v\([0-9]*\)\.md/\1/" | sed 's/^0*//')
+            if [ -n "$num" ] && [ "$num" -gt "$highest" ] 2>/dev/null; then
+                highest=$num
+            fi
+        fi
+    done
+
+    echo $((highest + 1))
+}
+
+NEXT_VERSION=$(find_next_version)
+VERSION_PADDED=$(printf "%02d" $NEXT_VERSION)
+
+# Output file with new naming convention
+OUTPUT_FILE="Manuscript/Drafts/${PROJECT_NAME}-${FORMAT}-v${VERSION_PADDED}.md"
+
 # Start building the compiled manuscript
 echo "Compiling manuscript..."
 echo "Output: $OUTPUT_FILE"
@@ -55,7 +82,7 @@ echo ""
     echo "# $BOOK_TITLE"
     echo ""
     echo "**Author:** $AUTHOR_NAME"
-    echo "**Version:** v$VERSION"
+    echo "**Compile:** #${VERSION_PADDED}"
     echo "**Compiled:** $(date '+%Y-%m-%d %H:%M:%S')"
     echo "**Format:** $FORMAT"
     echo ""
@@ -192,6 +219,7 @@ echo "✓ Compilation complete!"
 echo ""
 echo "Statistics:"
 echo "  File: $OUTPUT_FILE"
+echo "  Compile: #${VERSION_PADDED}"
 echo "  Words: $WORD_COUNT"
 echo "  Lines: $LINE_COUNT"
 echo "  Format: $FORMAT"

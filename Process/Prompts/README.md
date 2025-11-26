@@ -220,7 +220,7 @@ The `/fw-init` slash command:
 
 **Quote insertion**: Verified (✓) quotes automatically inserted as chapter epigraphs; compilation report shows quote status
 
-**Output**: `Drafts/Full_Draft_[date]_v[version].md` with statistics and quote completion metrics
+**Output**: `Drafts/[Project-Name]-[format]-vNN.md` with statistics and quote completion metrics
 
 ---
 
@@ -248,7 +248,7 @@ The `/fw-init` slash command:
 
 **Settings**: Stored in `.config/project.json`, can customize per export
 
-**Output**: Formatted files in `Exports/[date]/` directory
+**Output**: `Exports/[Project-Name]-vNN.[format]` files
 
 ---
 

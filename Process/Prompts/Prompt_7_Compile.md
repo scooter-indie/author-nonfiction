@@ -13,7 +13,9 @@ Reference `Process/Prompts/Prompt_Essentials.md` (loaded once per session via /f
 
 Generates a single compiled Markdown file from all manuscript content. Read-only operation - source files unchanged.
 
-**Output:** `Manuscript/Drafts/Full_Draft_[YYYY-MM-DD]_v[version].md`
+**Output:** `Manuscript/Drafts/[Project-Name]-[format]-vNN.md`
+
+Example: `My-Book-Title-formatted-v03.md`
 
 ---
 
@@ -30,12 +32,12 @@ Generates a single compiled Markdown file from all manuscript content. Read-only
 
 **Ask user:**
 
-1. **Version number?** (e.g., v1.0.0, v2.3.1)
-
-2. **Format option?**
+1. **Format option?**
    - Basic: Simple concatenation
    - Formatted: Proper headings, page breaks (default)
    - Publication-Ready: Full formatting for export
+
+**Note:** Version number is auto-calculated from existing files in Drafts folder.
 
 ---
 
@@ -51,8 +53,10 @@ Before compiling:
 ## Step 3: Run Compilation
 
 ```bash
-bash Process/Scripts/compile-manuscript.sh VERSION CONFIRMED_DATE FORMAT
+bash Process/Scripts/compile-manuscript.sh FORMAT
 ```
+
+Where FORMAT is `basic`, `formatted`, or `publication`.
 
 **Script assembles:**
 1. Front Matter (Copyright, Title, Dedication)
@@ -73,7 +77,7 @@ bash Process/Scripts/compile-manuscript.sh VERSION CONFIRMED_DATE FORMAT
 # [Working Title]
 
 **Author:** [Name]
-**Version:** v[N.M.P]
+**Compile:** #NN
 **Compiled:** [Date/Time]
 **Format:** [basic|formatted|publication]
 ```
@@ -108,7 +112,7 @@ For chapters with verified quotes (Status ✓):
 - **Read-only operation**: No _chg updates needed
 - **Both structures supported**: Flat files or subdirectory structure
 - **Markdown output**: Use Prompt 9 for DOCX/PDF/EPUB export
-- **Date confirmation**: Use CONFIRMED_DATE from session startup
+- **Auto-versioning**: Version number auto-incremented based on existing files
 
 ---
 

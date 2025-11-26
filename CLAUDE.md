@@ -304,7 +304,7 @@ Claude will read the appropriate prompt file and execute it.
 ### Prompt 7: Compile Complete Manuscript
 **Purpose:** Generate single file with entire manuscript
 **When:** Review entire book, prepare for editing
-**Output:** `Drafts/Full_Draft_[date]_v[version].md`
+**Output:** `Drafts/[Project-Name]-[format]-vNN.md`
 
 ### Prompt 8: Consistency Checker
 **Purpose:** Check for consistency issues across all content
@@ -314,7 +314,7 @@ Claude will read the appropriate prompt file and execute it.
 ### Prompt 9: Export and Format
 **Purpose:** Export to DOCX, PDF, EPUB, LaTeX
 **When:** Preparing for publication or submission
-**Output:** Formatted files in `Exports/[date]/` directory
+**Output:** `Exports/[Project-Name]-vNN.[format]`
 
 ### Prompt 10: Progress Dashboard
 **Purpose:** Generate progress report and project status
@@ -608,11 +608,10 @@ When Claude Code starts in this directory:
 
 - **Always use ISO format:** `YYYY-MM-DD` (e.g., `2025-11-20`)
 - This format is used for:
-  - Filenames: `Full_Draft_2025-11-20_v1.0.0.md`
-  - Directory names: `Exports/2025-11-20/`
   - Chapter creation metadata
   - Git commit messages
   - Dashboard reports
+  - Compiled file metadata headers
 
 ### Passing Date to Agents
 
@@ -627,10 +626,10 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 - **Prompt 1 (Initialize):** Creates initial project structure with date metadata
 - **Prompt 2 (Add Chapter):** Writes chapter creation date
-- **Prompt 7 (Compile):** Creates `Full_Draft_[date]_v[version].md`
-- **Prompt 9 (Export):** Creates `Exports/[date]/` directory
+- **Prompt 7 (Compile):** Writes compile timestamp in metadata header
+- **Prompt 10 (Dashboard):** Reports with current date
 
-**All date-writing prompts have been updated with explicit reminders to use CONFIRMED_DATE.**
+**Note:** Compiled drafts and exports use sequential versioning (vNN) instead of date-based filenames.
 
 ---
 

@@ -28,14 +28,14 @@ Process/Scripts/compile-manuscript.sh
 ### Script Parameters
 
 ```bash
-bash Process/Scripts/compile-manuscript.sh VERSION DATE FORMAT
+bash Process/Scripts/compile-manuscript.sh FORMAT
 ```
 
 | Parameter | Description | Example |
 |-----------|-------------|---------|
-| VERSION | Semantic version | `1.0.0` |
-| DATE | Confirmed date | `2025-11-24` |
 | FORMAT | Output format | `formatted` |
+
+**Note:** Version number is auto-calculated from existing files in Drafts folder.
 
 ### Format Options
 
@@ -152,7 +152,7 @@ Manuscript/Quotes/Chapter_Quotes.md
 # [Working Title]
 
 **Author:** [Author Name]
-**Version:** v1.0.0
+**Compile:** #03
 **Compiled:** 2025-11-24 14:30:00
 **Format:** Formatted
 
@@ -170,12 +170,17 @@ Manuscript/Quotes/Chapter_Quotes.md
 ### File Naming
 
 ```
-Manuscript/Drafts/Full_Draft_[DATE]_v[VERSION].md
+Manuscript/Drafts/[Project-Name]-[format]-vNN.md
 ```
 
 **Examples:**
-- `Full_Draft_2025-11-24_v1.0.0.md`
-- `Full_Draft_2025-11-24_v2.3.1.md`
+- `My-Book-Title-formatted-v01.md`
+- `My-Book-Title-publication-v03.md`
+
+**Version numbering:**
+- Starts at v01 for first compile
+- Auto-increments based on existing files matching same project and format
+- Each format type has independent version sequence
 
 ---
 
@@ -188,9 +193,10 @@ After compilation, the script displays:
 ✓ Compilation Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Output File: Manuscript/Drafts/Full_Draft_2025-11-24_v1.0.0.md
+Output File: Manuscript/Drafts/My-Book-Title-formatted-v03.md
 
 Statistics:
+- Compile: #03
 - Total word count: 45,230 words
 - Total line count: 3,456 lines
 - Chapters compiled: 12
@@ -333,27 +339,35 @@ See [Chapter 5](#chapter-5-title) for details.
 If script fails, manual compilation:
 
 ```bash
+# Determine output filename (find next version number)
+PROJECT_NAME="My-Book-Title"  # Sanitized book title
+FORMAT="formatted"
+NEXT=$(ls Manuscript/Drafts/${PROJECT_NAME}-${FORMAT}-v*.md 2>/dev/null | \
+  sed 's/.*-v\([0-9]*\)\.md/\1/' | sort -n | tail -1)
+VERSION=$(printf "%02d" $((${NEXT:-0} + 1)))
+OUTPUT="Manuscript/Drafts/${PROJECT_NAME}-${FORMAT}-v${VERSION}.md"
+
 # Create output file
-touch Manuscript/Drafts/Full_Draft_[date]_v[version].md
+touch "$OUTPUT"
 
 # Add metadata header
-cat >> Manuscript/Drafts/Full_Draft_[date]_v[version].md << 'EOF'
+cat >> "$OUTPUT" << EOF
 # [Title]
 **Author:** [Name]
-**Version:** v[version]
-**Compiled:** [date]
+**Compile:** #${VERSION}
+**Compiled:** $(date '+%Y-%m-%d %H:%M:%S')
 EOF
 
 # Concatenate front matter
-cat Manuscript/FrontMatter/*.md >> output.md
+cat Manuscript/FrontMatter/*.md >> "$OUTPUT"
 
 # Concatenate chapters (sorted)
 for f in $(ls -v Manuscript/Chapters/Chapter_*.md 2>/dev/null || ls -v Manuscript/Chapters/*/Chapter_*.md); do
-  cat "$f" >> output.md
+  cat "$f" >> "$OUTPUT"
 done
 
 # Concatenate back matter
-cat Manuscript/BackMatter/*.md >> output.md
+cat Manuscript/BackMatter/*.md >> "$OUTPUT"
 ```
 
 ---

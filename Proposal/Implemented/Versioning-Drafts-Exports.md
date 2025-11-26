@@ -1,8 +1,18 @@
 # Proposal: Versioning for Drafts and Exports
 
 **Issue:** #58
-**Status:** Proposed
+**Status:** Implemented
 **Created:** 2025-11-25
+**Implemented:** 2025-11-25
+
+---
+
+## Implementation Summary
+
+- Updated `Process/Scripts/compile-manuscript.sh` with auto-versioning and project name sanitization
+- Updated Prompt 7 (Compile) to remove version question, use single FORMAT parameter
+- Updated Prompt 9 (Export) with independent export versioning
+- Updated all documentation (CLAUDE.md, README files, Reference docs)
 
 ---
 

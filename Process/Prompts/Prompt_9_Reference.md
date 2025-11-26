@@ -25,14 +25,22 @@ This reference provides complete export command examples, format-specific option
 PANDOC_PATH="[from .claude/settings.local.json]"
 
 # Set variables
-DRAFT_FILE="Drafts/Full_Draft_[date]_v[version].md"
-OUTPUT_DIR="Exports/[CONFIRMED_DATE]"
 BOOK_TITLE="[from .config/metadata.json: book.title]"
 AUTHOR_NAME="[from .config/metadata.json: book.author]"
 
+# Sanitize project name and find next version
+PROJECT_NAME=$(echo "${BOOK_TITLE}" | sed 's/ /-/g' | sed 's/[^a-zA-Z0-9-]//g')
+EXISTING=$(ls Manuscript/Exports/${PROJECT_NAME}-v*.* 2>/dev/null | \
+  sed 's/.*-v\([0-9]*\)\..*/\1/' | sort -n | uniq | tail -1)
+EXPORT_VERSION=$(printf "%02d" $((${EXISTING:-0} + 1)))
+
+# Source and output
+DRAFT_FILE="Manuscript/Drafts/${PROJECT_NAME}-publication-v[NN].md"  # Use latest
+OUTPUT_DIR="Manuscript/Exports"
+
 # Create EPUB with all options
 "${PANDOC_PATH}" "${DRAFT_FILE}" \
-  -o "${OUTPUT_DIR}/${BOOK_TITLE}.epub" \
+  -o "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.epub" \
   --metadata title="${BOOK_TITLE}" \
   --metadata author="${AUTHOR_NAME}" \
   --metadata lang="en-US" \
@@ -70,7 +78,7 @@ else
 fi
 
 "${PANDOC_PATH}" "${DRAFT_FILE}" \
-  -o "${OUTPUT_DIR}/${BOOK_TITLE}.docx" \
+  -o "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.docx" \
   --reference-doc="${REF_DOC}" \
   --toc \
   --toc-depth=2 \
@@ -81,6 +89,8 @@ fi
 - `--reference-doc`: Word template that controls styling (fonts, margins, headings)
 - `--toc`: Generate table of contents
 - `--resource-path`: Images resolved from Manuscript/images/
+
+**Note:** Uses same `PROJECT_NAME` and `EXPORT_VERSION` variables as EPUB export above.
 
 ---
 
@@ -142,7 +152,7 @@ cp Process/Templates/reference.docx Manuscript/Style/reference.docx
   -t typst
 
 # Step 2: Create main file that imports template
-cat > "${OUTPUT_DIR}/${BOOK_TITLE}.typ" << 'EOF'
+cat > "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.typ" << 'EOF'
 #import "../../Process/Templates/book-template.typ": *
 
 #show: book.with(
@@ -158,11 +168,16 @@ cat > "${OUTPUT_DIR}/${BOOK_TITLE}.typ" << 'EOF'
 EOF
 
 # Step 3: Compile to PDF
-"${TYPST_PATH}" compile "${OUTPUT_DIR}/${BOOK_TITLE}.typ" \
-  "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
+"${TYPST_PATH}" compile "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.typ" \
+  "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.pdf"
+
+# Cleanup intermediate files
+rm -f "${OUTPUT_DIR}/content.typ" "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.typ"
 ```
 
 **NOTE:** Do NOT use `--pdf-engine=typst` - it has font fallback issues.
+
+**Note:** Uses same `PROJECT_NAME` and `EXPORT_VERSION` variables as EPUB/DOCX exports.
 
 ---
 
@@ -333,7 +348,7 @@ ls -lh "${OUTPUT_DIR}"
 
 ```bash
 # EPUB is a zip file - verify valid
-unzip -t "${OUTPUT_DIR}/${BOOK_TITLE}.epub"
+unzip -t "${OUTPUT_DIR}/${PROJECT_NAME}-v${EXPORT_VERSION}.epub"
 ```
 
 ### Check File Sizes
@@ -346,25 +361,41 @@ unzip -t "${OUTPUT_DIR}/${BOOK_TITLE}.epub"
 
 ---
 
-## Export README Template
+## Export File Naming
 
-```markdown
-# Export Information
+Export files are saved directly to `Manuscript/Exports/` with versioned filenames:
+
+```
+Manuscript/Exports/
+├── My-Book-Title-v01.epub
+├── My-Book-Title-v01.docx
+├── My-Book-Title-v01.pdf
+├── My-Book-Title-v02.epub
+├── My-Book-Title-v02.docx
+└── ...
+```
+
+**Version numbering:**
+- Starts at v01 for first export
+- Auto-increments based on highest existing version
+- All formats in a single export share the same version number
+
+---
+
+## Export Information (Example)
+
+For reference, a typical export includes:
 
 **Book Title:** ${BOOK_TITLE}
 **Author:** ${AUTHOR_NAME}
-**Export Date:** [CONFIRMED_DATE]
-**Source Version:** v[version]
+**Export Version:** #${EXPORT_VERSION}
 
-## Files Included
+**Files Generated:**
+- ${PROJECT_NAME}-v${EXPORT_VERSION}.epub - E-book format
+- ${PROJECT_NAME}-v${EXPORT_VERSION}.docx - Microsoft Word format
+- ${PROJECT_NAME}-v${EXPORT_VERSION}.pdf - PDF format
 
-- ${BOOK_TITLE}.epub - E-book format
-- ${BOOK_TITLE}.docx - Microsoft Word format
-- ${BOOK_TITLE}.pdf - PDF format
-- images/ - All embedded images
-- README.md - This file
-
-## Format Details
+**Format Details:**
 
 **EPUB:**
 - Contains table of contents
@@ -383,9 +414,7 @@ unzip -t "${OUTPUT_DIR}/${BOOK_TITLE}.epub"
 
 ## Source
 
-Generated from: Drafts/Full_Draft_[date]_v[version].md
-
-🤖 Generated with Claude Code
+Generated from: `Manuscript/Drafts/${PROJECT_NAME}-publication-v[NN].md`
 ```
 
 ---
