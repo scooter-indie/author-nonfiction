@@ -46,6 +46,14 @@ Wait for explicit instruction like:
 - "do the work"
 - "implement the fix"
 
+When starting work, add a comment to track status:
+```bash
+gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
+  --body "🔧 **Status: In Progress**"
+```
+
+**Note:** Project board status must be updated manually (gh CLI doesn't support simple status field updates).
+
 **Step 3: Commit and set to In Review (AFTER WORK COMPLETE)**
 
 ```bash
@@ -62,12 +70,9 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
   --body "Fixed in commit [commit-hash]
 
-[brief summary of changes]"
-```
+[brief summary of changes]
 
-```bash
-gh issue edit [issue-number] --repo scooter-indie/author-nonfiction \
-  --remove-project-status "In progress" --add-project-status "In review"
+📋 **Status: In Review**"
 ```
 
 Then report: "Issue #[number] ready for review. Say 'Done' to close it."
@@ -117,6 +122,14 @@ Wait for explicit instruction like:
 - "do the work"
 - "build it"
 
+When starting work, add a comment to track status:
+```bash
+gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
+  --body "🔧 **Status: In Progress**"
+```
+
+**Note:** Project board status must be updated manually (gh CLI doesn't support simple status field updates).
+
 **Step 3: Commit and set to In Review (AFTER WORK COMPLETE)**
 
 ```bash
@@ -133,12 +146,9 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
   --body "Implemented in commit [commit-hash]
 
-[brief summary of changes]"
-```
+[brief summary of changes]
 
-```bash
-gh issue edit [issue-number] --repo scooter-indie/author-nonfiction \
-  --remove-project-status "In progress" --add-project-status "In review"
+📋 **Status: In Review**"
 ```
 
 Then report: "Issue #[number] ready for review. Say 'Done' to close it."
@@ -207,6 +217,14 @@ Wait for explicit instruction like:
 - "build it"
 - "do the work"
 
+When starting work, add a comment to track status:
+```bash
+gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
+  --body "🔧 **Status: In Progress**"
+```
+
+**Note:** Project board status must be updated manually (gh CLI doesn't support simple status field updates).
+
 **Step 3: Move proposal and set to In Review (AFTER IMPLEMENTATION COMPLETE)**
 
 1. Move proposal to Implemented:
@@ -225,17 +243,14 @@ git commit -m "[description] (#[issue-number])
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-3. Comment and set to In Review:
+3. Comment to track status:
 ```bash
 gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
   --body "Implemented in commit [commit-hash]
 
-Proposal moved to Proposal/Implemented/[Feature-Name].md"
-```
+Proposal moved to Proposal/Implemented/[Feature-Name].md
 
-```bash
-gh issue edit [issue-number] --repo scooter-indie/author-nonfiction \
-  --remove-project-status "In progress" --add-project-status "In review"
+📋 **Status: In Review**"
 ```
 
 Then report: "Issue #[number] ready for review. Say 'Done' to close it."
@@ -339,6 +354,35 @@ This epic has been broken into the following sub-issues:
 
 ---
 
+### 5. Reopen Workflow (Reopening Closed Issues)
+
+**Trigger phrases:**
+- "reopen issue #[number]"
+- "reopen #[number]"
+- "open issue #[number] again"
+- Any request to reopen a closed issue
+
+**Action: Reopen and comment (AUTOMATIC)**
+
+When user requests to reopen an issue:
+
+```bash
+gh issue reopen [issue-number] --repo scooter-indie/author-nonfiction
+```
+
+```bash
+gh issue comment [issue-number] --repo scooter-indie/author-nonfiction \
+  --body "🔄 Reopened
+
+🔧 **Status: In Progress**"
+```
+
+**Note:** Project board status must be updated manually (gh CLI doesn't support simple status field updates).
+
+Then report: "Reopened issue #[number]. Project board status needs manual update."
+
+---
+
 ## Session Behavior
 
 After running `/gh-workflow`, Claude will:
@@ -347,13 +391,13 @@ After running `/gh-workflow`, Claude will:
 - **Create issues immediately** when user reports finding or requests enhancement
 - **Create proposals** in Proposal/ directory when requested
 - **Wait for explicit instruction** before working on any issue or implementing proposals
+- **Add status comments** to issues (In Progress / In Review) - project board status is manual
 - Reference issue numbers in commits
-- **Set issues to "In review"** with commit hash when work is complete
 - **Wait for user to say "Done"** before closing issues
 - **Move implemented proposals** to Proposal/Implemented/
 - **Link sub-issues** to parent using `gh sub-issue add` extension
 - **Ask about epic label** when creating sub-issues for a parent issue
-- Link all work to the project board
+- **Reopen issues** and add status comment when requested
 
 **Confirmation message after activation:**
 ```
@@ -363,12 +407,14 @@ Project: scooter-indie/author-nonfiction
 Board:   https://github.com/users/scooter-indie/projects/9/views/1
 
 Workflows enabled:
-• Finding → Create issue → [WAIT] → Work when told → Commit → In Review → [WAIT for "Done"] → Close
-• Enhancement → Create issue → [WAIT] → Work when told → Commit → In Review → [WAIT for "Done"] → Close
-• Proposal → Create doc + issue → [WAIT] → Implement → Move to Implemented/ → In Review → [WAIT for "Done"] → Close
+• Finding → Create issue → [WAIT] → Work → Commit → [WAIT for "Done"] → Close
+• Enhancement → Create issue → [WAIT] → Work → Commit → [WAIT for "Done"] → Close
+• Proposal → Create doc + issue → [WAIT] → Implement → Move to Implemented/ → [WAIT for "Done"] → Close
 • Sub-Issue → Create sub-issues → Link to parent (gh sub-issue) → Ask about epic label → Update parent if yes
+• Reopen → Reopen issue → Add status comment
 
 Issues are created automatically. Work begins only when you say. Issues close only when you say "Done".
+Note: Project board status updates are manual (gh CLI limitation).
 ```
 
 ---
