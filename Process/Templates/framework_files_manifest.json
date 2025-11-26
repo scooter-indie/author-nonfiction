@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
   "description": "Manifest of all framework files that should exist in a clean installation",
-  "version": "0.13.13",
-  "generatedDate": "2025-11-25",
+  "version": "0.13.14",
+  "generatedDate": "2025-11-26",
   "files": {
     "root": [
       "INSTALLATION.md",
@@ -86,11 +86,8 @@
       "Prompt_12_Git_Operations.md",
       "Prompt_12_Reference.md",
       "Prompt_13_AI_Detection_Analysis.md",
-      "Prompt_13_Reference.md",
       "Prompt_14_Citation_Finder.md",
-      "Prompt_14_Reference.md",
       "Prompt_15_Visual_Content_Suggester.md",
-      "Prompt_15_Reference.md",
       "Prompt_16_Image_Manager.md",
       "Prompt_16_Reference.md",
       "Prompt_Essentials.md",
@@ -112,7 +109,6 @@
       "11_Interactive_Patterns.md",
       "12_Workflow_Patterns.md",
       "13_PROJECT_CONTEXT_Protocol.md",
-      "14_Enforcement_Rules_Module.md",
       "15_Visual_Asset_Management_Protocol.md",
       "16_Citation_Management_Protocol.md",
       "17_README_Management_Module.md",

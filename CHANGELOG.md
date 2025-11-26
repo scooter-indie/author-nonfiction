@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.14] - 2025-11-26
+
+### Added
+- **Step 0: Verify Repository State** in PREPARE_RELEASE.md (#64)
+  - Checks for uncommitted changes before starting release
+  - Provides options: commit, stash, or abort if dirty
+  - Optionally verifies remote sync status
+
+### Fixed
+- **Framework manifest sync** - Missing Image_Registry templates added (#63)
+  - `Image_Registry_Master_template.md` now in manifest
+  - `Image_Registry_Chapter_template.md` now in manifest
+- **Framework manifest cleanup** - Removed 4 non-existent file entries
+  - `14_Enforcement_Rules_Module.md` (never created)
+  - `Prompt_13_Reference.md` (never created)
+  - `Prompt_14_Reference.md` (never created)
+  - `Prompt_15_Reference.md` (never created)
+
+### Changed
+- **PREPARE_RELEASE.md Step 4.6** - Now automated manifest sync (#63)
+  - Scans filesystem for actual framework files
+  - Compares against manifest entries
+  - Adds files on disk but not in manifest
+  - Removes manifest entries for deleted files
+  - Prevents missing files in future releases
+
+---
+
 ## [0.13.13] - 2025-11-25
 
 ### Added

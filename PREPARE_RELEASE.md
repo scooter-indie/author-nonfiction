@@ -1,7 +1,7 @@
 # Prepare Release
 
-**Current Framework Version:** 0.13.13
-**Last Updated:** 2025-11-25
+**Current Framework Version:** 0.13.14
+**Last Updated:** 2025-11-26
 
 ---
 
@@ -617,7 +617,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.13.13
-**Last Updated:** 2025-11-25
+**Framework Version:** 0.13.14
+**Last Updated:** 2025-11-26
 
 *This file is for framework maintainers only - not included in release packages*
