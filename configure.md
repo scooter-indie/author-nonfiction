@@ -525,22 +525,27 @@ git remote get-url origin 2>/dev/null | grep -q "author-nonfiction-dist" && echo
 
 **If `DIST_CLONE=true`:**
 
-Rename `origin` to `upstream` so user can add their own remote later:
+Rename `origin` to `upstream` and disable push (users can't push to dist repo):
 
 **If in Claude Code CLI:** Execute directly:
 ```bash
-git remote rename origin upstream
+git remote rename origin upstream && git remote set-url --push upstream no-push-access
 ```
 
 **If in Claude Desktop:** Provide this command:
 ```
-git remote rename origin upstream
+git remote rename origin upstream && git remote set-url --push upstream no-push-access
 ```
 
 Report:
 ```
 ✓ Distribution repo detected
-✓ Remote renamed: origin → upstream
+✓ Remote renamed: origin → upstream (fetch-only)
+
+Result:
+$ git remote -v
+upstream  https://github.com/scooter-indie/author-nonfiction-dist.git (fetch)
+upstream  no-push-access (push)
 
 Framework updates: git pull upstream main
 Your book repo: git remote add origin [your-repo-url]
