@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.14.1] - 2025-11-26
+
+### Fixed
+- **deploy-dist.yml workflow** - Fixed gitignore for dist repo deployment
+  - Dist repo now uses minimal gitignore (doesn't ignore framework files)
+  - Removes maintainer-only commands (gh-workflow.md)
+  - Creates proper README with version for dist repo
+
+- **configure.md remote handling** (#75)
+  - Detects when cloned from distribution repo
+  - Automatically renames `origin` → `upstream`
+  - Users get: `git pull upstream main` for framework updates
+  - Users can add their own `origin` for book backup
+
+---
+
 ## [0.14.0] - 2025-11-26
 
 ### Added
