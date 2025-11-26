@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.14.0] - 2025-11-26
+
+### Added
+- **Distribution repository** - `author-nonfiction-dist` for simplified installation (#13)
+  - Users can now `git clone` instead of downloading/extracting zip files
+  - Easy updates via `git pull upstream main`
+  - No more zip extraction errors
+  - Version control built-in from the start
+
+- **Automated deployment workflow** - `deploy-dist.yml` (#70)
+  - Triggers on release publish
+  - Pushes release files to distribution repo
+  - Creates matching version tags
+  - Runs alongside existing zip workflow during transition
+
+- **Git clone as recommended installation** (#71)
+  - Release notes now show clone as Option A (Recommended)
+  - Zip download options remain available (Options B & C)
+  - Benefits highlighted: easy updates, no extraction errors
+
+- **PDF added to default export formats** (#65)
+  - Prompt 9 now exports PDF by default alongside DOCX
+
+### Fixed
+- **DOCX export formatting** (#68)
+  - Fixed issues with document formatting in Word exports
+
+- **DOCX --toc field warning** (#67)
+  - Removed --toc flag from DOCX export to avoid field code warnings
+
+### Technical
+- Added `gh sub-issue` extension documentation to gh-workflow command
+- Various proposal documents for future features (#57, #13)
+
+---
+
 ## [0.13.14] - 2025-11-26
 
 ### Added
