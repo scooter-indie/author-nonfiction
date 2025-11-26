@@ -105,12 +105,31 @@ pandoc "${DRAFT_FILE}" \
 ```
 **NOTE:** Word may ask "update fields?" when opening - click No (TOC is already generated).
 
-**PDF (via Typst):**
+**PDF (via Typst with Template):**
 ```bash
-pandoc "${DRAFT_FILE}" -o "${OUTPUT_DIR}/${BOOK_TITLE}.typ" --toc
+# Step 1: Generate content from markdown
+pandoc "${DRAFT_FILE}" -o "${OUTPUT_DIR}/content.typ" -t typst
+
+# Step 2: Create main file that imports template and content
+cat > "${OUTPUT_DIR}/${BOOK_TITLE}.typ" << 'EOF'
+#import "../../Process/Templates/book-template.typ": *
+
+#show: book.with(
+  title: "${BOOK_TITLE}",
+  author: "${AUTHOR_NAME}",
+)
+
+#title-page("${BOOK_TITLE}", "${AUTHOR_NAME}")
+#outline(title: "Contents", depth: 2)
+#pagebreak()
+
+#include "content.typ"
+EOF
+
+# Step 3: Compile to PDF
 typst compile "${OUTPUT_DIR}/${BOOK_TITLE}.typ" "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
 ```
-**NOTE:** Do NOT use `--pdf-engine=typst` - it has font fallback issues. Use two-step process above.
+**NOTE:** Template provides professional book layout with title page, headers/footers, and styled headings.
 
 ---
 

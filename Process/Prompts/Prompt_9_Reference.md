@@ -77,60 +77,192 @@ AUTHOR_NAME="[from .config/metadata.json: book.author]"
 
 ---
 
-## Complete PDF Command (via Typst)
+## Complete PDF Command (via Typst with Template)
 
-**Two-step process (Pandoc → Typst → PDF):**
+**Three-step process using professional book template:**
 
 ```bash
-# Convert markdown to Typst format
+# Step 1: Convert markdown to Typst format
 "${PANDOC_PATH}" "${DRAFT_FILE}" \
-  -o "${OUTPUT_DIR}/${BOOK_TITLE}.typ" \
-  --standalone
+  -o "${OUTPUT_DIR}/content.typ" \
+  -t typst
 
-# Compile to PDF with Typst
+# Step 2: Create main file that imports template
+cat > "${OUTPUT_DIR}/${BOOK_TITLE}.typ" << 'EOF'
+#import "../../Process/Templates/book-template.typ": *
+
+#show: book.with(
+  title: "${BOOK_TITLE}",
+  author: "${AUTHOR_NAME}",
+)
+
+#title-page("${BOOK_TITLE}", "${AUTHOR_NAME}")
+#outline(title: "Contents", depth: 2)
+#pagebreak()
+
+#include "content.typ"
+EOF
+
+# Step 3: Compile to PDF
 "${TYPST_PATH}" compile "${OUTPUT_DIR}/${BOOK_TITLE}.typ" \
   "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
 ```
 
 **NOTE:** Do NOT use `--pdf-engine=typst` - it has font fallback issues.
 
-**Advanced: Direct Typst with Custom Template**
+---
 
-```bash
-cat > "${OUTPUT_DIR}/${BOOK_TITLE}.typ" <<'TYPST_EOF'
-#set document(
-  title: "${BOOK_TITLE}",
-  author: "${AUTHOR_NAME}",
+## Typst Template Features
+
+**Template Location:** `Process/Templates/book-template.typ`
+
+### Default Settings
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Paper size | US Letter | Standard 8.5" × 11" |
+| Body font | Linux Libertine | Professional serif font |
+| Font size | 11pt | Standard book size |
+| Inside margin | 1.25" | Larger for binding |
+| Outside margin | 1" | Standard margin |
+| Top/Bottom margin | 1" | Standard margins |
+
+### Template Functions
+
+**`book()`** - Main document wrapper
+```typst
+#show: book.with(
+  title: "My Book Title",
+  author: "Author Name",
+  date: none,                    // Optional publication date
+  paper-size: "us-letter",       // or "a4", "us-trade"
+  font-body: "Linux Libertine",  // Body text font
+  font-size: 11pt,               // Body text size
+  margin-inside: 1.25in,         // Binding margin
+  margin-outside: 1in,
 )
+```
 
-#set page(
-  paper: "us-letter",
-  margin: (x: 1in, y: 1in),
-  numbering: "1",
+**`title-page()`** - Professional title page
+```typst
+#title-page(
+  "Book Title",
+  "Author Name",
+  date: "2025",           // Optional
+  subtitle: "A Subtitle", // Optional
 )
+```
 
-#set text(font: "Linux Libertine", size: 11pt)
-#set par(justify: true)
+**`epigraph()`** - Chapter quotes/epigraphs
+```typst
+#epigraph(
+  "The beginning of wisdom is the definition of terms.",
+  attribution: "Socrates",
+)
+```
 
-// Title page
-#align(center)[
-  #text(size: 24pt, weight: "bold")[${BOOK_TITLE}]
-  #v(1em)
-  #text(size: 16pt)[${AUTHOR_NAME}]
+**`copyright-page()`** - Standard copyright page
+```typst
+#copyright-page(
+  title: "Book Title",
+  author: "Author Name",
+  year: "2025",
+  publisher: "Publisher Name",
+  isbn: "978-0-000-00000-0",
+  edition: "First Edition",
+)
+```
+
+**`dedication-page()`** - Dedication page
+```typst
+#dedication-page[
+  _For my family_
 ]
+```
 
-#pagebreak()
-#outline(title: "Table of Contents", depth: 2)
-#pagebreak()
+**`part()`** - Part divider for multi-part books
+```typst
+#part("The Beginning", number: "I")
+```
 
-#include "${DRAFT_FILE}"
-TYPST_EOF
+### Customization Examples
 
-"${TYPST_PATH}" compile \
-  --root "." \
+**Trade Paperback Size (6" × 9"):**
+```typst
+#show: book.with(
+  title: "My Book",
+  author: "Author",
+  paper-size: "us-trade",
+  margin-inside: 0.875in,
+  margin-outside: 0.75in,
+)
+```
+
+**A4 Paper:**
+```typst
+#show: book.with(
+  title: "My Book",
+  author: "Author",
+  paper-size: "a4",
+)
+```
+
+**Custom Font:**
+```typst
+#show: book.with(
+  title: "My Book",
+  author: "Author",
+  font-body: "Garamond",
+  font-size: 12pt,
+)
+```
+
+### Using with Custom Fonts
+
+If using custom fonts, specify font path during compilation:
+```bash
+typst compile \
   --font-path "Manuscript/Style/fonts" \
   "${OUTPUT_DIR}/${BOOK_TITLE}.typ" \
   "${OUTPUT_DIR}/${BOOK_TITLE}.pdf"
+```
+
+### Full Example with All Options
+
+```typst
+#import "../../Process/Templates/book-template.typ": *
+
+#show: book.with(
+  title: "The Complete Guide",
+  author: "Jane Author",
+  paper-size: "us-letter",
+  font-body: "Linux Libertine",
+  font-size: 11pt,
+)
+
+// Front matter
+#title-page(
+  "The Complete Guide",
+  "Jane Author",
+  subtitle: "A Comprehensive Resource",
+)
+
+#copyright-page(
+  title: "The Complete Guide",
+  author: "Jane Author",
+  year: "2025",
+  publisher: "Self-Published",
+)
+
+#dedication-page[
+  _For everyone who helped along the way_
+]
+
+#outline(title: "Contents", depth: 2)
+#pagebreak()
+
+// Main content
+#include "content.typ"
 ```
 
 ---
