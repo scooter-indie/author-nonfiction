@@ -135,18 +135,30 @@ jobs:
           echo "" >> release-notes-temp.md
           echo "**Choose your installation method:**" >> release-notes-temp.md
           echo "" >> release-notes-temp.md
-          echo "### Option A: Claude Code CLI (Recommended)" >> release-notes-temp.md
+          echo "### Option A: Git Clone (Recommended)" >> release-notes-temp.md
           echo "" >> release-notes-temp.md
-          echo "1. Download \`nonfiction-v$VERSION.zip\`" >> release-notes-temp.md
+          echo "\`\`\`bash" >> release-notes-temp.md
+          echo "git clone https://github.com/scooter-indie/author-nonfiction-dist.git my-book" >> release-notes-temp.md
+          echo "cd my-book" >> release-notes-temp.md
+          echo "claude" >> release-notes-temp.md
+          echo "# Say: execute configure.md" >> release-notes-temp.md
+          echo "# Say: execute Prompt 1" >> release-notes-temp.md
+          echo "\`\`\`" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "**Benefits:** Easy updates via \`git pull\`, no extraction errors, version control built-in." >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "### Option B: Download Zip (Claude Code CLI)" >> release-notes-temp.md
+          echo "" >> release-notes-temp.md
+          echo "1. Download \`nonfiction-v$VERSION.zip\` below" >> release-notes-temp.md
           echo "2. Extract to your book project directory" >> release-notes-temp.md
           echo "3. Open terminal in that directory" >> release-notes-temp.md
           echo "4. Run: \`claude\`" >> release-notes-temp.md
           echo "5. Say: \`execute configure.md\`" >> release-notes-temp.md
           echo "6. Say: \`execute Prompt 1\` to initialize your book" >> release-notes-temp.md
           echo "" >> release-notes-temp.md
-          echo "### Option B: Claude Desktop" >> release-notes-temp.md
+          echo "### Option C: Download Zip (Claude Desktop)" >> release-notes-temp.md
           echo "" >> release-notes-temp.md
-          echo "1. Download \`nonfiction-v$VERSION.zip\`" >> release-notes-temp.md
+          echo "1. Download \`nonfiction-v$VERSION.zip\` below" >> release-notes-temp.md
           echo "2. Extract to your book project directory" >> release-notes-temp.md
           echo "3. **IMPORTANT:** Configure Claude Desktop Custom Instructions:" >> release-notes-temp.md
           echo "   - Open \`system-instructions.md\` from the extracted files" >> release-notes-temp.md
@@ -157,7 +169,7 @@ jobs:
           echo "5. Follow prompts (copy/paste git commands when needed)" >> release-notes-temp.md
           echo "6. Say: \`execute Prompt 1\` to initialize your book" >> release-notes-temp.md
           echo "" >> release-notes-temp.md
-          echo "**📖 See \`INSTALLATION.md\` (in the zip) for detailed instructions.**" >> release-notes-temp.md
+          echo "**📖 See \`INSTALLATION.md\` for detailed instructions.**" >> release-notes-temp.md
 
           # Add checksum
           echo "" >> release-notes-temp.md
