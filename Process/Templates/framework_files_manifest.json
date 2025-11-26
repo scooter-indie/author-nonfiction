@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
   "description": "Manifest of all framework files that should exist in a clean installation",
-  "version": "0.13.11",
+  "version": "0.13.13",
   "generatedDate": "2025-11-25",
   "files": {
     "root": [
@@ -134,6 +134,8 @@
       "Style_Overrides_Template.md",
       "USAGE_GUIDE_template.md",
       "epub-style.css",
+      "reference.docx",
+      "book-template.typ",
       "gitignore_template",
       "manifest_template.json",
       "framework_files_manifest.json"

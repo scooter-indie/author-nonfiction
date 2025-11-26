@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.13.12
+**Framework Version:** 0.13.13
 **Session Context Document for Claude Code**
 
 ---
@@ -642,7 +642,7 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
-**Framework Version:** 0.13.12
+**Framework Version:** 0.13.13
 **Last Updated:** 2025-11-25
 **Performance:** 85-90% faster session startup with on-demand loading
 

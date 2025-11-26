@@ -2,7 +2,7 @@
 
 ################################################################################
 # Nonfiction Framework Initialization Script
-# Version: 0.13.12
+# Version: 0.13.13
 #
 # Purpose: Fast project structure creation for Prompt 1
 # Usage: bash scripts/init.sh .config/init.json
@@ -233,7 +233,7 @@ print_summary() {
 
 main() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}Nonfiction Framework Initialization Script v0.13.12${NC}"
+    echo -e "${BLUE}Nonfiction Framework Initialization Script v0.13.13${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 

@@ -7,6 +7,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.13.13] - 2025-11-25
+
+### Added
+- **reference.docx template** - Default Word styling template for DOCX exports (#44)
+  - Generated from pandoc's default reference.docx
+  - Copied to `Manuscript/Style/reference.docx` during initialization
+  - Prompt 9 falls back to `Process/Templates/reference.docx` if project copy missing
+
+- **Typst book template** - Professional PDF styling with `book-template.typ` (#45)
+  - Page setup (US Letter, binding margins)
+  - Typography (Linux Libertine, justified paragraphs)
+  - Chapter/section heading styles with proper formatting
+  - Header/footer with page numbers
+  - Title page, copyright page, dedication page functions
+  - Epigraph function for chapter quotes
+  - Block quote and code block styling
+
+- **Sequential versioning for drafts** - Auto-increment compile versions (#58)
+  - New naming: `[Project-Name]-[format]-vNN.md` (e.g., `My-Book-publication-v03.md`)
+  - Project name sanitized to URL-safe slug
+  - Format types: basic, formatted, publication
+  - Version auto-detected from existing files
+
+- **Sequential versioning for exports** - Independent from draft versions (#58)
+  - Export versions increment independently from compile versions
+  - Flat directory structure: `Manuscript/Exports/My-Book-v01.epub`
+  - All export formats share same version number
+
+- **Export workflow integration** - Script output capture for automation (#60)
+  - compile-manuscript.sh outputs parseable `OUTPUT_FILE: <path>` line
+  - Prompt 9 captures filename via grep for use in export commands
+  - Enables seamless draft→export workflow
+
+- **Export tools installation section** - USAGE_GUIDE_template.md now includes pandoc/typst guidance
+
+### Fixed
+- **Table of Contents** - Now properly generated from chapter headings in compiled manuscript
+- **gitignore template** - Added scripts/, .claude/commands/, CHANGELOG.md to excluded files
+- **Release checklist** - Added AI-Assisted_Nonfiction_Authoring_Process.md to version verification
+
+### Technical
+- **Release Type:** MINOR (new features, workflow improvements)
+- **Breaking Change:** No - existing projects work without modification
+- **Files Updated:** compile-manuscript.sh (major rewrite), Prompt_7_Compile.md, Prompt_7_Reference.md, Prompt_9_Export.md, Prompt_9_Reference.md, init.sh, book-template.typ (new), reference.docx (new), USAGE_GUIDE_template.md, gitignore_template, PREPARE_RELEASE.md
+
+---
+
 ## [0.13.12] - 2025-11-25
 
 ### Changed
