@@ -56,6 +56,9 @@ jobs:
           # Remove local settings
           rm -f .claude/settings.local.json
 
+          # Remove maintainer-only commands
+          rm -f .claude/commands/gh-workflow.md
+
       - name: Create manifest template
         run: |
           cat > build/temp/Process/Templates/manifest_template.json << 'EOF'
@@ -71,8 +74,63 @@ jobs:
           }
           EOF
 
-      - name: Copy gitignore template
-        run: cp Process/Templates/gitignore_template build/temp/.gitignore
+      - name: Create dist-specific gitignore
+        run: |
+          cat > build/temp/.gitignore << 'GITIGNORE'
+          # OS files
+          .DS_Store
+          Thumbs.db
+
+          # Editor files
+          .vscode/
+          .idea/
+          *.swp
+          *.swo
+          *~
+
+          # Temporary files
+          *.tmp
+          *.bak
+
+          # User-specific (not in dist repo)
+          .claude/settings.local.json
+          GITIGNORE
+
+      - name: Create dist README
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          cat > build/temp/README.md << README
+          # AI-Assisted Nonfiction Authoring Framework
+
+          **This is the distribution repository.** Clone this repo to start using the framework.
+
+          ## Quick Start
+
+          \`\`\`bash
+          git clone https://github.com/scooter-indie/author-nonfiction-dist.git my-book
+          cd my-book
+          claude
+          # Say: execute configure.md
+          \`\`\`
+
+          ## Documentation & Support
+
+          - **Full Documentation:** [Main Repository](https://github.com/scooter-indie/author-nonfiction)
+          - **Issues & Bugs:** [Report Issues](https://github.com/scooter-indie/author-nonfiction/issues)
+          - **Releases:** [Release Notes](https://github.com/scooter-indie/author-nonfiction/releases)
+
+          ## Updates
+
+          To update the framework:
+
+          \`\`\`bash
+          git pull upstream main
+          \`\`\`
+
+          ---
+
+          **Version:** ${VERSION} | [Changelog](CHANGELOG.md)
+          README
 
       - name: Push to distribution repo
         env:
