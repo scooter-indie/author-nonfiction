@@ -1,0 +1,125 @@
+name: Deploy to Distribution Repo
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-dist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Deploying version: $VERSION"
+
+      - name: Create build directory
+        run: mkdir -p build/temp
+
+      - name: Copy framework files
+        run: |
+          # Copy directories
+          cp -r Process build/temp/
+          cp -r .claude build/temp/
+          cp -r scripts build/temp/
+
+          # Copy root documentation files
+          cp INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md build/temp/
+
+          # Copy migration configuration
+          cp .nonfiction-migrations.json build/temp/
+
+      - name: Remove development files
+        run: |
+          cd build/temp
+
+          # Remove all _chg.md files
+          find . -name "*_chg.md" -delete
+
+          # Remove development-only files
+          rm -f PREPARE_RELEASE.md
+          rm -f Process/Prompts/Prompt_99_Build_Release.md
+          rm -f Process/Prompts/README.md
+
+          # Remove Proposal directory
+          rm -rf Proposal/
+
+          # Remove local settings
+          rm -f .claude/settings.local.json
+
+      - name: Create manifest template
+        run: |
+          cat > build/temp/Process/Templates/manifest_template.json << 'EOF'
+          {
+            "framework": "AI-Assisted Nonfiction Authoring",
+            "frameworkVersion": "${{ steps.version.outputs.version }}",
+            "installedVersion": null,
+            "installedDate": null,
+            "releaseDate": "$(date +%Y-%m-%d)",
+            "releaseUrl": "https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.version }}",
+            "distributionRepo": "https://github.com/scooter-indie/author-nonfiction-dist",
+            "sourceRepo": "https://github.com/scooter-indie/author-nonfiction"
+          }
+          EOF
+
+      - name: Copy gitignore template
+        run: cp Process/Templates/gitignore_template build/temp/.gitignore
+
+      - name: Push to distribution repo
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_REPO_TOKEN }}
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+
+          # Clone the dist repo
+          git clone https://x-access-token:${DEPLOY_TOKEN}@github.com/scooter-indie/author-nonfiction-dist.git deploy-repo
+
+          cd deploy-repo
+
+          # Remove all files except .git
+          find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
+
+          # Copy release files
+          cp -r ../build/temp/* .
+          cp -r ../build/temp/.* . 2>/dev/null || true
+
+          # Configure git
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # Commit and push
+          git add -A
+          git commit -m "Release v${VERSION}
+
+          Automated deployment from scooter-indie/author-nonfiction
+
+          Release: https://github.com/scooter-indie/author-nonfiction/releases/tag/v${VERSION}" || echo "No changes to commit"
+
+          # Create version tag
+          git tag "v${VERSION}"
+
+          # Push commit and tag
+          git push origin main --tags
+
+      - name: Summary
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          echo "✅ Deployed v${VERSION} to distribution repo"
+          echo "📦 Clone: git clone https://github.com/scooter-indie/author-nonfiction-dist.git"
+          echo "🏷️ Tag: v${VERSION}"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -rf build/
+          rm -rf deploy-repo/
+          echo "Build directories cleaned up"
