@@ -209,6 +209,9 @@ gh issue close [issue-number] --repo scooter-indie/author-nonfiction \
 - "Create phase issues for #[number]"
 - Any request to create child/sub-issues for a parent issue
 
+**Prerequisites:**
+- `gh sub-issue` extension must be installed: `gh extension install yahsan2/gh-sub-issue`
+
 **Step 1: Create sub-issues**
 
 When user requests sub-issues, create them with reference to parent:
@@ -229,9 +232,18 @@ Part of #[parent-number]
 [dependencies if any]"
 ```
 
-**Step 2: Ask about epic label**
+**Step 2: Link sub-issues to parent (REQUIRED)**
 
-After creating sub-issues, ASK the user:
+After creating each sub-issue, link it to the parent using the `gh sub-issue` extension:
+```bash
+gh sub-issue add [parent-number] [sub-issue-number] --repo scooter-indie/author-nonfiction
+```
+
+This creates a proper parent-child relationship in GitHub (not just a text reference).
+
+**Step 3: Ask about epic label**
+
+After creating and linking sub-issues, ASK the user:
 
 > "Sub-issues created. Should I label the parent issue #[number] as an 'epic'?
 > This will:
@@ -284,6 +296,7 @@ After running `/gh-workflow`, Claude will:
 - Reference issue numbers in commits
 - Close issues with commit hashes when work is complete
 - **Move implemented proposals** to Proposal/Implemented/
+- **Link sub-issues** to parent using `gh sub-issue add` extension
 - **Ask about epic label** when creating sub-issues for a parent issue
 - Link all work to the project board
 
@@ -298,7 +311,7 @@ Workflows enabled:
 • Finding → Create issue (label: finding) → [WAIT] → Work when told → Commit → Close
 • Enhancement → Create issue (label: enhancement) → [WAIT] → Work when told → Commit → Close
 • Proposal → Create doc + issue → Commit → [WAIT] → Implement when told → Move to Implemented/ → Close
-• Sub-Issue → Create sub-issues → Ask about epic label → Update parent if yes
+• Sub-Issue → Create sub-issues → Link to parent (gh sub-issue) → Ask about epic label → Update parent if yes
 
 Issues are created automatically. Work begins only when you say.
 ```
