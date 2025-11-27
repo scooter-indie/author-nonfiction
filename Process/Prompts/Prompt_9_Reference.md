@@ -1,6 +1,6 @@
 # Prompt 9 Reference Documentation
 
-**Version:** 0.15.0
+**Version:** 0.14.3
 **Purpose:** Detailed export commands, format options, and troubleshooting
 
 ---
@@ -511,5 +511,5 @@ Install Typst:
 
 ---
 
-**Version:** 0.15.0
+**Version:** 0.14.3
 **For Core Workflow:** See `Prompt_9_Export.md`

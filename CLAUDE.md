@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.15.0
+**Framework Version:** 0.14.3
 **Session Context Document for Claude Code**
 
 ---
@@ -67,7 +67,7 @@ Process/
 ├── FRAMEWORK_CORE.md                                # NEW v0.13.0: Instant-load essentials
 ├── AI-Assisted_Nonfiction_Authoring_Process.md    # Complete framework documentation (on-demand)
 ├── Anti-Hallucination_Guidelines.md                # Critical rules for AI accuracy (on-demand)
-├── DISCLAIMER.md                                    # Legal disclaimer (v0.15.0+)
+├── DISCLAIMER.md                                    # Legal disclaimer (v0.14.3+)
 ├── Styles/                                          # Modular style library (v0.13.0+)
 │   ├── Style_Catalog.md                             # Master catalog of 19 styles
 │   ├── README.md                                    # Style library guide
@@ -623,7 +623,7 @@ By using this framework:
 
 ---
 
-**Framework Version:** 0.15.0
+**Framework Version:** 0.14.3
 **Disclaimer Version:** 1.0
 **Last Updated:** 2025-11-26
 

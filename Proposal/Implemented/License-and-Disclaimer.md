@@ -133,7 +133,7 @@ created during initialization serves as your acknowledgment.
 
 **Framework:** AI-Assisted Nonfiction Authoring Framework
 **License:** MIT License
-**Version:** 0.15.0+
+**Version:** 0.14.3+
 ```
 
 ### Modified Files
@@ -172,7 +172,7 @@ Before creating your book project, you must acknowledge the framework disclaimer
   {
     "disclaimer_acknowledged": true,
     "acknowledged_date": "[CONFIRMED_DATE]",
-    "acknowledged_version": "0.15.0"
+    "acknowledged_version": "0.14.3"
   }
   ```
 - Proceed to directory structure creation
@@ -209,7 +209,7 @@ Add disclaimer acknowledgment fields:
   "author": "...",
   "disclaimer_acknowledged": true,
   "acknowledged_date": "YYYY-MM-DD",
-  "acknowledged_version": "0.15.0",
+  "acknowledged_version": "0.14.3",
   ...
 }
 ```
@@ -237,7 +237,7 @@ Add disclaimer acknowledgment fields:
 ### Phase 4: Documentation Updates
 1. Update `CLAUDE.md` to mention disclaimer requirement
 2. Update `FRAMEWORK_CORE.md` to reference disclaimer
-3. Update version to 0.15.0
+3. Update version to 0.14.3
 4. Commit: "Update documentation for disclaimer (#35)"
 
 ---

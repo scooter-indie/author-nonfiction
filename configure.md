@@ -1,6 +1,6 @@
 # Framework Configuration
 
-**AI-Assisted Nonfiction Authoring Framework v0.14.2**
+**AI-Assisted Nonfiction Authoring Framework v0.14.3**
 
 ---
 
@@ -716,8 +716,8 @@ Continue to Step 8.
 I will update `.config/manifest.json`:
 ```json
 {
-  "frameworkVersion": "0.14.2",
-  "installedVersion": "0.14.2",
+  "frameworkVersion": "0.14.3",
+  "installedVersion": "0.14.3",
   "installedDate": "[current-date]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -738,8 +738,8 @@ I will:
 4. Update manifest:
 ```json
 {
-  "frameworkVersion": "0.14.2",
-  "installedVersion": "0.14.2",
+  "frameworkVersion": "0.14.3",
+  "installedVersion": "0.14.3",
   "installedDate": "[original-date-preserved]",
   "lastUpdated": "[current-date]",
   "installationMethod": "configure.md",
@@ -760,7 +760,7 @@ I will:
 
 **For New Installations:**
 ```bash
-git add . && git commit -m "Initialize nonfiction framework v0.14.2
+git add . && git commit -m "Initialize nonfiction framework v0.14.3
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -769,7 +769,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 **For Updates:**
 ```bash
-git add . && git commit -m "Update framework to v0.14.2
+git add . && git commit -m "Update framework to v0.14.3
 
 See CHANGELOG.md for details.
 
@@ -782,7 +782,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 **For New Installations:**
 ```
-git add . && git commit -m "Initialize nonfiction framework v0.14.2
+git add . && git commit -m "Initialize nonfiction framework v0.14.3
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -791,7 +791,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 **For Updates:**
 ```
-git add . && git commit -m "Update framework to v0.14.2
+git add . && git commit -m "Update framework to v0.14.3
 
 See CHANGELOG.md for details.
 
@@ -816,7 +816,7 @@ I will provide:
 ```
 ✅ Configuration Complete!
 
-Framework v0.14.2 installed successfully.
+Framework v0.14.3 installed successfully.
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Initialized
@@ -852,7 +852,7 @@ Framework v0.14.2 installed successfully.
 ```
 ✅ Framework Updated Successfully!
 
-Updated from v[old] to v0.14.2
+Updated from v[old] to v0.14.3
 
 📁 Current directory: [pwd-result]
 🔧 Git repository: Update committed
@@ -896,7 +896,7 @@ The following required files are missing:
 This suggests the framework was not fully extracted.
 
 Solutions:
-1. Re-extract nonfiction-v0.14.2.zip to this directory
+1. Re-extract nonfiction-v0.14.3.zip to this directory
 2. Ensure all files are extracted (not just some)
 3. Check file permissions
 
@@ -990,5 +990,5 @@ When the book-writing-assistant agent starts, it will ask you to confirm the cur
 
 ---
 
-*Framework Version: 0.14.2*
+*Framework Version: 0.14.3*
 *Configuration Script: configure.md*

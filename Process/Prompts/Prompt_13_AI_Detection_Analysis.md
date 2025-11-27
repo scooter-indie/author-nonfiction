@@ -1,6 +1,6 @@
 # Execute Prompt 13: AI Detection Analysis
 
-**Version:** 0.15.0
+**Version:** 0.14.3
 **⚡ Token Efficient:** ~4,500 tokens (75% reduction from v0.14.0)
 **CLI-ONLY:** Requires bulk file analysis
 
@@ -191,7 +191,7 @@ Rewrite lines 45-60:
 
 ---
 
-**Version:** 0.15.0
+**Version:** 0.14.3
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 75% reduction
 

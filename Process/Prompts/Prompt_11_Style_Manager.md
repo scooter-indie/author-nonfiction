@@ -1,6 +1,6 @@
 # Execute Prompt 11: Style Manager
 
-**Version:** 0.15.0
+**Version:** 0.14.3
 **⚡ Token Efficient:** ~5,000 tokens (70% reduction from v0.14.0)
 **HYBRID:** Single-file ops in Desktop, multi-file scans better in CLI
 
@@ -213,7 +213,7 @@ Release `StyleSystem` lock.
 
 ---
 
-**Version:** 0.15.0
+**Version:** 0.14.3
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 70% reduction
 

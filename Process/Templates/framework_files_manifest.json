@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
   "description": "Manifest of all framework files that should exist in a clean installation",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "generatedDate": "2025-11-26",
   "files": {
     "root": [
@@ -9,6 +9,8 @@
       "CLAUDE.md",
       "configure.md",
       "system-instructions.md",
+      "LICENSE",
+      "CONTRIBUTING.md",
       ".gitignore"
     ],
     "scripts": [
@@ -21,7 +23,8 @@
     "Process": [
       "FRAMEWORK_CORE.md",
       "Anti-Hallucination_Guidelines.md",
-      "Anti-Hallucination_Guidelines_chg.md"
+      "Anti-Hallucination_Guidelines_chg.md",
+      "DISCLAIMER.md"
     ],
     "Process/Scripts": [
       "compile-manuscript.sh",

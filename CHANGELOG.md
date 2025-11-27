@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.14.3] - 2025-11-26
+
+### Added
+- **MIT License** - Added LICENSE file at repository root (#35)
+- **Framework Disclaimer** - Added `Process/DISCLAIMER.md` with comprehensive legal disclaimer (#35)
+  - No warranty or guarantee of fitness
+  - No liability for published works
+  - No guarantee of AI accuracy
+  - Users responsible for their own content
+- **Contributor Agreement** - Added `CONTRIBUTING.md` with contributor guidelines (#35)
+- **Disclaimer Acknowledgment** - New Step 3 in Prompt 1 (Initialize) (#35)
+  - Users must type "I acknowledge the disclaimer" before project creation
+  - Acknowledgment recorded in `.config/init.json`
+  - Git commit serves as proof of acknowledgment
+- **Disclaimer Versioning** - Separate version tracking for disclaimer (v1.0) (#35)
+  - Re-acknowledgment required when disclaimer version changes
+  - Migration system supports `disclaimer_reacknowledge` change type
+
+### Changed
+- **Prompt 1 workflow** - Now 9 steps (was 8) with disclaimer acknowledgment (#35)
+- **CLAUDE.md** - Added Legal section with license and disclaimer info
+- **FRAMEWORK_CORE.md** - Added Section 10: License & Disclaimer
+- **README_AUTHORS_template.md** - Added Legal section with disclaimer link
+
+### Technical
+- **Release Type:** PATCH (legal/documentation additions)
+- **Breaking Change:** No
+- **New Files:** LICENSE, CONTRIBUTING.md, Process/DISCLAIMER.md
+- **Disclaimer Version:** 1.0
+
+---
+
 ## [0.14.2] - 2025-11-26
 
 ### Changed

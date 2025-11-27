@@ -1,6 +1,6 @@
 # Execute Prompt 15: Visual Content Suggester
 
-**Version:** 0.15.0
+**Version:** 0.14.3
 **⚡ Token Efficient:** ~5,000 tokens (75% reduction from v0.14.0)
 **CLI-ONLY (bulk) / HYBRID (single chapter)**
 
@@ -242,7 +242,7 @@ Release locks for all acquired resources.
 
 ---
 
-**Version:** 0.15.0
+**Version:** 0.14.3
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 75% reduction
 

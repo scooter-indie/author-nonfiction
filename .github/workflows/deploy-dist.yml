@@ -45,7 +45,7 @@ jobs:
           cp -r scripts build/temp/
 
           # Copy root documentation files
-          cp INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md build/temp/
+          cp INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md LICENSE CONTRIBUTING.md build/temp/
 
           # Copy migration configuration
           cp .nonfiction-migrations.json build/temp/
