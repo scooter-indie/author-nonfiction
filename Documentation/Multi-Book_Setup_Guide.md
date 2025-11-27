@@ -27,17 +27,31 @@ BOOKS_ROOT/                 # Your books (git-tracked)
 
 ## Quick Start (Automated)
 
-Run `configure.md` in Claude Code CLI - it handles everything:
+### 1. Clone the Framework
 
-1. **Start Claude Code CLI** in any directory
-2. **Say:** "Run configure.md" or paste the contents of `configure.md`
-3. **Follow the prompts** - configure.md will:
-   - Ask for FW_ROOT location and clone the framework
-   - Ask for BOOKS_ROOT location and create the directory
-   - Create all configuration files automatically
-   - Set up git repository
-   - Generate startup scripts (optional)
-   - Configure remote repository (optional)
+```bash
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git [FW_ROOT]
+```
+
+Example: `git clone https://github.com/scooter-indie/author-nonfiction-dist.git E:\author-nonfiction-framework`
+
+### 2. Run configure.md
+
+```bash
+cd [FW_ROOT]
+claude
+```
+
+Then say: **"Run configure.md"**
+
+### 3. Follow the Prompts
+
+configure.md will:
+- Ask for BOOKS_ROOT location and create the directory
+- Create all configuration files automatically
+- Set up git repository
+- Generate startup scripts (optional)
+- Configure remote repository (optional)
 
 **That's it!** After configure.md completes, run `/fw-init` to start working.
 
