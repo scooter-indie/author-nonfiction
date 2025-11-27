@@ -48,15 +48,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **deploy-dist.yml** - Updated for v0.15.0 distribution
   - Creates VERSION file in dist
   - Uses FW_ROOT_CLAUDE_template.md for CLAUDE.md
-  - Validates new required templates
-  - Removes scripts/ directory (no longer in dist)
+  - Validates new required templates and scripts
 - **release.yml** - Added VERSION file verification
-- **INSTALLATION.md** - Updated directory structure (removed scripts/, added VERSION)
-
-### Removed
-- **scripts/** from distribution - configure.md now handles all initialization
-  - `init.sh`, `detect-tools.sh` moved to maintainer-only
-  - `generate-content.sh`, `generate-usage-guide.sh` for internal use
+- **INSTALLATION.md** - Updated directory structure (added VERSION, multi-book paths)
 
 ### Technical
 - **Release Type:** MINOR (new features, backward compatible)

@@ -127,6 +127,11 @@ my-book/
 │   ├── Templates/
 │   ├── migrations/                 # Version migration scripts
 │   └── ...
+├── scripts/                        # Initialization and utility scripts
+│   ├── init.sh                     # Project structure creation
+│   ├── detect-tools.sh             # Tool availability detection
+│   ├── generate-content.sh         # Content generation
+│   └── generate-usage-guide.sh     # Usage guide generation
 └── .claude/
     ├── agents/
     │   └── book-writing-assistant.md

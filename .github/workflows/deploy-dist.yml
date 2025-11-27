@@ -41,9 +41,10 @@ jobs:
         run: |
           VERSION=${{ steps.version.outputs.version }}
 
-          # Copy directories (scripts/ excluded in v0.15.0+ - configure.md handles init)
+          # Copy directories
           cp -r Process build/temp/
           cp -r .claude build/temp/
+          cp -r scripts build/temp/
 
           # Create VERSION file
           echo -n "$VERSION" > build/temp/VERSION
@@ -133,10 +134,22 @@ jobs:
             echo "ERROR: Proposal/ should not be in dist!"
             exit 1
           fi
-          if [ -d "scripts" ]; then
-            echo "ERROR: scripts/ should not be in dist (v0.15.0+)!"
-            exit 1
-          fi
+
+          # Verify scripts directory exists with required files
+          REQUIRED_SCRIPTS=(
+            "scripts/init.sh"
+            "scripts/detect-tools.sh"
+            "scripts/generate-content.sh"
+            "scripts/generate-usage-guide.sh"
+          )
+
+          for script in "${REQUIRED_SCRIPTS[@]}"; do
+            if [ ! -f "$script" ]; then
+              echo "ERROR: Missing script: $script"
+              exit 1
+            fi
+            echo "OK: $script"
+          done
 
           echo "=== Dist structure validation passed ==="
 

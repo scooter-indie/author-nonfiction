@@ -167,6 +167,13 @@
       "fw-init.md",
       "switch-book.md",
       "manage-book.md"
+    ],
+    "scripts": [
+      "init.sh",
+      "detect-tools.sh",
+      "generate-content.sh",
+      "generate-usage-guide.sh",
+      "README.md"
     ]
   },
   "notes": [
