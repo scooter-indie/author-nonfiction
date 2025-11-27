@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "fw-location.json",
+  "title": "Framework Location",
+  "description": "Configuration pointing to the framework installation (FW_ROOT)",
+  "type": "object",
+  "required": ["frameworkRoot"],
+  "properties": {
+    "frameworkRoot": {
+      "type": "string",
+      "description": "Absolute path to the framework installation directory (FW_ROOT)"
+    },
+    "frameworkVersion": {
+      "type": "string",
+      "description": "Version of the framework currently in use",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "lastUpdateCheck": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of last update check (YYYY-MM-DD)"
+    }
+  },
+  "_example": {
+    "frameworkRoot": "E:\\author-nonfiction-framework",
+    "frameworkVersion": "0.15.0",
+    "lastUpdateCheck": "2025-11-27"
+  },
+  "_template": {
+    "frameworkRoot": "",
+    "frameworkVersion": "",
+    "lastUpdateCheck": ""
+  }
+}

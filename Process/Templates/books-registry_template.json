@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "books-registry.json",
+  "title": "Books Registry",
+  "description": "Registry of all book projects in BOOKS_ROOT",
+  "type": "object",
+  "required": ["version", "books"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "const": "1.0"
+    },
+    "activeBook": {
+      "type": ["string", "null"],
+      "description": "ID of the currently active book (null if none selected)"
+    },
+    "books": {
+      "type": "array",
+      "description": "Array of registered book projects",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "directory", "created", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier (kebab-case, e.g., 'my-book-title')",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "title": {
+            "type": "string",
+            "description": "Display title of the book"
+          },
+          "author": {
+            "type": "string",
+            "description": "Author name"
+          },
+          "directory": {
+            "type": "string",
+            "description": "Directory name under BOOKS_ROOT (e.g., 'My-Book-Title')"
+          },
+          "created": {
+            "type": "string",
+            "format": "date",
+            "description": "Date book was created (YYYY-MM-DD)"
+          },
+          "lastAccessed": {
+            "type": "string",
+            "format": "date",
+            "description": "Date book was last accessed (YYYY-MM-DD)"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["planning", "in-progress", "revision", "complete", "archived"],
+            "description": "Current status of the book project"
+          }
+        }
+      }
+    }
+  },
+  "_example": {
+    "version": "1.0",
+    "activeBook": "my-first-book",
+    "books": [
+      {
+        "id": "my-first-book",
+        "title": "My First Book",
+        "author": "Author Name",
+        "directory": "My-First-Book",
+        "created": "2025-11-27",
+        "lastAccessed": "2025-11-27",
+        "status": "in-progress"
+      }
+    ]
+  },
+  "_empty_template": {
+    "version": "1.0",
+    "activeBook": null,
+    "books": []
+  }
+}

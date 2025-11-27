@@ -464,13 +464,13 @@ Each prompt should start with:
 
 ## Implementation Phases
 
-### Phase 1: Core Architecture
-- [ ] Create new directory structure
-- [ ] Modify CLAUDE.md for BOOKS_ROOT
-- [ ] Create books-registry.json schema
-- [ ] Create fw-location.json schema
-- [ ] Modify /fw-init for multi-book support
-- [ ] Create Archive/ directory structure
+### Phase 1: Core Architecture ✓
+- [x] Create new directory structure (VERSION file, templates)
+- [x] Modify CLAUDE.md for BOOKS_ROOT (BOOKS_ROOT_CLAUDE_template.md)
+- [x] Create books-registry.json schema (books-registry_template.json)
+- [x] Create fw-location.json schema (fw-location_template.json)
+- [x] Modify /fw-init for multi-book support (supports both modes)
+- [x] Create Archive/ directory structure (Archive_README_template.md)
 
 ### Phase 2: Prompt Modifications
 - [ ] Update Prompt 1 (no Process/, registry update)
@@ -480,7 +480,7 @@ Each prompt should start with:
 - [ ] Update lock mechanism for new paths
 
 ### Phase 3: Update System
-- [ ] Create VERSION file in dist repo
+- [x] Create VERSION file in dist repo (created in Phase 1)
 - [ ] Implement update checking
 - [ ] Create migration framework
 - [ ] Test update workflow

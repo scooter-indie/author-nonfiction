@@ -6,11 +6,132 @@ This command loads essential framework documentation and prepares Claude for exe
 
 ---
 
-## Initialization Sequence
+## Step 0: Detect Operating Mode
 
-Perform the following actions in order and report verbose progress:
+**First, determine which mode to use:**
 
-### 1. Load FRAMEWORK_CORE.md (Instant Load)
+1. Check if `.config/fw-location.json` exists in the current directory
+2. If YES → **Multi-Book Mode** (BOOKS_ROOT)
+3. If NO → Check if `Process/FRAMEWORK_CORE.md` exists
+4. If YES → **Legacy Mode** (single-book)
+5. If NEITHER exists → Error: "Not a valid framework directory"
+
+Report one of:
+- `✓ Multi-Book Mode detected (BOOKS_ROOT)`
+- `✓ Legacy Mode detected (single-book)`
+
+**Store mode in session context:** `MODE=[multi-book|legacy]`
+
+---
+
+## Multi-Book Mode Initialization
+
+If `.config/fw-location.json` exists, follow this sequence:
+
+### M1. Load Framework Location
+
+Read `.config/fw-location.json` to get:
+- `frameworkRoot` → Store as `FW_ROOT`
+- `frameworkVersion` → Store as `FW_VERSION`
+
+Report: `✓ Framework location: [FW_ROOT]`
+
+### M2. Verify Framework Installation
+
+Check that `[FW_ROOT]/Process/FRAMEWORK_CORE.md` exists.
+- If not found → Error: "Framework not found at [FW_ROOT]. Please verify installation."
+
+### M3. Load FRAMEWORK_CORE.md
+
+Read `[FW_ROOT]/Process/FRAMEWORK_CORE.md` to load essential framework knowledge.
+
+Report: `✓ FRAMEWORK_CORE.md loaded from FW_ROOT`
+
+### M4. Check for Framework Updates
+
+1. Read `[FW_ROOT]/VERSION` to get current version
+2. Compare with `frameworkVersion` in fw-location.json
+3. Optionally check remote (if connectivity): `https://raw.githubusercontent.com/scooter-indie/author-nonfiction-dist/main/VERSION`
+
+If update available, report:
+```
+ℹ Framework update available: [current] → [latest]
+  To update: cd [FW_ROOT] && git pull
+```
+
+### M5. Load Books Registry
+
+Read `.config/books-registry.json` to get:
+- List of all registered books
+- Currently active book (if any)
+
+### M6. Book Selection
+
+**⏸️ STOP AND ASK USER:**
+
+Display available books:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Book Selection
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Available books:
+  1. [Book Title One] - [status] (last accessed: [date])
+  2. [Book Title Two] - [status] (last accessed: [date])
+  ...
+
+  N. Create new book
+
+Currently active: [activeBook or "None"]
+
+Which book would you like to work on? (number or name)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**WAIT for user response.**
+
+- If user selects existing book → Set as active, load PROJECT_CONTEXT.md
+- If user selects "Create new book" → Note that Prompt 1 should be run
+- If no books exist → Inform user to run Prompt 1
+
+**After selection:**
+1. Update `activeBook` in books-registry.json
+2. Update `lastAccessed` date for selected book
+3. Store `ACTIVE_BOOK=[book-id]` and `BOOK_PATH=[BOOKS_ROOT]/[directory]` in session
+
+Report: `✓ Active book: [TITLE]`
+
+### M7. Load Book Context
+
+If a book was selected:
+1. Read `[BOOK_PATH]/PROJECT_CONTEXT.md`
+2. Check for book-specific `.config/` files
+
+Report: `✓ PROJECT_CONTEXT.md loaded for [TITLE]`
+
+### M8. Confirm Date with User
+
+**⏸️ STOP AND ASK USER:**
+
+```
+Today's date from system: [DATE from <env>]
+
+Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
+```
+
+**WAIT for user response.**
+
+Store as `CONFIRMED_DATE=[DATE]`
+
+Report: `✓ Date confirmed: [CONFIRMED_DATE]`
+
+---
+
+## Legacy Mode Initialization
+
+If `Process/FRAMEWORK_CORE.md` exists (no fw-location.json), follow this sequence:
+
+### L1. Load FRAMEWORK_CORE.md (Instant Load)
 
 Read `Process/FRAMEWORK_CORE.md` to load essential framework knowledge:
 - Anti-Hallucination Protocol (CRITICAL rules)
@@ -25,29 +146,14 @@ Read `Process/FRAMEWORK_CORE.md` to load essential framework knowledge:
 
 Report: `✓ FRAMEWORK_CORE.md loaded`
 
-### 2. Scan Available Prompts
+### L2. Scan Available Prompts
 
 Confirm awareness of all 16 core prompts in `Process/Prompts/`:
-- Prompt_1_Initialize.md
-- Prompt_2_Add_Chapter.md
-- Prompt_3_Change_by_Chg.md
-- Prompt_4_Interactive_Change.md
-- Prompt_5_Scan_For_User_Edits.md
-- Prompt_6_Integrate_Inbox.md
-- Prompt_7_Compile.md
-- Prompt_8_Consistency.md
-- Prompt_9_Export.md
-- Prompt_10_Dashboard.md
-- Prompt_11_Style_Manager.md
-- Prompt_12_Git_Operations.md
-- Prompt_13_AI_Detection_Analysis.md
-- Prompt_14_Citation_Finder.md
-- Prompt_15_Visual_Content_Suggester.md
-- Prompt_16_Image_Manager.md
+- Prompt_1_Initialize.md through Prompt_16_Image_Manager.md
 
 Report: `✓ Scanned 16 core prompts`
 
-### 3. Check for Book Project Context
+### L3. Check for Book Project Context
 
 Check if `PROJECT_CONTEXT.md` exists in the project root:
 - **If exists:** Read it to understand the user's book project (title, author, chapters, style, metadata)
@@ -57,7 +163,7 @@ Report one of:
 - `✓ PROJECT_CONTEXT.md found - Book project: [TITLE] by [AUTHOR]`
 - `ℹ No PROJECT_CONTEXT.md found - No book project initialized yet`
 
-### 4. Check for User Project Configuration
+### L4. Check for User Project Configuration
 
 If a book project exists (PROJECT_CONTEXT.md found), check for `.config/` directory:
 - `.config/init.json` - Initialization Q&A answers
@@ -68,13 +174,13 @@ If a book project exists (PROJECT_CONTEXT.md found), check for `.config/` direct
 
 Report configuration status if found.
 
-### 5. Verify Working Directory
+### L5. Verify Working Directory
 
 Confirm the current working directory using context information.
 
 Report: `✓ Working directory: [PATH]`
 
-### 6. Confirm Date with User
+### L6. Confirm Date with User
 
 **⏸️ STOP AND ASK USER:**
 
@@ -99,11 +205,55 @@ Report: `✓ Date confirmed: [CONFIRMED_DATE]`
 
 After completing all steps above, provide a summary report:
 
+### Multi-Book Mode Summary
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Framework Initialization Complete
+Framework Initialization Complete (Multi-Book Mode)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Mode: Multi-Book (BOOKS_ROOT)
+Framework Location: [FW_ROOT]
+Framework Version: [VERSION]
+Books Root: [BOOKS_ROOT path]
+Active Book: [TITLE] ([status])
+Book Path: [BOOK_PATH]
+Confirmed Date: [CONFIRMED_DATE]
+
+Registered Books: [N] total
+  • [N] in-progress
+  • [N] complete
+  • [N] archived
+
+Prompts Available: 16 core prompts (loaded from FW_ROOT)
+
+Compatibility Classification:
+  • DESKTOP-FRIENDLY (6): Prompts 2, 3, 4, 5, 6, 10
+  • HYBRID (2): Prompts 1, 11
+  • CLI-ONLY (8): Prompts 7, 8, 9, 12, 13, 14, 15, 16
+
+Anti-Hallucination Protocol: ✓ Active
+  → ASK FIRST before generating examples, anecdotes, statistics, or quotes
+  → NEVER fabricate specific people, data, or unverified quotes
+  → Use verification status codes: ⏳ Pending | ⚠ Needs Citation | ✓ Verified
+
+Quick Commands:
+  • "list books" - Show all registered books
+  • "switch to [Book Name]" - Change active book
+  • "create new book" - Run Prompt 1 for new book
+
+Ready! Working on: [BOOK TITLE]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### Legacy Mode Summary
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Framework Initialization Complete (Legacy Mode)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Mode: Legacy (single-book)
 Framework Version: [VERSION]
 Prompts Available: 16 core prompts
 Book Project: [Found/Not Found]
@@ -112,7 +262,7 @@ Confirmed Date: [CONFIRMED_DATE]
 
 Compatibility Classification:
   • DESKTOP-FRIENDLY (6): Prompts 2, 3, 4, 5, 6, 10
-  • HYBRID (2): configure.md, Prompts 1, 11
+  • HYBRID (2): Prompts 1, 11
   • CLI-ONLY (8): Prompts 7, 8, 9, 12, 13, 14, 15, 16
 
 Anti-Hallucination Protocol: ✓ Active
@@ -133,16 +283,34 @@ Ready! How can I help with your nonfiction authoring project?
 
 ---
 
+## Session Context Variables
+
+After initialization, these variables are available for the session:
+
+| Variable | Multi-Book Mode | Legacy Mode |
+|----------|-----------------|-------------|
+| `MODE` | `multi-book` | `legacy` |
+| `FW_ROOT` | Path to framework | Same as working dir |
+| `BOOKS_ROOT` | Current working dir | N/A |
+| `ACTIVE_BOOK` | Book ID | N/A |
+| `BOOK_PATH` | Path to active book | Working dir |
+| `CONFIRMED_DATE` | YYYY-MM-DD | YYYY-MM-DD |
+
+**Path Resolution for Prompts:**
+- Framework files: `[FW_ROOT]/Process/...`
+- Book content: `[BOOK_PATH]/Manuscript/...`
+
+---
+
 ## On-Demand Loading
 
 **Additional documentation loads automatically when needed:**
 
-- **User executes a prompt?** → Load that prompt file only
-- **User asks workflow questions?** → Load QUICK_REFERENCE.md
-- **User asks about styles?** → Load Styles/README.md
-- **User needs comprehensive details?** → Load Documentation/AI-Assisted_Nonfiction_Authoring_Process.md
-- **User asks about prompts?** → Load Prompts/README.md
-- **User needs full anti-hallucination?** → Load Anti-Hallucination_Guidelines.md
+- **User executes a prompt?** → Load from `[FW_ROOT]/Process/Prompts/`
+- **User asks workflow questions?** → Load `[FW_ROOT]/Process/Prompts/QUICK_REFERENCE.md`
+- **User asks about styles?** → Load `[FW_ROOT]/Process/Styles/README.md`
+- **User asks about prompts?** → Load `[FW_ROOT]/Process/Prompts/README.md`
+- **User needs full anti-hallucination?** → Load `[FW_ROOT]/Process/Anti-Hallucination_Guidelines.md`
 
 ---
 
@@ -150,10 +318,10 @@ Ready! How can I help with your nonfiction authoring project?
 
 - Required at the start of every Claude Code session
 - Can be re-run mid-session if context is lost or session becomes very long
-- Additional docs load on-demand as needed
-- Makes essential framework knowledge immediately available for prompt execution
+- Supports both multi-book (v0.15.0+) and legacy (single-book) installations
+- In multi-book mode, use "switch to [Book Name]" to change active book mid-session
 
 ---
 
-**Framework Version:** 0.14.5
-**Last Updated:** 2025-11-26
+**Framework Version:** 0.15.0
+**Last Updated:** 2025-11-27

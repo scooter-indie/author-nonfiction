@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "settings.json",
+  "title": "User Settings",
+  "description": "Global user preferences for BOOKS_ROOT",
+  "type": "object",
+  "properties": {
+    "github": {
+      "type": "object",
+      "description": "GitHub backup configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether GitHub backup is enabled",
+          "default": false
+        },
+        "repository": {
+          "type": ["string", "null"],
+          "description": "GitHub repository URL (e.g., 'username/my-books')"
+        },
+        "autoPush": {
+          "type": "boolean",
+          "description": "Automatically push after commits",
+          "default": false
+        }
+      }
+    },
+    "backup": {
+      "type": "object",
+      "description": "Local ZIP backup configuration",
+      "properties": {
+        "zipLocation": {
+          "type": ["string", "null"],
+          "description": "Directory path for ZIP backups"
+        },
+        "autoBackup": {
+          "type": "boolean",
+          "description": "Enable automatic backups",
+          "default": false
+        },
+        "backupFrequency": {
+          "type": "string",
+          "enum": ["daily", "weekly", "manual"],
+          "description": "How often to create backups",
+          "default": "manual"
+        }
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "description": "User preferences",
+      "properties": {
+        "defaultStyle": {
+          "type": ["string", "null"],
+          "description": "Default writing style for new books"
+        },
+        "confirmDate": {
+          "type": "boolean",
+          "description": "Prompt to confirm date at session start",
+          "default": true
+        },
+        "autoUpdateCheck": {
+          "type": "boolean",
+          "description": "Check for framework updates at session start",
+          "default": true
+        }
+      }
+    }
+  },
+  "_example": {
+    "github": {
+      "enabled": true,
+      "repository": "username/my-books",
+      "autoPush": false
+    },
+    "backup": {
+      "zipLocation": "E:\\Backups",
+      "autoBackup": false,
+      "backupFrequency": "manual"
+    },
+    "preferences": {
+      "defaultStyle": "Conversational Expert",
+      "confirmDate": true,
+      "autoUpdateCheck": true
+    }
+  },
+  "_default_template": {
+    "github": {
+      "enabled": false,
+      "repository": null,
+      "autoPush": false
+    },
+    "backup": {
+      "zipLocation": null,
+      "autoBackup": false,
+      "backupFrequency": "manual"
+    },
+    "preferences": {
+      "defaultStyle": null,
+      "confirmDate": true,
+      "autoUpdateCheck": true
+    }
+  }
+}
