@@ -86,12 +86,19 @@ For detailed setup: See `Documentation/Claude_Desktop_Setup.md`
 
 ## Framework Updates
 
-Check: Compare `[FW_ROOT]/VERSION` with latest release
+When `/fw-init` alerts you that an update is available:
 
-Update:
-```bash
-cd [FW_ROOT] && git pull
-```
+1. **Start Claude Code CLI in FW_ROOT:**
+   ```bash
+   cd [FW_ROOT]
+   claude
+   ```
+
+2. **Run configure.md:**
+   Say: **"Run configure.md"**
+
+3. **Follow the prompts:**
+   configure.md will detect the update, download it, and apply any migrations.
 
 ---
 

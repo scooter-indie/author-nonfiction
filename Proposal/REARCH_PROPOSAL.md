@@ -324,12 +324,25 @@ The `/fw-init` slash command needs modification to:
 
 #### 5.2 Update Execution
 
-**Claude Desktop:** Provide copy-paste command for Claude Code CLI
+When `/fw-init` detects an update is available, it instructs the user to run configure.md:
+
+**Update Workflow:**
+1. User starts Claude Code CLI in FW_ROOT: `cd [FW_ROOT] && claude`
+2. User says: "Run configure.md"
+3. configure.md detects it's running in FW_ROOT (not BOOKS_ROOT)
+4. configure.md checks for updates via `git fetch`
+5. If updates available, configure.md runs `git pull`
+6. configure.md applies any required migrations
+7. configure.md updates `fw-location.json` version in BOOKS_ROOT
+
+**Claude Desktop:** Provide instructions to run configure.md in Claude Code CLI
 ```
-cd [FW_ROOT] && git pull
+To update:
+1. Open terminal and run: cd [FW_ROOT] && claude
+2. Say: "Run configure.md"
 ```
 
-**Claude Code CLI:** Can execute directly via Prompt 12 or direct command
+**Claude Code CLI:** Direct execution - user runs configure.md from FW_ROOT
 
 #### 5.3 Post-Update Migrations
 
@@ -561,20 +574,26 @@ The existing `configure.md` handles single-book (legacy) setup. For multi-book m
 
 **At startup, configure.md must detect:**
 
-1. **Fresh Install** - No FW_ROOT or BOOKS_ROOT exists
+1. **Fresh Install** - Running from FW_ROOT, no BOOKS_ROOT configured yet
 2. **FW_ROOT Only** - Framework installed, need to create BOOKS_ROOT
-3. **Complete Setup** - Both FW_ROOT and BOOKS_ROOT exist (reconfiguration)
+3. **Update Available** - Running from FW_ROOT, updates available via git
+4. **Complete Setup** - Both FW_ROOT and BOOKS_ROOT exist (reconfiguration)
+
+**Key detection logic:**
+- If running from a directory with `VERSION` file → This is FW_ROOT
+- If running from a directory with `.config/fw-location.json` → This is BOOKS_ROOT
+- If in FW_ROOT, check `git fetch` for available updates
 
 ```
 Step 0: Installation Mode Detection
 
 Checking installation type...
 
-[ ] FW_ROOT exists at configured location?
-[ ] BOOKS_ROOT/.config/fw-location.json exists?
-[ ] BOOKS_ROOT/.config/books-registry.json exists?
+[ ] Current directory has VERSION file? (Running in FW_ROOT)
+[ ] Current directory has .config/fw-location.json? (Running in BOOKS_ROOT)
+[ ] Git remote has newer commits? (Update available)
 
-Result: [Fresh Install | FW_ROOT Only | Complete Setup]
+Result: [Fresh Install | FW_ROOT Only | Update Available | Complete Setup]
 ```
 
 #### 11.2 Fresh Install Workflow
@@ -719,7 +738,54 @@ Options:
 - Can write startup scripts to filesystem
 - Full automation possible
 
-#### 11.8 Updated configure.md Structure
+#### 11.8 Update Available Workflow
+
+**When configure.md detects it's running in FW_ROOT with updates available:**
+
+1. **Fetch latest from remote**
+   ```bash
+   git fetch origin
+   ```
+
+2. **Compare versions**
+   - Read local `VERSION` file
+   - Read remote VERSION: `git show origin/main:VERSION`
+   - If different, updates are available
+
+3. **Show changelog preview**
+   ```
+   Framework update available: 0.15.0 → 0.15.1
+
+   Changes in this update:
+   [Read relevant section from CHANGELOG.md]
+
+   Proceed with update? (yes/no)
+   ```
+
+4. **Pull updates**
+   ```bash
+   git pull origin main
+   ```
+
+5. **Apply migrations** (if any)
+   - Check `Process/migrations/` for applicable migrations
+   - Execute migrations against BOOKS_ROOT config files
+
+6. **Update fw-location.json**
+   - Read BOOKS_ROOT path from user or detect from known locations
+   - Update `frameworkVersion` in `[BOOKS_ROOT]/.config/fw-location.json`
+   - Update `lastUpdateCheck` date
+
+7. **Report completion**
+   ```
+   ✅ Framework updated to v0.15.1
+
+   Migrations applied: [list or "None required"]
+
+   Next: Start Claude Code CLI in BOOKS_ROOT and run /fw-init
+   ```
+
+#### 11.9 Updated configure.md Structure
 
 ```markdown
 # Framework Configuration (v0.15.0+)
@@ -727,16 +793,18 @@ Options:
 ## Step 0: Confirm Date
 ## Step 0.5: Check Required Tools (git, jq)
 ## Step 1: Installation Mode Detection (NEW)
-## Step 2: FW_ROOT Setup (NEW - or verify existing)
-## Step 3: BOOKS_ROOT Setup (NEW)
-## Step 4: Configuration Files Creation (NEW)
-## Step 5: CLAUDE.md Setup (NEW)
-## Step 6: Git Repository Setup (updated for BOOKS_ROOT)
-## Step 7: Remote Repository Setup (optional)
-## Step 8: Startup Scripts Generation (NEW)
-## Step 9: Export Tool Discovery (optional)
-## Step 10: Verify Installation
-## Step 11: Configuration Complete
+  - Detect: Fresh Install | Update Available | BOOKS_ROOT Setup | Reconfiguration
+## Step 2: [If Update Available] Update Workflow (NEW)
+## Step 3: FW_ROOT Setup (or verify existing)
+## Step 4: BOOKS_ROOT Setup (NEW)
+## Step 5: Configuration Files Creation (NEW)
+## Step 6: CLAUDE.md Setup (NEW)
+## Step 7: Git Repository Setup (updated for BOOKS_ROOT)
+## Step 8: Remote Repository Setup (optional)
+## Step 9: Startup Scripts Generation (NEW)
+## Step 10: Export Tool Discovery (optional)
+## Step 11: Verify Installation
+## Step 12: Configuration Complete
 ```
 
 ---
@@ -790,12 +858,13 @@ Options:
 - [x] Create FW_ROOT CLAUDE.md template (FW_ROOT_CLAUDE_template.md)
 
 ### Phase 8: Configure.md Updates (#97)
+- [ ] Add mode detection (Fresh Install | Update Available | BOOKS_ROOT Setup | Reconfiguration)
+- [ ] Add update detection and execution workflow (Section 11.8)
 - [ ] Add BOOKS_ROOT initialization workflow
 - [ ] Create .config/ directory with all required JSON files
 - [ ] Copy CLAUDE.md from template to BOOKS_ROOT
 - [ ] Generate startup scripts (OS-specific)
-- [ ] Update existing FW_ROOT configuration for multi-book mode
-- [ ] Add mode detection (fresh install vs adding to existing FW_ROOT)
+- [ ] Update fw-location.json after updates
 
 ---
 
