@@ -1,13 +1,13 @@
-name: Build and Release Framework
+name: Release Framework
 
 on:
   push:
     tags:
-      - 'v*.*.*'  # Triggers on version tags like v3.6.0
+      - 'v*.*.*'  # Triggers on version tags like v0.14.2
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to release (e.g., 3.6.0)'
+        description: 'Version to release (e.g., 0.14.2)'
         required: true
         type: string
 
@@ -15,7 +15,7 @@ permissions:
   contents: write
 
 jobs:
-  build-release:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +31,7 @@ jobs:
             VERSION=${{ github.event.inputs.version }}
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Building version: $VERSION"
+          echo "Releasing version: $VERSION"
 
       - name: Verify version matches files
         run: |
@@ -46,78 +46,7 @@ jobs:
             exit 1
           fi
 
-      - name: Create build directory
-        run: mkdir -p build/temp
-
-      - name: Copy framework files
-        run: |
-          # Copy directories
-          cp -r Process build/temp/
-          cp -r .claude build/temp/
-          cp -r scripts build/temp/
-
-          # Copy root documentation files (README.md excluded - it's for GitHub only)
-          cp INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md build/temp/
-
-          # Copy migration configuration (CRITICAL for framework upgrades)
-          cp .nonfiction-migrations.json build/temp/
-
-      - name: Remove development files
-        run: |
-          cd build/temp
-
-          # Remove all _chg.md files
-          find . -name "*_chg.md" -delete
-
-          # Remove development-only files (framework maintainer files)
-          rm -f PREPARE_RELEASE.md
-          rm -f Process/Prompts/Prompt_99_Build_Release.md
-          rm -f Process/Prompts/README.md
-
-          # Remove Proposal directory if it exists
-          rm -rf Proposal/
-
-          # Remove local settings (user-specific)
-          rm -f .claude/settings.local.json
-
-      - name: Create manifest template (not the actual manifest)
-        run: |
-          cat > build/temp/Process/Templates/manifest_template.json <<EOF
-          {
-            "framework": "AI-Assisted Nonfiction Authoring",
-            "frameworkVersion": "${{ steps.version.outputs.version }}",
-            "installedVersion": null,
-            "installedDate": null,
-            "releaseDate": "$(date +%Y-%m-%d)",
-            "releaseUrl": "https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.version }}"
-          }
-          EOF
-          echo "Manifest template created - configure.md will generate actual manifest"
-
-      - name: Copy gitignore template
-        run: cp Process/Templates/gitignore_template build/temp/.gitignore
-
-      - name: Create zip archive (correct structure)
-        run: |
-          cd build/temp
-          zip -r ../../nonfiction-v${{ steps.version.outputs.version }}.zip .
-          cd ../..
-          echo "Zip created with correct structure (no parent directory)"
-
-      - name: Verify zip structure
-        run: |
-          echo "Verifying zip contents (should show files at root):"
-          unzip -l nonfiction-v${{ steps.version.outputs.version }}.zip | head -20
-
-      - name: Calculate checksum
-        id: checksum
-        run: |
-          CHECKSUM=$(sha256sum nonfiction-v${{ steps.version.outputs.version }}.zip | awk '{print $1}')
-          echo "checksum=$CHECKSUM" >> $GITHUB_OUTPUT
-          echo "SHA256: $CHECKSUM"
-
       - name: Generate release notes
-        id: release_notes
         run: |
           VERSION=${{ steps.version.outputs.version }}
 
@@ -127,65 +56,52 @@ jobs:
           # Get the section between [VERSION] and the next [
           sed -n "/## \[$VERSION\]/,/^## \[/p" CHANGELOG.md | sed '$ d' > release-notes-temp.md
 
-          # Add download instructions
-          echo "" >> release-notes-temp.md
-          echo "---" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "## 📥 Installation" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "**Choose your installation method:**" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "### Option A: Git Clone (Recommended)" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "\`\`\`bash" >> release-notes-temp.md
-          echo "git clone https://github.com/scooter-indie/author-nonfiction-dist.git my-book" >> release-notes-temp.md
-          echo "cd my-book" >> release-notes-temp.md
-          echo "claude" >> release-notes-temp.md
-          echo "# Say: execute configure.md" >> release-notes-temp.md
-          echo "# Say: execute Prompt 1" >> release-notes-temp.md
-          echo "\`\`\`" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "**Benefits:** Easy updates via \`git pull\`, no extraction errors, version control built-in." >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "### Option B: Download Zip (Claude Code CLI)" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "1. Download \`nonfiction-v$VERSION.zip\` below" >> release-notes-temp.md
-          echo "2. Extract to your book project directory" >> release-notes-temp.md
-          echo "3. Open terminal in that directory" >> release-notes-temp.md
-          echo "4. Run: \`claude\`" >> release-notes-temp.md
-          echo "5. Say: \`execute configure.md\`" >> release-notes-temp.md
-          echo "6. Say: \`execute Prompt 1\` to initialize your book" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "### Option C: Download Zip (Claude Desktop)" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "1. Download \`nonfiction-v$VERSION.zip\` below" >> release-notes-temp.md
-          echo "2. Extract to your book project directory" >> release-notes-temp.md
-          echo "3. **IMPORTANT:** Configure Claude Desktop Custom Instructions:" >> release-notes-temp.md
-          echo "   - Open \`system-instructions.md\` from the extracted files" >> release-notes-temp.md
-          echo "   - Copy the section between the code fences (lines 40-356)" >> release-notes-temp.md
-          echo "   - Paste into Settings → Custom Instructions in Claude Desktop" >> release-notes-temp.md
-          echo "   - Save and start a NEW chat" >> release-notes-temp.md
-          echo "4. In Claude Desktop chat: \`execute \"[full-path]\\configure.md\"\`" >> release-notes-temp.md
-          echo "5. Follow prompts (copy/paste git commands when needed)" >> release-notes-temp.md
-          echo "6. Say: \`execute Prompt 1\` to initialize your book" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "**📖 See \`INSTALLATION.md\` for detailed instructions.**" >> release-notes-temp.md
+          # Add installation instructions (clone only)
+          cat >> release-notes-temp.md <<'EOF'
 
-          # Add checksum
-          echo "" >> release-notes-temp.md
-          echo "## 📊 Release Assets" >> release-notes-temp.md
-          echo "" >> release-notes-temp.md
-          echo "**SHA256 Checksum:**" >> release-notes-temp.md
-          echo '```' >> release-notes-temp.md
-          echo "${{ steps.checksum.outputs.checksum }}  nonfiction-v$VERSION.zip" >> release-notes-temp.md
-          echo '```' >> release-notes-temp.md
+---
+
+## 📥 Installation
+
+```bash
+# Clone the framework
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git my-book
+cd my-book
+
+# Start Claude Code
+claude
+
+# Configure the framework (say this in Claude Code)
+execute configure.md
+
+# Initialize your book (say this in Claude Code)
+execute Prompt 1
+```
+
+**Benefits:** Easy updates via `git pull`, no extraction errors, version control built-in.
+
+### Updating the Framework
+
+```bash
+git pull origin main
+```
+
+Then run `execute configure.md` to apply any migrations.
+
+---
+
+**📖 See [INSTALLATION.md](https://github.com/scooter-indie/author-nonfiction-dist/blob/main/INSTALLATION.md) for detailed instructions.**
+
+EOF
+
+          # Add support links
           echo "" >> release-notes-temp.md
           echo "---" >> release-notes-temp.md
           echo "" >> release-notes-temp.md
-          echo "**Download:** https://github.com/${{ github.repository }}/releases/download/v$VERSION/nonfiction-v$VERSION.zip" >> release-notes-temp.md
+          echo "**Clone:** \`git clone https://github.com/scooter-indie/author-nonfiction-dist.git\`" >> release-notes-temp.md
           echo "**Support:** https://github.com/${{ github.repository }}/issues" >> release-notes-temp.md
 
-          echo "Release notes generated"
+          echo "Release notes generated:"
           cat release-notes-temp.md
 
       - name: Create GitHub Release
@@ -194,19 +110,13 @@ jobs:
           tag_name: v${{ steps.version.outputs.version }}
           name: Nonfiction Framework v${{ steps.version.outputs.version }}
           body_path: release-notes-temp.md
-          files: nonfiction-v${{ steps.version.outputs.version }}.zip
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cleanup
-        if: always()
-        run: |
-          rm -rf build/
-          echo "Build directory cleaned up"
-
       - name: Release complete
         run: |
           echo "✅ Release v${{ steps.version.outputs.version }} published successfully!"
-          echo "📦 Download: https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.version }}"
+          echo "📦 Clone: git clone https://github.com/scooter-indie/author-nonfiction-dist.git"
+          echo "🔄 deploy-dist.yml will automatically deploy to distribution repo"
