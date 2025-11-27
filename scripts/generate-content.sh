@@ -62,7 +62,7 @@ validate_preconditions() {
 
     # Check required fields in JSON
     if command -v jq &> /dev/null && jq empty "$CONFIG_FILE" 2>/dev/null; then
-        local required_fields=("title" "author" "style" "chapters" "createdDate")
+        local required_fields=("title" "author" "writingStyleId" "chapters" "createdDate")
         for field in "${required_fields[@]}"; do
             if [[ "$(jq -r ".$field // \"null\"" "$CONFIG_FILE")" == "null" ]]; then
                 echo -e "${RED}✗ Missing required field: $field${NC}"
@@ -100,7 +100,8 @@ parse_config() {
 
     TITLE=$(jq -r '.title' "$CONFIG_FILE")
     AUTHOR=$(jq -r '.author' "$CONFIG_FILE")
-    STYLE=$(jq -r '.style' "$CONFIG_FILE")
+    STYLE_ID=$(jq -r '.writingStyleId' "$CONFIG_FILE")
+    STYLE_DISPLAY=$(jq -r '.writingStyle' "$CONFIG_FILE")
     DATE=$(jq -r '.createdDate' "$CONFIG_FILE")
     CHAPTERS=$(jq -r '.chapters | length' "$CONFIG_FILE")
     TARGET_WORD_COUNT=$(jq -r '.targetWordCount // "50000"' "$CONFIG_FILE")
@@ -108,10 +109,14 @@ parse_config() {
     PURPOSE=$(jq -r '.purpose // ""' "$CONFIG_FILE")
     TARGET_COMPLETION=$(jq -r '.targetCompletionDate // ""' "$CONFIG_FILE")
 
+    # Convert writingStyleId to filename format
+    # FW_PRACTICAL_GUIDE -> Practical_Guide
+    STYLE=$(echo "$STYLE_ID" | sed 's/^FW_//' | sed 's/_/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1' | sed 's/ /_/g')
+
     echo -e "${GREEN}✓ Configuration parsed${NC}"
     echo -e "  • Title: $TITLE"
     echo -e "  • Author: $AUTHOR"
-    echo -e "  • Style: $STYLE"
+    echo -e "  • Style: $STYLE_DISPLAY ($STYLE)"
     echo -e "  • Chapters: $CHAPTERS"
     echo ""
 }
@@ -158,13 +163,13 @@ generate_style_guide() {
 # Writing Style Guide
 
 **Book:** $TITLE
-**Style:** $STYLE
+**Style:** $STYLE_DISPLAY
 **Category:** $STYLE_CATEGORY
 **Last Updated:** $DATE
 
 ---
 
-## Selected Style: $STYLE
+## Selected Style: $STYLE_DISPLAY
 
 $STYLE_CONTENT
 
@@ -196,7 +201,7 @@ generate_style_overrides() {
 # Style Overrides Registry
 
 **Book:** $TITLE
-**Book-Level Style:** $STYLE
+**Book-Level Style:** $STYLE_DISPLAY
 **Last Updated:** $DATE
 
 ---
@@ -205,7 +210,7 @@ generate_style_overrides() {
 
 This file tracks all style overrides in your book. The framework uses a hierarchical style system with three levels:
 
-1. **Book-Level Style** (default for entire book): $STYLE
+1. **Book-Level Style** (default for entire book): $STYLE_DISPLAY
 2. **Chapter-Level Overrides** (optional): Specific chapters with different styles
 3. **Section-Level Overrides** (optional): Specific sections within chapters
 
@@ -238,7 +243,7 @@ This file tracks all style overrides in your book. The framework uses a hierarch
 
 ## Style Distribution
 
-**Book Default ($STYLE):** $CHAPTERS chapters (100%)
+**Book Default ($STYLE_DISPLAY):** $CHAPTERS chapters (100%)
 
 **Override Styles:**
 - *None*
@@ -416,7 +421,7 @@ generate_usage_guide() {
     echo -e "${BLUE}Generating USAGE_GUIDE.md...${NC}"
 
     # Call existing generation script
-    bash "$SCRIPT_DIR/generate-usage-guide.sh" "$TITLE" "$AUTHOR" "$DATE" "$CHAPTERS" "$STYLE"
+    bash "$SCRIPT_DIR/generate-usage-guide.sh" "$TITLE" "$AUTHOR" "$DATE" "$CHAPTERS" "$STYLE_DISPLAY"
 }
 
 generate_project_context() {
@@ -435,7 +440,7 @@ generate_project_context() {
 ## Project Overview
 
 **Chapters:** $CHAPTERS
-**Writing Style:** $STYLE
+**Writing Style:** $STYLE_DISPLAY
 **Target Word Count:** $TARGET_WORD_COUNT
 **Target Completion:** $TARGET_COMPLETION
 
@@ -496,7 +501,7 @@ $PURPOSE
 - **Framework Version:** 0.14.5
 - **Initialized:** $DATE
 - **Chapters:** $CHAPTERS
-- **Writing Style:** $STYLE
+- **Writing Style:** $STYLE_DISPLAY
 - **Target Word Count:** $TARGET_WORD_COUNT
 - **Target Completion:** $TARGET_COMPLETION
 
