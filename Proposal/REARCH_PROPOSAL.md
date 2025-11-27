@@ -523,17 +523,52 @@ Each prompt should start with:
 
 ---
 
+## Resolved Questions
+
+### 1. Dist Repo Structure (RESOLVED)
+
+**Question:** Should author-nonfiction-dist mirror current structure or be reorganized?
+
+**Answer:** No major reorganization required. Minor additions only.
+
+**Current structure is suitable:**
+```
+author-nonfiction-dist/
+├── Process/
+│   ├── FRAMEWORK_CORE.md      ✓ exists
+│   ├── Prompts/               ✓ exists
+│   ├── Styles/                ✓ exists
+│   ├── Templates/             ✓ exists
+│   ├── DISCLAIMER.md          ✓ exists
+│   └── Anti-Hallucination_Guidelines.md  ✓ exists
+├── CLAUDE.md                  ⚠ needs modification
+└── LICENSE                    ✓ exists
+```
+
+**Additions needed:**
+| Item | Purpose |
+|------|---------|
+| `VERSION` | New file - contains semantic version (e.g., `0.15.0`) for update checking |
+| `CLAUDE.md` | Modify - minimal instructions for FW_ROOT that point to BOOKS_ROOT for book selection |
+
+**Not included in dist (maintainer-only in main repo):**
+- `Documentation/` - maintainer documentation
+- `Proposal/` - development proposals
+- `scripts/` - build/release scripts
+- `.github/` - CI/CD workflows
+- `.claude/` - maintainer slash commands
+
+---
+
 ## Open Questions
 
-1. **Dist Repo Structure:** Should author-nonfiction-dist mirror current structure or be reorganized?
+1. **Book Deletion:** How should book deletion work? Soft delete (archive) or hard delete?
 
-2. **Book Deletion:** How should book deletion work? Soft delete (archive) or hard delete?
+2. **Book Export:** Should there be a way to export a single book to a standalone structure?
 
-3. **Book Export:** Should there be a way to export a single book to a standalone structure?
+3. **Concurrent Editing:** Any considerations for editing same book from Desktop and CLI simultaneously?
 
-4. **Concurrent Editing:** Any considerations for editing same book from Desktop and CLI simultaneously?
-
-5. **Offline Mode:** How should update checking behave when offline?
+4. **Offline Mode:** How should update checking behave when offline?
 
 ---
 
