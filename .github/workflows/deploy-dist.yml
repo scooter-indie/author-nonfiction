@@ -223,9 +223,16 @@ jobs:
           # Remove all files except .git
           find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
 
-          # Copy release files
+          # Copy release files (shopt -s dotglob makes * include hidden files)
+          shopt -s dotglob
           cp -r ../build/temp/* .
-          cp -r ../build/temp/.* . 2>/dev/null || true
+          shopt -u dotglob
+
+          # Verify dotfiles were copied
+          echo "Verifying copied files:"
+          ls -la
+          echo "Verifying .claude directory:"
+          ls -la .claude/ || echo "WARNING: .claude directory not found!"
 
           # Configure git
           git config user.name "GitHub Actions"
