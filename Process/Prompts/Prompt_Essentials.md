@@ -1,20 +1,83 @@
 # Prompt Essentials
 
-**Version:** 0.14.0
+**Version:** 0.15.0
 **Purpose:** Core protocols and quick references for all prompts
 **Load:** Once per session (loaded via /fw-init)
 
 ---
 
+## Path Resolution (v0.15.0+)
+
+**CRITICAL: All prompts must resolve paths correctly based on operating mode.**
+
+### Multi-Book Mode
+
+When `MODE=multi-book` (fw-location.json exists):
+
+```
+FW_ROOT         = Path from .config/fw-location.json
+BOOKS_ROOT      = Current working directory
+ACTIVE_BOOK     = ID from .config/books-registry.json
+BOOK_PATH       = BOOKS_ROOT/[activeBook directory]
+```
+
+**Framework reads:**
+- `[FW_ROOT]/Process/FRAMEWORK_CORE.md`
+- `[FW_ROOT]/Process/Prompts/Prompt_X.md`
+- `[FW_ROOT]/Process/Styles/[style].md`
+- `[FW_ROOT]/Process/Templates/[template]`
+
+**Book reads/writes:**
+- `[BOOK_PATH]/Manuscript/...`
+- `[BOOK_PATH]/Research/...`
+- `[BOOK_PATH]/.config/...`
+- `[BOOK_PATH]/PROJECT_CONTEXT.md`
+
+### Legacy Mode
+
+When `MODE=legacy` (no fw-location.json):
+
+```
+PROJECT_ROOT    = Current working directory
+FW_ROOT         = PROJECT_ROOT (same location)
+BOOK_PATH       = PROJECT_ROOT (same location)
+```
+
+**All paths relative to PROJECT_ROOT as before.**
+
+### Path Resolution Helper
+
+**At start of each prompt execution:**
+
+```
+1. Check MODE from session context (set by /fw-init)
+2. If multi-book:
+   a. Read BOOKS_ROOT/.config/fw-location.json → FW_ROOT
+   b. Read BOOKS_ROOT/.config/books-registry.json → activeBook
+   c. Set BOOK_PATH = BOOKS_ROOT/[activeBook directory]
+3. If legacy:
+   a. FW_ROOT = current directory
+   b. BOOK_PATH = current directory
+4. Use FW_ROOT for framework file reads
+5. Use BOOK_PATH for book content reads/writes
+```
+
+---
+
 ## Lock Management Quick Reference
 
+### Lock File Location
+
+**Multi-book mode:** `[BOOK_PATH]/.locks/locks.json`
+**Legacy mode:** `.locks/locks.json`
+
 **Initialize:**
-- Create `.locks/` directory: `mkdir -p .locks`
+- Create `.locks/` directory in BOOK_PATH: `mkdir -p [BOOK_PATH]/.locks`
 - Create `.locks/locks.json`: `{"locks": []}`
 - Generate instance ID: `CLI-[5-digit-random]` or `Desktop-[5-digit-random]`
 
 **Acquire Lock:**
-1. Read `.locks/locks.json`
+1. Read `[BOOK_PATH]/.locks/locks.json`
 2. Check if resource is locked
 3. If locked < 15 min: Offer wait/cancel
 4. If locked >= 15 min: Offer override/cancel
@@ -22,7 +85,7 @@
 6. Write updated JSON
 
 **Release Lock:**
-1. Read `.locks/locks.json`
+1. Read `[BOOK_PATH]/.locks/locks.json`
 2. Remove lock where resource AND instance match
 3. Write updated JSON
 4. Confirm release
@@ -36,7 +99,7 @@
 }
 ```
 
-**Full details:** `Process/_COMMON/18_Lock_Management_Module.md`
+**Full details:** `[FW_ROOT]/Process/_COMMON/18_Lock_Management_Module.md`
 
 ---
 
@@ -177,7 +240,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 ---
 
-**Version:** 0.14.0
-**Last Updated:** 2025-11-24
-**Token Count:** ~1,500 tokens
-**vs Full Modules:** ~10,000 tokens (85% reduction)
+**Version:** 0.15.0
+**Last Updated:** 2025-11-27
+**Token Count:** ~2,000 tokens
+**vs Full Modules:** ~10,000 tokens (80% reduction)

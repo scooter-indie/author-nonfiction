@@ -2,10 +2,12 @@
 
 ################################################################################
 # Batch Content Generator for Prompt 1
-# Version: 0.14.5
+# Version: 0.15.0
 #
 # Purpose: Generate ALL content files from init.json in single operation
-# Usage: bash scripts/generate-content.sh .config/init.json
+# Usage:
+#   Legacy mode:     bash scripts/generate-content.sh .config/init.json
+#   Multi-book mode: bash [FW_ROOT]/scripts/generate-content.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
 ################################################################################
 
 set -e  # Exit on error
@@ -19,8 +21,28 @@ NC='\033[0m' # No Color
 
 # Configuration
 CONFIG_FILE="${1:-.config/init.json}"
+FW_ROOT="${2:-}"  # Optional: Framework root for multi-book mode
+
+# Determine paths based on mode
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+if [[ -n "$FW_ROOT" ]]; then
+    # Multi-book mode: FW_ROOT provided
+    FRAMEWORK_ROOT="$FW_ROOT"
+    # Book path is parent of .config/init.json
+    BOOK_PATH="$(cd "$(dirname "$CONFIG_FILE")/.." && pwd)"
+    PROJECT_ROOT="$BOOK_PATH"
+    MULTI_BOOK_MODE=true
+    echo -e "${BLUE}Mode: Multi-book${NC}"
+    echo -e "  Framework: $FRAMEWORK_ROOT"
+    echo -e "  Book path: $BOOK_PATH"
+else
+    # Legacy mode: script and project in same location
+    FRAMEWORK_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+    PROJECT_ROOT="$FRAMEWORK_ROOT"
+    MULTI_BOOK_MODE=false
+    echo -e "${BLUE}Mode: Legacy (single-book)${NC}"
+fi
 
 ################################################################################
 # Validation Functions
@@ -74,9 +96,9 @@ validate_preconditions() {
         fi
     fi
 
-    # Check if Process/Styles directory exists
-    if [[ ! -d "$PROJECT_ROOT/Process/Styles" ]]; then
-        echo -e "${RED}✗ Process/Styles directory not found${NC}"
+    # Check if Process/Styles directory exists (in FRAMEWORK_ROOT)
+    if [[ ! -d "$FRAMEWORK_ROOT/Process/Styles" ]]; then
+        echo -e "${RED}✗ Process/Styles directory not found at $FRAMEWORK_ROOT${NC}"
         ((errors++))
     else
         echo -e "${GREEN}✓ Process/Styles directory found${NC}"
@@ -128,9 +150,9 @@ parse_config() {
 find_style_file() {
     echo -e "${BLUE}Locating style file...${NC}"
 
-    # Search all category directories for the style
+    # Search all category directories for the style (in FRAMEWORK_ROOT)
     STYLE_FILE=""
-    for category_dir in "$PROJECT_ROOT/Process/Styles"/*/ ; do
+    for category_dir in "$FRAMEWORK_ROOT/Process/Styles"/*/ ; do
         if [[ -f "${category_dir}${STYLE}.md" ]]; then
             STYLE_FILE="${category_dir}${STYLE}.md"
             STYLE_CATEGORY=$(basename "$category_dir")
@@ -141,7 +163,7 @@ find_style_file() {
     if [[ -z "$STYLE_FILE" ]]; then
         echo -e "${RED}✗ Style file not found: $STYLE.md${NC}"
         echo -e "${YELLOW}Available styles:${NC}"
-        find "$PROJECT_ROOT/Process/Styles" -name "*.md" -not -name "README.md" -not -name "Style_Catalog.md" -exec basename {} .md \; | sort
+        find "$FRAMEWORK_ROOT/Process/Styles" -name "*.md" -not -name "README.md" -not -name "Style_Catalog.md" -exec basename {} .md \; | sort
         exit 1
     fi
 
@@ -420,20 +442,82 @@ EOF
 generate_usage_guide() {
     echo -e "${BLUE}Generating USAGE_GUIDE.md...${NC}"
 
-    # Call existing generation script
-    bash "$SCRIPT_DIR/generate-usage-guide.sh" "$TITLE" "$AUTHOR" "$DATE" "$CHAPTERS" "$STYLE_DISPLAY"
+    # Call existing generation script (from FRAMEWORK_ROOT)
+    bash "$FRAMEWORK_ROOT/scripts/generate-usage-guide.sh" "$TITLE" "$AUTHOR" "$DATE" "$CHAPTERS" "$STYLE_DISPLAY"
 }
 
 generate_project_context() {
     echo -e "${BLUE}Generating PROJECT_CONTEXT.md...${NC}"
 
-    cat > PROJECT_CONTEXT.md <<EOF
+    if [[ "$MULTI_BOOK_MODE" == "true" ]]; then
+        # Multi-book mode: reference FW_ROOT
+        cat > PROJECT_CONTEXT.md <<EOF
 # Project Context
 
 **Book Title:** $TITLE
 **Author:** $AUTHOR
 **Initialized:** $DATE
-**Framework Version:** 0.14.5
+**Framework Version:** 0.15.0
+**Mode:** Multi-book
+
+---
+
+## Project Overview
+
+**Chapters:** $CHAPTERS
+**Writing Style:** $STYLE_DISPLAY
+**Target Word Count:** $TARGET_WORD_COUNT
+**Target Completion:** $TARGET_COMPLETION
+
+**Target Audience:**
+$TARGET_AUDIENCE
+
+**Book Purpose:**
+$PURPOSE
+
+---
+
+## For Claude Desktop Users
+
+Upload this file to Claude Desktop's Files area (not pasted as text) to provide full project context when resuming work.
+
+**System Instructions:**
+Also upload the System Instructions from the framework (at FW_ROOT).
+
+---
+
+## Quick Reference
+
+**Framework Location:** [FW_ROOT]/Process/
+**Book Location:** [BOOKS_ROOT]/[Book-Name]/
+**Prompts:** [FW_ROOT]/Process/Prompts/
+**Manuscript:** Manuscript/
+**Configuration:** .config/
+
+**Key Prompts:**
+- Prompt 3: Change by Chg (automated editing)
+- Prompt 4: Interactive Change (conversational editing)
+- Prompt 8: Consistency Checker
+- Prompt 10: Progress Dashboard
+
+**Book Switching:**
+- Say "switch to [Book Name]" to change active book
+- Say "list books" to see all registered books
+
+---
+
+**Generated:** $DATE
+**Framework Version:** 0.15.0
+EOF
+    else
+        # Legacy mode: Process/ in same directory
+        cat > PROJECT_CONTEXT.md <<EOF
+# Project Context
+
+**Book Title:** $TITLE
+**Author:** $AUTHOR
+**Initialized:** $DATE
+**Framework Version:** 0.15.0
 
 ---
 
@@ -477,8 +561,9 @@ Also upload \`Process/Prompts/README.md\` which contains the System Instructions
 ---
 
 **Generated:** $DATE
-**Framework Version:** 0.14.5
+**Framework Version:** 0.15.0
 EOF
+    fi
 
     echo -e "${GREEN}✓ Generated PROJECT_CONTEXT.md${NC}"
 }
@@ -594,11 +679,11 @@ print_summary() {
 
 main() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}Batch Content Generator v0.14.5${NC}"
+    echo -e "${BLUE}Batch Content Generator v0.15.0${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
-    # Change to project root
+    # Change to project/book root
     cd "$PROJECT_ROOT"
 
     # Run validation

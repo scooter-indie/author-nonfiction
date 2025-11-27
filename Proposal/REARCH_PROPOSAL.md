@@ -462,9 +462,100 @@ Each prompt should start with:
 
 ---
 
+### 10. Release Process Modifications (PREPARE_RELEASE.md)
+
+The re-architecture requires updates to the maintainer release process.
+
+#### 10.1 New VERSION File Management
+
+**Add to Step 2 (Critical Files):**
+```markdown
+17. `VERSION` (root level) ← NEW for re-architecture
+    - Single line containing version number (e.g., `0.15.0`)
+    - No trailing newline
+    - Used by update checking mechanism (Section 5.1)
+```
+
+**Verification step:** Ensure VERSION file is created/updated during release.
+
+#### 10.2 Modified CLAUDE.md Handling
+
+The FW_ROOT CLAUDE.md changes from "full framework context" to "minimal instructions":
+
+```markdown
+3. `CLAUDE.md` ← MODIFIED for re-architecture
+   - Now minimal instructions for FW_ROOT
+   - Points to BOOKS_ROOT for book selection
+   - References FRAMEWORK_CORE.md (not inline content)
+   - Template: Process/Templates/FW_ROOT_CLAUDE_template.md
+```
+
+#### 10.3 Dist Repo Clarification Section
+
+**Add new section to PREPARE_RELEASE.md:**
+
+```markdown
+### Dist Repo vs Main Repo (v0.15.0+)
+
+**What goes in author-nonfiction-dist (user releases):**
+- `Process/` - All framework files (prompts, styles, templates)
+- `VERSION` - Semantic version for update checking
+- `CLAUDE.md` - Minimal FW_ROOT instructions
+- `LICENSE` - MIT license
+
+**What stays in author-nonfiction (maintainer only):**
+- `Documentation/` - Maintainer documentation
+- `Proposal/` - Development proposals
+- `scripts/` - Build/release scripts
+- `.github/` - CI/CD workflows
+- `.claude/` - Maintainer slash commands
+- `PREPARE_RELEASE.md` - This file
+- `CHANGELOG.md` - Release history
+```
+
+#### 10.4 Updated Manifest Structure
+
+**Update Step 4.6 to include new templates:**
+
+New files to track in `framework_files_manifest.json`:
+- `VERSION` (root)
+- `Process/Templates/FW_ROOT_CLAUDE_template.md`
+- `Process/Templates/BOOKS_ROOT_CLAUDE_template.md`
+- `Process/Templates/.config/books-registry_template.json`
+- `Process/Templates/.config/fw-location_template.json`
+- `Process/Templates/.config/settings_template.json`
+- `Process/Templates/Archive_README_template.md`
+
+#### 10.5 Release Asset Verification
+
+**Update Step 8 checklist:**
+
+```markdown
+### Step 8: Verify Release Assets (v0.15.0+)
+
+Check that the release includes:
+- ✅ `VERSION` file at root (contains version string only)
+- ✅ Minimal `CLAUDE.md` (points to BOOKS_ROOT)
+- ✅ All BOOKS_ROOT templates in Process/Templates/
+- ✅ No Documentation/, Proposal/, or .github/ directories
+- ✅ No scripts/ directory (maintainer-only)
+- ✅ No .claude/ directory (maintainer-only)
+```
+
+#### 10.6 GitHub Actions Workflow Updates
+
+**Modify `.github/workflows/release.yml`:**
+
+1. Add VERSION file to build output
+2. Ensure new templates are included
+3. Verify CLAUDE.md is the minimal FW_ROOT version (not full version)
+4. Add validation step to confirm dist structure
+
+---
+
 ## Implementation Phases
 
-### Phase 1: Core Architecture ✓
+### Phase 1: Core Architecture (#90) ✓
 - [x] Create new directory structure (VERSION file, templates)
 - [x] Modify CLAUDE.md for BOOKS_ROOT (BOOKS_ROOT_CLAUDE_template.md)
 - [x] Create books-registry.json schema (books-registry_template.json)
@@ -472,35 +563,43 @@ Each prompt should start with:
 - [x] Modify /fw-init for multi-book support (supports both modes)
 - [x] Create Archive/ directory structure (Archive_README_template.md)
 
-### Phase 2: Prompt Modifications
-- [ ] Update Prompt 1 (no Process/, registry update)
-- [ ] Update all prompts for path resolution
-- [ ] Create book selection mechanism
-- [ ] Create book switching command
-- [ ] Update lock mechanism for new paths
+### Phase 2: Prompt Modifications (#91) ✓
+- [x] Update Prompt 1 (no Process/, registry update)
+- [x] Update all prompts for path resolution (Prompt_Essentials.md)
+- [x] Create book selection mechanism (in /fw-init from Phase 1)
+- [x] Create book switching command (/switch-book)
+- [x] Update lock mechanism for new paths (Prompt_Essentials.md)
 
-### Phase 3: Update System
+### Phase 3: Update System (#92)
 - [x] Create VERSION file in dist repo (created in Phase 1)
 - [ ] Implement update checking
 - [ ] Create migration framework
 - [ ] Test update workflow
 
-### Phase 4: Backup System
+### Phase 4: Backup System (#93)
 - [ ] Create full BOOKS_ROOT ZIP backup prompt
 - [ ] Create single-book standalone ZIP export
 - [ ] Implement GitHub integration
 - [ ] Test backup/restore workflow
 
-### Phase 5: Book Management
+### Phase 5: Book Management (#94)
 - [ ] Create book archive functionality
 - [ ] Create book delete functionality (with confirmation)
 - [ ] Update registry for archived status tracking
 - [ ] Create book restore from archive
 
-### Phase 6: Claude Desktop
+### Phase 6: Claude Desktop (#95)
 - [ ] Create minimal system instructions
 - [ ] Test MCP configuration
 - [ ] Document setup process
+
+### Phase 7: Release Process Updates (#96)
+- [ ] Update PREPARE_RELEASE.md with Section 10 requirements
+- [ ] Add VERSION file to release workflow
+- [ ] Update release.yml for new dist structure
+- [ ] Update deploy-dist.yml for new files
+- [ ] Update framework_files_manifest.json structure
+- [ ] Create FW_ROOT CLAUDE.md template (minimal version)
 
 ---
 

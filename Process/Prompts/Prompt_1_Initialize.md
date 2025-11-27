@@ -1,6 +1,6 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**Version:** 0.14.5
+**Version:** 0.15.0
 **⚡ Token Efficient:** ~5,500 tokens (70% reduction from v0.14.0)
 **HYBRID:** Desktop Q&A → CLI execution
 
@@ -19,23 +19,44 @@ Creates complete nonfiction book project:
 
 **Performance:** 85-90% faster with batch content generation
 
----
-
-## Workflow (9 Steps)
-
-1. Lock ProjectConfig
-2. Detect environment
-3. Interactive Q&A
-4. **Disclaimer Acknowledgment (REQUIRED)**
-5. Create config files
-6. Run initialization script
-7. Generate content
-8. Git commit and tag
-9. Release lock
+**Multi-Book Support (v0.15.0+):** Automatically detects operating mode and creates books in appropriate location.
 
 ---
 
-## Step 0: Lock Management
+## Workflow (10 Steps)
+
+1. **Detect operating mode (multi-book vs legacy)**
+2. Lock ProjectConfig
+3. Detect environment
+4. Interactive Q&A
+5. **Disclaimer Acknowledgment (REQUIRED)**
+6. Create config files
+7. Run initialization script
+8. Generate content
+9. Git commit and tag
+10. Release lock
+
+---
+
+## Step 0: Mode Detection
+
+**Determine operating mode from session context:**
+
+The `/fw-init` command sets `MODE` variable at session start:
+- `MODE=multi-book` → Working in BOOKS_ROOT with framework at FW_ROOT
+- `MODE=legacy` → Working in single-book project root
+
+**If MODE not set:** Check for `.config/fw-location.json`
+- If exists → Multi-book mode
+- If not exists → Legacy mode
+
+**Store context for this prompt:**
+- **Multi-book:** `FW_ROOT`, `BOOKS_ROOT` (current dir), `BOOK_PATH` (to be created)
+- **Legacy:** `PROJECT_ROOT` (current dir), framework in `Process/`
+
+---
+
+## Step 1: Lock Management
 
 **Acquire lock:**
 1. Generate instance ID: `CLI-[5-digit]` or `Desktop-[5-digit]`
@@ -45,15 +66,20 @@ See: Prompt_Essentials.md → Lock Management
 
 ---
 
-## Step 1: Environment Detection
+## Step 2: Environment Detection
 
-**Check `.config/init.json`:**
-- **Exists:** Skip to Step 5 (CLI execution)
-- **Not exists:** Proceed to Step 2 (Q&A)
+**Multi-book mode:**
+- Check `[BOOKS_ROOT]/[Book-Name]/.config/init.json` (if book already selected)
+- If creating new book: Proceed to Step 3 (Q&A)
+
+**Legacy mode:**
+- Check `.config/init.json`
+- **Exists:** Skip to Step 6 (CLI execution)
+- **Not exists:** Proceed to Step 3 (Q&A)
 
 ---
 
-## Step 2: Interactive Q&A
+## Step 3: Interactive Q&A
 
 **Ask one at a time:**
 
@@ -85,7 +111,7 @@ See: Prompt_Essentials.md → Lock Management
 
 ---
 
-## Step 3: Disclaimer Acknowledgment (REQUIRED)
+## Step 4: Disclaimer Acknowledgment (REQUIRED)
 
 **STOP and display the following:**
 
@@ -124,7 +150,47 @@ To proceed, type exactly: I acknowledge the disclaimer
 
 ---
 
-## Step 4: Create Config Files
+## Step 5: Create Config Files
+
+### Multi-Book Mode
+
+**Create book directory and config:**
+
+1. **Convert title to directory name:**
+   - "My Amazing Book" → `My-Amazing-Book`
+   - Spaces to hyphens, remove special characters
+   - Check for conflicts with existing directories
+
+2. **Create book directory structure:**
+   ```
+   BOOKS_ROOT/[Book-Name]/
+   ├── .config/
+   ├── Manuscript/
+   └── Research/
+   ```
+
+3. **Create 4 files in `[Book-Name]/.config/`:**
+   - `init.json` - Q&A answers
+   - `project.json` - Project settings
+   - `metadata.json` - Book metadata
+   - `manifest.json` - Framework tracking (includes `frameworkRoot` pointing to FW_ROOT)
+
+4. **Update books-registry.json:**
+   ```json
+   {
+     "id": "my-amazing-book",
+     "title": "My Amazing Book",
+     "author": "Author Name",
+     "directory": "My-Amazing-Book",
+     "created": "[CONFIRMED_DATE]",
+     "lastAccessed": "[CONFIRMED_DATE]",
+     "status": "in-progress"
+   }
+   ```
+
+5. **Set as active book:** Update `activeBook` in registry
+
+### Legacy Mode
 
 **Prerequisite:** `.config/manifest.json` must exist (created by configure.md).
 If it doesn't exist, tell user: "Please run configure.md first to set up the framework."
@@ -140,7 +206,7 @@ If it doesn't exist, tell user: "Please run configure.md first to set up the fra
 
 ---
 
-## Step 5: Desktop Handoff
+## Step 6: Desktop Handoff
 
 **If in Claude Desktop:**
 ```
@@ -150,13 +216,25 @@ To complete initialization:
 1. Open Claude Code CLI
 2. Say: "execute Prompt 1"
 ```
-**STOP HERE** - Do not proceed to Step 6
+**STOP HERE** - Do not proceed to Step 7
 
-**If in CLI:** Continue to Step 6
+**If in CLI:** Continue to Step 7
 
 ---
 
-## Step 6: Run Init Script (CLI)
+## Step 7: Run Init Script (CLI)
+
+### Multi-Book Mode
+
+```bash
+bash [FW_ROOT]/scripts/init.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
+```
+
+**Parameters:**
+- `[BOOK_PATH]/.config/init.json` - Config file location
+- `[FW_ROOT]` - Framework root (for reading templates)
+
+### Legacy Mode
 
 ```bash
 bash scripts/init.sh .config/init.json
@@ -165,11 +243,20 @@ bash scripts/init.sh .config/init.json
 **Script creates:**
 - 10-directory Manuscript structure
 - 5 template files
-- Git repository initialization
+- Git repository initialization (legacy mode only - multi-book uses BOOKS_ROOT git)
 
 ---
 
-## Step 7: Generate Content (CLI)
+## Step 8: Generate Content (CLI)
+
+### Multi-Book Mode
+
+```bash
+bash [FW_ROOT]/scripts/generate-content.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
+bash [FW_ROOT]/scripts/detect-tools.sh [BOOK_PATH]/.config/manifest.json
+```
+
+### Legacy Mode
 
 ```bash
 bash scripts/generate-content.sh .config/init.json
@@ -185,7 +272,34 @@ bash scripts/detect-tools.sh .config/manifest.json
 
 ---
 
-## Step 8: Git Commit, Tag & Push (CLI)
+## Step 9: Git Commit, Tag & Push (CLI)
+
+### Multi-Book Mode
+
+**Note:** Git operations happen at BOOKS_ROOT level (single repo for all books).
+
+```bash
+cd [BOOKS_ROOT]
+git add [Book-Name]/
+git commit -m "Initialize book: [title]
+
+- Created [X]-chapter structure
+- Selected style: [style name]
+- Disclaimer acknowledged (v1.0)
+- Framework v0.15.0
+
+🤖 Generated with Claude Code
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+**Tag convention for multi-book:** `[book-id]-v1.0.0` (e.g., `my-amazing-book-v1.0.0`)
+
+```bash
+git tag -a [book-id]-v1.0.0 -m "Initial project structure for [title]"
+```
+
+### Legacy Mode
 
 ```bash
 git add -A
@@ -194,7 +308,7 @@ git commit -m "Initialize book project: [title]
 - Created [X]-chapter structure
 - Selected style: [style name]
 - Disclaimer acknowledged (v1.0)
-- Framework v0.14.5
+- Framework v0.15.0
 
 🤖 Generated with Claude Code
 
@@ -216,7 +330,40 @@ Update `.config/project.json`: `initialized: true`
 
 ---
 
-## Step 9: Completion Report
+## Step 10: Completion Report
+
+### Multi-Book Mode
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Book initialized successfully!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Book: [title]
+Author: [author]
+Location: [BOOKS_ROOT]/[Book-Name]/
+Chapters: [X]
+Style: [style name]
+Framework: v0.15.0 (at [FW_ROOT])
+
+Registry updated:
+  • Book added to books-registry.json
+  • Set as active book
+
+Next steps:
+  1. Execute Prompt 2 to add your first chapter
+  2. Execute Prompt 10 to see your dashboard
+  3. Read USAGE_GUIDE.md for complete guide
+  4. Say "switch to [Book Name]" to change books
+
+Git status:
+  • Initial commit created
+  • Tagged as [book-id]-v1.0.0
+  • [If remote configured: Pushed to origin]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### Legacy Mode
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -227,7 +374,7 @@ Book: [title]
 Author: [author]
 Chapters: [X]
 Style: [style name]
-Framework: v0.14.5
+Framework: v0.15.0
 
 Next steps:
   1. Execute Prompt 2 to add your first chapter
@@ -262,6 +409,21 @@ Options:
 
 ## Files Created
 
+### Multi-Book Mode
+
+**Book Directory (`[BOOKS_ROOT]/[Book-Name]/`):**
+- `.config/` - init.json, project.json, metadata.json, manifest.json
+- `Manuscript/` - Chapters/, FrontMatter/, BackMatter/, Style/, _TOC_/, Quotes/, images/, Inbox/, Drafts/, Exports/
+- `Research/`
+- PROJECT_CONTEXT.md, README.md, USAGE_GUIDE.md
+
+**Registry Updated:**
+- `.config/books-registry.json` - New book entry added
+
+**Note:** No Process/ directory - framework at FW_ROOT
+
+### Legacy Mode
+
 **Configuration (`.config/`):**
 - init.json, project.json, metadata.json, migrations.json
 - (manifest.json already exists from configure.md)
@@ -283,8 +445,8 @@ Options:
 
 ---
 
-**Version:** 0.14.5
-**Last Updated:** 2025-11-24
+**Version:** 0.15.0
+**Last Updated:** 2025-11-27
 **Token Efficiency:** 70% reduction
 
 ---
