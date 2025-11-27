@@ -857,14 +857,15 @@ Options:
 - [x] Update framework_files_manifest.json structure
 - [x] Create FW_ROOT CLAUDE.md template (FW_ROOT_CLAUDE_template.md)
 
-### Phase 8: Configure.md Updates (#97)
-- [ ] Add mode detection (Fresh Install | Update Available | BOOKS_ROOT Setup | Reconfiguration)
-- [ ] Add update detection and execution workflow (Section 11.8)
-- [ ] Add BOOKS_ROOT initialization workflow
-- [ ] Create .config/ directory with all required JSON files
-- [ ] Copy CLAUDE.md from template to BOOKS_ROOT
-- [ ] Generate startup scripts (OS-specific)
-- [ ] Update fw-location.json after updates
+### Phase 8: Configure.md Updates (#97) ✓
+- [x] Add mode detection (Fresh Install | Update Available | BOOKS_ROOT Setup | Reconfiguration)
+- [x] Add update detection and execution workflow (Step 2A)
+- [x] Add BOOKS_ROOT initialization workflow (Step 2B)
+- [x] Create .config/ directory with all required JSON files
+- [x] Copy CLAUDE.md from template to BOOKS_ROOT
+- [x] Generate startup scripts (OS-specific)
+- [x] Update fw-location.json after updates
+- [x] Legacy workflow preserved (Step 3)
 
 ---
 
