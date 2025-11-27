@@ -1,6 +1,6 @@
 # Execute Prompt 8: Consistency Checker
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **⚡ Token Efficient:** ~5,000 tokens (75% reduction from v0.14.0)
 **CLI-ONLY:** Requires Claude Code CLI for bulk file operations (30-50+ files)
 
@@ -165,7 +165,7 @@ Read all content in scope:
 
 ---
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 75% reduction
 

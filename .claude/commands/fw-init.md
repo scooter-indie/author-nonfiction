@@ -155,5 +155,5 @@ Ready! How can I help with your nonfiction authoring project?
 
 ---
 
-**Framework Version:** 0.14.4
+**Framework Version:** 0.14.5
 **Last Updated:** 2025-11-26

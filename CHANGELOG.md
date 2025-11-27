@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.14.5] - 2025-11-27
+
+### Fixed
+- **book-writing-assistant.md** - Fix YAML parsing error in agent frontmatter (#84)
+  - Wrapped description in quotes and escaped inner quotes
+  - Colons no longer interpreted as YAML mapping syntax
+
+### Added
+- **Version tracking** - Added framework version to `.claude/` files (#83)
+  - `.claude/README.md` now includes version
+  - `.claude/commands/fw-init.md` now includes version
+
+### Technical
+- **Release Type:** PATCH (bug fix, minor additions)
+- **Breaking Change:** No
+
+---
+
 ## [0.14.4] - 2025-11-27
 
 ### Fixed

@@ -1,6 +1,6 @@
 # Execute Prompt 12: Git Operations
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **⚡ Token Efficient:** ~4,000 tokens (75% reduction from v0.14.0)
 **DESKTOP-FRIENDLY:** Works 95% in Desktop (git commands via CLI)
 
@@ -184,7 +184,7 @@ Performs git version control operations on your book project. Git is your safety
 
 ---
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 75% reduction
 

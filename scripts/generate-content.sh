@@ -2,7 +2,7 @@
 
 ################################################################################
 # Batch Content Generator for Prompt 1
-# Version: 0.14.4
+# Version: 0.14.5
 #
 # Purpose: Generate ALL content files from init.json in single operation
 # Usage: bash scripts/generate-content.sh .config/init.json
@@ -428,7 +428,7 @@ generate_project_context() {
 **Book Title:** $TITLE
 **Author:** $AUTHOR
 **Initialized:** $DATE
-**Framework Version:** 0.14.4
+**Framework Version:** 0.14.5
 
 ---
 
@@ -472,7 +472,7 @@ Also upload \`Process/Prompts/README.md\` which contains the System Instructions
 ---
 
 **Generated:** $DATE
-**Framework Version:** 0.14.4
+**Framework Version:** 0.14.5
 EOF
 
     echo -e "${GREEN}✓ Generated PROJECT_CONTEXT.md${NC}"
@@ -493,7 +493,7 @@ $PURPOSE
 
 ## Project Information
 
-- **Framework Version:** 0.14.4
+- **Framework Version:** 0.14.5
 - **Initialized:** $DATE
 - **Chapters:** $CHAPTERS
 - **Writing Style:** $STYLE
@@ -589,7 +589,7 @@ print_summary() {
 
 main() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}Batch Content Generator v0.14.4${NC}"
+    echo -e "${BLUE}Batch Content Generator v0.14.5${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
