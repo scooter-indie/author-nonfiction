@@ -1,7 +1,7 @@
 # Prepare Release
 
-**Current Framework Version:** 0.14.5
-**Last Updated:** 2025-11-26
+**Current Framework Version:** 0.15.0
+**Last Updated:** 2025-11-27
 
 ---
 
@@ -64,6 +64,12 @@ Store as: `NEW_VERSION`
 Update the version number in these files:
 
 **Critical Files (MUST update):**
+
+0. `VERSION` (root level) ← NEW for v0.15.0+ re-architecture
+   - Single line containing version number (e.g., `0.15.0`)
+   - No trailing newline
+   - Used by update checking mechanism in /fw-init
+
 1. `README.md` (root level)
    - Line ~3: `**Version X.X.X**`
    - Line ~30: Download link: `nonfiction-vX.X.X.zip`
@@ -463,13 +469,49 @@ gh release view vX.X.X
 
 Check that the release includes:
 - ✅ Release page created on GitHub
-- ✅ `nonfiction-vX.X.X.zip` artifact
-- ✅ SHA256 checksum
 - ✅ Changelog from CHANGELOG.md
-- ✅ Installation instructions (dual-path for Claude Code + Claude Desktop)
-  - ✅ Option A: Claude Code CLI (recommended)
-  - ✅ Option B: Claude Desktop with system-instructions.md setup
-  - ✅ IMPORTANT note about Custom Instructions BEFORE configure.md
+- ✅ Installation instructions (clone-based for v0.15.0+)
+
+**v0.15.0+ Verification (dist repo structure):**
+- ✅ `VERSION` file at root (contains version string only)
+- ✅ Minimal `CLAUDE.md` (points to BOOKS_ROOT, not full context)
+- ✅ All BOOKS_ROOT templates in `Process/Templates/`:
+  - `BOOKS_ROOT_CLAUDE_template.md`
+  - `FW_ROOT_CLAUDE_template.md`
+  - `Archive_README_template.md`
+  - `.config/books-registry_template.json`
+  - `.config/fw-location_template.json`
+  - `.config/settings_template.json`
+- ✅ `Process/migrations/` directory with README.md
+- ✅ No `Documentation/` directory (maintainer-only)
+- ✅ No `Proposal/` directory (maintainer-only)
+- ✅ No `.github/` directory (maintainer-only)
+
+---
+
+## Dist Repo vs Main Repo (v0.15.0+)
+
+The re-architecture separates framework distribution from development:
+
+### What goes in author-nonfiction-dist (user releases):
+- `Process/` - All framework files (prompts, styles, templates, migrations)
+- `VERSION` - Semantic version for update checking
+- `CLAUDE.md` - Minimal FW_ROOT instructions
+- `LICENSE` - MIT license
+- `INSTALLATION.md` - User installation guide
+- `configure.md` - Configuration prompt
+- `system-instructions.md` - Claude Desktop instructions
+
+### What stays in author-nonfiction (maintainer only):
+- `Documentation/` - Maintainer documentation
+- `Proposal/` - Development proposals
+- `scripts/` - Build/release scripts (NOT deployed to dist)
+- `.github/` - CI/CD workflows
+- `.claude/` - Maintainer slash commands (gh-workflow.md excluded)
+- `PREPARE_RELEASE.md` - This file
+- `CHANGELOG.md` - Release history
+
+**Note:** The `scripts/` directory is no longer deployed to dist in v0.15.0+. Users don't need shell scripts since configure.md handles all initialization.
 
 ---
 
@@ -631,7 +673,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.14.5
-**Last Updated:** 2025-11-26
+**Framework Version:** 0.15.0
+**Last Updated:** 2025-11-27
 
 *This file is for framework maintainers only - not included in release packages*

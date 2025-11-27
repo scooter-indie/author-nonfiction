@@ -1,24 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
   "description": "Manifest of all framework files that should exist in a clean installation",
-  "version": "0.14.5",
-  "generatedDate": "2025-11-26",
+  "version": "0.15.0",
+  "generatedDate": "2025-11-27",
   "files": {
     "root": [
+      "VERSION",
       "INSTALLATION.md",
       "CLAUDE.md",
       "configure.md",
       "system-instructions.md",
       "LICENSE",
-      "CONTRIBUTING.md",
       ".gitignore"
-    ],
-    "scripts": [
-      "init.sh",
-      "detect-tools.sh",
-      "generate-usage-guide.sh",
-      "generate-content.sh",
-      "README.md"
     ],
     "Process": [
       "FRAMEWORK_CORE.md",
@@ -93,10 +86,14 @@
       "Prompt_15_Visual_Content_Suggester.md",
       "Prompt_16_Image_Manager.md",
       "Prompt_16_Reference.md",
+      "Prompt_17_Backup_Export.md",
       "Prompt_Essentials.md",
-      "Prompt_99_Build_Release.md",
       "README.md",
       "QUICK_REFERENCE.md"
+    ],
+    "Process/migrations": [
+      "README.md",
+      "migrate-0.14.5-to-0.15.0.md"
     ],
     "Process/_COMMON": [
       "01_Prompt_Structure_Template.md",
@@ -122,9 +119,13 @@
     ],
     "Process/Templates": [
       "About_Author_template.md",
+      "Archive_README_template.md",
+      "BOOKS_ROOT_CLAUDE_template.md",
       "Chapter_Style_Template.md",
+      "Claude_Desktop_System_Instructions.md",
       "Copyright_template.md",
       "Custom_Styles_Template.md",
+      "FW_ROOT_CLAUDE_template.md",
       "Image_Registry_template.md",
       "Image_Registry_Master_template.md",
       "Image_Registry_Chapter_template.md",
@@ -139,6 +140,9 @@
       "book-template.typ",
       "gitignore_template",
       "manifest_template.json",
+      "books-registry_template.json",
+      "fw-location_template.json",
+      "settings_template.json",
       "framework_files_manifest.json"
     ],
     "Process/Templates/.config": [
@@ -160,7 +164,9 @@
       "book-writing-assistant.md"
     ],
     ".claude/commands": [
-      "fw-init.md"
+      "fw-init.md",
+      "switch-book.md",
+      "manage-book.md"
     ]
   },
   "notes": [

@@ -36,15 +36,33 @@ jobs:
       - name: Verify version matches files
         run: |
           VERSION=${{ steps.version.outputs.version }}
+
+          # Check VERSION file (v0.15.0+)
+          if [ -f "VERSION" ]; then
+            VERSION_FILE=$(cat VERSION | tr -d '\n')
+            echo "VERSION file: $VERSION_FILE"
+            if [ "$VERSION" != "$VERSION_FILE" ]; then
+              echo "ERROR: VERSION file mismatch!"
+              echo "Tag version ($VERSION) doesn't match VERSION file ($VERSION_FILE)"
+              exit 1
+            fi
+          else
+            echo "WARNING: VERSION file not found - creating it"
+            echo -n "$VERSION" > VERSION
+          fi
+
+          # Check Documentation file (legacy check)
           FILE_VERSION=$(grep -m 1 "^\*\*Version:\*\*" Documentation/AI-Assisted_Nonfiction_Authoring_Process.md | sed 's/.*Version:\*\* //')
           echo "Tag version: $VERSION"
-          echo "File version: $FILE_VERSION"
+          echo "Doc file version: $FILE_VERSION"
           if [ "$VERSION" != "$FILE_VERSION" ]; then
             echo "ERROR: Version mismatch!"
             echo "Git tag version ($VERSION) doesn't match file version ($FILE_VERSION)"
             echo "Please update Documentation/AI-Assisted_Nonfiction_Authoring_Process.md first"
             exit 1
           fi
+
+          echo "All version checks passed!"
 
       - name: Generate release notes
         run: |

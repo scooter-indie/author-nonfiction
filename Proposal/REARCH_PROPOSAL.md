@@ -781,13 +781,13 @@ Options:
 - [x] Test MCP configuration (documented in Claude_Desktop_Setup.md)
 - [x] Document setup process (Claude_Desktop_Setup.md)
 
-### Phase 7: Release Process Updates (#96)
-- [ ] Update PREPARE_RELEASE.md with Section 10 requirements
-- [ ] Add VERSION file to release workflow
-- [ ] Update release.yml for new dist structure
-- [ ] Update deploy-dist.yml for new files
-- [ ] Update framework_files_manifest.json structure
-- [ ] Create FW_ROOT CLAUDE.md template (minimal version)
+### Phase 7: Release Process Updates (#96) ✓
+- [x] Update PREPARE_RELEASE.md with Section 10 requirements
+- [x] Add VERSION file to release workflow (release.yml)
+- [x] Update release.yml for new dist structure
+- [x] Update deploy-dist.yml for new files (VERSION, validation)
+- [x] Update framework_files_manifest.json structure
+- [x] Create FW_ROOT CLAUDE.md template (FW_ROOT_CLAUDE_template.md)
 
 ### Phase 8: Configure.md Updates (#97)
 - [ ] Add BOOKS_ROOT initialization workflow

@@ -39,16 +39,23 @@ jobs:
 
       - name: Copy framework files
         run: |
-          # Copy directories
+          VERSION=${{ steps.version.outputs.version }}
+
+          # Copy directories (scripts/ excluded in v0.15.0+ - configure.md handles init)
           cp -r Process build/temp/
           cp -r .claude build/temp/
-          cp -r scripts build/temp/
 
-          # Copy root documentation files (CONTRIBUTING.md excluded - framework dev only)
-          cp INSTALLATION.md CHANGELOG.md CLAUDE.md configure.md system-instructions.md LICENSE build/temp/
+          # Create VERSION file
+          echo -n "$VERSION" > build/temp/VERSION
 
-          # Copy migration configuration
-          cp .nonfiction-migrations.json build/temp/
+          # Copy root documentation files
+          cp INSTALLATION.md CHANGELOG.md configure.md system-instructions.md LICENSE build/temp/
+
+          # Use FW_ROOT template as CLAUDE.md (minimal version for v0.15.0+)
+          cp Process/Templates/FW_ROOT_CLAUDE_template.md build/temp/CLAUDE.md
+
+          # Copy migration configuration (legacy support)
+          cp .nonfiction-migrations.json build/temp/ 2>/dev/null || echo "No legacy migrations file"
 
       - name: Remove development files
         run: |
@@ -60,16 +67,78 @@ jobs:
           # Remove development-only files
           rm -f PREPARE_RELEASE.md
           rm -f Process/Prompts/Prompt_99_Build_Release.md
-          rm -f Process/Prompts/README.md
 
-          # Remove Proposal directory
+          # Remove Proposal directory (maintainer-only)
           rm -rf Proposal/
+
+          # Remove Documentation directory (maintainer-only, v0.15.0+)
+          rm -rf Documentation/
 
           # Remove local settings
           rm -f .claude/settings.local.json
 
           # Remove maintainer-only commands
           rm -f .claude/commands/gh-workflow.md
+
+      - name: Validate dist structure
+        run: |
+          cd build/temp
+          echo "=== Validating dist structure (v0.15.0+) ==="
+
+          # Check VERSION file exists
+          if [ ! -f "VERSION" ]; then
+            echo "ERROR: VERSION file missing!"
+            exit 1
+          fi
+          echo "VERSION: $(cat VERSION)"
+
+          # Check CLAUDE.md is minimal (should be small)
+          CLAUDE_SIZE=$(wc -c < CLAUDE.md)
+          if [ "$CLAUDE_SIZE" -gt 5000 ]; then
+            echo "WARNING: CLAUDE.md is larger than expected ($CLAUDE_SIZE bytes)"
+            echo "Should be using minimal FW_ROOT template"
+          fi
+
+          # Check new templates exist
+          REQUIRED_TEMPLATES=(
+            "Process/Templates/BOOKS_ROOT_CLAUDE_template.md"
+            "Process/Templates/FW_ROOT_CLAUDE_template.md"
+            "Process/Templates/Archive_README_template.md"
+            "Process/Templates/books-registry_template.json"
+            "Process/Templates/fw-location_template.json"
+            "Process/Templates/settings_template.json"
+          )
+
+          for template in "${REQUIRED_TEMPLATES[@]}"; do
+            if [ ! -f "$template" ]; then
+              echo "ERROR: Missing template: $template"
+              exit 1
+            fi
+            echo "OK: $template"
+          done
+
+          # Check migrations directory
+          if [ ! -d "Process/migrations" ]; then
+            echo "ERROR: Process/migrations directory missing!"
+            exit 1
+          fi
+          echo "OK: Process/migrations/"
+
+          # Verify excluded directories are gone
+          if [ -d "Documentation" ]; then
+            echo "ERROR: Documentation/ should not be in dist!"
+            exit 1
+          fi
+          if [ -d "Proposal" ]; then
+            echo "ERROR: Proposal/ should not be in dist!"
+            exit 1
+          fi
+          if [ -d "scripts" ]; then
+            echo "ERROR: scripts/ should not be in dist (v0.15.0+)!"
+            exit 1
+          fi
+
+          echo "=== Dist structure validation passed ==="
 
       - name: Create manifest template
         run: |
