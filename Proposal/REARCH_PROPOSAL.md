@@ -553,6 +553,194 @@ Check that the release includes:
 
 ---
 
+### 11. Configure.md Modifications Required
+
+The existing `configure.md` handles single-book (legacy) setup. For multi-book mode, it needs significant updates.
+
+#### 11.1 Mode Detection
+
+**At startup, configure.md must detect:**
+
+1. **Fresh Install** - No FW_ROOT or BOOKS_ROOT exists
+2. **FW_ROOT Only** - Framework installed, need to create BOOKS_ROOT
+3. **Complete Setup** - Both FW_ROOT and BOOKS_ROOT exist (reconfiguration)
+
+```
+Step 0: Installation Mode Detection
+
+Checking installation type...
+
+[ ] FW_ROOT exists at configured location?
+[ ] BOOKS_ROOT/.config/fw-location.json exists?
+[ ] BOOKS_ROOT/.config/books-registry.json exists?
+
+Result: [Fresh Install | FW_ROOT Only | Complete Setup]
+```
+
+#### 11.2 Fresh Install Workflow
+
+**Steps for brand new users:**
+
+1. **Ask for FW_ROOT location**
+   ```
+   Where would you like to install the framework?
+   Example: E:\author-nonfiction-framework
+   ```
+
+2. **Clone framework from dist**
+   ```bash
+   git clone https://github.com/scooter-indie/author-nonfiction-dist.git [FW_ROOT]
+   ```
+
+3. **Ask for BOOKS_ROOT location**
+   ```
+   Where would you like to store your books?
+   Example: E:\My-Books
+   ```
+
+4. **Create BOOKS_ROOT structure**
+   ```bash
+   mkdir [BOOKS_ROOT]
+   mkdir [BOOKS_ROOT]/.config
+   cd [BOOKS_ROOT] && git init
+   ```
+
+5. **Create configuration files** (see Section 11.3)
+
+6. **Copy CLAUDE.md template**
+   ```bash
+   cp [FW_ROOT]/Process/Templates/BOOKS_ROOT_CLAUDE_template.md [BOOKS_ROOT]/CLAUDE.md
+   ```
+
+7. **Generate startup scripts** (see Section 11.4)
+
+8. **Initial git commit**
+   ```bash
+   cd [BOOKS_ROOT] && git add . && git commit -m "Initialize books repository"
+   ```
+
+#### 11.3 Configuration Files Creation
+
+**Create `[BOOKS_ROOT]/.config/fw-location.json`:**
+```json
+{
+  "frameworkRoot": "[FW_ROOT path]",
+  "frameworkVersion": "[version from FW_ROOT/VERSION]",
+  "lastUpdateCheck": "[CONFIRMED_DATE]"
+}
+```
+
+**Create `[BOOKS_ROOT]/.config/books-registry.json`:**
+```json
+{
+  "version": "1.0",
+  "activeBook": null,
+  "books": []
+}
+```
+
+**Create `[BOOKS_ROOT]/.config/settings.json`:**
+```json
+{
+  "github": {
+    "enabled": false,
+    "repository": null,
+    "autoPush": false
+  },
+  "backup": {
+    "zipLocation": null,
+    "autoBackup": false
+  },
+  "preferences": {
+    "defaultStyle": "Conversational Expert",
+    "confirmDate": true
+  }
+}
+```
+
+#### 11.4 Startup Scripts Generation
+
+**Ask user:**
+```
+Would you like to generate startup scripts for Claude Code CLI?
+- "yes" - Generate scripts for your OS
+- "no" - Skip (you can create them manually later)
+```
+
+**Windows (`start-authoring.bat`):**
+```batch
+@echo off
+cd /d [BOOKS_ROOT]
+claude
+```
+Location: User's choice (Desktop, BOOKS_ROOT, or custom)
+
+**macOS/Linux (`start-authoring.sh`):**
+```bash
+#!/bin/bash
+cd [BOOKS_ROOT]
+claude
+```
+Then: `chmod +x start-authoring.sh`
+
+#### 11.5 FW_ROOT Only Workflow
+
+**For users who already have FW_ROOT but need BOOKS_ROOT:**
+
+1. **Verify FW_ROOT location**
+   - Check VERSION file exists
+   - Read current framework version
+
+2. **Ask for BOOKS_ROOT location** (Step 3 from Fresh Install)
+
+3. **Create BOOKS_ROOT structure** (Steps 4-8 from Fresh Install)
+
+4. **Skip framework clone** (already exists)
+
+#### 11.6 Reconfiguration Workflow
+
+**For users with existing setup needing changes:**
+
+Options:
+- Update FW_ROOT location (if moved)
+- Update BOOKS_ROOT settings
+- Regenerate startup scripts
+- Reconfigure GitHub remote
+
+#### 11.7 Environment-Specific Handling
+
+**Claude Desktop:**
+- Provide copy blocks for all CLI commands
+- Guide user through MCP filesystem configuration
+- Cannot auto-generate startup scripts (provide as copyable text)
+
+**Claude Code CLI:**
+- Execute commands directly
+- Can write startup scripts to filesystem
+- Full automation possible
+
+#### 11.8 Updated configure.md Structure
+
+```markdown
+# Framework Configuration (v0.15.0+)
+
+## Step 0: Confirm Date
+## Step 0.5: Check Required Tools (git, jq)
+## Step 1: Installation Mode Detection (NEW)
+## Step 2: FW_ROOT Setup (NEW - or verify existing)
+## Step 3: BOOKS_ROOT Setup (NEW)
+## Step 4: Configuration Files Creation (NEW)
+## Step 5: CLAUDE.md Setup (NEW)
+## Step 6: Git Repository Setup (updated for BOOKS_ROOT)
+## Step 7: Remote Repository Setup (optional)
+## Step 8: Startup Scripts Generation (NEW)
+## Step 9: Export Tool Discovery (optional)
+## Step 10: Verify Installation
+## Step 11: Configuration Complete
+```
+
+---
+
 ## Implementation Phases
 
 ### Phase 1: Core Architecture (#90) ✓
@@ -601,6 +789,14 @@ Check that the release includes:
 - [ ] Update framework_files_manifest.json structure
 - [ ] Create FW_ROOT CLAUDE.md template (minimal version)
 
+### Phase 8: Configure.md Updates (#97)
+- [ ] Add BOOKS_ROOT initialization workflow
+- [ ] Create .config/ directory with all required JSON files
+- [ ] Copy CLAUDE.md from template to BOOKS_ROOT
+- [ ] Generate startup scripts (OS-specific)
+- [ ] Update existing FW_ROOT configuration for multi-book mode
+- [ ] Add mode detection (fresh install vs adding to existing FW_ROOT)
+
 ---
 
 ## Requirements Traceability
@@ -626,6 +822,7 @@ Check that the release includes:
 | 17 | Update check in Desktop | Section 3.2, 5.1 |
 | 18 | Update check in CLI | Section 4.3, 5.1 |
 | 19 | Update mechanism | Section 5 |
+| 20 | Automated BOOKS_ROOT setup via configure.md | Section 11 |
 
 **Note on Requirement 14:** The decision was made to use a single Claude Desktop Project with book selection instead of separate Projects per book, for simplicity.
 
