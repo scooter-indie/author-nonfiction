@@ -776,10 +776,10 @@ Options:
 - [x] Update registry for archived status tracking (status: "archived")
 - [x] Create book restore from archive (/manage-book restore)
 
-### Phase 6: Claude Desktop (#95)
-- [ ] Create minimal system instructions
-- [ ] Test MCP configuration
-- [ ] Document setup process
+### Phase 6: Claude Desktop (#95) ✓
+- [x] Create minimal system instructions (Claude_Desktop_System_Instructions.md)
+- [x] Test MCP configuration (documented in Claude_Desktop_Setup.md)
+- [x] Document setup process (Claude_Desktop_Setup.md)
 
 ### Phase 7: Release Process Updates (#96)
 - [ ] Update PREPARE_RELEASE.md with Section 10 requirements

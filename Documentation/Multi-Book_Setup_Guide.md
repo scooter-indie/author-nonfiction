@@ -55,7 +55,9 @@ Add both directories to allowed paths in Claude Desktop settings:
 
 ### System Instructions
 
-Use minimal instructions from `[FW_ROOT]/Process/Templates/Desktop_System_Instructions.md`
+See `[FW_ROOT]/Process/Templates/Claude_Desktop_System_Instructions.md` for the template.
+
+For detailed setup: See `Documentation/Claude_Desktop_Setup.md`
 
 ---
 
