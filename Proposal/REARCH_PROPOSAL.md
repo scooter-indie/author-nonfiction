@@ -582,11 +582,11 @@ Check that the release includes:
 - [x] Implement GitHub integration (Prompt 17 Option 3)
 - [x] Test backup/restore workflow (documented in prompt)
 
-### Phase 5: Book Management (#94)
-- [ ] Create book archive functionality
-- [ ] Create book delete functionality (with confirmation)
-- [ ] Update registry for archived status tracking
-- [ ] Create book restore from archive
+### Phase 5: Book Management (#94) ✓
+- [x] Create book archive functionality (/manage-book archive)
+- [x] Create book delete functionality with confirmation (/manage-book delete)
+- [x] Update registry for archived status tracking (status: "archived")
+- [x] Create book restore from archive (/manage-book restore)
 
 ### Phase 6: Claude Desktop (#95)
 - [ ] Create minimal system instructions
