@@ -152,3 +152,8 @@ Ready! How can I help with your nonfiction authoring project?
 - Can be re-run mid-session if context is lost or session becomes very long
 - Additional docs load on-demand as needed
 - Makes essential framework knowledge immediately available for prompt execution
+
+---
+
+**Framework Version:** 0.14.5
+**Last Updated:** 2025-11-26

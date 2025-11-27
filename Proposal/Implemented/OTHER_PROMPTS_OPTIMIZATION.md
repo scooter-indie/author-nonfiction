@@ -1,7 +1,7 @@
 # Other Prompts Optimization Proposal
 
 **Status:** Proposal
-**Target Version:** 0.14.4
+**Target Version:** 0.14.5
 **Created:** 2025-11-24
 **Goal:** Optimize remaining 15 prompts after Prompt 4 refactor
 
@@ -228,7 +228,7 @@ These prompts are relatively concise or have minimal separable content.
 
 ## Implementation Priority
 
-### Phase 1: High-Value Refactors (Target: v0.14.4)
+### Phase 1: High-Value Refactors (Target: v0.14.5)
 
 **Priority 1: Prompts with Most Usage**
 1. Prompt 8 (Consistency) - Used at milestones
@@ -275,7 +275,7 @@ For each prompt refactor, follow this template:
 ```markdown
 # Execute Prompt X: [Name]
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **⚡ Token Efficient:** ~[target] tokens (X% reduction from v0.14.0)
 
 ---
@@ -324,7 +324,7 @@ For each prompt refactor, follow this template:
 
 ---
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **Last Updated:** [date]
 **Token Efficiency:** X% reduction
 ```
@@ -337,7 +337,7 @@ For each prompt refactor, follow this template:
 ```markdown
 # Prompt X Reference Documentation
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **Purpose:** Detailed examples, edge cases, and troubleshooting
 
 ---
@@ -379,7 +379,7 @@ For each prompt refactor, follow this template:
 
 ---
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **For Core Workflow:** See `Prompt_X_[Name].md`
 ```
 
@@ -495,7 +495,7 @@ After all refactors:
 
 Add section:
 ```markdown
-## Prompt Reference Files (v0.14.4+)
+## Prompt Reference Files (v0.14.5+)
 
 Many prompts have been split into core + reference for better token efficiency:
 
@@ -519,7 +519,7 @@ The reference file will load on-demand without affecting your core workflow.
 
 Update performance claims:
 ```markdown
-## Performance (v0.14.4)
+## Performance (v0.14.5)
 
 **Token Efficiency:**
 - Framework overhead: 2-5% of session (vs 40% in v0.13.0)
@@ -581,7 +581,7 @@ This optimization will deliver **54% reduction** in token usage across all 15 re
 
 ---
 
-**Status:** Proposal for v0.14.4
+**Status:** Proposal for v0.14.5
 **Dependencies:** Phase 2 of PROMPT_TOKEN_OPTIMIZATION.md
 **Est. Start Date:** After Phase 2 completion
 **Est. Completion:** 4 weeks

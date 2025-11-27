@@ -58,3 +58,8 @@ See `commands/fw-init.md` for complete initialization sequence.
 Contains agent definitions for specialized AI assistants.
 
 - `book-writing-assistant.md` - Primary agent for book authoring sessions
+
+---
+
+**Framework Version:** 0.14.5
+**Last Updated:** 2025-11-26

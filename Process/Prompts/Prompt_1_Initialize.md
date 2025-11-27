@@ -1,6 +1,6 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **⚡ Token Efficient:** ~5,500 tokens (70% reduction from v0.14.0)
 **HYBRID:** Desktop Q&A → CLI execution
 
@@ -194,7 +194,7 @@ git commit -m "Initialize book project: [title]
 - Created [X]-chapter structure
 - Selected style: [style name]
 - Disclaimer acknowledged (v1.0)
-- Framework v0.14.4
+- Framework v0.14.5
 
 🤖 Generated with Claude Code
 
@@ -219,7 +219,7 @@ Book: [title]
 Author: [author]
 Chapters: [X]
 Style: [style name]
-Framework: v0.14.4
+Framework: v0.14.5
 
 Next steps:
   1. Execute Prompt 2 to add your first chapter
@@ -274,7 +274,7 @@ Options:
 
 ---
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 70% reduction
 

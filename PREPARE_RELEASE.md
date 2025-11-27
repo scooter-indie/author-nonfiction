@@ -1,6 +1,6 @@
 # Prepare Release
 
-**Current Framework Version:** 0.14.4
+**Current Framework Version:** 0.14.5
 **Last Updated:** 2025-11-26
 
 ---
@@ -107,29 +107,37 @@ Update the version number in these files:
    - Line ~552: `**Framework Version:** X.X.X` (footer)
    - Line ~553: `**Last Updated:** YYYY-MM-DD` (footer)
 
+**.claude Files (Must update version footers):**
+
 9. `.claude/commands/fw-init.md`
-   - Line ~7: Version note in improvement message
-   - Line ~95: Framework version in completion report
-   - Line ~96: Token savings note
-   - Line ~140: Version note in "Notes" section
+   - Footer: `**Framework Version:** X.X.X`
+   - Footer: `**Last Updated:** YYYY-MM-DD`
+
+10. `.claude/agents/book-writing-assistant.md`
+    - Footer: `**Framework Version:** X.X.X`
+    - Footer: `**Last Updated:** YYYY-MM-DD`
+
+11. `.claude/README.md`
+    - Footer: `**Framework Version:** X.X.X`
+    - Footer: `**Last Updated:** YYYY-MM-DD`
 
 **Shell Scripts (Must update version headers):**
-10. `scripts/init.sh`
+12. `scripts/init.sh`
     - Line ~5: `# Version: X.X.X`
     - Line ~227: Version in banner: `Nonfiction Framework Initialization Script vX.X.X`
 
-11. `scripts/detect-tools.sh`
+13. `scripts/detect-tools.sh`
     - Line ~5: `# Version: X.X.X`
     - Line ~166: Version in banner: `Tool Detection Script vX.X.X`
 
-12. `scripts/generate-usage-guide.sh`
+14. `scripts/generate-usage-guide.sh`
     - Line ~5: `# Version: X.X.X`
 
-13. `scripts/generate-content.sh`
+15. `scripts/generate-content.sh`
     - Line ~3: `# Version: X.X.X`
     - Line ~232: Version in banner: `Batch Content Generator vX.X.X`
 
-14. `Process/Scripts/compile-manuscript.sh`
+16. `Process/Scripts/compile-manuscript.sh`
    - No version number currently (add if needed)
 
 **CHANGELOG.md:**
@@ -349,7 +357,7 @@ The `Documentation/` directory contains maintainer documentation and is NOT incl
 **Example manifest structure:**
 ```json
 {
-  "version": "0.14.4",
+  "version": "0.14.5",
   "generatedDate": "2025-11-26",
   "files": {
     "root": ["INSTALLATION.md", "CLAUDE.md", "configure.md", "system-instructions.md", ".gitignore"],
@@ -403,6 +411,8 @@ UPDATED:
 - PREPARE_RELEASE.md
 - system-instructions.md
 - .claude/commands/fw-init.md
+- .claude/agents/book-writing-assistant.md
+- .claude/README.md
 - Documentation/AI-Assisted_Nonfiction_Authoring_Process.md
 - CHANGELOG.md
 - scripts/init.sh
@@ -469,12 +479,16 @@ This list helps verify all version references are updated:
 
 ### Framework Documentation (User-Facing)
 - `README.md` - Root level readme (header, footer, download links, prompt counts)
-- `Process/FRAMEWORK_CORE.md` - Header and footer version and date ← NEW
+- `Process/FRAMEWORK_CORE.md` - Header and footer version and date
 - `CLAUDE.md` - Header and footer version and date
 - `configure.md` - Header and footer version
 - `INSTALLATION.md` - All download links and references
 - `system-instructions.md` - Header and footer version, token efficiency note
-- `.claude/commands/fw-init.md` - Version notes throughout ← NEW
+
+### .claude Directory (User-Facing)
+- `.claude/commands/fw-init.md` - Footer version and date
+- `.claude/agents/book-writing-assistant.md` - Footer version and date
+- `.claude/README.md` - Footer version and date
 
 ### Shell Scripts (Framework Automation)
 - `scripts/init.sh` - Header version comment and banner display
@@ -535,7 +549,7 @@ Before creating a release, verify:
 - [ ] **system-instructions.md reviewed** for correct compatibility classifications
 - [ ] **`.nonfiction-migrations.json` verified** with correct migrations for this release
 - [ ] **Migration testing completed** if migrations are included in this release
-- [ ] All version numbers updated consistently across 11 files (8 docs + 3 shell scripts)
+- [ ] All version numbers updated consistently across 14 files (8 docs + 3 .claude files + 3 shell scripts)
 - [ ] **Shell scripts verified** (init.sh, detect-tools.sh, generate-usage-guide.sh)
 - [ ] **Repository state verified** (Step 0 completed - no uncommitted changes)
 - [ ] GitHub Actions workflow is functioning
@@ -617,7 +631,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.14.4
+**Framework Version:** 0.14.5
 **Last Updated:** 2025-11-26
 
 *This file is for framework maintainers only - not included in release packages*

@@ -1,6 +1,6 @@
 # Prompt 1 Reference Documentation
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **Purpose:** Detailed Q&A examples, config formats, and troubleshooting
 
 ---
@@ -192,7 +192,7 @@ Which style? (1-19)
   ],
   "style": "Conversational Expert",
   "createdDate": "2025-11-24",
-  "frameworkVersion": "0.14.4",
+  "frameworkVersion": "0.14.5",
   "disclaimer_acknowledged": true,
   "disclaimer_version": "1.0",
   "acknowledged_date": "2025-11-24"
@@ -209,7 +209,7 @@ Which style? (1-19)
   "settings": {
     "prompt_9_verbose": true
   },
-  "frameworkVersion": "0.14.4",
+  "frameworkVersion": "0.14.5",
   "createdDate": "2025-11-24",
   "lastModified": "2025-11-24"
 }
@@ -257,7 +257,7 @@ Which style? (1-19)
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "Framework installation manifest",
-  "frameworkVersion": "0.14.4",
+  "frameworkVersion": "0.14.5",
   "installedDate": "2025-11-24",
   "lastUpdated": "2025-11-24",
   "installationMethod": "Prompt 1",
@@ -325,7 +325,7 @@ Which style? (1-19)
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nonfiction Framework Initialization Script v0.14.4
+Nonfiction Framework Initialization Script v0.14.5
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Validating preconditions...
@@ -366,7 +366,7 @@ Initializing git repository...
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Batch Content Generator v0.14.4
+Batch Content Generator v0.14.5
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Validating preconditions...
@@ -494,5 +494,5 @@ During initialization:
 
 ---
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **For Core Workflow:** See `Prompt_1_Initialize.md`

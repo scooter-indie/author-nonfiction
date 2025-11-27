@@ -1,6 +1,6 @@
 # Execute Prompt 10: Progress Dashboard
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **⚡ Token Efficient:** ~4,500 tokens (70% reduction from v0.14.0)
 **DESKTOP-FRIENDLY:** Works 95% in Desktop (read-only)
 
@@ -137,7 +137,7 @@ Update with latest project state for session resumption.
 
 ---
 
-**Version:** 0.14.4
+**Version:** 0.14.5
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 70% reduction
 
