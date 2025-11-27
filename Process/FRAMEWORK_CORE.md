@@ -1,4 +1,4 @@
-# Framework Core (v0.14.5)
+# Framework Core (v0.15.0)
 
 **Purpose:** Essential framework knowledge for immediate session readiness
 **Loading Strategy:** Load at startup, on-demand loading for detailed docs
@@ -100,6 +100,7 @@
 - **Prompt 14:** Citation Finder - Requires WebSearch for verification
 - **Prompt 15:** Visual Content Suggester - Bulk file operations, text-based visuals
 - **Prompt 16:** Image Manager - File operations, registry updates, actual images
+- **Prompt 17:** Backup & Export - ZIP creation, GitHub setup (v0.15.0+)
 
 **When user asks to execute CLI-ONLY prompts in Claude Desktop:**
 ```
@@ -424,9 +425,9 @@ Section Style (Optional Override)
 
 ## 11. Framework Version & Support
 
-**Framework Version:** 0.14.5
+**Framework Version:** 0.15.0
 **Disclaimer Version:** 1.0
-**Release Date:** 2025-11-26
+**Release Date:** 2025-11-27
 **Loading Strategy:** Core at startup, detailed docs on-demand
 
 **Support Resources:**
