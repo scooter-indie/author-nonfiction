@@ -1,6 +1,6 @@
 # Execute Prompt 7: Compile Complete Manuscript
 
-**Version:** 0.14.3
+**Version:** 0.14.4
 **⚡ Token Efficient:** ~3,000 tokens (75% reduction from v0.14.0)
 **CLI-ONLY:** Bulk file operations
 
@@ -120,7 +120,7 @@ For chapters with verified quotes (Status ✓):
 
 ---
 
-**Version:** 0.14.3
+**Version:** 0.14.4
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 75% reduction
 

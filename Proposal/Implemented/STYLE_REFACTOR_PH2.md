@@ -26,7 +26,7 @@ Phase 2 of the style library refactoring focuses on **implementation and integra
 2. **Documentation Updates** - Update CLAUDE.md, system-instructions.md, main docs
 3. **Complexity/Expertise Levels** - Implement 4-level audience targeting system
 4. **Testing & Validation** - Comprehensive testing of new workflows
-5. **Future Enhancements** - Style Wizard, Analytics, Community Styles (v0.14.3+)
+5. **Future Enhancements** - Style Wizard, Analytics, Community Styles (v0.14.4+)
 
 ---
 
@@ -453,9 +453,9 @@ This chapter introduces concepts to a general audience...
 
 ---
 
-## Future Enhancements (v0.14.3+)
+## Future Enhancements (v0.14.4+)
 
-### Style Wizard (v0.14.3)
+### Style Wizard (v0.14.4)
 
 **Concept:** Interactive questionnaire to recommend styles
 
@@ -756,7 +756,7 @@ The following genres were identified but not selected for Phase 1 implementation
 **Target Completion:** TBD
 
 ### Phase 6: Advanced Features (Future)
-- [ ] Style Wizard (v0.14.3)
+- [ ] Style Wizard (v0.14.4)
 - [ ] Community Styles (v1.0.0+)
 - [ ] Style Mixing (Future)
 - [ ] Style Analytics (Future)
@@ -806,8 +806,8 @@ The following genres were identified but not selected for Phase 1 implementation
    - Advanced feature for audience targeting
    - Will be implemented in v0.14.0 based on user feedback
 
-4. ⏳ **Future enhancements (v0.14.3+)** - PROPOSED for future versions
-   - Style Wizard (v0.14.3)
+4. ⏳ **Future enhancements (v0.14.4+)** - PROPOSED for future versions
+   - Style Wizard (v0.14.4)
    - Community Styles (v1.0.0+)
    - Style Mixing (Future)
    - Style Analytics (Future)

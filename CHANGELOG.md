@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.14.4] - 2025-11-27
+
+### Fixed
+- **deploy-dist.yml** - Exclude CONTRIBUTING.md from distribution repo (#82)
+  - CONTRIBUTING.md is for framework contributors, not end users
+- **deploy-dist.yml** - Use `shopt -s dotglob` for reliable dotfile copying (#81)
+  - Ensures `.claude/` and other dotfiles are properly copied
+- **configure.md** - Clarify push behavior and set origin as default remote (#80)
+  - Users can now push to their own `origin` remote
+  - Clear messaging about remote configuration
+
+### Technical
+- **Release Type:** PATCH (deployment fixes)
+- **Breaking Change:** No
+
+---
+
 ## [0.14.3] - 2025-11-26
 
 ### Added

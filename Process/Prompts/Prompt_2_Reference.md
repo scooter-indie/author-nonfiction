@@ -1,6 +1,6 @@
 # Prompt 2 Reference Documentation
 
-**Version:** 0.14.3
+**Version:** 0.14.4
 **Purpose:** Detailed examples, file templates, and troubleshooting
 
 ---
@@ -396,5 +396,5 @@ Next Steps:
 
 ---
 
-**Version:** 0.14.3
+**Version:** 0.14.4
 **For Core Workflow:** See `Prompt_2_Add_Chapter.md`

@@ -5,7 +5,7 @@
     {
       "id": "migration_disclaimer_1.0",
       "fromVersion": "0.14.x",
-      "toVersion": "0.14.3",
+      "toVersion": "0.14.4",
       "date": "2025-11-26",
       "description": "Introduce disclaimer acknowledgment requirement",
       "disclaimerVersion": "1.0",
