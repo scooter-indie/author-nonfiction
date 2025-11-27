@@ -264,11 +264,92 @@ Add disclaimer acknowledgment fields:
 
 ---
 
-## Open Questions
+## Resolved Questions
 
-1. Should the disclaimer version be tracked separately from framework version?
-2. Should we add a CONTRIBUTING.md file with contributor agreement?
-3. Should the disclaimer also appear during framework updates/migrations?
+1. **Track disclaimer version separately?** → **YES** - Add `disclaimer_version` field (e.g., "1.0") independent of framework version
+2. **Add CONTRIBUTING.md?** → **YES** - Include contributor agreement
+3. **Show during migrations?** → **YES** - Re-display disclaimer when disclaimer version changes
+
+---
+
+## Additional Implementation Details
+
+### Disclaimer Versioning
+
+Add to `Process/DISCLAIMER.md`:
+```markdown
+**Disclaimer Version:** 1.0
+```
+
+Add to `.config/init.json`:
+```json
+{
+  "disclaimer_version": "1.0",
+  "disclaimer_acknowledged": true,
+  "acknowledged_date": "YYYY-MM-DD"
+}
+```
+
+### CONTRIBUTING.md (Repository Root)
+
+```markdown
+# Contributing to AI-Assisted Nonfiction Authoring Framework
+
+Thank you for your interest in contributing!
+
+## Contributor Agreement
+
+By submitting a pull request or contributing code to this project, you agree that:
+
+1. Your contributions are your own original work
+2. You grant the project maintainers a perpetual, worldwide, non-exclusive, royalty-free license to use, modify, and distribute your contributions
+3. Your contributions will be licensed under the same MIT License as the project
+4. You have read and agree to the project's [Disclaimer](Process/DISCLAIMER.md)
+
+## How to Contribute
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## Code of Conduct
+
+Be respectful and constructive in all interactions.
+```
+
+### Migration Disclaimer Check
+
+Add to migration logic (when `disclaimer_version` in `.config/init.json` < current version):
+
+1. Display updated disclaimer
+2. Require re-acknowledgment
+3. Update `disclaimer_version` and `acknowledged_date` in config
+
+---
+
+## Updated Implementation Plan
+
+### Phase 1: Create License, Disclaimer, and Contributing Files
+1. Create `LICENSE` (MIT)
+2. Create `Process/DISCLAIMER.md` with version 1.0
+3. Create `CONTRIBUTING.md`
+4. Commit: "Add MIT License, Disclaimer, and Contributing guide (#35)"
+
+### Phase 2: Update Prompt 1
+1. Add disclaimer acknowledgment step
+2. Record disclaimer version in `.config/init.json`
+3. Commit: "Add disclaimer acknowledgment to Prompt 1 (#35)"
+
+### Phase 3: Add Migration Check
+1. Update migration logic to check disclaimer version
+2. Re-display and require acknowledgment if version changed
+3. Commit: "Add disclaimer version migration check (#35)"
+
+### Phase 4: Update Templates and Documentation
+1. Update `README_AUTHORS_template.md` with disclaimer link
+2. Update `CLAUDE.md` and `FRAMEWORK_CORE.md`
+3. Commit: "Update documentation for disclaimer (#35)"
 
 ---
 
