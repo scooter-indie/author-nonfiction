@@ -82,6 +82,39 @@ Which style? (1-2)
 
 > "2 - Conversational Expert"
 
+---
+
+### Disclaimer Acknowledgment (After Q&A)
+
+**Display disclaimer header:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  DISCLAIMER ACKNOWLEDGMENT REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before creating your book project, you must acknowledge
+the framework disclaimer.
+```
+
+**Then display full contents of `Process/DISCLAIMER.md`**
+
+**Ask:**
+```
+To proceed, type exactly: I acknowledge the disclaimer
+```
+
+> "I acknowledge the disclaimer"
+
+**If user refuses or types something else:**
+```
+Acknowledgment required to proceed. Please type exactly:
+I acknowledge the disclaimer
+
+Or type "cancel" to abort initialization.
+```
+
+---
+
 **Alternative - If user says "all":**
 ```
 All 19 styles:
@@ -134,7 +167,7 @@ Which style? (1-19)
 
 ### `.config/init.json`
 
-**Required fields:** `title`, `author`, `style`, `chapters`, `createdDate`
+**Required fields:** `title`, `author`, `style`, `chapters`, `createdDate`, `disclaimer_acknowledged`, `disclaimer_version`, `acknowledged_date`
 
 ```json
 {
@@ -159,7 +192,10 @@ Which style? (1-19)
   ],
   "style": "Conversational Expert",
   "createdDate": "2025-11-24",
-  "frameworkVersion": "0.15.0"
+  "frameworkVersion": "0.15.0",
+  "disclaimer_acknowledged": true,
+  "disclaimer_version": "1.0",
+  "acknowledged_date": "2025-11-24"
 }
 ```
 

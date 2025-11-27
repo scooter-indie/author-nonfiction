@@ -1,4 +1,4 @@
-# Framework Core (v0.14.2)
+# Framework Core (v0.15.0)
 
 **Purpose:** Essential framework knowledge for immediate session readiness
 **Loading Strategy:** Load at startup, on-demand loading for detailed docs
@@ -403,9 +403,29 @@ Section Style (Optional Override)
 
 ---
 
-## 10. Framework Version & Support
+## 10. License & Disclaimer
 
-**Framework Version:** 0.14.2
+**License:** MIT License (see `LICENSE` file)
+
+**Disclaimer:** By using this framework, you acknowledge:
+- No warranty or guarantee of fitness for any purpose
+- No liability for published works created using the framework
+- No guarantee of AI accuracy (verification is your responsibility)
+- Full responsibility for your own content
+
+**Full Disclaimer:** See `Process/DISCLAIMER.md`
+
+**Disclaimer Acknowledgment:**
+- Required during Prompt 1 (Initialize) for new projects
+- Re-acknowledgment required when disclaimer version changes
+- Acknowledgment recorded in `.config/init.json`
+
+---
+
+## 11. Framework Version & Support
+
+**Framework Version:** 0.15.0
+**Disclaimer Version:** 1.0
 **Release Date:** 2025-11-26
 **Loading Strategy:** Core at startup, detailed docs on-demand
 
@@ -427,6 +447,7 @@ Section Style (Optional Override)
 ✅ **Git Integration** - Version control essentials
 ✅ **On-Demand Loading Guide** - How to load detailed docs
 ✅ **Quick Workflows** - Common task patterns
+✅ **License & Disclaimer** - Legal terms and user responsibilities
 ✅ **Framework Metadata** - Version and support info
 
 **You are now ready to execute any prompt or answer framework questions.**

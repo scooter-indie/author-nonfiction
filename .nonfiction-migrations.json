@@ -3,6 +3,26 @@
   "description": "Migration rules for AI-Assisted Nonfiction Authoring Framework upgrades",
   "migrations": [
     {
+      "id": "migration_disclaimer_1.0",
+      "fromVersion": "0.14.x",
+      "toVersion": "0.15.0",
+      "date": "2025-11-26",
+      "description": "Introduce disclaimer acknowledgment requirement",
+      "disclaimerVersion": "1.0",
+      "changes": [
+        {
+          "type": "disclaimer_reacknowledge",
+          "disclaimerVersion": "1.0",
+          "reason": "First introduction of disclaimer system - all existing projects must acknowledge",
+          "manualSteps": [
+            "1. Read the disclaimer displayed by the framework",
+            "2. Type exactly: I acknowledge the disclaimer",
+            "3. Acknowledgment will be recorded in .config/init.json"
+          ]
+        }
+      ]
+    },
+    {
       "id": "migration_0.10.1_to_0.10.2",
       "fromVersion": "0.10.1",
       "toVersion": "0.10.2",
@@ -45,6 +65,12 @@
     }
   ],
   "changeTypes": {
+    "disclaimer_reacknowledge": {
+      "description": "Require re-acknowledgment of disclaimer when version changes",
+      "requiredFields": ["disclaimerVersion", "reason"],
+      "optionalFields": ["manualSteps"],
+      "behavior": "Display Process/DISCLAIMER.md and require user to type 'I acknowledge the disclaimer' before proceeding. Update .config/init.json with new disclaimer_version and acknowledged_date."
+    },
     "rename": {
       "description": "Rename a file or directory",
       "requiredFields": ["from", "to", "reason"],

@@ -21,16 +21,17 @@ Creates complete nonfiction book project:
 
 ---
 
-## Workflow (8 Steps)
+## Workflow (9 Steps)
 
 1. Lock ProjectConfig
 2. Detect environment
 3. Interactive Q&A
-4. Create config files
-5. Run initialization script
-6. Generate content
-7. Git commit and tag
-8. Release lock
+4. **Disclaimer Acknowledgment (REQUIRED)**
+5. Create config files
+6. Run initialization script
+7. Generate content
+8. Git commit and tag
+9. Release lock
 
 ---
 
@@ -84,7 +85,46 @@ See: Prompt_Essentials.md → Lock Management
 
 ---
 
-## Step 3: Create Config Files
+## Step 3: Disclaimer Acknowledgment (REQUIRED)
+
+**STOP and display the following:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  DISCLAIMER ACKNOWLEDGMENT REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before creating your book project, you must acknowledge
+the framework disclaimer.
+```
+
+**Then read and display the full contents of `Process/DISCLAIMER.md`**
+
+**After displaying disclaimer, ask:**
+
+```
+To proceed, type exactly: I acknowledge the disclaimer
+```
+
+**If user does NOT acknowledge:**
+- Do NOT proceed with project creation
+- Remind user that acknowledgment is required
+- Wait for acknowledgment or user cancellation
+
+**If user acknowledges:**
+- Record in `.config/init.json`:
+  ```json
+  {
+    "disclaimer_acknowledged": true,
+    "disclaimer_version": "1.0",
+    "acknowledged_date": "[CONFIRMED_DATE]"
+  }
+  ```
+- Proceed to Step 4 (Create Config Files)
+
+---
+
+## Step 4: Create Config Files
 
 **Prerequisite:** `.config/manifest.json` must exist (created by configure.md).
 If it doesn't exist, tell user: "Please run configure.md first to set up the framework."
@@ -100,7 +140,7 @@ If it doesn't exist, tell user: "Please run configure.md first to set up the fra
 
 ---
 
-## Step 4: Desktop Handoff
+## Step 5: Desktop Handoff
 
 **If in Claude Desktop:**
 ```
@@ -110,13 +150,13 @@ To complete initialization:
 1. Open Claude Code CLI
 2. Say: "execute Prompt 1"
 ```
-**STOP HERE** - Do not proceed to Step 5
+**STOP HERE** - Do not proceed to Step 6
 
-**If in CLI:** Continue to Step 5
+**If in CLI:** Continue to Step 6
 
 ---
 
-## Step 5: Run Init Script (CLI)
+## Step 6: Run Init Script (CLI)
 
 ```bash
 bash scripts/init.sh .config/init.json
@@ -129,7 +169,7 @@ bash scripts/init.sh .config/init.json
 
 ---
 
-## Step 6: Generate Content (CLI)
+## Step 7: Generate Content (CLI)
 
 ```bash
 bash scripts/generate-content.sh .config/init.json
@@ -145,7 +185,7 @@ bash scripts/detect-tools.sh .config/manifest.json
 
 ---
 
-## Step 7: Git Commit & Tag (CLI)
+## Step 8: Git Commit & Tag (CLI)
 
 ```bash
 git add -A
@@ -153,6 +193,7 @@ git commit -m "Initialize book project: [title]
 
 - Created [X]-chapter structure
 - Selected style: [style name]
+- Disclaimer acknowledged (v1.0)
 - Framework v0.15.0
 
 🤖 Generated with Claude Code
@@ -167,7 +208,7 @@ Update `.config/project.json`: `initialized: true`
 
 ---
 
-## Step 8: Completion Report
+## Step 9: Completion Report
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

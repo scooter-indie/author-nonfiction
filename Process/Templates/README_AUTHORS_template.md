@@ -252,6 +252,16 @@ Updates to the framework don't affect your book content. Your writing is always 
 
 ---
 
+## Legal
+
+This project was created using the [AI-Assisted Nonfiction Authoring Framework](https://github.com/scooter-indie/author-nonfiction).
+
+**[Read the Framework Disclaimer](Process/DISCLAIMER.md)**
+
+By using this framework, you have acknowledged responsibility for all content you create. The framework is provided under the [MIT License](LICENSE).
+
+---
+
 ## Ready to Write?
 
 **Start here:**

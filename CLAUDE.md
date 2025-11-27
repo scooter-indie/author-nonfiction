@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.14.2
+**Framework Version:** 0.15.0
 **Session Context Document for Claude Code**
 
 ---
@@ -67,6 +67,7 @@ Process/
 ├── FRAMEWORK_CORE.md                                # NEW v0.13.0: Instant-load essentials
 ├── AI-Assisted_Nonfiction_Authoring_Process.md    # Complete framework documentation (on-demand)
 ├── Anti-Hallucination_Guidelines.md                # Critical rules for AI accuracy (on-demand)
+├── DISCLAIMER.md                                    # Legal disclaimer (v0.15.0+)
 ├── Styles/                                          # Modular style library (v0.13.0+)
 │   ├── Style_Catalog.md                             # Master catalog of 19 styles
 │   ├── README.md                                    # Style library guide
@@ -597,6 +598,22 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
+## Legal
+
+**License:** MIT License (see `LICENSE` file)
+
+**Disclaimer:** See `Process/DISCLAIMER.md` for full legal disclaimer.
+
+By using this framework:
+- No warranty or guarantee of fitness for any purpose
+- No liability for works created using the framework
+- No guarantee of AI accuracy
+- Users responsible for their own content
+
+**Acknowledgment:** Required during Prompt 1 (Initialize) and when disclaimer version changes.
+
+---
+
 ## Support
 
 - **Documentation:** `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md`
@@ -606,7 +623,8 @@ The following prompts write dates to files and MUST use `CONFIRMED_DATE`:
 
 ---
 
-**Framework Version:** 0.14.2
+**Framework Version:** 0.15.0
+**Disclaimer Version:** 1.0
 **Last Updated:** 2025-11-26
 
 ---
