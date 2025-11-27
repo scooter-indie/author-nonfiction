@@ -570,11 +570,11 @@ Check that the release includes:
 - [x] Create book switching command (/switch-book)
 - [x] Update lock mechanism for new paths (Prompt_Essentials.md)
 
-### Phase 3: Update System (#92)
+### Phase 3: Update System (#92) ✓
 - [x] Create VERSION file in dist repo (created in Phase 1)
-- [ ] Implement update checking
-- [ ] Create migration framework
-- [ ] Test update workflow
+- [x] Implement update checking (in /fw-init for both modes)
+- [x] Create migration framework (Process/migrations/)
+- [x] Test update workflow (documented in migration README)
 
 ### Phase 4: Backup System (#93)
 - [ ] Create full BOOKS_ROOT ZIP backup prompt

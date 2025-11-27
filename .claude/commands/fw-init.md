@@ -51,13 +51,41 @@ Report: `✓ FRAMEWORK_CORE.md loaded from FW_ROOT`
 
 1. Read `[FW_ROOT]/VERSION` to get current version
 2. Compare with `frameworkVersion` in fw-location.json
-3. Optionally check remote (if connectivity): `https://raw.githubusercontent.com/scooter-indie/author-nonfiction-dist/main/VERSION`
+3. Attempt to fetch remote version: `https://raw.githubusercontent.com/scooter-indie/author-nonfiction-dist/main/VERSION`
+4. Compare versions (semantic versioning)
 
-If update available, report:
+**If update available:**
 ```
 ℹ Framework update available: [current] → [latest]
   To update: cd [FW_ROOT] && git pull
 ```
+
+**If check fails (network error):** Silently continue (no blocking)
+
+**If up to date:** Report `✓ Framework version: [VERSION] (up to date)`
+
+### M4b. Check and Run Migrations
+
+**After loading framework, check if migrations are needed:**
+
+1. Read `[FW_ROOT]/VERSION` to get framework version
+2. Read `[BOOKS_ROOT]/.config/fw-location.json` for `frameworkVersion`
+3. If versions differ:
+   a. Check `[FW_ROOT]/Process/migrations/` for migration files
+   b. Find migrations between old and new version
+   c. Execute migrations in order
+   d. Update `frameworkVersion` in fw-location.json
+
+**Migration file naming:** `migrate-X.Y.Z-to-A.B.C.md`
+
+**If migrations run:**
+```
+✓ Migrations applied: [old] → [new]
+  - [migration 1 description]
+  - [migration 2 description]
+```
+
+**If no migrations needed:** Continue silently
 
 ### M5. Load Books Registry
 
@@ -146,14 +174,32 @@ Read `Process/FRAMEWORK_CORE.md` to load essential framework knowledge:
 
 Report: `✓ FRAMEWORK_CORE.md loaded`
 
-### L2. Scan Available Prompts
+### L2. Check for Framework Updates
+
+**Check for updates even in legacy mode:**
+
+1. Read `VERSION` file to get current version
+2. Attempt to fetch remote version: `https://raw.githubusercontent.com/scooter-indie/author-nonfiction-dist/main/VERSION`
+3. Compare versions (semantic versioning)
+
+**If update available:**
+```
+ℹ Framework update available: [current] → [latest]
+  To update: git pull origin main
+```
+
+**If check fails (network error):** Silently continue (no blocking)
+
+**If up to date:** Report `✓ Framework version: [VERSION] (up to date)`
+
+### L3. Scan Available Prompts
 
 Confirm awareness of all 16 core prompts in `Process/Prompts/`:
 - Prompt_1_Initialize.md through Prompt_16_Image_Manager.md
 
 Report: `✓ Scanned 16 core prompts`
 
-### L3. Check for Book Project Context
+### L4. Check for Book Project Context
 
 Check if `PROJECT_CONTEXT.md` exists in the project root:
 - **If exists:** Read it to understand the user's book project (title, author, chapters, style, metadata)
@@ -163,7 +209,7 @@ Report one of:
 - `✓ PROJECT_CONTEXT.md found - Book project: [TITLE] by [AUTHOR]`
 - `ℹ No PROJECT_CONTEXT.md found - No book project initialized yet`
 
-### L4. Check for User Project Configuration
+### L5. Check for User Project Configuration
 
 If a book project exists (PROJECT_CONTEXT.md found), check for `.config/` directory:
 - `.config/init.json` - Initialization Q&A answers
@@ -174,13 +220,13 @@ If a book project exists (PROJECT_CONTEXT.md found), check for `.config/` direct
 
 Report configuration status if found.
 
-### L5. Verify Working Directory
+### L6. Verify Working Directory
 
 Confirm the current working directory using context information.
 
 Report: `✓ Working directory: [PATH]`
 
-### L6. Confirm Date with User
+### L7. Confirm Date with User
 
 **⏸️ STOP AND ASK USER:**
 
