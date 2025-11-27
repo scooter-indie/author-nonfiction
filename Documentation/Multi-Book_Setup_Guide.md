@@ -47,7 +47,13 @@ Example: `E:\My-Books`
 
 ### 3. Initialize Configuration
 
-Create `.config/fw-location.json`:
+Create the config directory and files in BOOKS_ROOT:
+
+```bash
+mkdir [BOOKS_ROOT]/.config
+```
+
+Create `[BOOKS_ROOT]/.config/fw-location.json`:
 ```json
 {
   "frameworkRoot": "[FW_ROOT path]",
@@ -55,7 +61,7 @@ Create `.config/fw-location.json`:
 }
 ```
 
-Create `.config/books-registry.json`:
+Create `[BOOKS_ROOT]/.config/books-registry.json`:
 ```json
 {
   "version": "1.0",
@@ -64,7 +70,7 @@ Create `.config/books-registry.json`:
 }
 ```
 
-Create `.config/settings.json`:
+Create `[BOOKS_ROOT]/.config/settings.json`:
 ```json
 {
   "github": { "enabled": false },
