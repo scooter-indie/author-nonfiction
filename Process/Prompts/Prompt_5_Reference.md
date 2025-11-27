@@ -1,6 +1,6 @@
 # Prompt 5 Reference Documentation
 
-**Version:** 0.14.5
+**Version:** 0.15.0
 **Purpose:** Detailed examples, change detection, and troubleshooting
 
 ---
@@ -315,5 +315,5 @@ These files don't have _chg pairs:
 
 ---
 
-**Version:** 0.14.5
+**Version:** 0.15.0
 **For Core Workflow:** See `Prompt_5_Scan_For_User_Edits.md`

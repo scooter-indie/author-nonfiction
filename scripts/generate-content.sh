@@ -583,7 +583,7 @@ $PURPOSE
 
 ## Project Information
 
-- **Framework Version:** 0.14.5
+- **Framework Version:** 0.15.0
 - **Initialized:** $DATE
 - **Chapters:** $CHAPTERS
 - **Writing Style:** $STYLE_DISPLAY

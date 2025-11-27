@@ -1,6 +1,6 @@
 # Prompt 6 Reference Documentation
 
-**Version:** 0.14.5
+**Version:** 0.15.0
 **Purpose:** Detailed integration examples, lock scenarios, and troubleshooting
 
 ---
@@ -312,5 +312,5 @@ mkdir -p Manuscript/Inbox
 
 ---
 
-**Version:** 0.14.5
+**Version:** 0.15.0
 **For Core Workflow:** See `Prompt_6_Integrate_Inbox.md`

@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.14.5
+**Framework Version:** 0.15.0
 **Session Context Document for Claude Code**
 
 ---
@@ -623,9 +623,9 @@ By using this framework:
 
 ---
 
-**Framework Version:** 0.14.5
+**Framework Version:** 0.15.0
 **Disclaimer Version:** 1.0
-**Last Updated:** 2025-11-26
+**Last Updated:** 2025-11-27
 
 ---
 

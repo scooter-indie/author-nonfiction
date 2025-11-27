@@ -1,6 +1,6 @@
 # System Instructions for AI-Assisted Nonfiction Authoring Framework
 
-**Framework Version:** 0.14.5
+**Framework Version:** 0.15.0
 **For Use With:** Claude Desktop ONLY (Claude.com web does NOT support filesystem access)
 
 ---
@@ -69,7 +69,7 @@ Read the prompt file and execute with MCP Filesystem. For git operations, direct
 
 ---
 
-You are assisting with an AI-Assisted Nonfiction Book Authoring project using the Nonfiction Authoring Framework v0.14.5.
+You are assisting with an AI-Assisted Nonfiction Book Authoring project using the Nonfiction Authoring Framework v0.15.0.
 
 ## CRITICAL: Claude Desktop Limitations
 
@@ -549,8 +549,8 @@ If you work on multiple book projects:
 
 ---
 
-**Framework Version:** 0.14.5
-**Last Updated:** 2025-11-26
+**Framework Version:** 0.15.0
+**Last Updated:** 2025-11-27
 **Token Efficiency:** 85-90% reduction in startup load (2,500-3,000 tokens vs 27,000-30,000 tokens)
 
 ---

@@ -7,6 +7,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.15.0] - 2025-11-27
+
+### Added
+- **Multi-Book Architecture** - Complete re-architecture separating framework from book projects (#88)
+  - FW_ROOT: Framework installation directory with VERSION file
+  - BOOKS_ROOT: Separate directory for all user book projects
+  - Support for managing multiple books from a single framework installation
+- **VERSION file** - Semantic version tracking at framework root for update checking
+- **New configuration files** in `.config/`:
+  - `fw-location.json` - Points BOOKS_ROOT to FW_ROOT location
+  - `books-registry.json` - Tracks all registered books with status
+  - `settings.json` - User preferences and settings
+- **New templates** in `Process/Templates/`:
+  - `BOOKS_ROOT_CLAUDE_template.md` - CLAUDE.md for user book directories
+  - `FW_ROOT_CLAUDE_template.md` - Minimal CLAUDE.md for framework root
+  - `Archive_README_template.md` - For archived book subdirectories
+  - `books-registry_template.json` - Registry template
+  - `fw-location_template.json` - Framework location template
+  - `settings_template.json` - Settings template
+- **Migrations system** - `Process/migrations/` for version upgrades
+  - `migrate-0.14.5-to-0.15.0.md` - Migration guide for existing users
+- **Claude Desktop integration** - Enhanced support for Claude Desktop Projects
+  - `Documentation/Claude_Desktop_Setup.md` - Complete MCP configuration guide
+  - `Process/Templates/Claude_Desktop_System_Instructions.md` - Minimal system instructions
+- **Update checking** - `/fw-init` now checks for framework updates via VERSION comparison
+- **Prompt 17: Backup Export** - New prompt for backup and export operations
+
+### Changed
+- **configure.md** - Complete rewrite for v0.15.0 multi-book architecture
+  - Mode detection: FW_ROOT vs BOOKS_ROOT vs Legacy
+  - Update workflow for existing FW_ROOT installations
+  - New book setup workflow from FW_ROOT
+  - Reconfiguration workflow for BOOKS_ROOT
+  - Legacy single-book mode preserved for backward compatibility
+- **/fw-init command** - Updated for multi-book mode
+  - Book selection when multiple books registered
+  - Framework update notification
+  - Mode detection (Multi-Book vs Legacy)
+- **deploy-dist.yml** - Updated for v0.15.0 distribution
+  - Creates VERSION file in dist
+  - Uses FW_ROOT_CLAUDE_template.md for CLAUDE.md
+  - Validates new required templates
+  - Removes scripts/ directory (no longer in dist)
+- **release.yml** - Added VERSION file verification
+- **INSTALLATION.md** - Updated directory structure (removed scripts/, added VERSION)
+
+### Removed
+- **scripts/** from distribution - configure.md now handles all initialization
+  - `init.sh`, `detect-tools.sh` moved to maintainer-only
+  - `generate-content.sh`, `generate-usage-guide.sh` for internal use
+
+### Technical
+- **Release Type:** MINOR (new features, backward compatible)
+- **Breaking Change:** No - Legacy single-book mode fully supported
+- **Migration Required:** Yes - Run `execute configure.md` after update
+- **Parent Issue:** #88 (Re-Architecture Proposal)
+- **Implementing Issues:** #90 (Phase 1), #95 (Phase 6), #96 (Phase 7), #97 (Phase 8)
+
+---
+
 ## [0.14.5] - 2025-11-27
 
 ### Fixed

@@ -363,11 +363,10 @@ The `Documentation/` directory contains maintainer documentation and is NOT incl
 **Example manifest structure:**
 ```json
 {
-  "version": "0.14.5",
-  "generatedDate": "2025-11-26",
+  "version": "0.15.0",
+  "generatedDate": "2025-11-27",
   "files": {
-    "root": ["INSTALLATION.md", "CLAUDE.md", "configure.md", "system-instructions.md", ".gitignore"],
-    "scripts": ["init.sh", "detect-tools.sh", "generate-usage-guide.sh", "generate-content.sh", "README.md"],
+    "root": ["VERSION", "INSTALLATION.md", "CLAUDE.md", "configure.md", "system-instructions.md", ".gitignore"],
     "Process": ["FRAMEWORK_CORE.md", "Anti-Hallucination_Guidelines.md", ...],
     "Process/Prompts": ["Prompt_1_Initialize.md", "Prompt_1_Reference.md", ..., "README.md", "QUICK_REFERENCE.md"],
     "Process/_COMMON": ["01_Prompt_Structure_Template.md", ..., "README.md"],
@@ -376,6 +375,7 @@ The `Documentation/` directory contains maintainer documentation and is NOT incl
     "Process/Styles": ["README.md", "Style_Catalog.md"],
     "Process/Styles/Academic": ["Academic_Authority.md", ...],
     "Process/Scripts": ["compile-manuscript.sh", "README.md"],
+    "Process/migrations": ["README.md", "migrate-0.14.5-to-0.15.0.md"],
     "Process/Testing": ["Hierarchical_Style_Testing_Checklist.md"],
     ".claude": ["README.md", "hooks.json"],
     ".claude/agents": ["book-writing-assistant.md"],

@@ -1,6 +1,6 @@
 # Execute Prompt 14: Citation Finder
 
-**Version:** 0.14.5
+**Version:** 0.15.0
 **⚡ Token Efficient:** ~5,500 tokens (75% reduction from v0.14.0)
 **CLI-ONLY:** Requires WebSearch tool and bulk file analysis
 
@@ -226,7 +226,7 @@ Add page number: p. 45
 
 ---
 
-**Version:** 0.14.5
+**Version:** 0.15.0
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 75% reduction
 

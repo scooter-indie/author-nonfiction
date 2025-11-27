@@ -61,5 +61,5 @@ Contains agent definitions for specialized AI assistants.
 
 ---
 
-**Framework Version:** 0.14.5
-**Last Updated:** 2025-11-26
+**Framework Version:** 0.15.0
+**Last Updated:** 2025-11-27
