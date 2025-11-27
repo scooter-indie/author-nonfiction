@@ -185,7 +185,7 @@ bash scripts/detect-tools.sh .config/manifest.json
 
 ---
 
-## Step 8: Git Commit & Tag (CLI)
+## Step 8: Git Commit, Tag & Push (CLI)
 
 ```bash
 git add -A
@@ -201,6 +201,14 @@ git commit -m "Initialize book project: [title]
 Co-Authored-By: Claude <noreply@anthropic.com>"
 
 git tag -a v1.0.0 -m "Initial project structure"
+```
+
+**Push to remote (if configured):**
+```bash
+# Check if remote exists and push
+if git remote get-url origin &>/dev/null; then
+    git push -u origin main --tags
+fi
 ```
 
 **Mark complete:**
@@ -229,6 +237,7 @@ Next steps:
 Git status:
   • Initial commit created
   • Tagged as v1.0.0
+  • [If remote configured: Pushed to origin]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
