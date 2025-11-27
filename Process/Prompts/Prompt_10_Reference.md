@@ -1,6 +1,6 @@
 # Prompt 10 Reference Documentation
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **Purpose:** Detailed dashboard examples and analysis details
 
 ---
@@ -292,5 +292,5 @@ Overall % = (Completed Chapters / Total Chapters) × Weight
 
 ---
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **For Core Workflow:** See `Prompt_10_Dashboard.md`

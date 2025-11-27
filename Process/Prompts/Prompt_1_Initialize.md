@@ -1,6 +1,6 @@
 # Execute Prompt 1: Initialize Project Structure
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **⚡ Token Efficient:** ~5,500 tokens (70% reduction from v0.14.0)
 **HYBRID:** Desktop Q&A → CLI execution
 
@@ -445,7 +445,7 @@ Options:
 
 ---
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **Last Updated:** 2025-11-27
 **Token Efficiency:** 70% reduction
 

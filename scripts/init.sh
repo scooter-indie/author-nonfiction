@@ -2,7 +2,7 @@
 
 ################################################################################
 # Nonfiction Framework Initialization Script
-# Version: 0.15.0
+# Version: 0.15.1
 #
 # Purpose: Fast project structure creation for Prompt 1
 # Usage:

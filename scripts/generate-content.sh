@@ -2,7 +2,7 @@
 
 ################################################################################
 # Batch Content Generator for Prompt 1
-# Version: 0.15.0
+# Version: 0.15.1
 #
 # Purpose: Generate ALL content files from init.json in single operation
 # Usage:

@@ -1,6 +1,6 @@
 # Prompt 1 Reference Documentation
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **Purpose:** Detailed Q&A examples, config formats, and troubleshooting
 
 ---
@@ -494,5 +494,5 @@ During initialization:
 
 ---
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **For Core Workflow:** See `Prompt_1_Initialize.md`

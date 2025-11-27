@@ -1,6 +1,6 @@
 # Prompt 3 Reference Documentation
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **Purpose:** Detailed examples, edge cases, and troubleshooting for Change by Chg workflow
 
 ---
@@ -468,5 +468,5 @@ To enable style checking:
 
 ---
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **For Core Workflow:** See `Prompt_3_Change_by_Chg.md`

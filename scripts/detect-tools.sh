@@ -2,7 +2,7 @@
 
 ################################################################################
 # Tool Detection Script
-# Version: 0.15.0
+# Version: 0.15.1
 #
 # Purpose: Detect available export tools and update .config/manifest.json
 # Usage: bash scripts/detect-tools.sh [path-to-manifest.json]

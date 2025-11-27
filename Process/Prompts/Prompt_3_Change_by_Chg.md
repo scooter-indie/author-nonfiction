@@ -1,6 +1,6 @@
 # Execute Prompt 3: Change by Chg
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **⚡ Token Efficient:** ~6,000 tokens (67% reduction from v0.14.0)
 **DESKTOP-FRIENDLY:** Works in Claude Desktop with MCP Filesystem + single copy/paste git commit
 
@@ -153,7 +153,7 @@ EOF
 
 ---
 
-**Version:** 0.15.0
+**Version:** 0.15.1
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 67% reduction
 

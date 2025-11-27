@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.15.1] - 2025-11-27
+
+### Fixed
+- **CRITICAL: scripts/ directory missing from dist repo** (#99)
+  - The scripts/ directory was incorrectly removed from v0.15.0 release
+  - This broke Prompt 1 initialization which depends on init.sh, detect-tools.sh, generate-content.sh, and generate-usage-guide.sh
+  - Fixed deploy-dist.yml to include scripts/ directory
+  - Fixed INSTALLATION.md to show scripts/ in directory structure
+  - Fixed CHANGELOG.md to remove erroneous "Removed scripts/" section
+  - Fixed framework_files_manifest.json to include scripts/ section
+
+### Technical
+- **Release Type:** PATCH (critical bug fix)
+- **Breaking Change:** No
+- **Issue:** #99
+
+---
+
 ## [0.15.0] - 2025-11-27
 
 ### Added
