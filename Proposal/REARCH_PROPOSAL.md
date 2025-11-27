@@ -470,12 +470,14 @@ Each prompt should start with:
 - [ ] Create books-registry.json schema
 - [ ] Create fw-location.json schema
 - [ ] Modify /fw-init for multi-book support
+- [ ] Create Archive/ directory structure
 
 ### Phase 2: Prompt Modifications
 - [ ] Update Prompt 1 (no Process/, registry update)
 - [ ] Update all prompts for path resolution
 - [ ] Create book selection mechanism
 - [ ] Create book switching command
+- [ ] Update lock mechanism for new paths
 
 ### Phase 3: Update System
 - [ ] Create VERSION file in dist repo
@@ -484,11 +486,18 @@ Each prompt should start with:
 - [ ] Test update workflow
 
 ### Phase 4: Backup System
-- [ ] Create ZIP backup prompt
+- [ ] Create full BOOKS_ROOT ZIP backup prompt
+- [ ] Create single-book standalone ZIP export
 - [ ] Implement GitHub integration
 - [ ] Test backup/restore workflow
 
-### Phase 5: Claude Desktop
+### Phase 5: Book Management
+- [ ] Create book archive functionality
+- [ ] Create book delete functionality (with confirmation)
+- [ ] Update registry for archived status tracking
+- [ ] Create book restore from archive
+
+### Phase 6: Claude Desktop
 - [ ] Create minimal system instructions
 - [ ] Test MCP configuration
 - [ ] Document setup process
@@ -560,15 +569,69 @@ author-nonfiction-dist/
 
 ---
 
-## Open Questions
+### 2. Book Deletion (RESOLVED)
 
-1. **Book Deletion:** How should book deletion work? Soft delete (archive) or hard delete?
+**Question:** How should book deletion work? Soft delete (archive) or hard delete?
 
-2. **Book Export:** Should there be a way to export a single book to a standalone structure?
+**Answer:** User is given the option:
+- **Archive:** Move book to `BOOKS_ROOT/Archive/[Book-Name]/`
+- **Delete:** Permanently remove book directory
 
-3. **Concurrent Editing:** Any considerations for editing same book from Desktop and CLI simultaneously?
+```
+BOOKS_ROOT/
+├── .config/
+├── Active-Book-One/
+├── Active-Book-Two/
+└── Archive/                    # Archived books
+    └── Old-Book-Name/
+```
 
-4. **Offline Mode:** How should update checking behave when offline?
+The `books-registry.json` should track archived books separately with `status: "archived"`.
+
+---
+
+### 3. Book Export (RESOLVED)
+
+**Question:** Should there be a way to export a single book to a standalone structure?
+
+**Answer:** Yes. Support standalone ZIP export for individual books.
+
+**Use case:** User wants to share one book with a collaborator without exposing other books.
+
+**Export creates:**
+```
+Book-Title-standalone-YYYY-MM-DD.zip
+├── Book-Title/
+│   ├── Manuscript/
+│   ├── Research/
+│   ├── .config/
+│   └── PROJECT_CONTEXT.md
+└── README.md                   # Instructions for recipient
+```
+
+This is separate from the full BOOKS_ROOT backup - it's a single-book portable package.
+
+---
+
+### 4. Concurrent Editing (RESOLVED)
+
+**Question:** Any considerations for editing same book from Desktop and CLI simultaneously?
+
+**Answer:** Existing lock mechanism already handles this. Update lock paths to be aware of new structure:
+
+- Lock file location: `BOOKS_ROOT/[Book-Name]/.config/.lock`
+- Lock contains: session ID, timestamp, client type (Desktop/CLI)
+- Same behavior as current implementation, just updated paths
+
+---
+
+### 5. Offline Mode (RESOLVED)
+
+**Question:** How should update checking behave when offline?
+
+**Answer:** Not a concern. If the user has no internet connection, Claude Desktop and Claude Code CLI cannot function at all. Update checking is moot without connectivity.
+
+**Implementation:** If update check fails (network error), silently skip and continue. No special offline handling needed.
 
 ---
 
