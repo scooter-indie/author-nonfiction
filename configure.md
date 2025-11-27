@@ -548,10 +548,13 @@ upstream  https://github.com/scooter-indie/author-nonfiction-dist.git (fetch)
 upstream  no-push-access (push)
 
 Framework updates: git pull upstream main
-Your book repo: git remote add origin [your-repo-url]
+Your book repo: Will be set up in Step 6
+
+⚠️ IMPORTANT: The 'upstream' remote is READ-ONLY (for framework updates).
+   You cannot push to it. Step 6 will help you set up your own 'origin' for your book.
 ```
 
-Then **skip to Step 7** (Remote setup not needed - upstream is already configured).
+Then **proceed to Step 6** to set up your book's remote repository.
 
 ---
 
@@ -650,12 +653,13 @@ glab repo create my-book --private
 
 **For existing repository or "url [your-url]":**
 1. Get the URL from user
-2. Add remote and verify
+2. Add remote and set as default push target
 
 **If in Claude Code CLI:** Execute directly:
 ```bash
 git remote add origin [url]
 git branch -M main
+git branch --set-upstream-to=origin/main main 2>/dev/null || true
 git remote -v
 ```
 
@@ -663,7 +667,20 @@ git remote -v
 ```
 git remote add origin [url]
 git branch -M main
+git branch --set-upstream-to=origin/main main 2>/dev/null || true
 git remote -v
+```
+
+After adding origin, report:
+```
+✓ Remote 'origin' added for your book repository
+✓ Default push target set to 'origin'
+
+Push your book: git push origin main (or just: git push after first push with -u)
+Update framework: git pull upstream main
+
+💡 TIP: Your first push should use: git push -u origin main
+   After that, you can simply use: git push
 ```
 
 **Note**: I will NOT push to remote. Use Prompt 12 (Git Operations) when ready.
@@ -822,6 +839,7 @@ Framework v0.14.3 installed successfully.
 🔧 Git repository: Initialized
 🌐 Remote repository: [Connected to X / Not configured / Working locally]
 ⬆️ Framework updates: [If cloned from dist: "git pull upstream main" / Otherwise: omit this line]
+📤 Push your book: [If origin configured: "git push -u origin main (first time) or git push (after)" / Otherwise: omit]
 ✅ Book writing assistant: Ready
 
 ⚠️ IMPORTANT: At the start of every FUTURE Claude Code session, run:
@@ -844,8 +862,9 @@ Framework v0.14.3 installed successfully.
    - Complete Guide: Process/AI-Assisted_Nonfiction_Authoring_Process.md
    - Style Library: Process/Style_Examples.md
 
-💡 Tip: Run Prompt 8 (Dashboard) weekly to track your progress!
+💡 Tip: Run Prompt 10 (Dashboard) weekly to track your progress!
 💡 Tip: Update framework with "git pull upstream main" when new versions release!
+💡 Tip: Push your book with "git push" (after first "git push -u origin main")
 ```
 
 **For Updates:**
