@@ -4,7 +4,7 @@ project:
 repositories:
     - scooter-indie/author-nonfiction
 defaults:
-    priority: medium
+    priority: p1
     status: backlog
     labels:
         - pm-tracked
@@ -12,10 +12,9 @@ fields:
     priority:
         field: Priority
         values:
-            critical: Critical
-            high: High
-            low: Low
-            medium: Medium
+            p0: P0
+            p1: P1
+            p2: P2
     status:
         field: Status
         values:
