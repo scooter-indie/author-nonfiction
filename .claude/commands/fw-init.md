@@ -61,18 +61,48 @@ Report: `✓ FRAMEWORK_CORE.md loaded from FW_ROOT`
 **Update check procedure:**
 
 1. Read `[FW_ROOT]/VERSION` to get current version
-2. Attempt to fetch remote version based on `UPDATE_CHANNEL`:
-   - stable: `https://raw.githubusercontent.com/scooter-indie/author-nonfiction-dist/main/VERSION`
-   - beta: `https://raw.githubusercontent.com/scooter-indie/author-nonfiction-dist/beta/VERSION`
-3. Compare versions (semantic versioning)
-4. Update `lastUpdateCheck` in `fw-location.json` to today's date
+2. Fetch latest from remote:
+   ```bash
+   cd [FW_ROOT] && git fetch origin
+   ```
+3. Compare local VERSION with remote:
+   ```bash
+   git show origin/main:VERSION
+   ```
+4. Compare versions (semantic versioning)
+5. Update `lastUpdateCheck` in `fw-location.json` to today's date
 
 **If update available:**
+
 ```
-ℹ Framework update available: [current] → [latest]
-  Channel: [UPDATE_CHANNEL]
-  To update: cd [FW_ROOT] && git pull
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ℹ Framework Update Available
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Current version: [current]
+Latest version:  [latest]
+Channel: [UPDATE_CHANNEL]
+
+Would you like to update now? (yes/no)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+**⏸️ WAIT for user response.**
+
+**If user says yes:**
+```bash
+cd [FW_ROOT] && git pull origin main
+```
+
+Then:
+1. Read new version from `[FW_ROOT]/VERSION`
+2. Update `frameworkVersion` in `fw-location.json`
+3. Report: `✓ Framework updated: [old] → [new]`
+4. Proceed to M4b (migrations)
+
+**If user says no:**
+- Report: `ℹ Update skipped. Run /fw-init later to update.`
+- Continue with current version
 
 **If check fails (network error):** Silently continue (no blocking)
 
