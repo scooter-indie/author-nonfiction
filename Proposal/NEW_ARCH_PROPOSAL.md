@@ -25,8 +25,8 @@ This proposal defines a new unified project architecture that consolidates the f
 PROJECT_ROOT/
 ├── .git/                    # Single repo for user content
 ├── .gitignore               # Ignores FW_ROOT/
-├── start-authoring.bat/.sh  # Normal startup
-├── bp-start-authoring.bat/.sh # Bypass startup (skips init)
+├── start-authoring.bat/.sh  # Normal startup (with permission prompts)
+├── bp-start-authoring.bat/.sh # Bypass permissions startup
 ├── FW_ROOT/                 # Framework (cloned from -dist, gitignored)
 ├── BOOKS_ROOT/              # All book projects + Archive/
 └── .config/                 # CONFIG_ROOT - all configuration
@@ -42,10 +42,10 @@ PROJECT_ROOT/
 PROJECT_ROOT/
 ├── .git/                              # Git repository (versions BOOKS_ROOT + .config/)
 ├── .gitignore                         # Ignores FW_ROOT/
-├── start-authoring.bat                # Windows: CD to .config/, launch claude
-├── start-authoring.sh                 # macOS/Linux: CD to .config/, launch claude
-├── bp-start-authoring.bat             # Windows: Bypass mode (skip /fw-init)
-├── bp-start-authoring.sh              # macOS/Linux: Bypass mode
+├── start-authoring.bat                # Windows: Normal startup
+├── start-authoring.sh                 # macOS/Linux: Normal startup
+├── bp-start-authoring.bat             # Windows: Bypass permissions mode
+├── bp-start-authoring.sh              # macOS/Linux: Bypass permissions mode
 │
 ├── FW_ROOT/                           # Framework installation (gitignored)
 │   ├── Process/                       # Framework files (read-only)
@@ -96,7 +96,7 @@ PROJECT_ROOT/
 | Book switching | Slash command + session prompt | Flexibility for different workflows |
 | Claude Desktop | System instructions | No MCP server required |
 | Framework updates | Automated fetch | Check once per session via /fw-init |
-| Bypass mode | bp- prefix scripts | Skip init/update for quick access |
+| Bypass mode | bp- prefix scripts | Skip permission prompts for experienced users |
 | Archive purpose | Completed + paused books | Flexible archive usage |
 | Migration | None | New installations only |
 
@@ -114,47 +114,46 @@ Scripts are located at PROJECT_ROOT level and manage Claude Code CLI startup.
 ```batch
 @echo off
 cd /d "[PROJECT_ROOT]\.config"
-claude
+claude --append-system-prompt "IMPORTANT: Run /fw-init immediately before doing anything else." "Start"
 ```
 
 **macOS/Linux (start-authoring.sh):**
 ```bash
 #!/bin/bash
 cd "[PROJECT_ROOT]/.config"
-claude
+claude --append-system-prompt "IMPORTANT: Run /fw-init immediately before doing anything else." "Start"
 ```
 
 **Behavior:**
 1. Changes directory to CONFIG_ROOT (.config/)
-2. Launches Claude Code CLI
-3. Claude loads CLAUDE.md which instructs to run /fw-init
+2. Launches Claude Code CLI with system prompt injection
+3. System prompt instructs Claude to run /fw-init immediately
 4. /fw-init checks for framework updates (once per session)
 5. /fw-init activates book-writing-assistant agent
 6. /fw-init prompts for book selection
+7. User sees permission prompts for file operations
 
-#### 1.2 Bypass Startup (bp-start-authoring)
+#### 1.2 Bypass Permissions Startup (bp-start-authoring)
 
 **Windows (bp-start-authoring.bat):**
 ```batch
 @echo off
 cd /d "[PROJECT_ROOT]\.config"
-set SKIP_FW_INIT=1
-claude
+claude --permission-mode "bypassPermissions" --append-system-prompt "IMPORTANT: Run /fw-init immediately before doing anything else." "Start"
 ```
 
 **macOS/Linux (bp-start-authoring.sh):**
 ```bash
 #!/bin/bash
 cd "[PROJECT_ROOT]/.config"
-export SKIP_FW_INIT=1
-claude
+claude --permission-mode "bypassPermissions" --append-system-prompt "IMPORTANT: Run /fw-init immediately before doing anything else." "Start"
 ```
 
 **Behavior:**
-- Skips /fw-init execution
-- Skips framework update check
-- Uses last active book from registry
-- For quick access when user knows what they want
+- Same as normal startup, but with `--permission-mode "bypassPermissions"`
+- Skips permission prompts for file read/write operations
+- /fw-init still runs (same system prompt)
+- For experienced users who trust the framework operations
 
 ---
 
