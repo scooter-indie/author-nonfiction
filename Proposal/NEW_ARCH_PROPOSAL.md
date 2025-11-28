@@ -1,0 +1,693 @@
+# Unified Project Architecture Proposal
+
+**Proposal Version:** 1.0
+**Date:** 2025-11-28
+**Status:** Draft
+**Supersedes:** REARCH_PROPOSAL.md (implemented)
+**Reference:** Proposed Architectural Change.md (source requirements)
+
+---
+
+## Executive Summary
+
+This proposal defines a new unified project architecture that consolidates the framework, books, and configuration under a single PROJECT_ROOT container. This architecture replaces the current separated FW_ROOT/BOOKS_ROOT implementation.
+
+**Key Benefits:**
+- **Unified container:** Single PROJECT_ROOT simplifies mental model
+- **Multi-book support:** Manage multiple books from one installation
+- **Clean separation:** FW_ROOT (gitignored), BOOKS_ROOT, CONFIG_ROOT as siblings
+- **Simplified git:** Single repository at PROJECT_ROOT level
+- **Dual-platform:** Full support for Claude Code CLI and Claude Desktop
+- **Automated updates:** Framework updates via automated git fetch
+
+**Architecture at a Glance:**
+```
+PROJECT_ROOT/
+├── .git/                    # Single repo for user content
+├── .gitignore               # Ignores FW_ROOT/
+├── start-authoring.bat/.sh  # Normal startup
+├── bp-start-authoring.bat/.sh # Bypass startup (skips init)
+├── FW_ROOT/                 # Framework (cloned from -dist, gitignored)
+├── BOOKS_ROOT/              # All book projects + Archive/
+└── .config/                 # CONFIG_ROOT - all configuration
+```
+
+---
+
+## Architecture Overview
+
+### Directory Structure
+
+```
+PROJECT_ROOT/
+├── .git/                              # Git repository (versions BOOKS_ROOT + .config/)
+├── .gitignore                         # Ignores FW_ROOT/
+├── start-authoring.bat                # Windows: CD to .config/, launch claude
+├── start-authoring.sh                 # macOS/Linux: CD to .config/, launch claude
+├── bp-start-authoring.bat             # Windows: Bypass mode (skip /fw-init)
+├── bp-start-authoring.sh              # macOS/Linux: Bypass mode
+│
+├── FW_ROOT/                           # Framework installation (gitignored)
+│   ├── Process/                       # Framework files (read-only)
+│   │   ├── FRAMEWORK_CORE.md
+│   │   ├── Prompts/
+│   │   ├── Styles/
+│   │   ├── Templates/
+│   │   ├── _COMMON/
+│   │   └── migrations/
+│   ├── scripts/                       # Framework scripts
+│   ├── .git/                          # Framework repo (from -dist)
+│   └── VERSION                        # Framework version file
+│
+├── BOOKS_ROOT/                        # All user books
+│   ├── Book-Title-One/                # Active book
+│   │   ├── Manuscript/
+│   │   ├── Research/
+│   │   ├── .config/
+│   │   └── PROJECT_CONTEXT.md
+│   ├── Book-Title-Two/                # Another active book
+│   │   └── ...
+│   └── Archive/                       # Archived books (completed or paused)
+│       ├── Old-Book/
+│       └── README.md
+│
+└── .config/                           # CONFIG_ROOT
+    ├── fw-location.json               # FW_ROOT path + metadata
+    ├── books-registry.json            # Registry of all books
+    ├── settings.json                  # User preferences + BOOKS_ROOT path
+    ├── CLAUDE.md                      # Instructions for Claude
+    └── .claude/
+        ├── agents/
+        │   └── book-writing-assistant.md
+        └── commands/
+            ├── fw-init.md
+            ├── manage-book.md
+            └── switch-book.md
+```
+
+### Key Design Decisions
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| Container model | PROJECT_ROOT parent | Single mental model, simplified setup |
+| Git location | PROJECT_ROOT level | Versions all user content together |
+| FW_ROOT handling | Gitignored | Framework reinstallable, keeps repo clean |
+| CONFIG_ROOT location | .config/ at PROJECT_ROOT | Siblings with FW_ROOT and BOOKS_ROOT |
+| Book switching | Slash command + session prompt | Flexibility for different workflows |
+| Claude Desktop | System instructions | No MCP server required |
+| Framework updates | Automated fetch | Check once per session via /fw-init |
+| Bypass mode | bp- prefix scripts | Skip init/update for quick access |
+| Archive purpose | Completed + paused books | Flexible archive usage |
+| Migration | None | New installations only |
+
+---
+
+## Detailed Design
+
+### 1. Startup Scripts
+
+Scripts are located at PROJECT_ROOT level and manage Claude Code CLI startup.
+
+#### 1.1 Normal Startup (start-authoring)
+
+**Windows (start-authoring.bat):**
+```batch
+@echo off
+cd /d "[PROJECT_ROOT]\.config"
+claude
+```
+
+**macOS/Linux (start-authoring.sh):**
+```bash
+#!/bin/bash
+cd "[PROJECT_ROOT]/.config"
+claude
+```
+
+**Behavior:**
+1. Changes directory to CONFIG_ROOT (.config/)
+2. Launches Claude Code CLI
+3. Claude loads CLAUDE.md which instructs to run /fw-init
+4. /fw-init checks for framework updates (once per session)
+5. /fw-init activates book-writing-assistant agent
+6. /fw-init prompts for book selection
+
+#### 1.2 Bypass Startup (bp-start-authoring)
+
+**Windows (bp-start-authoring.bat):**
+```batch
+@echo off
+cd /d "[PROJECT_ROOT]\.config"
+set SKIP_FW_INIT=1
+claude
+```
+
+**macOS/Linux (bp-start-authoring.sh):**
+```bash
+#!/bin/bash
+cd "[PROJECT_ROOT]/.config"
+export SKIP_FW_INIT=1
+claude
+```
+
+**Behavior:**
+- Skips /fw-init execution
+- Skips framework update check
+- Uses last active book from registry
+- For quick access when user knows what they want
+
+---
+
+### 2. Configuration Files (CONFIG_ROOT)
+
+#### 2.1 fw-location.json
+
+Stores framework location and update metadata.
+
+```json
+{
+  "frameworkRoot": "[PROJECT_ROOT]/FW_ROOT",
+  "frameworkVersion": "0.15.4",
+  "lastUpdateCheck": "2025-11-28",
+  "updateChannel": "stable"
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| frameworkRoot | Absolute path to FW_ROOT |
+| frameworkVersion | Installed framework version |
+| lastUpdateCheck | Date of last update check |
+| updateChannel | Update channel (stable, beta) |
+
+#### 2.2 books-registry.json
+
+Registry of all book projects (schema unchanged from current implementation).
+
+```json
+{
+  "version": "1.0",
+  "activeBook": "my-first-book",
+  "books": [
+    {
+      "id": "my-first-book",
+      "title": "My First Book",
+      "author": "Author Name",
+      "directory": "My-First-Book",
+      "created": "2025-11-28",
+      "lastAccessed": "2025-11-28",
+      "status": "in-progress"
+    },
+    {
+      "id": "archived-book",
+      "title": "Archived Book",
+      "author": "Author Name",
+      "directory": "Archive/Archived-Book",
+      "created": "2025-10-01",
+      "lastAccessed": "2025-11-15",
+      "status": "archived"
+    }
+  ]
+}
+```
+
+**Status Values:**
+- `planning` - Initial planning phase
+- `in-progress` - Actively writing
+- `revision` - In revision/editing
+- `complete` - Finished
+- `archived` - Moved to Archive/
+
+#### 2.3 settings.json
+
+User preferences and global settings.
+
+```json
+{
+  "booksRoot": "[PROJECT_ROOT]/BOOKS_ROOT",
+  "github": {
+    "enabled": false,
+    "repository": null,
+    "autoPush": false
+  },
+  "backup": {
+    "zipLocation": null,
+    "autoBackup": false
+  },
+  "preferences": {
+    "defaultStyle": "Conversational Expert",
+    "confirmDate": true
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| booksRoot | Absolute path to BOOKS_ROOT |
+| github.enabled | Whether GitHub backup is configured |
+| github.repository | GitHub repo URL if enabled |
+| github.autoPush | Auto-push commits to GitHub |
+| backup.zipLocation | Directory for ZIP backups |
+| backup.autoBackup | Enable automatic backups |
+| preferences.defaultStyle | Default writing style for new books |
+| preferences.confirmDate | Require date confirmation at session start |
+
+#### 2.4 CLAUDE.md (CONFIG_ROOT)
+
+Instructions loaded when Claude Code CLI starts in .config/ directory.
+
+```markdown
+# AI-Assisted Nonfiction Authoring Framework
+
+## MANDATORY FIRST ACTION
+
+Run `/fw-init` at the start of every session.
+
+This loads:
+- Framework from fw-location.json path
+- Book registry for book selection
+- Selected book's PROJECT_CONTEXT.md
+
+## Book Commands
+
+- `/fw-init` - Initialize session (REQUIRED)
+- `/switch-book` - Switch to different book
+- `/manage-book` - Archive, delete, restore books
+
+## Framework Location
+
+Framework files are in: [path from fw-location.json]
+Books are in: [path from settings.json booksRoot]
+```
+
+---
+
+### 3. Framework Installation (FW_ROOT)
+
+#### 3.1 Initial Installation
+
+```bash
+cd [PROJECT_ROOT]
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git FW_ROOT
+```
+
+#### 3.2 Framework Updates
+
+Checked automatically by /fw-init once per session:
+
+1. Read current version from `FW_ROOT/VERSION`
+2. Fetch latest from remote: `git fetch origin`
+3. Compare with `origin/main:VERSION`
+4. If update available, notify user
+5. User approves → `git pull origin main`
+6. Update `fw-location.json` with new version
+
+#### 3.3 Gitignore Configuration
+
+**PROJECT_ROOT/.gitignore:**
+```
+# Framework (reinstallable from -dist)
+FW_ROOT/
+```
+
+---
+
+### 4. Book Selection and Switching
+
+#### 4.1 Session Start (via /fw-init)
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Book Selection
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Active books:
+  1. My First Book - in-progress (last: 2025-11-28) * CURRENT
+  2. Second Book - planning (last: 2025-11-25)
+
+Archived books: 1
+
+Which book? (number, name, or "new")
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+#### 4.2 Mid-Session Switch (/switch-book)
+
+User can switch books during a session:
+- `/switch-book [book-name]`
+- `/switch-book` (show selection menu)
+
+Updates `activeBook` in registry and loads new PROJECT_CONTEXT.md.
+
+---
+
+### 5. Claude Desktop Integration
+
+#### 5.1 System Instructions
+
+Claude Desktop uses system instructions (not MCP server) to work with this architecture.
+
+**System Instructions Template:**
+```markdown
+# AI-Assisted Nonfiction Authoring Framework
+
+You are assisting with nonfiction book authoring.
+
+## MANDATORY FIRST ACTION
+
+At the start of EVERY conversation:
+
+1. Read: [PROJECT_ROOT]/.config/fw-location.json
+2. Read: [FW_ROOT]/Process/FRAMEWORK_CORE.md
+3. Read: [PROJECT_ROOT]/.config/books-registry.json
+4. Read: [PROJECT_ROOT]/.config/settings.json
+5. Check for framework updates
+6. Ask user which book to work on
+7. Read selected book's PROJECT_CONTEXT.md
+8. Confirm today's date
+
+## Update Check
+
+Compare [FW_ROOT]/VERSION with latest at:
+https://github.com/scooter-indie/author-nonfiction-dist
+
+If update available, inform user.
+
+## Book Selection
+
+Ask: "Which book would you like to work on?"
+- [List from registry]
+- "Create new book"
+
+## Anti-Hallucination Protocol
+
+ALWAYS loaded from FRAMEWORK_CORE.md - never skip.
+```
+
+#### 5.2 MCP Filesystem Configuration
+
+**Required allowed directories:**
+```
+[PROJECT_ROOT]    # Access to .config/, BOOKS_ROOT/, FW_ROOT/
+```
+
+---
+
+### 6. Book Management (/manage-book)
+
+Retains all capabilities from current implementation:
+
+| Operation | Description |
+|-----------|-------------|
+| archive | Move book to Archive/ directory |
+| restore | Restore archived book to active |
+| delete | Permanently delete book (with confirmation) |
+| list | Show all books with status |
+
+---
+
+### 7. Book-Writing-Assistant Agent
+
+#### 7.1 Agent Activation
+
+The book-writing-assistant agent is activated by /fw-init (not auto-loaded at session start).
+
+**Activation sequence:**
+1. User runs start-authoring script
+2. Claude loads .config/CLAUDE.md
+3. CLAUDE.md instructs to run /fw-init
+4. /fw-init activates book-writing-assistant agent
+5. Agent provides writing assistance for selected book
+
+#### 7.2 Agent Location
+
+```
+.config/.claude/agents/book-writing-assistant.md
+```
+
+---
+
+## Assertion Validation
+
+This section validates the 6 assertions from the original requirements document.
+
+### Assertion 1: Scripts CD to CONFIG_ROOT and Start Claude Code
+
+> The bat/sh scripts will CD to PROJECT_ROOT/CONFIG_ROOT/ and start Claude Code CLI in the .config directory. Claude Code will load CLAUDE.md and will have access to /fw-init.
+
+**VALIDATED:**
+- `start-authoring.bat/.sh` changes directory to `PROJECT_ROOT/.config/`
+- Claude Code CLI loads `.config/CLAUDE.md` automatically
+- CLAUDE.md instructs to run `/fw-init`
+- `/fw-init` slash command is available in `.config/.claude/commands/`
+
+### Assertion 2: Claude Knows FW_ROOT from fw-location.json
+
+> Claude Code will know the location of FW_ROOT from fw-location.json
+
+**VALIDATED:**
+- `fw-location.json` contains `frameworkRoot` field with absolute path
+- `/fw-init` reads this file first to locate framework
+- All prompts resolve framework paths from this configuration
+
+### Assertion 3: Claude Knows BOOKS_ROOT from settings.json
+
+> Claude Code will know location of BOOKS_ROOT from books-registry.json
+
+**CLARIFICATION:** BOOKS_ROOT path is stored in `settings.json`, not `books-registry.json`.
+
+**VALIDATED:**
+- `settings.json` contains `booksRoot` field with absolute path
+- `books-registry.json` contains book entries with relative paths under BOOKS_ROOT
+- This separation allows registry to be portable
+
+### Assertion 4: Git at PROJECT_ROOT Versions Non-Ignored Content
+
+> Having a new .git repo in the PROJECT_ROOT will allow everything not in .gitignore to be versioned.
+
+**VALIDATED:**
+- `.git/` is at PROJECT_ROOT level
+- `.gitignore` excludes `FW_ROOT/`
+- Git versions: BOOKS_ROOT/, .config/, scripts
+- Framework is excluded (reinstallable from -dist)
+
+### Assertion 5: BOOKS_ROOT Contains Only Book-Related Content
+
+> The BOOKS_ROOT directory will contain only Book related files and directories and the Archive directory of Book related files and directories.
+
+**VALIDATED:**
+- BOOKS_ROOT contains:
+  - Active book directories (Book-Title-One/, Book-Title-Two/, etc.)
+  - Archive/ directory for archived books
+  - No configuration files (moved to .config/)
+  - No framework files (in FW_ROOT/)
+
+### Assertion 6: Claude Desktop Awareness
+
+> Claude Desktop must be made aware of this directory structure via system-instructions and/or other required configuration.
+
+**VALIDATED:**
+- System instructions template provided (Section 5.1)
+- Instructions include path resolution steps
+- MCP filesystem must allow PROJECT_ROOT access
+- No custom MCP server required
+
+---
+
+## Implementation Phases
+
+### Phase 1: Core Structure Setup
+
+**Objective:** Create the new PROJECT_ROOT structure and configuration files.
+
+| Task | Description |
+|------|-------------|
+| 1.1 | Define PROJECT_ROOT directory structure |
+| 1.2 | Create fw-location.json template with metadata fields |
+| 1.3 | Update settings.json template to include booksRoot |
+| 1.4 | Create .config/CLAUDE.md template |
+| 1.5 | Update .gitignore to exclude FW_ROOT/ |
+| 1.6 | Create start-authoring scripts (bat/sh) |
+| 1.7 | Create bp-start-authoring scripts (bat/sh) |
+
+### Phase 2: Configuration System
+
+**Objective:** Implement configuration file handling.
+
+| Task | Description |
+|------|-------------|
+| 2.1 | Modify /fw-init to read from .config/ at PROJECT_ROOT level |
+| 2.2 | Implement fw-location.json reading for FW_ROOT path |
+| 2.3 | Implement settings.json reading for BOOKS_ROOT path |
+| 2.4 | Add update metadata tracking (lastUpdateCheck, updateChannel) |
+| 2.5 | Update path resolution in all prompts |
+
+### Phase 3: Book Management Updates
+
+**Objective:** Update book commands for new structure.
+
+| Task | Description |
+|------|-------------|
+| 3.1 | Update /switch-book for new path resolution |
+| 3.2 | Update /manage-book for new structure |
+| 3.3 | Update book-writing-assistant agent activation |
+| 3.4 | Test archive/restore with new paths |
+
+### Phase 4: Framework Update System
+
+**Objective:** Implement automated framework updates.
+
+| Task | Description |
+|------|-------------|
+| 4.1 | Implement update check in /fw-init |
+| 4.2 | Add once-per-session update check logic |
+| 4.3 | Implement git fetch/pull for updates |
+| 4.4 | Update fw-location.json after successful update |
+| 4.5 | Test bypass mode (bp- scripts) |
+
+### Phase 5: Claude Desktop Support
+
+**Objective:** Create Claude Desktop integration.
+
+| Task | Description |
+|------|-------------|
+| 5.1 | Create Claude Desktop system instructions template |
+| 5.2 | Document MCP filesystem configuration |
+| 5.3 | Test book selection from Desktop |
+| 5.4 | Test update notification in Desktop |
+
+### Phase 6: Installation and Setup
+
+**Objective:** Create installation workflow.
+
+| Task | Description |
+|------|-------------|
+| 6.1 | Update configure.md for new architecture |
+| 6.2 | Add PROJECT_ROOT creation workflow |
+| 6.3 | Add FW_ROOT cloning step |
+| 6.4 | Add BOOKS_ROOT initialization |
+| 6.5 | Add .config/ setup with all JSON files |
+| 6.6 | Generate startup scripts |
+
+### Phase 7: Documentation and Release
+
+**Objective:** Update documentation and release process.
+
+| Task | Description |
+|------|-------------|
+| 7.1 | Update PREPARE_RELEASE.md for new structure |
+| 7.2 | Update README for new installation steps |
+| 7.3 | Update Claude Desktop setup guide |
+| 7.4 | Archive REARCH_PROPOSAL.md (superseded) |
+| 7.5 | Update deploy-dist.yml if needed |
+
+---
+
+## File Changes Summary
+
+### New Files
+
+| File | Location | Purpose |
+|------|----------|---------|
+| start-authoring.bat | PROJECT_ROOT/ | Windows normal startup |
+| start-authoring.sh | PROJECT_ROOT/ | macOS/Linux normal startup |
+| bp-start-authoring.bat | PROJECT_ROOT/ | Windows bypass startup |
+| bp-start-authoring.sh | PROJECT_ROOT/ | macOS/Linux bypass startup |
+| CLAUDE.md | .config/ | Claude instructions (new location) |
+| fw-init.md | .config/.claude/commands/ | Updated for new paths |
+| switch-book.md | .config/.claude/commands/ | Updated for new paths |
+| manage-book.md | .config/.claude/commands/ | Updated for new paths |
+| book-writing-assistant.md | .config/.claude/agents/ | Agent (new location) |
+
+### Modified Files
+
+| File | Changes |
+|------|---------|
+| fw-location.json template | Add updateChannel field |
+| settings.json template | Add booksRoot field |
+| configure.md | New installation workflow |
+| PREPARE_RELEASE.md | New release structure |
+| framework_files_manifest.json | New file paths |
+
+### Deprecated
+
+| File | Reason |
+|------|--------|
+| BOOKS_ROOT/.config/ | Moved to PROJECT_ROOT/.config/ |
+| BOOKS_ROOT/CLAUDE.md | Moved to .config/CLAUDE.md |
+
+---
+
+## Appendix A: Example Installation
+
+### Step 1: Create PROJECT_ROOT
+
+```bash
+mkdir E:\My-Writing-Projects
+cd E:\My-Writing-Projects
+```
+
+### Step 2: Clone Framework
+
+```bash
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git FW_ROOT
+```
+
+### Step 3: Run Setup
+
+```bash
+cd FW_ROOT
+claude
+# Say: "Run configure.md"
+```
+
+### Step 4: Configure creates
+
+- `BOOKS_ROOT/` directory
+- `.config/` with all JSON files
+- `.git/` repository
+- `.gitignore` (excludes FW_ROOT/)
+- Startup scripts
+
+### Step 5: Start Writing
+
+```bash
+cd E:\My-Writing-Projects
+start-authoring.bat
+# Claude prompts for book selection
+```
+
+---
+
+## Appendix B: Path Resolution Reference
+
+### From CONFIG_ROOT (.config/)
+
+```
+FW_ROOT      = fw-location.json → frameworkRoot
+BOOKS_ROOT   = settings.json → booksRoot
+ACTIVE_BOOK  = books-registry.json → activeBook
+BOOK_PATH    = BOOKS_ROOT / books[activeBook].directory
+```
+
+### Framework File Access
+
+```
+[FW_ROOT]/Process/FRAMEWORK_CORE.md
+[FW_ROOT]/Process/Prompts/Prompt_X.md
+[FW_ROOT]/Process/Styles/[style].md
+[FW_ROOT]/Process/Templates/[template].md
+```
+
+### Book File Access
+
+```
+[BOOK_PATH]/Manuscript/
+[BOOK_PATH]/Research/
+[BOOK_PATH]/.config/
+[BOOK_PATH]/PROJECT_CONTEXT.md
+```
+
+---
+
+*End of Proposal*
