@@ -366,16 +366,11 @@ chmod +x "[FW_ROOT]/start-authoring.sh" "[FW_ROOT]/bp-start-authoring.sh"
 
 **Note:** On Windows, only copy .bat files. On macOS/Linux, only copy .sh files.
 
-### 2B.6: Copy CLAUDE.md Templates
+### 2B.6: Copy CLAUDE.md to FW_ROOT
 
-**Copy to FW_ROOT:**
 Copy `Process/Templates/FW_ROOT_CLAUDE_template.md` to `[FW_ROOT]/CLAUDE.md`.
 
-**Copy to BOOKS_ROOT:**
-Copy `Process/Templates/BOOKS_ROOT_CLAUDE_template.md` to `[BOOKS_ROOT]/CLAUDE.md`.
-
-**Update the template placeholders:**
-- Replace `[FW_ROOT]` with actual FW_ROOT path in BOOKS_ROOT's CLAUDE.md
+**Note:** BOOKS_ROOT does not need a CLAUDE.md since users start Claude Code from FW_ROOT using the start scripts.
 
 ### 2B.7: Create Archive Directory
 
@@ -459,7 +454,6 @@ Created in BOOKS_ROOT:
   ✓ .config/fw-location.json
   ✓ .config/books-registry.json
   ✓ .config/settings.json
-  ✓ CLAUDE.md
   ✓ Archive/ directory
   ✓ Git repository initialized
   [✓ Remote repository connected (if configured)]

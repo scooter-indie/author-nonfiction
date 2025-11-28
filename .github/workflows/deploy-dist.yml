@@ -102,7 +102,6 @@ jobs:
 
           # Check new templates exist
           REQUIRED_TEMPLATES=(
-            "Process/Templates/BOOKS_ROOT_CLAUDE_template.md"
             "Process/Templates/FW_ROOT_CLAUDE_template.md"
             "Process/Templates/Archive_README_template.md"
             "Process/Templates/books-registry_template.json"
