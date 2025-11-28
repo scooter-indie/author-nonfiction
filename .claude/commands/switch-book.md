@@ -156,5 +156,5 @@ These are used by all prompts for path resolution.
 
 ---
 
-**Version:** 0.15.1
+**Version:** 0.15.2
 **Last Updated:** 2025-11-27

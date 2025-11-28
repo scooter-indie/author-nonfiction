@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.15.2] - 2025-11-27
+
+### Added
+- **FW_ROOT/.config/settings.json** - configure.md now creates settings file in FW_ROOT (#103)
+  - Contains booksRoot path, version, and configured date
+  - Enables /fw-init to discover BOOKS_ROOT when starting from FW_ROOT
+- **Start scripts** - New scripts for launching Claude Code sessions (#104)
+  - `start-authoring.bat/.sh` - Standard start with /fw-init reminder
+  - `bp-start-authoring.bat/.sh` - Bypass permissions mode for trusted environments
+  - Scripts cd to FW_ROOT and launch claude with `--append-system-prompt`
+  - Templates in Process/Templates/, copied to FW_ROOT during configure
+
+### Fixed
+- **Windows path escape issue** - Changed `echo -e` to `printf` for path variables (#101)
+  - Paths like `E:\Projects\nfauthor\anf` no longer corrupted by `\n` interpretation
+- **Script banner versions** - Fixed banner display versions showing 0.15.0 instead of 0.15.1 (#100)
+  - Updated init.sh, detect-tools.sh, generate-content.sh banners
+- **PREPARE_RELEASE.md line numbers** - Updated CLAUDE.md line references after streamlining (#102)
+
+### Changed
+- **CLAUDE.md streamlined** - Reduced from ~648 to ~84 lines for dev repo
+  - Removed user-facing documentation (moved to dist repo templates)
+  - Added mandatory Anti-Hallucination Guidelines read at startup
+  - Added GitHub workflow summary for maintainer visibility
+
+### Technical
+- Updated deploy-dist.yml validation for new start script templates
+- Updated framework_files_manifest.json with start script templates
+
+---
+
 ## [0.15.1] - 2025-11-27
 
 ### Fixed

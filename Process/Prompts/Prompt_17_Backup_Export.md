@@ -1,6 +1,6 @@
 # Execute Prompt 17: Backup & Export
 
-**Version:** 0.15.1
+**Version:** 0.15.2
 **CLI-ONLY:** Requires zip command and git operations
 **Purpose:** Create backups and export books for sharing
 
@@ -445,7 +445,7 @@ Options:
 
 ---
 
-**Version:** 0.15.1
+**Version:** 0.15.2
 **Last Updated:** 2025-11-27
 **CLI-ONLY:** Requires zip and git commands
 

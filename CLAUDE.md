@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Authoring Framework - Development Repository
 
-**Framework Version:** 0.15.1
+**Framework Version:** 0.15.2
 **Repository:** https://github.com/scooter-indie/author-nonfiction (development)
 **Distribution:** https://github.com/scooter-indie/author-nonfiction-dist (user releases)
 
@@ -78,5 +78,5 @@ author-nonfiction/           # Development repo (THIS REPO)
 
 ---
 
-**Framework Version:** 0.15.1
+**Framework Version:** 0.15.2
 **Last Updated:** 2025-11-27

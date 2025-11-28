@@ -1,6 +1,6 @@
 # Prompt Essentials
 
-**Version:** 0.15.1
+**Version:** 0.15.2
 **Purpose:** Core protocols and quick references for all prompts
 **Load:** Once per session (loaded via /fw-init)
 
@@ -240,7 +240,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>'
 
 ---
 
-**Version:** 0.15.1
+**Version:** 0.15.2
 **Last Updated:** 2025-11-27
 **Token Count:** ~2,000 tokens
 **vs Full Modules:** ~10,000 tokens (80% reduction)
