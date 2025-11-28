@@ -143,7 +143,11 @@
       "books-registry_template.json",
       "fw-location_template.json",
       "settings_template.json",
-      "framework_files_manifest.json"
+      "framework_files_manifest.json",
+      "start-authoring.bat",
+      "start-authoring.sh",
+      "bp-start-authoring.bat",
+      "bp-start-authoring.sh"
     ],
     "Process/Templates/.config": [
       "init.json",

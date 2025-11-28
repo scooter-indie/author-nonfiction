@@ -334,14 +334,46 @@ Write to `[BOOKS_ROOT]/.config/books-registry.json`.
 
 Write to `[BOOKS_ROOT]/.config/settings.json`.
 
-### 2B.4: Copy CLAUDE.md Template
+### 2B.4: Create FW_ROOT Configuration
+
+**Create FW_ROOT/.config directory and settings.json:**
+
+```bash
+mkdir -p "[FW_ROOT]/.config"
+```
+
+```json
+{
+  "booksRoot": "[BOOKS_ROOT]",
+  "version": "[VERSION_FILE_CONTENT]",
+  "configured": "[CONFIRMED_DATE]"
+}
+```
+
+Write to `[FW_ROOT]/.config/settings.json`.
+
+### 2B.5: Copy Start Scripts to FW_ROOT
+
+Copy the start scripts from templates to FW_ROOT:
+
+```bash
+cp Process/Templates/start-authoring.bat "[FW_ROOT]/start-authoring.bat"
+cp Process/Templates/start-authoring.sh "[FW_ROOT]/start-authoring.sh"
+cp Process/Templates/bp-start-authoring.bat "[FW_ROOT]/bp-start-authoring.bat"
+cp Process/Templates/bp-start-authoring.sh "[FW_ROOT]/bp-start-authoring.sh"
+chmod +x "[FW_ROOT]/start-authoring.sh" "[FW_ROOT]/bp-start-authoring.sh"
+```
+
+**Note:** On Windows, only copy .bat files. On macOS/Linux, only copy .sh files.
+
+### 2B.6: Copy CLAUDE.md Template (Optional - BOOKS_ROOT)
 
 Copy `Process/Templates/BOOKS_ROOT_CLAUDE_template.md` to `[BOOKS_ROOT]/CLAUDE.md`.
 
 **Update the template placeholders:**
 - Replace `[FW_ROOT]` with actual FW_ROOT path
 
-### 2B.5: Create Archive Directory
+### 2B.7: Create Archive Directory
 
 ```bash
 mkdir -p "[BOOKS_ROOT]/Archive"
@@ -349,7 +381,7 @@ mkdir -p "[BOOKS_ROOT]/Archive"
 
 Copy `Process/Templates/Archive_README_template.md` to `[BOOKS_ROOT]/Archive/README.md`.
 
-### 2B.6: Initialize Git Repository
+### 2B.8: Initialize Git Repository
 
 **⏸️ ASK USER:**
 
@@ -371,7 +403,7 @@ git init
 git branch -M main
 ```
 
-### 2B.7: Remote Repository Setup (Optional)
+### 2B.9: Remote Repository Setup (Optional)
 
 **⏸️ ASK USER:**
 
@@ -394,46 +426,7 @@ cd "[BOOKS_ROOT]"
 git remote add origin [URL]
 ```
 
-### 2B.8: Generate Startup Scripts (Optional)
-
-**⏸️ ASK USER:**
-
-```
-Would you like startup scripts for Claude Code CLI?
-
-These scripts make it easy to start writing sessions.
-
-Options:
-1. "yes" - Generate scripts
-2. "no" - Skip (you can create them later)
-
-If yes, where should they be saved?
-  • "desktop" - Your Desktop folder
-  • "books" - Inside BOOKS_ROOT
-  • "[custom path]" - Specify location
-```
-
-**WAIT for user response.**
-
-**If yes, generate scripts:**
-
-**Windows (start-authoring.bat):**
-```batch
-@echo off
-cd /d "[BOOKS_ROOT]"
-claude
-```
-
-**macOS/Linux (start-authoring.sh):**
-```bash
-#!/bin/bash
-cd "[BOOKS_ROOT]"
-claude
-```
-
-Then: `chmod +x start-authoring.sh`
-
-### 2B.9: Create Initial Commit
+### 2B.10: Create Initial Commit
 
 ```bash
 cd "[BOOKS_ROOT]"
@@ -447,7 +440,7 @@ Created by AI-Assisted Nonfiction Authoring Framework v[VERSION]
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-### 2B.10: Report Completion
+### 2B.11: Report Completion
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -458,7 +451,7 @@ Framework Location (FW_ROOT): [FW_ROOT path]
 Books Location (BOOKS_ROOT): [BOOKS_ROOT path]
 Framework Version: [VERSION]
 
-Created:
+Created in BOOKS_ROOT:
   ✓ .config/fw-location.json
   ✓ .config/books-registry.json
   ✓ .config/settings.json
@@ -466,18 +459,28 @@ Created:
   ✓ Archive/ directory
   ✓ Git repository initialized
   [✓ Remote repository connected (if configured)]
-  [✓ Startup scripts created (if requested)]
+
+Created in FW_ROOT:
+  ✓ .config/settings.json (points to BOOKS_ROOT)
+  ✓ start-authoring scripts (start-authoring.bat/.sh)
+  ✓ bypass-permissions scripts (bp-start-authoring.bat/.sh)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📚 Next Steps:
 
-1. Start Claude Code in BOOKS_ROOT:
-   cd "[BOOKS_ROOT]" && claude
+1. Start Claude Code using the start script in FW_ROOT:
+   Windows: Double-click start-authoring.bat (or bp-start-authoring.bat for bypass mode)
+   macOS/Linux: ./start-authoring.sh (or ./bp-start-authoring.sh for bypass mode)
 
-2. Run /fw-init to initialize the session
+2. The script will:
+   - Change to FW_ROOT directory
+   - Launch Claude Code with /fw-init reminder
+   - (bp- variants bypass permission prompts for trusted environments)
 
-3. Create your first book:
+3. Claude will prompt you to run /fw-init
+
+4. Create your first book:
    Say "Execute Prompt 1" or "Create new book"
 
 For Claude Desktop users:

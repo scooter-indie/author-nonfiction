@@ -108,6 +108,10 @@ jobs:
             "Process/Templates/books-registry_template.json"
             "Process/Templates/fw-location_template.json"
             "Process/Templates/settings_template.json"
+            "Process/Templates/start-authoring.bat"
+            "Process/Templates/start-authoring.sh"
+            "Process/Templates/bp-start-authoring.bat"
+            "Process/Templates/bp-start-authoring.sh"
           )
 
           for template in "${REQUIRED_TEMPLATES[@]}"; do
