@@ -1,6 +1,6 @@
 # Framework Configuration
 
-**AI-Assisted Nonfiction Authoring Framework v0.15.2**
+**AI-Assisted Nonfiction Authoring Framework v0.15.3**
 
 ---
 
@@ -788,5 +788,5 @@ claude
 
 ---
 
-*Framework Version: 0.15.2*
+*Framework Version: 0.15.3*
 *Configuration Script: configure.md*

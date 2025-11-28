@@ -1,6 +1,6 @@
 # Prompt 12 Reference Documentation
 
-**Version:** 0.15.2
+**Version:** 0.15.3
 **Purpose:** Detailed git operation examples and troubleshooting
 
 ---
@@ -377,5 +377,5 @@ In `.config/project.json`:
 
 ---
 
-**Version:** 0.15.2
+**Version:** 0.15.3
 **For Core Workflow:** See `Prompt_12_Git_Operations.md`

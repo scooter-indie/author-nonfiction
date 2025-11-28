@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
   "description": "Manifest of all framework files that should exist in a clean installation",
-  "version": "0.15.2",
-  "generatedDate": "2025-11-27",
+  "version": "0.15.3",
+  "generatedDate": "2025-11-28",
   "files": {
     "root": [
       "VERSION",

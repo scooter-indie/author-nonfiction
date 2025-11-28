@@ -1,6 +1,6 @@
 # Prompt 16 Reference Documentation
 
-**Version:** 0.15.2
+**Version:** 0.15.3
 **Purpose:** Detailed examples, image format guidelines, and troubleshooting
 
 ---
@@ -424,5 +424,5 @@ Manuscript/images/
 
 ---
 
-**Version:** 0.15.2
+**Version:** 0.15.3
 **For Core Workflow:** See `Prompt_16_Image_Manager.md`

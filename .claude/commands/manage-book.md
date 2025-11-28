@@ -432,5 +432,5 @@ These should be recognized and invoke the appropriate operation.
 
 ---
 
-**Version:** 0.15.2
-**Last Updated:** 2025-11-27
+**Version:** 0.15.3
+**Last Updated:** 2025-11-28

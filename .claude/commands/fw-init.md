@@ -369,5 +369,5 @@ After initialization, these variables are available for the session:
 
 ---
 
-**Framework Version:** 0.15.2
-**Last Updated:** 2025-11-27
+**Framework Version:** 0.15.3
+**Last Updated:** 2025-11-28

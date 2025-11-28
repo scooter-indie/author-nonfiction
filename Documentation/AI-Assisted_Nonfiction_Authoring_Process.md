@@ -1,7 +1,7 @@
 # AI-Assisted Nonfiction Book Authoring Process
 
-**Version:** 0.15.2
-**Last Updated:** 2025-11-27
+**Version:** 0.15.3
+**Last Updated:** 2025-11-28
 **Purpose:** A comprehensive, systematic approach to authoring nonfiction books with AI assistance using Git version control
 
 ---

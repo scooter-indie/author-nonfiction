@@ -1,6 +1,6 @@
 # Installation Guide
 
-**AI-Assisted Nonfiction Authoring Framework v0.15.2**
+**AI-Assisted Nonfiction Authoring Framework v0.15.3**
 
 ---
 
@@ -29,7 +29,7 @@ Before you begin, ensure you have:
 
 ### Step 1: Download the Framework
 
-Download `nonfiction-v0.15.2.zip` from:
+Download `nonfiction-v0.15.3.zip` from:
 - **GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
 
 Save the zip file to your target directory.
@@ -42,32 +42,32 @@ Save the zip file to your target directory.
 
 **Windows (File Explorer - Extract All):**
 1. Navigate to your project directory in File Explorer (e.g., `E:\Projects\my-book`)
-2. Copy `nonfiction-v0.15.2.zip` into this directory
-3. Right-click `nonfiction-v0.15.2.zip`
+2. Copy `nonfiction-v0.15.3.zip` into this directory
+3. Right-click `nonfiction-v0.15.3.zip`
 4. Select "Extract All..."
 5. **CRITICAL:** Delete the suggested folder name so it extracts to current directory:
-   - Windows suggests: `E:\Projects\my-book\nonfiction-v0.15.2`
-   - **Change to:** `E:\Projects\my-book` (remove the `\nonfiction-v0.15.2` part)
+   - Windows suggests: `E:\Projects\my-book\nonfiction-v0.15.3`
+   - **Change to:** `E:\Projects\my-book` (remove the `\nonfiction-v0.15.3` part)
 6. Click "Extract"
 7. Files will extract directly into `my-book\` directory
 
 **Windows (7-Zip - Recommended):**
 1. Navigate to your project directory in File Explorer
-2. Copy `nonfiction-v0.15.2.zip` into this directory
-3. Right-click `nonfiction-v0.15.2.zip`
+2. Copy `nonfiction-v0.15.3.zip` into this directory
+3. Right-click `nonfiction-v0.15.3.zip`
 4. Select "7-Zip" → "Extract Here"
 5. Files extract directly into current directory (no subdirectory created)
 
 **Windows (Command Line):**
 ```cmd
 cd E:\Projects\my-book
-tar -xf nonfiction-v0.15.2.zip
+tar -xf nonfiction-v0.15.3.zip
 ```
 
 **macOS/Linux:**
 ```bash
 cd /path/to/my-book
-unzip nonfiction-v0.15.2.zip
+unzip nonfiction-v0.15.3.zip
 ```
 
 #### For Updates (Overlaying Existing Installation):
@@ -78,19 +78,19 @@ unzip nonfiction-v0.15.2.zip
 
 **Windows (File Explorer - Extract All):**
 1. Navigate to your project directory in File Explorer
-2. Copy `nonfiction-v0.15.2.zip` into this directory
-3. Right-click `nonfiction-v0.15.2.zip`
+2. Copy `nonfiction-v0.15.3.zip` into this directory
+3. Right-click `nonfiction-v0.15.3.zip`
 4. Select "Extract All..."
 5. **CRITICAL:** Delete the suggested folder name so it extracts to current directory:
-   - Windows suggests: `E:\Projects\my-book\nonfiction-v0.15.2`
-   - **Change to:** `E:\Projects\my-book` (remove the `\nonfiction-v0.15.2` part)
+   - Windows suggests: `E:\Projects\my-book\nonfiction-v0.15.3`
+   - **Change to:** `E:\Projects\my-book` (remove the `\nonfiction-v0.15.3` part)
 6. Click "Extract"
 7. When prompted about overwriting files, select **"Replace the files in the destination"** or **"Yes to All"**
 
 **Windows (7-Zip - Recommended):**
 1. Navigate to your project directory in File Explorer
-2. Copy `nonfiction-v0.15.2.zip` into this directory
-3. Right-click `nonfiction-v0.15.2.zip`
+2. Copy `nonfiction-v0.15.3.zip` into this directory
+3. Right-click `nonfiction-v0.15.3.zip`
 4. Select "7-Zip" → "Extract Here"
 5. When prompted, choose **"Overwrite All"** or **"Yes to All"**
 6. Framework files update, your book content preserved
@@ -98,13 +98,13 @@ unzip nonfiction-v0.15.2.zip
 **Windows (Command Line with Force Overwrite):**
 ```cmd
 cd E:\Projects\my-book
-tar -xf nonfiction-v0.15.2.zip --force-local
+tar -xf nonfiction-v0.15.3.zip --force-local
 ```
 
 **macOS/Linux (with overwrite):**
 ```bash
 cd /path/to/my-book
-unzip -o nonfiction-v0.15.2.zip
+unzip -o nonfiction-v0.15.3.zip
 ```
 
 The `-o` flag forces overwrite without prompting.
@@ -354,5 +354,5 @@ After installation, restart your terminal/command prompt and run `configure.md` 
 
 ---
 
-**Version**: 0.15.2
-**Last Updated**: 2025-11-27
+**Version**: 0.15.3
+**Last Updated**: 2025-11-28

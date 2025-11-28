@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.15.3] - 2025-11-28
+
+### Fixed
+- **CLAUDE.md not copied to FW_ROOT** - Fixed configure.md workflow (#105)
+  - CLAUDE.md from FW_ROOT_CLAUDE_template.md was not being copied during BOOKS_ROOT setup
+  - Start scripts now work correctly since they depend on FW_ROOT/CLAUDE.md existing
+
+### Changed
+- **Dist repo README** - Updated for v0.15.x architecture (#98)
+  - Updated installation instructions for multi-book setup
+  - Clarified FW_ROOT vs BOOKS_ROOT usage
+  - Improved quick start guide
+
+---
+
 ## [0.15.2] - 2025-11-27
 
 ### Added
