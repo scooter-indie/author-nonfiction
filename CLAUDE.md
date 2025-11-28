@@ -6,6 +6,14 @@
 
 ---
 
+## FIRST ACTION - Read Anti-Hallucination Guidelines
+
+**At session startup, immediately read:** `Process/Anti-Hallucination_Guidelines.md`
+
+This is mandatory before any other work.
+
+---
+
 ## GitHub Workflow (MANDATORY)
 
 **Triggers - Create issue IMMEDIATELY, then WAIT:**
@@ -58,15 +66,6 @@ author-nonfiction/           # Development repo (THIS REPO)
 3. Push tag: `git push origin vX.X.X`
 4. Create GitHub release → triggers deploy-dist.yml
 5. Dist repo auto-updated via PR
-
----
-
-## Anti-Hallucination (for prompt development)
-
-When writing/editing prompts, remember:
-- **ASK BEFORE generating** examples, anecdotes, statistics, quotes
-- **NEVER fabricate** specific people, data, or quotes
-- **Label content**: REAL vs HYPOTHETICAL vs GENERIC
 
 ---
 
