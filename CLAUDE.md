@@ -31,6 +31,21 @@ This slash command performs the Session Startup Protocol:
 
 ---
 
+## GitHub Workflow (Maintainer)
+
+**Triggers - Create issue IMMEDIATELY, then WAIT:**
+- "finding:" / "bug:" / "issue:" → Create issue with `finding` label
+- "enhancement:" / "can you add" → Create issue with `enhancement` label
+- "proposal:" → Create Proposal/ doc + issue
+
+**Flow:** Create issue → WAIT for "work on it" → Fix → Commit with #issue → WAIT for "Done" → Close
+
+**Never** fix bugs without creating an issue first.
+
+See `/gh-workflow` for detailed procedures.
+
+---
+
 ## Purpose of This Document
 
 This document provides Claude Code with the necessary context about the AI-Assisted Nonfiction Authoring Framework at session startup. When you begin a Claude Code session in this directory, Claude will read this file to understand the framework and be ready to execute prompts immediately.
