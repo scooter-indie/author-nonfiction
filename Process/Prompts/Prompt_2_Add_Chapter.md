@@ -1,6 +1,6 @@
 # Execute Prompt 2: Add New Chapter
 
-**Version:** 0.15.4
+**Version:** 0.16.0
 **⚡ Token Efficient:** ~4,000 tokens (65% reduction from v0.14.0)
 **DESKTOP-FRIENDLY:** Works 95% in Desktop (git via CLI)
 
@@ -187,7 +187,7 @@ Release locks: `Chapter_XX`, `ProjectConfig`
 
 ---
 
-**Version:** 0.15.4
+**Version:** 0.16.0
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 65% reduction
 

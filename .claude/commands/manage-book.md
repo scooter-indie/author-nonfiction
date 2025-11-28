@@ -444,5 +444,5 @@ These should be recognized and invoke the appropriate operation.
 
 ---
 
-**Version:** 0.15.4
+**Version:** 0.16.0
 **Last Updated:** 2025-11-28

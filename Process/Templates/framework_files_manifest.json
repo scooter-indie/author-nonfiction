@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
   "description": "Manifest of all framework files that should exist in a clean installation",
-  "version": "0.15.4",
+  "version": "0.16.0",
   "generatedDate": "2025-11-28",
   "files": {
     "root": [
@@ -122,6 +122,7 @@
       "Archive_README_template.md",
       "Chapter_Style_Template.md",
       "Claude_Desktop_System_Instructions.md",
+      "CONFIG_ROOT_CLAUDE_template.md",
       "Copyright_template.md",
       "Custom_Styles_Template.md",
       "FW_ROOT_CLAUDE_template.md",
@@ -129,6 +130,7 @@
       "Image_Registry_Master_template.md",
       "Image_Registry_Chapter_template.md",
       "PROJECT_CONTEXT_template.md",
+      "PROJECT_ROOT_gitignore_template",
       "Project_Config_template.md",
       "README_AUTHORS_template.md",
       "Style_Guide_Template.md",
@@ -143,6 +145,8 @@
       "fw-location_template.json",
       "settings_template.json",
       "framework_files_manifest.json",
+      "configure.bat",
+      "configure.sh",
       "start-authoring.bat",
       "start-authoring.sh",
       "bp-start-authoring.bat",
@@ -155,6 +159,14 @@
       "manifest.json",
       "migrations.json",
       "README.md"
+    ],
+    "Process/Templates/.claude/commands": [
+      "fw-init.md",
+      "switch-book.md",
+      "manage-book.md"
+    ],
+    "Process/Templates/.claude/agents": [
+      "book-writing-assistant.md"
     ],
     "Process/Testing": [
       "Hierarchical_Style_Testing_Checklist.md"

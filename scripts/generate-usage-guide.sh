@@ -2,7 +2,7 @@
 
 ################################################################################
 # Generate USAGE_GUIDE.md Script
-# Version: 0.15.4
+# Version: 0.16.0
 #
 # Purpose: Generate USAGE_GUIDE.md from template with user-specific data
 # Usage: bash scripts/generate-usage-guide.sh "Book Title" "Author Name" "2025-11-21" "10" "Conversational Expert"

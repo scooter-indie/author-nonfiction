@@ -1,6 +1,6 @@
 # Prompt 11 Reference Documentation
 
-**Version:** 0.15.4
+**Version:** 0.16.0
 **Purpose:** Detailed examples, report formats, and troubleshooting
 
 ---
@@ -465,5 +465,5 @@ Proceed with change? (Yes/No/Reconsider)
 
 ---
 
-**Version:** 0.15.4
+**Version:** 0.16.0
 **For Core Workflow:** See `Prompt_11_Style_Manager.md`

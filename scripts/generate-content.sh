@@ -2,7 +2,7 @@
 
 ################################################################################
 # Batch Content Generator for Prompt 1
-# Version: 0.15.4
+# Version: 0.16.0
 #
 # Purpose: Generate ALL content files from init.json in single operation
 # Usage:
@@ -615,7 +615,7 @@ print_summary() {
 
 main() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}Batch Content Generator v0.15.4${NC}"
+    echo -e "${BLUE}Batch Content Generator v0.16.0${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 

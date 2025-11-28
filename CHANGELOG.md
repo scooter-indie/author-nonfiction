@@ -7,6 +7,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.16.0] - 2025-11-28
+
+### Added
+- **Unified PROJECT_ROOT Architecture** - Complete re-architecture with single container (#109)
+  - PROJECT_ROOT now contains FW_ROOT/, BOOKS_ROOT/, and .config/ as siblings
+  - CONFIG_ROOT (.config/) is where Claude Code sessions start
+  - Single .git repository at PROJECT_ROOT level
+  - FW_ROOT/ gitignored (framework files excluded from user's git)
+
+- **Bootstrap Scripts** - New configure.bat/sh at dist root (#115)
+  - Users clone dist repo, run configure.bat/sh
+  - Script launches Claude with configure.md
+  - Auto-chains to start-authoring on `/exit`
+
+- **New Templates for PROJECT_ROOT** (#110, #111)
+  - `PROJECT_ROOT_gitignore_template` - Excludes FW_ROOT/
+  - `CONFIG_ROOT_CLAUDE_template.md` - Claude instructions for .config/
+  - `Archive_README_template.md` - README for BOOKS_ROOT/Archive/
+  - `books-registry_template.json` - Multi-book registry
+  - `fw-location_template.json` - FW_ROOT path configuration
+  - `settings_template.json` - BOOKS_ROOT path and preferences
+  - `.claude/` templates for CONFIG_ROOT (fw-init, switch-book, manage-book, book-writing-assistant)
+
+- **New Slash Commands** (#112)
+  - `/switch-book` - Switch between books in multi-book setup
+  - `/manage-book` - Archive, restore, delete books
+
+### Changed
+- **Installation Method** - Now clone-based instead of zip download (#115, #116)
+  - Users clone dist repo to Downloads
+  - Run configure.bat/sh to set up PROJECT_ROOT
+  - Framework cloned/copied into FW_ROOT/
+
+- **Session Startup** (#113)
+  - Claude starts in .config/ (CONFIG_ROOT)
+  - /fw-init reads fw-location.json to find FW_ROOT
+  - Automatic framework update checking from VERSION file
+
+- **Documentation** - Updated for PROJECT_ROOT architecture (#116, #118)
+  - README.md: New Quick Start with clone-based installation
+  - Claude_Desktop_Setup.md: Single MCP entry for PROJECT_ROOT
+  - Multi-Book_Setup_Guide.md: Updated architecture diagram and setup
+  - deploy-dist.yml: New validation for v0.16.0 templates
+
+### Technical
+- Archived REARCH_PROPOSAL.md to Proposal/Implemented/
+- Updated all version references to 0.16.0
+- Added configure.bat/sh to deploy-dist.yml build
+
+---
+
 ## [0.15.4] - 2025-11-28
 
 ### Removed

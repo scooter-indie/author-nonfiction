@@ -1,6 +1,6 @@
 # Execute Prompt 9: Export and Format
 
-**Version:** 0.15.4
+**Version:** 0.16.0
 **⚡ Token Efficient:** ~4,500 tokens (70% reduction from v0.14.0)
 **CLI-ONLY:** Requires pandoc for format conversion
 
@@ -220,7 +220,7 @@ Manuscript/Exports/
 
 ---
 
-**Version:** 0.15.4
+**Version:** 0.16.0
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 70% reduction
 
