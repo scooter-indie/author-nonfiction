@@ -19,22 +19,9 @@ This prompt provides three backup/export options:
 
 ---
 
-## Mode Detection
-
-**Multi-book mode required for options 1 and 3.**
-**Option 2 works in both multi-book and legacy mode.**
-
-Check `MODE` from session context:
-- `multi-book` → All options available
-- `legacy` → Only Option 2 (Single Book Export) available
-
----
-
 ## Step 1: Present Options
 
 **⏸️ ASK USER:**
-
-### Multi-Book Mode
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -56,27 +43,9 @@ Which option? (1-3)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### Legacy Mode
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Backup & Export Options
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-1. Project Backup
-   Create ZIP of entire project (excludes .git/)
-   Output: [Project-Name]-backup-YYYY-MM-DD.zip
-
-2. GitHub Setup
-   Configure remote repository for version control
-
-Which option? (1-2)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
 ---
 
-## Option 1: Full Backup (Multi-Book Mode)
+## Option 1: Full Backup
 
 ### Step 1.1: Get Backup Location
 
@@ -141,7 +110,7 @@ To restore:
 
 ## Option 2: Single Book Export
 
-### Step 2.1: Select Book (Multi-Book Mode)
+### Step 2.1: Select Book
 
 **⏸️ ASK USER:**
 
@@ -160,14 +129,12 @@ Enter number or name:
 ```
 Where should the export be saved?
 
-Default: [BOOKS_ROOT parent directory] (multi-book)
-         [PROJECT_ROOT parent directory] (legacy)
+Default: [BOOKS_ROOT parent directory]
 Or enter a custom path:
 ```
 
 ### Step 2.3: Create Standalone Export
 
-**Multi-Book Mode:**
 ```bash
 # Create temp directory
 mkdir -p "/tmp/[Book-Title]-export"
@@ -178,19 +145,6 @@ cp -r "[BOOK_PATH]/Research" "/tmp/[Book-Title]-export/" 2>/dev/null || true
 cp -r "[BOOK_PATH]/.config" "/tmp/[Book-Title]-export/"
 cp "[BOOK_PATH]/PROJECT_CONTEXT.md" "/tmp/[Book-Title]-export/"
 cp "[BOOK_PATH]/README.md" "/tmp/[Book-Title]-export/" 2>/dev/null || true
-```
-
-**Legacy Mode:**
-```bash
-# Create temp directory
-mkdir -p "/tmp/[Project-Name]-export"
-
-# Copy contents (excluding .git and Process/)
-cp -r "Manuscript" "/tmp/[Project-Name]-export/"
-cp -r "Research" "/tmp/[Project-Name]-export/" 2>/dev/null || true
-cp -r ".config" "/tmp/[Project-Name]-export/"
-cp "PROJECT_CONTEXT.md" "/tmp/[Project-Name]-export/"
-cp "README.md" "/tmp/[Project-Name]-export/" 2>/dev/null || true
 ```
 
 ### Step 2.4: Create Export README
@@ -341,7 +295,7 @@ git remote add origin [URL]
 git remote -v
 ```
 
-### Step 3.4: Update Settings (Multi-Book Mode)
+### Step 3.4: Update Settings
 
 Update `.config/settings.json`:
 ```json

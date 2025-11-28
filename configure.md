@@ -34,11 +34,6 @@ This configuration script handles multiple scenarios:
 2. Pull latest framework version
 3. Apply migrations to BOOKS_ROOT
 
-**Legacy Mode (single-book):**
-1. Verify framework files
-2. Apply migrations if updating
-3. Clean outdated files
-
 ---
 
 ## Configuration Process
@@ -90,7 +85,6 @@ Check for these indicators:
 
 1. **VERSION file exists?** → Running in FW_ROOT (framework directory)
 2. **.config/fw-location.json exists?** → Running in BOOKS_ROOT
-3. **Process/FRAMEWORK_CORE.md exists?** → Legacy mode (single-book)
 
 **Mode Detection Logic:**
 
@@ -106,10 +100,6 @@ elif .config/fw-location.json exists:
     MODE = "BOOKS_ROOT"
     SUBMODE = "Reconfiguration"
 
-elif Process/FRAMEWORK_CORE.md exists:
-    MODE = "LEGACY"
-    SUBMODE = "Single-book mode"
-
 else:
     ERROR = "Not a valid framework directory"
 ```
@@ -122,10 +112,9 @@ Installation Mode Detection
 
 [✓] VERSION file: [found/not found]
 [✓] .config/fw-location.json: [found/not found]
-[✓] Process/FRAMEWORK_CORE.md: [found/not found]
 
-Detected Mode: [FW_ROOT | BOOKS_ROOT | LEGACY]
-Submode: [Update Available | Fresh Install | Reconfiguration | Single-book]
+Detected Mode: [FW_ROOT | BOOKS_ROOT]
+Submode: [Update Available | Fresh Install | Reconfiguration]
 
 Proceeding with [mode] workflow...
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -135,7 +124,6 @@ Proceeding with [mode] workflow...
 - **FW_ROOT + Update Available** → Step 2A (Update Workflow)
 - **FW_ROOT + Fresh Install** → Step 2B (BOOKS_ROOT Setup)
 - **BOOKS_ROOT** → Step 2C (Reconfiguration)
-- **LEGACY** → Step 3 (Legacy Workflow)
 
 ---
 
@@ -536,139 +524,6 @@ Handle each option appropriately.
 
 ---
 
-## Step 3: Legacy Workflow (Single-Book Mode)
-
-**This step runs when configure.md detects legacy single-book mode (Process/ exists but no VERSION file).**
-
-### Step 3.1: Verify Framework Files
-
-Verify these framework files exist:
-- `Process/` directory
-- `Process/FRAMEWORK_CORE.md`
-- `.claude/agents/book-writing-assistant.md`
-- `INSTALLATION.md`
-- `CLAUDE.md`
-- `system-instructions.md`
-- `.gitignore`
-
-If any are missing, report the issue and stop.
-
-### Step 3.2: Detect Installation Type
-
-Check if `.config/manifest.json` exists:
-- **If exists:** This is an UPDATE
-- **If not exists:** This is a NEW installation
-
-### Step 3.3: Create/Update Manifest
-
-**For New Installations:**
-1. Create `.config/` directory if needed
-2. Copy template from `Process/Templates/.config/manifest.json`
-3. Update with current date and version
-
-**For Updates:**
-1. Read existing manifest
-2. Preserve `installedVersion` and `installedDate`
-3. Update `frameworkVersion` and `releaseDate`
-4. Add to `updateHistory` array
-
-### Step 3.4: Git Status Check (Updates Only)
-
-**For NEW installations:** Skip to Step 3.5.
-
-**For UPDATES:**
-1. Run `git status`
-2. Check for uncommitted changes
-3. If found: Stop and warn user to commit first
-
-### Step 3.5: Apply Migrations (Updates Only)
-
-**For NEW installations:** Skip to Step 3.6.
-
-For updates:
-1. Read `.config/migrations.json`
-2. Determine which migrations need to be applied
-3. Apply migrations in version order
-4. Track applied migrations in manifest
-
-### Step 3.6: Clean Outdated Files (Updates Only)
-
-**For NEW installations:** Skip to Step 3.7.
-
-For updates:
-1. Read `Process/Templates/framework_files_manifest.json`
-2. Compare against existing files
-3. Create backup of files to be removed
-4. Ask user for confirmation
-5. Remove outdated files
-
-### Step 3.7: Git Repository Setup
-
-Check if `.git` directory exists:
-- **If exists:** Check if cloned from dist repo
-- **If not exists:** Initialize new repository
-
-**If cloned from dist repo:**
-- Rename `origin` to `upstream`
-- Disable push to upstream
-
-### Step 3.8: Remote Repository Setup (Optional)
-
-**⏸️ ASK USER:**
-```
-Do you want to connect this project to a remote git repository?
-
-Options:
-1. "no" or "skip" - Work locally only
-2. "github" - Create/connect to GitHub
-3. "url [your-url]" - I have a repository URL
-```
-
-### Step 3.9: Export Tool Discovery (Optional)
-
-Ask if user wants to detect export tools (pandoc, typst).
-
-### Step 3.10: Update Manifest
-
-Update `.config/manifest.json` with:
-- `frameworkVersion`
-- `installedDate` (new) or `lastUpdated` (update)
-- `toolsAvailable`
-
-### Step 3.11: Create Git Commit
-
-**For New Installations:**
-```bash
-git add . && git commit -m "Initialize nonfiction framework v0.15.0
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-```
-
-**For Updates:**
-```bash
-git add . && git commit -m "Update framework to v0.15.0
-
-See CHANGELOG.md for details.
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-```
-
-### Step 3.12: Configuration Complete
-
-Report completion with:
-- Installation/update status
-- Git repository status
-- Remote repository status
-- Next steps
-
-**End of Legacy Workflow.**
-
----
-
 ## Error Handling
 
 ### Not a Valid Framework Directory
@@ -681,7 +536,6 @@ This directory doesn't appear to be a framework installation or books root.
 Expected one of:
 - VERSION file (FW_ROOT - framework directory)
 - .config/fw-location.json (BOOKS_ROOT - books directory)
-- Process/FRAMEWORK_CORE.md (Legacy single-book mode)
 
 Solutions:
 1. Clone the framework: git clone https://github.com/scooter-indie/author-nonfiction-dist.git
@@ -737,26 +591,23 @@ Try again with a valid path.
 
 ## Important Notes
 
-### Multi-Book vs Legacy Mode
+### Directory Structure
 
-**Multi-Book Mode (v0.15.0+):**
+**FW_ROOT (Framework Directory):**
 - Framework in FW_ROOT (read-only, updateable)
-- Books in BOOKS_ROOT (your content)
-- Multiple books in one repository
-- Centralized book registry
+- Contains Process/, scripts/, VERSION, etc.
+- Start Claude Code from here using start scripts
 
-**Legacy Mode (single-book):**
-- Everything in one directory
-- Process/ contains framework
-- Single book project
-- Still fully supported
+**BOOKS_ROOT (Books Directory):**
+- Your book content lives here
+- Multiple books in one repository
+- Centralized book registry in .config/
 
 ### What Gets Tracked in Git
 
 **In BOOKS_ROOT:**
 - ✅ All book content (Manuscript/, Research/)
 - ✅ Configuration (.config/)
-- ✅ CLAUDE.md
 - ❌ Nothing from FW_ROOT (that's a separate repo)
 
 **In FW_ROOT:**
@@ -765,16 +616,11 @@ Try again with a valid path.
 
 ### Framework Updates
 
-**Multi-Book Mode:**
 ```bash
 cd [FW_ROOT]
 claude
 # Then say: "Run configure.md"
 ```
-
-**Legacy Mode:**
-- Re-extract new framework version
-- Run configure.md
 
 ---
 

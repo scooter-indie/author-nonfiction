@@ -6,9 +6,15 @@
 
 ---
 
+> **Note (v0.15.3+):** Legacy (single-book) mode has been removed from the framework.
+> All installations must use multi-book mode. If you have a legacy installation,
+> you must migrate to multi-book mode using the configure.md workflow.
+
+---
+
 ## Summary
 
-This migration updates configuration files to support the new multi-book architecture introduced in v0.15.0. For legacy (single-book) installations, minimal changes are required.
+This migration updates configuration files to support the new multi-book architecture introduced in v0.15.0.
 
 ---
 

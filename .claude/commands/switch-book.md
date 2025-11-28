@@ -12,7 +12,7 @@ This command only works in **multi-book mode**. Check:
 - `.config/fw-location.json` exists (indicates BOOKS_ROOT)
 - `.config/books-registry.json` exists
 
-If neither exists, inform user: "This command requires multi-book mode. You appear to be in legacy (single-book) mode."
+If neither exists, inform user: "This command requires a valid BOOKS_ROOT. Run /fw-init first."
 
 ---
 

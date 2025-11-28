@@ -25,7 +25,7 @@ Creates complete nonfiction book project:
 
 ## Workflow (10 Steps)
 
-1. **Detect operating mode (multi-book vs legacy)**
+1. **Verify BOOKS_ROOT**
 2. Lock ProjectConfig
 3. Detect environment
 4. Interactive Q&A
@@ -38,21 +38,22 @@ Creates complete nonfiction book project:
 
 ---
 
-## Step 0: Mode Detection
+## Step 0: Verify BOOKS_ROOT
 
-**Determine operating mode from session context:**
+**Verify running from valid BOOKS_ROOT:**
 
-The `/fw-init` command sets `MODE` variable at session start:
-- `MODE=multi-book` → Working in BOOKS_ROOT with framework at FW_ROOT
-- `MODE=legacy` → Working in single-book project root
+The `/fw-init` command sets session context at startup:
+- `FW_ROOT` - Path to framework installation
+- `BOOKS_ROOT` - Current working directory (where books live)
 
-**If MODE not set:** Check for `.config/fw-location.json`
-- If exists → Multi-book mode
-- If not exists → Legacy mode
+**If not set:** Check for `.config/fw-location.json`
+- If exists → Valid BOOKS_ROOT
+- If not exists → Error: "Run /fw-init from BOOKS_ROOT first"
 
 **Store context for this prompt:**
-- **Multi-book:** `FW_ROOT`, `BOOKS_ROOT` (current dir), `BOOK_PATH` (to be created)
-- **Legacy:** `PROJECT_ROOT` (current dir), framework in `Process/`
+- `FW_ROOT` - Framework location
+- `BOOKS_ROOT` - Current directory
+- `BOOK_PATH` - To be created for new book
 
 ---
 
@@ -68,14 +69,9 @@ See: Prompt_Essentials.md → Lock Management
 
 ## Step 2: Environment Detection
 
-**Multi-book mode:**
-- Check `[BOOKS_ROOT]/[Book-Name]/.config/init.json` (if book already selected)
-- If creating new book: Proceed to Step 3 (Q&A)
-
-**Legacy mode:**
-- Check `.config/init.json`
-- **Exists:** Skip to Step 6 (CLI execution)
-- **Not exists:** Proceed to Step 3 (Q&A)
+**Check for existing book selection:**
+- If `ACTIVE_BOOK` set and `[BOOK_PATH]/.config/init.json` exists → Skip to Step 6 (CLI execution)
+- If creating new book → Proceed to Step 3 (Q&A)
 
 ---
 
@@ -190,20 +186,6 @@ To proceed, type exactly: I acknowledge the disclaimer
 
 5. **Set as active book:** Update `activeBook` in registry
 
-### Legacy Mode
-
-**Prerequisite:** `.config/manifest.json` must exist (created by configure.md).
-If it doesn't exist, tell user: "Please run configure.md first to set up the framework."
-
-**Create 4 files in `.config/`:**
-
-**1. `.config/init.json`** - Q&A answers
-**2. `.config/project.json`** - Project settings
-**3. `.config/metadata.json`** - Book metadata
-**4. `.config/migrations.json`** - Copy from template
-
-**Note:** manifest.json already exists from configure.md - do not overwrite it.
-
 ---
 
 ## Step 6: Desktop Handoff
@@ -224,8 +206,6 @@ To complete initialization:
 
 ## Step 7: Run Init Script (CLI)
 
-### Multi-Book Mode
-
 ```bash
 bash [FW_ROOT]/scripts/init.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
 ```
@@ -234,33 +214,17 @@ bash [FW_ROOT]/scripts/init.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
 - `[BOOK_PATH]/.config/init.json` - Config file location
 - `[FW_ROOT]` - Framework root (for reading templates)
 
-### Legacy Mode
-
-```bash
-bash scripts/init.sh .config/init.json
-```
-
 **Script creates:**
 - 10-directory Manuscript structure
 - 5 template files
-- Git repository initialization (legacy mode only - multi-book uses BOOKS_ROOT git)
 
 ---
 
 ## Step 8: Generate Content (CLI)
 
-### Multi-Book Mode
-
 ```bash
 bash [FW_ROOT]/scripts/generate-content.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
 bash [FW_ROOT]/scripts/detect-tools.sh [BOOK_PATH]/.config/manifest.json
-```
-
-### Legacy Mode
-
-```bash
-bash scripts/generate-content.sh .config/init.json
-bash scripts/detect-tools.sh .config/manifest.json
 ```
 
 **Generates:**
@@ -273,8 +237,6 @@ bash scripts/detect-tools.sh .config/manifest.json
 ---
 
 ## Step 9: Git Commit, Tag & Push (CLI)
-
-### Multi-Book Mode
 
 **Note:** Git operations happen at BOOKS_ROOT level (single repo for all books).
 
@@ -293,28 +255,10 @@ git commit -m "Initialize book: [title]
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-**Tag convention for multi-book:** `[book-id]-v1.0.0` (e.g., `my-amazing-book-v1.0.0`)
+**Tag convention:** `[book-id]-v1.0.0` (e.g., `my-amazing-book-v1.0.0`)
 
 ```bash
 git tag -a [book-id]-v1.0.0 -m "Initial project structure for [title]"
-```
-
-### Legacy Mode
-
-```bash
-git add -A
-git commit -m "Initialize book project: [title]
-
-- Created [X]-chapter structure
-- Selected style: [style name]
-- Disclaimer acknowledged (v1.0)
-- Framework v0.15.0
-
-🤖 Generated with Claude Code
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-
-git tag -a v1.0.0 -m "Initial project structure"
 ```
 
 **Push to remote (if configured):**
@@ -331,8 +275,6 @@ Update `.config/project.json`: `initialized: true`
 ---
 
 ## Step 10: Completion Report
-
-### Multi-Book Mode
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -363,31 +305,6 @@ Git status:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### Legacy Mode
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✓ Project initialized successfully!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Book: [title]
-Author: [author]
-Chapters: [X]
-Style: [style name]
-Framework: v0.15.0
-
-Next steps:
-  1. Execute Prompt 2 to add your first chapter
-  2. Execute Prompt 10 to see your dashboard
-  3. Read USAGE_GUIDE.md for complete guide
-
-Git status:
-  • Initial commit created
-  • Tagged as v1.0.0
-  • [If remote configured: Pushed to origin]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
 Release `ProjectConfig` lock.
 
 ---
@@ -409,8 +326,6 @@ Options:
 
 ## Files Created
 
-### Multi-Book Mode
-
 **Book Directory (`[BOOKS_ROOT]/[Book-Name]/`):**
 - `.config/` - init.json, project.json, metadata.json, manifest.json
 - `Manuscript/` - Chapters/, FrontMatter/, BackMatter/, Style/, _TOC_/, Quotes/, images/, Inbox/, Drafts/, Exports/
@@ -420,22 +335,7 @@ Options:
 **Registry Updated:**
 - `.config/books-registry.json` - New book entry added
 
-**Note:** No Process/ directory - framework at FW_ROOT
-
-### Legacy Mode
-
-**Configuration (`.config/`):**
-- init.json, project.json, metadata.json, migrations.json
-- (manifest.json already exists from configure.md)
-
-**Manuscript Structure:**
-- Chapters/, FrontMatter/, BackMatter/, Style/
-- _TOC_/, Quotes/, images/, Inbox/, Drafts/, Exports/
-
-**Root Files:**
-- USAGE_GUIDE.md, PROJECT_CONTEXT.md, README.md, .gitignore
-
-**Total:** ~20 files, 11 directories
+**Note:** Framework files remain at FW_ROOT (not copied to book directory)
 
 ---
 

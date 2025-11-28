@@ -33,31 +33,14 @@ BOOK_PATH       = BOOKS_ROOT/[activeBook directory]
 - `[BOOK_PATH]/.config/...`
 - `[BOOK_PATH]/PROJECT_CONTEXT.md`
 
-### Legacy Mode
-
-When `MODE=legacy` (no fw-location.json):
-
-```
-PROJECT_ROOT    = Current working directory
-FW_ROOT         = PROJECT_ROOT (same location)
-BOOK_PATH       = PROJECT_ROOT (same location)
-```
-
-**All paths relative to PROJECT_ROOT as before.**
-
 ### Path Resolution Helper
 
 **At start of each prompt execution:**
 
 ```
-1. Check MODE from session context (set by /fw-init)
-2. If multi-book:
-   a. Read BOOKS_ROOT/.config/fw-location.json → FW_ROOT
-   b. Read BOOKS_ROOT/.config/books-registry.json → activeBook
-   c. Set BOOK_PATH = BOOKS_ROOT/[activeBook directory]
-3. If legacy:
-   a. FW_ROOT = current directory
-   b. BOOK_PATH = current directory
+1. Read BOOKS_ROOT/.config/fw-location.json → FW_ROOT
+2. Read BOOKS_ROOT/.config/books-registry.json → activeBook
+3. Set BOOK_PATH = BOOKS_ROOT/[activeBook directory]
 4. Use FW_ROOT for framework file reads
 5. Use BOOK_PATH for book content reads/writes
 ```
@@ -68,8 +51,7 @@ BOOK_PATH       = PROJECT_ROOT (same location)
 
 ### Lock File Location
 
-**Multi-book mode:** `[BOOK_PATH]/.locks/locks.json`
-**Legacy mode:** `.locks/locks.json`
+`[BOOK_PATH]/.locks/locks.json`
 
 **Initialize:**
 - Create `.locks/` directory in BOOK_PATH: `mkdir -p [BOOK_PATH]/.locks`

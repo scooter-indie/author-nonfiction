@@ -6,8 +6,7 @@
 #
 # Purpose: Generate ALL content files from init.json in single operation
 # Usage:
-#   Legacy mode:     bash scripts/generate-content.sh .config/init.json
-#   Multi-book mode: bash [FW_ROOT]/scripts/generate-content.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
+#   bash [FW_ROOT]/scripts/generate-content.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
 ################################################################################
 
 set -e  # Exit on error
@@ -21,28 +20,23 @@ NC='\033[0m' # No Color
 
 # Configuration
 CONFIG_FILE="${1:-.config/init.json}"
-FW_ROOT="${2:-}"  # Optional: Framework root for multi-book mode
+FW_ROOT="${2:-}"
 
-# Determine paths based on mode
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-if [[ -n "$FW_ROOT" ]]; then
-    # Multi-book mode: FW_ROOT provided
-    FRAMEWORK_ROOT="$FW_ROOT"
-    # Book path is parent of .config/init.json
-    BOOK_PATH="$(cd "$(dirname "$CONFIG_FILE")/.." && pwd)"
-    PROJECT_ROOT="$BOOK_PATH"
-    MULTI_BOOK_MODE=true
-    echo -e "${BLUE}Mode: Multi-book${NC}"
-    printf "  Framework: %s\n" "$FRAMEWORK_ROOT"
-    printf "  Book path: %s\n" "$BOOK_PATH"
-else
-    # Legacy mode: script and project in same location
-    FRAMEWORK_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-    PROJECT_ROOT="$FRAMEWORK_ROOT"
-    MULTI_BOOK_MODE=false
-    echo -e "${BLUE}Mode: Legacy (single-book)${NC}"
+# Validate required parameters
+if [[ -z "$FW_ROOT" ]]; then
+    echo -e "${RED}Error: FW_ROOT parameter required${NC}"
+    echo "Usage: bash [FW_ROOT]/scripts/generate-content.sh [BOOK_PATH]/.config/init.json [FW_ROOT]"
+    exit 1
 fi
+
+# Set paths
+FRAMEWORK_ROOT="$FW_ROOT"
+# Book path is parent of .config/init.json
+BOOK_PATH="$(cd "$(dirname "$CONFIG_FILE")/.." && pwd)"
+PROJECT_ROOT="$BOOK_PATH"
+
+echo -e "${BLUE}Framework: ${NC}$FRAMEWORK_ROOT"
+echo -e "${BLUE}Book path: ${NC}$BOOK_PATH"
 
 ################################################################################
 # Validation Functions
@@ -449,16 +443,13 @@ generate_usage_guide() {
 generate_project_context() {
     echo -e "${BLUE}Generating PROJECT_CONTEXT.md...${NC}"
 
-    if [[ "$MULTI_BOOK_MODE" == "true" ]]; then
-        # Multi-book mode: reference FW_ROOT
-        cat > PROJECT_CONTEXT.md <<EOF
+    cat > PROJECT_CONTEXT.md <<EOF
 # Project Context
 
 **Book Title:** $TITLE
 **Author:** $AUTHOR
 **Initialized:** $DATE
 **Framework Version:** 0.15.0
-**Mode:** Multi-book
 
 ---
 
@@ -509,61 +500,6 @@ Also upload the System Instructions from the framework (at FW_ROOT).
 **Generated:** $DATE
 **Framework Version:** 0.15.0
 EOF
-    else
-        # Legacy mode: Process/ in same directory
-        cat > PROJECT_CONTEXT.md <<EOF
-# Project Context
-
-**Book Title:** $TITLE
-**Author:** $AUTHOR
-**Initialized:** $DATE
-**Framework Version:** 0.15.0
-
----
-
-## Project Overview
-
-**Chapters:** $CHAPTERS
-**Writing Style:** $STYLE_DISPLAY
-**Target Word Count:** $TARGET_WORD_COUNT
-**Target Completion:** $TARGET_COMPLETION
-
-**Target Audience:**
-$TARGET_AUDIENCE
-
-**Book Purpose:**
-$PURPOSE
-
----
-
-## For Claude Desktop Users
-
-Upload this file to Claude Desktop's Files area (not pasted as text) to provide full project context when resuming work.
-
-**System Instructions:**
-Also upload \`Process/Prompts/README.md\` which contains the System Instructions for Claude Desktop.
-
----
-
-## Quick Reference
-
-**Framework Location:** Process/
-**Prompts:** Process/Prompts/
-**Manuscript:** Manuscript/
-**Configuration:** .config/
-
-**Key Prompts:**
-- Prompt 3: Change by Chg (automated editing)
-- Prompt 4: Interactive Change (conversational editing)
-- Prompt 8: Consistency Checker
-- Prompt 10: Progress Dashboard
-
----
-
-**Generated:** $DATE
-**Framework Version:** 0.15.0
-EOF
-    fi
 
     echo -e "${GREEN}✓ Generated PROJECT_CONTEXT.md${NC}"
 }

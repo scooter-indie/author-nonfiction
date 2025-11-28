@@ -6,8 +6,7 @@
 #
 # Purpose: Fast project structure creation for Prompt 1
 # Usage:
-#   Legacy mode:     bash scripts/init.sh .config/init.json
-#   Multi-book mode: bash [FW_ROOT]/scripts/init.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
+#   bash [FW_ROOT]/scripts/init.sh [BOOK_PATH]/.config/init.json [FW_ROOT]
 ################################################################################
 
 set -e  # Exit on error
@@ -21,28 +20,23 @@ NC='\033[0m' # No Color
 
 # Configuration
 CONFIG_FILE="${1:-.config/init.json}"
-FW_ROOT="${2:-}"  # Optional: Framework root for multi-book mode
+FW_ROOT="${2:-}"
 
-# Determine paths based on mode
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-if [[ -n "$FW_ROOT" ]]; then
-    # Multi-book mode: FW_ROOT provided
-    FRAMEWORK_ROOT="$FW_ROOT"
-    # Book path is parent of .config/init.json
-    BOOK_PATH="$(cd "$(dirname "$CONFIG_FILE")/.." && pwd)"
-    PROJECT_ROOT="$BOOK_PATH"
-    MULTI_BOOK_MODE=true
-    echo -e "${BLUE}Mode: Multi-book${NC}"
-    printf "  Framework: %s\n" "$FRAMEWORK_ROOT"
-    printf "  Book path: %s\n" "$BOOK_PATH"
-else
-    # Legacy mode: script and project in same location
-    FRAMEWORK_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-    PROJECT_ROOT="$FRAMEWORK_ROOT"
-    MULTI_BOOK_MODE=false
-    echo -e "${BLUE}Mode: Legacy (single-book)${NC}"
+# Validate required parameters
+if [[ -z "$FW_ROOT" ]]; then
+    echo -e "${RED}Error: FW_ROOT parameter required${NC}"
+    echo "Usage: bash [FW_ROOT]/scripts/init.sh [BOOK_PATH]/.config/init.json [FW_ROOT]"
+    exit 1
 fi
+
+# Set paths
+FRAMEWORK_ROOT="$FW_ROOT"
+# Book path is parent of .config/init.json
+BOOK_PATH="$(cd "$(dirname "$CONFIG_FILE")/.." && pwd)"
+PROJECT_ROOT="$BOOK_PATH"
+
+echo -e "${BLUE}Framework: ${NC}$FRAMEWORK_ROOT"
+echo -e "${BLUE}Book path: ${NC}$BOOK_PATH"
 
 ################################################################################
 # Validation Functions
@@ -205,41 +199,19 @@ copy_templates() {
         echo -e "${YELLOW}⊙ Preserved: Manuscript/Style/reference.docx${NC}"
     fi
 
-    # Git ignore (always overwrite) - only in legacy mode
-    # In multi-book mode, .gitignore is at BOOKS_ROOT level
-    if [[ "$MULTI_BOOK_MODE" == "false" ]]; then
-        cp "$FRAMEWORK_ROOT/Process/Templates/gitignore_template" ".gitignore"
-        echo -e "${GREEN}✓ Copied: .gitignore${NC}"
-    else
-        echo -e "${YELLOW}⊙ Skipped: .gitignore (managed at BOOKS_ROOT level)${NC}"
-    fi
+    # Git ignore is managed at BOOKS_ROOT level
+    echo -e "${YELLOW}⊙ Skipped: .gitignore (managed at BOOKS_ROOT level)${NC}"
 
     echo ""
 }
 
 ################################################################################
-# Git Initialization
+# Git Note
 ################################################################################
 
-initialize_git() {
-    # Only initialize git in legacy mode
-    # Multi-book mode uses single git repo at BOOKS_ROOT level
-    if [[ "$MULTI_BOOK_MODE" == "true" ]]; then
-        echo -e "${BLUE}Git initialization...${NC}"
-        echo -e "${YELLOW}⊙ Skipped: Multi-book mode uses BOOKS_ROOT git repository${NC}"
-        echo ""
-        return
-    fi
-
-    echo -e "${BLUE}Initializing git repository...${NC}"
-
-    if [[ -d ".git" ]]; then
-        echo -e "${YELLOW}⊙ Git repository already initialized${NC}"
-    else
-        git init
-        echo -e "${GREEN}✓ Git repository initialized${NC}"
-    fi
-
+print_git_note() {
+    echo -e "${BLUE}Git initialization...${NC}"
+    echo -e "${YELLOW}⊙ Skipped: Git repository is managed at BOOKS_ROOT level${NC}"
     echo ""
 }
 
@@ -255,11 +227,7 @@ print_summary() {
     echo -e "${BLUE}Structure created:${NC}"
     echo "  • 10 directories (Manuscript structure)"
     echo "  • 5-6 template files copied"
-    if [[ "$MULTI_BOOK_MODE" == "true" ]]; then
-        echo "  • Mode: Multi-book (git at BOOKS_ROOT)"
-    else
-        echo "  • Git repository initialized"
-    fi
+    echo "  • Git repository managed at BOOKS_ROOT"
     echo ""
     echo -e "${YELLOW}Next steps:${NC}"
     echo "  • Claude will now generate content files (Style_Guide, TOC, etc.)"
@@ -290,8 +258,8 @@ main() {
     # Copy templates
     copy_templates
 
-    # Initialize git (only in legacy mode)
-    initialize_git
+    # Note about git
+    print_git_note
 
     # Detect export tools (will update manifest after Claude populates it)
     echo ""
