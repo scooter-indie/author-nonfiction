@@ -274,7 +274,7 @@ print_summary() {
 
 main() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}Nonfiction Framework Initialization Script v0.15.0${NC}"
+    echo -e "${BLUE}Nonfiction Framework Initialization Script v0.15.1${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
