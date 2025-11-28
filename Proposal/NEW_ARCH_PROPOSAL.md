@@ -162,53 +162,91 @@ claude --permission-mode "bypassPermissions" --append-system-prompt "IMPORTANT: 
 
 Located in FW_ROOT (included in dist repo). Used for first-time setup.
 
+**Key Features:**
+- Verifies Claude Code CLI is installed
+- Validates VERSION file exists (confirms FW_ROOT)
+- Uses temp file to track PROJECT_ROOT path for auto-chain
+- Automatically launches start-authoring after setup completes
+
 **Windows (configure.bat):**
 ```batch
 @echo off
-cd /d "%~dp0"
-claude --append-system-prompt "IMPORTANT: Run configure.md immediately." "Start"
+setlocal EnableDelayedExpansion
 
-REM After Claude exits, chain to start-authoring if it was created
-if exist "..\start-authoring.bat" (
-    echo.
-    echo Launching start-authoring...
-    call "..\start-authoring.bat"
+echo AI-Assisted Nonfiction Authoring Framework - Configuration
+set "FW_ROOT=%~dp0"
+set "FW_ROOT=%FW_ROOT:~0,-1%"
+
+REM Check Claude Code CLI
+where claude >nul 2>&1 || (echo ERROR: Claude Code CLI not found. && pause && exit /b 1)
+
+REM Check VERSION file
+if not exist "%FW_ROOT%\VERSION" (echo ERROR: VERSION file not found. && pause && exit /b 1)
+
+REM Temp file for PROJECT_ROOT path
+set "TEMP_FILE=%TEMP%\fw_project_root.txt"
+if exist "%TEMP_FILE%" del "%TEMP_FILE%"
+
+cd /d "%FW_ROOT%"
+claude --append-system-prompt "IMPORTANT: Execute configure.md immediately. After setup, write PROJECT_ROOT path to %TEMP_FILE% before /exit." "Run configure.md"
+
+REM Chain to start-authoring if PROJECT_ROOT was created
+if exist "%TEMP_FILE%" (
+    set /p PROJECT_ROOT=<"%TEMP_FILE%"
+    del "%TEMP_FILE%"
+    if exist "!PROJECT_ROOT!\start-authoring.bat" call "!PROJECT_ROOT!\start-authoring.bat"
 )
+endlocal
 ```
 
 **macOS/Linux (configure.sh):**
 ```bash
 #!/bin/bash
-cd "$(dirname "$0")"
-claude --append-system-prompt "IMPORTANT: Run configure.md immediately." "Start"
+FW_ROOT="$(cd "$(dirname "$0")" && pwd)"
 
-# After Claude exits, chain to start-authoring if it was created
-if [ -f "../start-authoring.sh" ]; then
-    echo ""
-    echo "Launching start-authoring..."
-    exec "../start-authoring.sh"
+# Check Claude Code CLI
+command -v claude &> /dev/null || { echo "ERROR: Claude Code CLI not found."; exit 1; }
+
+# Check VERSION file
+[ -f "$FW_ROOT/VERSION" ] || { echo "ERROR: VERSION file not found."; exit 1; }
+
+TEMP_FILE="/tmp/fw_project_root.txt"
+rm -f "$TEMP_FILE"
+
+cd "$FW_ROOT"
+claude --append-system-prompt "IMPORTANT: Execute configure.md immediately. After setup, write PROJECT_ROOT path to $TEMP_FILE before /exit." "Run configure.md"
+
+# Chain to start-authoring if PROJECT_ROOT was created
+if [ -f "$TEMP_FILE" ]; then
+    PROJECT_ROOT=$(cat "$TEMP_FILE")
+    rm -f "$TEMP_FILE"
+    [ -f "$PROJECT_ROOT/start-authoring.sh" ] && exec "$PROJECT_ROOT/start-authoring.sh"
 fi
 ```
 
 **Initial Setup Workflow:**
-1. User clones framework: `git clone https://github.com/scooter-indie/author-nonfiction-dist.git FW_ROOT`
-2. User runs `configure.bat` or `configure.sh` from FW_ROOT
+1. User clones framework to any location
+2. User runs `configure.bat` or `configure.sh` from cloned FW_ROOT
 3. Claude starts and runs configure.md
 4. configure.md asks for PROJECT_ROOT location
 5. configure.md creates PROJECT_ROOT structure:
-   - BOOKS_ROOT/ directory
-   - .config/ with all JSON files and CLAUDE.md
+   - BOOKS_ROOT/ directory with Archive/
+   - .config/ with all JSON files, CLAUDE.md, and .claude/ commands/agents
    - .git repository (with FW_ROOT in .gitignore)
    - start-authoring and bp-start-authoring scripts
-6. configure.md instructs user to type `/exit`
-7. Script chains to `start-authoring.bat/sh` automatically
+   - FW_ROOT/ (cloned or copied from setup location)
+6. configure.md writes PROJECT_ROOT path to temp file
+7. User types `/exit`
+8. Script reads temp file and chains to `start-authoring.bat/sh`
 
 **After Setup - Creating First Book:**
-1. User runs `start-authoring.bat/sh` from PROJECT_ROOT
-2. Claude starts in .config/, runs /fw-init
-3. /fw-init shows "No books yet" and offers to create one
+1. start-authoring launches Claude in .config/
+2. Claude runs /fw-init automatically
+3. /fw-init shows "No books registered" and offers to create one
 4. User runs Prompt 1 to initialize first book
 5. Book created in BOOKS_ROOT/
+
+**Note:** Original clone location can be deleted after setup - framework now exists in PROJECT_ROOT/FW_ROOT/
 
 ---
 
@@ -639,31 +677,49 @@ This section validates the 6 assertions from the original requirements document.
 
 ## File Changes Summary
 
-### New Files
+### New Files in Dev Repo (Process/Templates/)
 
-| File | Location | Purpose |
+| Template File | Destination | Purpose |
+|---------------|-------------|---------|
+| configure.bat | FW_ROOT/ (dist root) | Windows initial setup bootstrap |
+| configure.sh | FW_ROOT/ (dist root) | macOS/Linux initial setup bootstrap |
+| start-authoring.bat | FW_ROOT/ (template) → PROJECT_ROOT/ | Windows normal startup |
+| start-authoring.sh | FW_ROOT/ (template) → PROJECT_ROOT/ | macOS/Linux normal startup |
+| bp-start-authoring.bat | FW_ROOT/ (template) → PROJECT_ROOT/ | Windows bypass permissions startup |
+| bp-start-authoring.sh | FW_ROOT/ (template) → PROJECT_ROOT/ | macOS/Linux bypass permissions startup |
+| CONFIG_ROOT_CLAUDE_template.md | .config/CLAUDE.md | Claude instructions for CONFIG_ROOT |
+| PROJECT_ROOT_gitignore_template | PROJECT_ROOT/.gitignore | Excludes FW_ROOT/ |
+| .claude/commands/fw-init.md | .config/.claude/commands/ | Framework init command |
+| .claude/commands/switch-book.md | .config/.claude/commands/ | Book switching command |
+| .claude/commands/manage-book.md | .config/.claude/commands/ | Book lifecycle management |
+| .claude/agents/book-writing-assistant.md | .config/.claude/agents/ | Writing assistant agent |
+
+### Generated at Runtime (by configure.md)
+
+| File | Location | Content |
 |------|----------|---------|
-| configure.bat | FW_ROOT/ (dist) | Windows initial setup bootstrap |
-| configure.sh | FW_ROOT/ (dist) | macOS/Linux initial setup bootstrap |
-| start-authoring.bat | PROJECT_ROOT/ | Windows normal startup |
-| start-authoring.sh | PROJECT_ROOT/ | macOS/Linux normal startup |
-| bp-start-authoring.bat | PROJECT_ROOT/ | Windows bypass permissions startup |
-| bp-start-authoring.sh | PROJECT_ROOT/ | macOS/Linux bypass permissions startup |
-| CLAUDE.md | .config/ | Claude instructions (new location) |
-| fw-init.md | .config/.claude/commands/ | Updated for new paths |
-| switch-book.md | .config/.claude/commands/ | Updated for new paths |
-| manage-book.md | .config/.claude/commands/ | Updated for new paths |
-| book-writing-assistant.md | .config/.claude/agents/ | Agent (new location) |
+| fw-location.json | .config/ | FW_ROOT path, version, update channel |
+| settings.json | .config/ | BOOKS_ROOT path, preferences |
+| books-registry.json | .config/ | Book list, active book |
+| start-authoring.bat/sh | PROJECT_ROOT/ | Generated from template |
+| bp-start-authoring.bat/sh | PROJECT_ROOT/ | Generated from template |
+| .gitignore | PROJECT_ROOT/ | Excludes FW_ROOT/ |
 
 ### Modified Files
 
 | File | Changes |
 |------|---------|
 | fw-location.json template | Add updateChannel field |
-| settings.json template | Add booksRoot field |
-| configure.md | New installation workflow |
-| PREPARE_RELEASE.md | New release structure |
-| framework_files_manifest.json | New file paths |
+| settings.json template | Add required booksRoot field |
+| configure.md | New unified PROJECT_ROOT installation workflow |
+| .claude/commands/fw-init.md | Updated for CONFIG_ROOT detection, BOOKS_ROOT from settings.json |
+| .claude/commands/switch-book.md | Updated for CONFIG_ROOT prerequisites |
+| .claude/commands/manage-book.md | Updated git operations for PROJECT_ROOT |
+| .claude/agents/book-writing-assistant.md | Added path resolution documentation |
+| Claude_Desktop_System_Instructions.md | Rewritten for PROJECT_ROOT architecture |
+| Prompt_Essentials.md | Updated path resolution for v0.16.0 |
+| Prompt_1_Initialize.md | Updated session context verification |
+| Prompt_17_Backup_Export.md | Updated for PROJECT_ROOT backup |
 
 ### Deprecated
 
@@ -671,54 +727,93 @@ This section validates the 6 assertions from the original requirements document.
 |------|--------|
 | BOOKS_ROOT/.config/ | Moved to PROJECT_ROOT/.config/ |
 | BOOKS_ROOT/CLAUDE.md | Moved to .config/CLAUDE.md |
+| FW_ROOT/.config/settings.json | No longer needed (CONFIG_ROOT handles all config) |
 
 ---
 
-## Appendix A: Example Installation
+## Appendix A: Complete Installation Workflow
 
 ### Step 1: Clone Framework
 
+Clone the framework to any location:
+
 ```bash
-git clone https://github.com/scooter-indie/author-nonfiction-dist.git E:\My-Writing-Projects\FW_ROOT
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git ~/Downloads/author-nonfiction
 ```
 
 ### Step 2: Run Setup Script
 
 **Windows:**
 ```batch
-cd E:\My-Writing-Projects\FW_ROOT
+cd %USERPROFILE%\Downloads\author-nonfiction
 configure.bat
 ```
 
 **macOS/Linux:**
 ```bash
-cd E:\My-Writing-Projects\FW_ROOT
+cd ~/Downloads/author-nonfiction
 ./configure.sh
 ```
 
+The configure script:
+1. Verifies Claude Code CLI is installed
+2. Checks VERSION file exists (confirms valid FW_ROOT)
+3. Launches Claude Code with configure.md
+
 ### Step 3: Follow configure.md Prompts
 
-Claude starts and runs configure.md which:
-1. Asks for PROJECT_ROOT location (e.g., `E:\My-Writing-Projects`)
-2. Creates `BOOKS_ROOT/` directory
-3. Creates `.config/` with all JSON files and CLAUDE.md
-4. Initializes `.git/` repository
-5. Creates `.gitignore` (excludes FW_ROOT/)
-6. Generates startup scripts at PROJECT_ROOT
-7. Instructs user to type `/exit`
+Claude runs configure.md which:
+1. **Confirms date** - Verifies system date is correct
+2. **Checks git** - Ensures git is installed
+3. **Asks for PROJECT_ROOT** - Where to create the writing environment
+4. **Creates PROJECT_ROOT structure:**
+   - `BOOKS_ROOT/` directory with Archive/
+   - `.config/` (CONFIG_ROOT) with all JSON files
+   - `.config/CLAUDE.md` and `.config/.claude/` commands/agents
+5. **Installs framework:**
+   - Option 1: Copy from current location
+   - Option 2: Fresh clone from GitHub (recommended)
+6. **Creates .gitignore** - Excludes FW_ROOT/
+7. **Generates startup scripts** - start-authoring.bat/.sh at PROJECT_ROOT
+8. **Initializes git** - Optional git repository at PROJECT_ROOT
+9. **Configures remote** - Optional GitHub/GitLab connection
+10. **Creates initial commit** - Records setup completion
+11. **Reports completion** - Shows PROJECT_ROOT path
 
-### Step 4: Automatic Chain to start-authoring
+### Step 4: Exit and Auto-Chain
 
-After `/exit`, configure.bat/sh automatically chains to start-authoring:
-- Claude restarts in .config/
-- /fw-init runs automatically
-- Shows "No books yet"
+When Claude reports completion:
+1. Type `/exit` to close the session
+2. configure.bat/sh detects PROJECT_ROOT was created
+3. Automatically launches `start-authoring.bat/.sh`
 
-### Step 5: Create First Book
+**If auto-chain fails:**
+Navigate to PROJECT_ROOT and run start-authoring manually:
+```bash
+# Windows
+E:\My-Writing\start-authoring.bat
 
-1. Say "Create new book" or run Prompt 1
-2. Book created in BOOKS_ROOT/
-3. Ready to write!
+# macOS/Linux
+~/My-Writing/start-authoring.sh
+```
+
+### Step 5: Initial Session
+
+start-authoring launches Claude Code in .config/:
+1. /fw-init runs (prompted by system message)
+2. Framework version displayed
+3. "No books registered" - prompts to create first book
+
+### Step 6: Create First Book
+
+1. Say "Create new book" or "Execute Prompt 1"
+2. Follow Prompt 1 workflow to set up book structure
+3. Book created in BOOKS_ROOT/
+4. Ready to write!
+
+### Optional: Delete Clone Location
+
+After setup completes, the original clone location (e.g., `~/Downloads/author-nonfiction`) can be deleted. The framework now exists at `PROJECT_ROOT/FW_ROOT/`.
 
 ---
 

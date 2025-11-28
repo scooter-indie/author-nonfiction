@@ -1,6 +1,6 @@
 # Framework Configuration
 
-**AI-Assisted Nonfiction Authoring Framework v0.15.4**
+**AI-Assisted Nonfiction Authoring Framework v0.16.0**
 
 ---
 
@@ -21,18 +21,47 @@ This configuration supports both **Claude Desktop** and **Claude Code CLI**.
 
 ## What This Does
 
-This configuration script handles multiple scenarios:
+This configuration script sets up the unified PROJECT_ROOT architecture:
 
-**Fresh Install (from FW_ROOT):**
-1. Set up BOOKS_ROOT directory for your books
-2. Create configuration files
-3. Initialize git repository
-4. Generate startup scripts
+**Fresh Install (from cloned FW_ROOT):**
+1. Ask for PROJECT_ROOT location
+2. Create PROJECT_ROOT directory structure
+3. Set up BOOKS_ROOT subdirectory
+4. Create CONFIG_ROOT (.config/) with all files
+5. Generate startup scripts
+6. Initialize git repository
+7. Chain to start-authoring on exit
 
-**Framework Update (from FW_ROOT):**
+**Framework Update (from existing CONFIG_ROOT):**
 1. Check for available updates
 2. Pull latest framework version
-3. Apply migrations to BOOKS_ROOT
+3. Apply migrations
+
+---
+
+## Unified PROJECT_ROOT Architecture
+
+```
+PROJECT_ROOT/
+├── .git/                    # Git repository (user content)
+├── .gitignore               # Excludes FW_ROOT/
+├── start-authoring.bat/.sh  # Startup scripts
+├── bp-start-authoring.*     # Bypass-permissions startup
+├── FW_ROOT/                 # Framework (cloned from -dist)
+│   └── (framework files)
+├── BOOKS_ROOT/              # Your books
+│   ├── [Book-1]/
+│   ├── [Book-2]/
+│   └── Archive/
+└── .config/                 # CONFIG_ROOT
+    ├── fw-location.json
+    ├── settings.json
+    ├── books-registry.json
+    ├── CLAUDE.md
+    └── .claude/
+        ├── agents/
+        └── commands/
+```
 
 ---
 
@@ -61,16 +90,10 @@ Is this correct? (yes / or provide correct date in YYYY-MM-DD format)
 
 **Required tools:**
 1. **git** - Version control (required)
-2. **jq** - JSON processing (optional but recommended)
 
 **Check git:**
 ```bash
 git --version
-```
-
-**Check jq (optional):**
-```bash
-jq --version
 ```
 
 **If git not found:** Show installation instructions and wait for user.
@@ -83,25 +106,26 @@ jq --version
 
 Check for these indicators:
 
-1. **VERSION file exists?** → Running in FW_ROOT (framework directory)
-2. **.config/fw-location.json exists?** → Running in BOOKS_ROOT
+1. **VERSION file exists?** → Running from cloned FW_ROOT (Fresh Install)
+2. **fw-location.json exists?** → Running from CONFIG_ROOT (Update/Reconfigure)
 
 **Mode Detection Logic:**
 
 ```
 if VERSION file exists:
     MODE = "FW_ROOT"
-    if git fetch shows updates available:
+    SUBMODE = "Fresh Install" (create PROJECT_ROOT)
+
+elif fw-location.json exists:
+    MODE = "CONFIG_ROOT"
+    # Read fw-location.json to get FW_ROOT path
+    if git fetch shows updates in FW_ROOT:
         SUBMODE = "Update Available"
     else:
-        SUBMODE = "Fresh Install" (need to create BOOKS_ROOT)
-
-elif .config/fw-location.json exists:
-    MODE = "BOOKS_ROOT"
-    SUBMODE = "Reconfiguration"
+        SUBMODE = "Reconfiguration"
 
 else:
-    ERROR = "Not a valid framework directory"
+    ERROR = "Not a valid framework or configuration directory"
 ```
 
 **Report detection result:**
@@ -111,199 +135,136 @@ Installation Mode Detection
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [✓] VERSION file: [found/not found]
-[✓] .config/fw-location.json: [found/not found]
+[✓] fw-location.json: [found/not found]
 
-Detected Mode: [FW_ROOT | BOOKS_ROOT]
-Submode: [Update Available | Fresh Install | Reconfiguration]
+Detected Mode: [FW_ROOT | CONFIG_ROOT]
+Submode: [Fresh Install | Update Available | Reconfiguration]
 
 Proceeding with [mode] workflow...
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 **Based on detected mode, proceed to appropriate section:**
-- **FW_ROOT + Update Available** → Step 2A (Update Workflow)
-- **FW_ROOT + Fresh Install** → Step 2B (BOOKS_ROOT Setup)
-- **BOOKS_ROOT** → Step 2C (Reconfiguration)
+- **FW_ROOT (Fresh Install)** → Step 2A (PROJECT_ROOT Setup)
+- **CONFIG_ROOT + Update Available** → Step 2B (Update Workflow)
+- **CONFIG_ROOT + Reconfiguration** → Step 2C (Reconfiguration)
 
 ---
 
-## Step 2A: Update Workflow (FW_ROOT with Updates Available)
+## Step 2A: PROJECT_ROOT Setup (Fresh Install from FW_ROOT)
 
-**This step runs when configure.md detects it's in FW_ROOT with available updates.**
+**This step runs when configure.md is executed from a freshly cloned FW_ROOT.**
 
-### 2A.1: Fetch Latest Version
-
-```bash
-git fetch origin
-```
-
-### 2A.2: Compare Versions
-
-```bash
-# Read local version
-LOCAL_VERSION=$(cat VERSION)
-
-# Read remote version
-REMOTE_VERSION=$(git show origin/main:VERSION)
-
-echo "Local: $LOCAL_VERSION"
-echo "Remote: $REMOTE_VERSION"
-```
-
-### 2A.3: Show Changelog Preview
+### 2A.1: Get PROJECT_ROOT Location
 
 **⏸️ ASK USER:**
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Framework Update Available
+PROJECT_ROOT Setup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Current version: [LOCAL_VERSION]
-Available version: [REMOTE_VERSION]
+Where would you like to create your writing environment?
 
-Changes in this update:
-[Read and display relevant section from CHANGELOG.md]
-
-Proceed with update? (yes/no)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-**WAIT for user response.**
-
-**If no:** Exit configuration.
-
-### 2A.4: Pull Updates
-
-```bash
-git pull origin main
-```
-
-### 2A.5: Apply Migrations (if any)
-
-1. Check `Process/migrations/` for applicable migrations
-2. Read migrations between LOCAL_VERSION and REMOTE_VERSION
-3. Execute each migration in order
-
-### 2A.6: Update BOOKS_ROOT Configuration
-
-**⏸️ ASK USER:**
-
-```
-Where is your BOOKS_ROOT directory?
-
-This is where your books are stored.
-Enter the path (or "skip" if you don't have BOOKS_ROOT set up yet):
-```
-
-**WAIT for user response.**
-
-**If user provides path:**
-1. Verify the path exists
-2. Verify `.config/fw-location.json` exists there
-3. Update `frameworkVersion` in that file
-4. Update `lastUpdateCheck` to CONFIRMED_DATE
-
-```bash
-# Example update command (executed in BOOKS_ROOT)
-cd [BOOKS_ROOT]
-# Read and update fw-location.json with new version
-```
-
-### 2A.7: Report Completion
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✓ Framework Updated Successfully
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Updated: [LOCAL_VERSION] → [REMOTE_VERSION]
-Migrations applied: [list or "None required"]
-BOOKS_ROOT updated: [path or "Skipped"]
-
-Next steps:
-1. Start Claude Code CLI in BOOKS_ROOT: cd [BOOKS_ROOT] && claude
-2. Run /fw-init to begin working
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-**End of Update Workflow.**
-
----
-
-## Step 2B: BOOKS_ROOT Setup (Fresh Install from FW_ROOT)
-
-**This step runs when configure.md is in FW_ROOT and BOOKS_ROOT doesn't exist yet.**
-
-### 2B.1: Get BOOKS_ROOT Location
-
-**⏸️ ASK USER:**
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-BOOKS_ROOT Setup
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Where would you like to store your books?
-
-This directory will contain:
-  • All your book projects
-  • Configuration files
+PROJECT_ROOT will contain:
+  • FW_ROOT/ - Framework files (cloned from this location)
+  • BOOKS_ROOT/ - All your book projects
+  • .config/ - Configuration files
   • Git repository for your content
 
 Examples:
-  • Windows: E:\My-Books
-  • macOS: ~/Documents/My-Books
-  • Linux: ~/books
+  • Windows: E:\My-Writing
+  • macOS: ~/Documents/My-Writing
+  • Linux: ~/writing
 
-Enter path for BOOKS_ROOT:
+Enter path for PROJECT_ROOT:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**WAIT for user response.** Store as `BOOKS_ROOT`.
+**WAIT for user response.** Store as `PROJECT_ROOT`.
 
-### 2B.2: Create BOOKS_ROOT Directory
+**Validate:**
+- Path must not already exist (or must be empty)
+- Parent directory must exist and be writable
 
-**If in Claude Code CLI:** Execute directly:
+### 2A.2: Create PROJECT_ROOT Directory Structure
+
 ```bash
-mkdir -p "[BOOKS_ROOT]"
-mkdir -p "[BOOKS_ROOT]/.config"
+mkdir -p "[PROJECT_ROOT]"
+mkdir -p "[PROJECT_ROOT]/BOOKS_ROOT"
+mkdir -p "[PROJECT_ROOT]/BOOKS_ROOT/Archive"
+mkdir -p "[PROJECT_ROOT]/.config"
+mkdir -p "[PROJECT_ROOT]/.config/.claude/agents"
+mkdir -p "[PROJECT_ROOT]/.config/.claude/commands"
 ```
 
-**If in Claude Desktop:** Provide commands for user to execute.
+### 2A.3: Clone Framework into FW_ROOT
 
-### 2B.3: Create Configuration Files
+**⏸️ ASK USER:**
+
+```
+How should the framework be installed in PROJECT_ROOT?
+
+1. Copy - Copy framework files from current location
+2. Clone - Fresh clone from GitHub (recommended)
+
+Option (1 or 2):
+```
+
+**WAIT for user response.**
+
+**If Copy:**
+```bash
+# Copy entire framework directory
+cp -r "[CURRENT_DIRECTORY]" "[PROJECT_ROOT]/FW_ROOT"
+```
+
+**If Clone:**
+```bash
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git "[PROJECT_ROOT]/FW_ROOT"
+```
+
+Store FW_ROOT path: `FW_ROOT=[PROJECT_ROOT]/FW_ROOT`
+
+Read VERSION from `[FW_ROOT]/VERSION` and store as `FW_VERSION`.
+
+### 2A.4: Create .gitignore
+
+Write to `[PROJECT_ROOT]/.gitignore`:
+
+```
+# Ignore framework directory (tracked in separate repo)
+FW_ROOT/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*~
+```
+
+### 2A.5: Create Configuration Files
 
 **Create .config/fw-location.json:**
 
-Read the current directory as FW_ROOT and VERSION file content:
-
 ```json
 {
-  "frameworkRoot": "[CURRENT_DIRECTORY]",
-  "frameworkVersion": "[VERSION_FILE_CONTENT]",
-  "lastUpdateCheck": "[CONFIRMED_DATE]"
+  "frameworkRoot": "[FW_ROOT absolute path]",
+  "frameworkVersion": "[FW_VERSION]",
+  "lastUpdateCheck": "[CONFIRMED_DATE]",
+  "updateChannel": "stable"
 }
 ```
 
-Write to `[BOOKS_ROOT]/.config/fw-location.json`.
-
-**Create .config/books-registry.json:**
-
-```json
-{
-  "version": "1.0",
-  "activeBook": null,
-  "books": []
-}
-```
-
-Write to `[BOOKS_ROOT]/.config/books-registry.json`.
+Write to `[PROJECT_ROOT]/.config/fw-location.json`.
 
 **Create .config/settings.json:**
 
 ```json
 {
+  "booksRoot": "[PROJECT_ROOT]/BOOKS_ROOT",
   "github": {
     "enabled": false,
     "repository": null,
@@ -320,62 +281,99 @@ Write to `[BOOKS_ROOT]/.config/books-registry.json`.
 }
 ```
 
-Write to `[BOOKS_ROOT]/.config/settings.json`.
+Write to `[PROJECT_ROOT]/.config/settings.json`.
 
-### 2B.4: Create FW_ROOT Configuration
-
-**Create FW_ROOT/.config directory and settings.json:**
-
-```bash
-mkdir -p "[FW_ROOT]/.config"
-```
+**Create .config/books-registry.json:**
 
 ```json
 {
-  "booksRoot": "[BOOKS_ROOT]",
-  "version": "[VERSION_FILE_CONTENT]",
-  "configured": "[CONFIRMED_DATE]"
+  "version": "1.0",
+  "activeBook": null,
+  "books": []
 }
 ```
 
-Write to `[FW_ROOT]/.config/settings.json`.
+Write to `[PROJECT_ROOT]/.config/books-registry.json`.
 
-### 2B.5: Copy Start Scripts to FW_ROOT
+### 2A.6: Copy CLAUDE.md and Slash Commands
 
-Copy the start scripts from templates to FW_ROOT:
-
+**Copy CONFIG_ROOT CLAUDE.md:**
 ```bash
-cp Process/Templates/start-authoring.bat "[FW_ROOT]/start-authoring.bat"
-cp Process/Templates/start-authoring.sh "[FW_ROOT]/start-authoring.sh"
-cp Process/Templates/bp-start-authoring.bat "[FW_ROOT]/bp-start-authoring.bat"
-cp Process/Templates/bp-start-authoring.sh "[FW_ROOT]/bp-start-authoring.sh"
-chmod +x "[FW_ROOT]/start-authoring.sh" "[FW_ROOT]/bp-start-authoring.sh"
+cp "[FW_ROOT]/Process/Templates/CONFIG_ROOT_CLAUDE_template.md" "[PROJECT_ROOT]/.config/CLAUDE.md"
 ```
 
-**Note:** On Windows, only copy .bat files. On macOS/Linux, only copy .sh files.
-
-### 2B.6: Copy CLAUDE.md to FW_ROOT
-
-Copy `Process/Templates/FW_ROOT_CLAUDE_template.md` to `[FW_ROOT]/CLAUDE.md`.
-
-**Note:** BOOKS_ROOT does not need a CLAUDE.md since users start Claude Code from FW_ROOT using the start scripts.
-
-### 2B.7: Create Archive Directory
-
+**Copy slash commands:**
 ```bash
-mkdir -p "[BOOKS_ROOT]/Archive"
+cp "[FW_ROOT]/Process/Templates/.claude/commands/fw-init.md" "[PROJECT_ROOT]/.config/.claude/commands/"
+cp "[FW_ROOT]/Process/Templates/.claude/commands/switch-book.md" "[PROJECT_ROOT]/.config/.claude/commands/"
+cp "[FW_ROOT]/Process/Templates/.claude/commands/manage-book.md" "[PROJECT_ROOT]/.config/.claude/commands/"
 ```
 
-Copy `Process/Templates/Archive_README_template.md` to `[BOOKS_ROOT]/Archive/README.md`.
+**Copy agents:**
+```bash
+cp "[FW_ROOT]/Process/Templates/.claude/agents/book-writing-assistant.md" "[PROJECT_ROOT]/.config/.claude/agents/"
+```
 
-### 2B.8: Initialize Git Repository
+### 2A.7: Generate Startup Scripts
+
+**Detect platform and generate appropriate scripts:**
+
+**For Windows - Create start-authoring.bat:**
+```batch
+@echo off
+cd /d "%~dp0.config"
+claude --append-system-prompt "IMPORTANT: Run /fw-init immediately before doing anything else." "Start"
+```
+
+Write to `[PROJECT_ROOT]/start-authoring.bat`.
+
+**For Windows - Create bp-start-authoring.bat:**
+```batch
+@echo off
+cd /d "%~dp0.config"
+claude --dangerously-skip-permissions --append-system-prompt "IMPORTANT: Run /fw-init immediately before doing anything else." "Start"
+```
+
+Write to `[PROJECT_ROOT]/bp-start-authoring.bat`.
+
+**For macOS/Linux - Create start-authoring.sh:**
+```bash
+#!/bin/bash
+cd "$(dirname "$0")/.config"
+claude --append-system-prompt "IMPORTANT: Run /fw-init immediately before doing anything else." "Start"
+```
+
+Write to `[PROJECT_ROOT]/start-authoring.sh` and make executable:
+```bash
+chmod +x "[PROJECT_ROOT]/start-authoring.sh"
+```
+
+**For macOS/Linux - Create bp-start-authoring.sh:**
+```bash
+#!/bin/bash
+cd "$(dirname "$0")/.config"
+claude --dangerously-skip-permissions --append-system-prompt "IMPORTANT: Run /fw-init immediately before doing anything else." "Start"
+```
+
+Write to `[PROJECT_ROOT]/bp-start-authoring.sh` and make executable:
+```bash
+chmod +x "[PROJECT_ROOT]/bp-start-authoring.sh"
+```
+
+### 2A.8: Create Archive README
+
+Copy `[FW_ROOT]/Process/Templates/Archive_README_template.md` to `[PROJECT_ROOT]/BOOKS_ROOT/Archive/README.md`.
+
+### 2A.9: Initialize Git Repository
 
 **⏸️ ASK USER:**
 
 ```
-Initialize git repository in BOOKS_ROOT?
+Initialize git repository in PROJECT_ROOT?
 
 This enables version control for all your books.
+(FW_ROOT is excluded via .gitignore)
+
 Recommended: yes
 
 (yes/no)
@@ -385,17 +383,17 @@ Recommended: yes
 
 **If yes:**
 ```bash
-cd "[BOOKS_ROOT]"
+cd "[PROJECT_ROOT]"
 git init
 git branch -M main
 ```
 
-### 2B.9: Remote Repository Setup (Optional)
+### 2A.10: Remote Repository Setup (Optional)
 
 **⏸️ ASK USER:**
 
 ```
-Do you want to connect BOOKS_ROOT to a remote git repository?
+Do you want to connect PROJECT_ROOT to a remote git repository?
 
 This enables backup to GitHub/GitLab.
 
@@ -409,88 +407,181 @@ Options:
 
 **If user provides URL or github:**
 ```bash
-cd "[BOOKS_ROOT]"
+cd "[PROJECT_ROOT]"
 git remote add origin [URL]
 ```
 
-### 2B.10: Create Initial Commit
+Update `.config/settings.json` with GitHub info if provided.
+
+### 2A.11: Create Initial Commit
 
 ```bash
-cd "[BOOKS_ROOT]"
+cd "[PROJECT_ROOT]"
 git add .
-git commit -m "Initialize books repository
+git commit -m "Initialize writing environment
 
-Created by AI-Assisted Nonfiction Authoring Framework v[VERSION]
+Created by AI-Assisted Nonfiction Authoring Framework v[FW_VERSION]
+
+Structure:
+- BOOKS_ROOT/ for book projects
+- .config/ for configuration
+- FW_ROOT/ excluded (separate repo)
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-### 2B.11: Report Completion
+### 2A.12: Report Completion
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✓ BOOKS_ROOT Setup Complete
+✓ PROJECT_ROOT Setup Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Framework Location (FW_ROOT): [FW_ROOT path]
-Books Location (BOOKS_ROOT): [BOOKS_ROOT path]
-Framework Version: [VERSION]
+PROJECT_ROOT: [PROJECT_ROOT path]
+├── FW_ROOT/: [FW_ROOT path]
+├── BOOKS_ROOT/: [PROJECT_ROOT]/BOOKS_ROOT
+└── .config/: [PROJECT_ROOT]/.config
 
-Created in BOOKS_ROOT:
+Framework Version: [FW_VERSION]
+
+Created:
   ✓ .config/fw-location.json
-  ✓ .config/books-registry.json
   ✓ .config/settings.json
-  ✓ Archive/ directory
+  ✓ .config/books-registry.json
+  ✓ .config/CLAUDE.md
+  ✓ .config/.claude/commands/ (fw-init, switch-book, manage-book)
+  ✓ .config/.claude/agents/ (book-writing-assistant)
+  ✓ BOOKS_ROOT/Archive/
+  ✓ .gitignore (excludes FW_ROOT/)
+  ✓ start-authoring scripts
   ✓ Git repository initialized
   [✓ Remote repository connected (if configured)]
 
-Created in FW_ROOT:
-  ✓ .config/settings.json (points to BOOKS_ROOT)
-  ✓ CLAUDE.md (framework instructions)
-  ✓ start-authoring scripts (start-authoring.bat/.sh)
-  ✓ bypass-permissions scripts (bp-start-authoring.bat/.sh)
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📚 Next Steps:
+📚 NEXT STEP:
 
-1. Start Claude Code using the start script in FW_ROOT:
-   Windows: Double-click start-authoring.bat (or bp-start-authoring.bat for bypass mode)
-   macOS/Linux: ./start-authoring.sh (or ./bp-start-authoring.sh for bypass mode)
+Type /exit to close this session.
 
-2. The script will:
-   - Change to FW_ROOT directory
-   - Launch Claude Code with /fw-init reminder
-   - (bp- variants bypass permission prompts for trusted environments)
+The configure script will automatically launch start-authoring
+to begin your first writing session.
 
-3. Claude will prompt you to run /fw-init
-
-4. Create your first book:
-   Say "Execute Prompt 1" or "Create new book"
-
-For Claude Desktop users:
-1. Configure MCP Filesystem with both directories:
-   - [FW_ROOT]
-   - [BOOKS_ROOT]
-2. See Documentation/Claude_Desktop_Setup.md for details
+If running manually (not via configure.bat/sh):
+  Windows: Double-click [PROJECT_ROOT]\start-authoring.bat
+  macOS/Linux: [PROJECT_ROOT]/start-authoring.sh
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**End of BOOKS_ROOT Setup Workflow.**
+**End of PROJECT_ROOT Setup Workflow.**
 
 ---
 
-## Step 2C: Reconfiguration (Running from BOOKS_ROOT)
+## Step 2B: Update Workflow (CONFIG_ROOT with Updates Available)
 
-**This step runs when configure.md is executed from an existing BOOKS_ROOT.**
+**This step runs when configure.md detects it's in CONFIG_ROOT with available updates.**
+
+### 2B.1: Read Current Configuration
+
+Read `fw-location.json` to get:
+- `frameworkRoot` → FW_ROOT
+- `frameworkVersion` → current version
+- `updateChannel` → stable/beta
+
+### 2B.2: Fetch Latest Version
+
+```bash
+cd "[FW_ROOT]"
+git fetch origin
+```
+
+### 2B.3: Compare Versions
+
+```bash
+# Read local version
+LOCAL_VERSION=$(cat "[FW_ROOT]/VERSION")
+
+# Read remote version
+REMOTE_VERSION=$(git -C "[FW_ROOT]" show origin/main:VERSION)
+
+echo "Local: $LOCAL_VERSION"
+echo "Remote: $REMOTE_VERSION"
+```
+
+### 2B.4: Show Update Preview
+
+**⏸️ ASK USER:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Framework Update Available
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Current version: [LOCAL_VERSION]
+Available version: [REMOTE_VERSION]
+Channel: [updateChannel]
+
+Changes in this update:
+[Read and display relevant section from CHANGELOG.md]
+
+Proceed with update? (yes/no)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**WAIT for user response.**
+
+**If no:** Exit configuration.
+
+### 2B.5: Pull Updates
+
+```bash
+cd "[FW_ROOT]"
+git pull origin main
+```
+
+### 2B.6: Apply Migrations (if any)
+
+1. Check `[FW_ROOT]/Process/migrations/` for applicable migrations
+2. Read migrations between LOCAL_VERSION and REMOTE_VERSION
+3. Execute each migration in order
+
+### 2B.7: Update Configuration
+
+Update `fw-location.json`:
+- `frameworkVersion` → new version from VERSION file
+- `lastUpdateCheck` → CONFIRMED_DATE
+
+### 2B.8: Report Completion
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Framework Updated Successfully
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Updated: [LOCAL_VERSION] → [REMOTE_VERSION]
+Migrations applied: [list or "None required"]
+
+Next steps:
+1. Run /fw-init to reload framework
+2. Continue working on your book
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**End of Update Workflow.**
+
+---
+
+## Step 2C: Reconfiguration (Running from CONFIG_ROOT)
+
+**This step runs when configure.md is executed from an existing CONFIG_ROOT without updates.**
 
 ### 2C.1: Read Current Configuration
 
-Read `.config/fw-location.json` to get FW_ROOT path.
-Read `.config/books-registry.json` to get book list.
+Read `fw-location.json` to get FW_ROOT path.
+Read `settings.json` to get BOOKS_ROOT path.
+Read `books-registry.json` to get book list.
 
 ### 2C.2: Present Options
 
@@ -498,11 +589,13 @@ Read `.config/books-registry.json` to get book list.
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-BOOKS_ROOT Reconfiguration
+Configuration Options
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Current configuration:
-  Framework: [FW_ROOT path]
+  PROJECT_ROOT: [parent of CONFIG_ROOT]
+  FW_ROOT: [from fw-location.json]
+  BOOKS_ROOT: [from settings.json]
   Books: [N] registered
 
 What would you like to do?
@@ -526,20 +619,20 @@ Handle each option appropriately.
 
 ## Error Handling
 
-### Not a Valid Framework Directory
+### Not a Valid Directory
 
 ```
 ❌ Configuration Failed: Invalid Directory
 
-This directory doesn't appear to be a framework installation or books root.
+This directory doesn't appear to be a framework installation or configuration root.
 
 Expected one of:
-- VERSION file (FW_ROOT - framework directory)
-- .config/fw-location.json (BOOKS_ROOT - books directory)
+- VERSION file (cloned FW_ROOT - for fresh install)
+- fw-location.json (CONFIG_ROOT - for updates/reconfiguration)
 
 Solutions:
 1. Clone the framework: git clone https://github.com/scooter-indie/author-nonfiction-dist.git
-2. Navigate to an existing installation
+2. Navigate to an existing PROJECT_ROOT/.config/ directory
 ```
 
 ### Missing Framework Files
@@ -571,56 +664,66 @@ To install git:
 After installing git, run this configuration again.
 ```
 
-### BOOKS_ROOT Path Invalid
+### PROJECT_ROOT Path Invalid
 
 ```
-❌ Invalid BOOKS_ROOT Path
+❌ Invalid PROJECT_ROOT Path
 
-The path you specified doesn't exist or isn't accessible:
-[path]
+The path you specified has an issue:
+[specific error]
 
 Please verify:
-1. The path is correct
+1. Parent directory exists
 2. You have write permissions
-3. Parent directories exist
+3. Path doesn't already contain files (must be empty or not exist)
 
 Try again with a valid path.
+```
+
+### PROJECT_ROOT Already Exists
+
+```
+⚠️ Directory Already Exists
+
+The path "[PROJECT_ROOT]" already exists.
+
+Options:
+1. Choose a different location
+2. Use existing directory (must be empty)
+
+What would you like to do?
 ```
 
 ---
 
 ## Important Notes
 
-### Directory Structure
+### Directory Structure Summary
 
-**FW_ROOT (Framework Directory):**
-- Framework in FW_ROOT (read-only, updateable)
-- Contains Process/, scripts/, VERSION, etc.
-- Start Claude Code from here using start scripts
-
-**BOOKS_ROOT (Books Directory):**
-- Your book content lives here
-- Multiple books in one repository
-- Centralized book registry in .config/
+**PROJECT_ROOT** contains everything:
+- `.git/` - Git repository for your content
+- `.gitignore` - Excludes FW_ROOT/
+- `start-authoring.*` - Launch scripts
+- `FW_ROOT/` - Framework (separate git repo, excluded from PROJECT_ROOT's git)
+- `BOOKS_ROOT/` - Your books
+- `.config/` - Configuration (CONFIG_ROOT)
 
 ### What Gets Tracked in Git
 
-**In BOOKS_ROOT:**
-- ✅ All book content (Manuscript/, Research/)
-- ✅ Configuration (.config/)
-- ❌ Nothing from FW_ROOT (that's a separate repo)
+**In PROJECT_ROOT git:**
+- ✅ BOOKS_ROOT/ (all book content)
+- ✅ .config/ (configuration files)
+- ✅ start-authoring scripts
+- ❌ FW_ROOT/ (excluded via .gitignore - it's a separate repo)
 
-**In FW_ROOT:**
+**In FW_ROOT git:**
 - ✅ Framework files (Process/, VERSION, etc.)
 - ❌ No user content
 
 ### Framework Updates
 
-```bash
-cd [FW_ROOT]
-claude
-# Then say: "Run configure.md"
-```
+From CONFIG_ROOT, framework updates are checked automatically by /fw-init.
+Manual check: Run this configure.md from CONFIG_ROOT.
 
 ---
 
@@ -628,5 +731,5 @@ claude
 
 ---
 
-*Framework Version: 0.15.4*
+*Framework Version: 0.16.0*
 *Configuration Script: configure.md*
