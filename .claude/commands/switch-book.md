@@ -8,11 +8,12 @@ This command allows users to switch the active book in a multi-book installation
 
 ## Prerequisites
 
-This command only works in **multi-book mode**. Check:
-- `.config/fw-location.json` exists (indicates BOOKS_ROOT)
-- `.config/books-registry.json` exists
+This command only works from **CONFIG_ROOT** (.config/ directory). Check:
+- `fw-location.json` exists (indicates valid CONFIG_ROOT)
+- `books-registry.json` exists
+- `settings.json` exists (contains BOOKS_ROOT path)
 
-If neither exists, inform user: "This command requires a valid BOOKS_ROOT. Run /fw-init first."
+If not found, inform user: "This command requires a valid CONFIG_ROOT. Run /fw-init first."
 
 ---
 
@@ -31,16 +32,16 @@ If neither exists, inform user: "This command requires a valid BOOKS_ROOT. Run /
 
 ## Workflow
 
-### Step 1: Validate Multi-Book Mode
+### Step 1: Validate CONFIG_ROOT
 
-1. Check for `.config/fw-location.json`
-2. If not found: Report "Multi-book mode required" and stop
+1. Check for `fw-location.json` in current directory
+2. If not found: Report "CONFIG_ROOT required - run /fw-init first" and stop
 
-### Step 2: Read Registry
+### Step 2: Read Configuration
 
-1. Read `.config/books-registry.json`
-2. Get list of all books
-3. Get current `activeBook`
+1. Read `settings.json` → get `booksRoot` as BOOKS_ROOT
+2. Read `books-registry.json` → get list of all books
+3. Get current `activeBook` from registry
 
 ### Step 3: Handle User Input
 
@@ -72,15 +73,16 @@ Enter book number or name to switch:
 
 ### Step 5: Update Registry
 
-1. Update `activeBook` in books-registry.json to selected book's ID
+1. Update `activeBook` in `books-registry.json` to selected book's ID
 2. Update `lastAccessed` date for selected book to CONFIRMED_DATE
 3. Write updated registry
 
 ### Step 6: Load New Context
 
-1. Read `[BOOKS_ROOT]/[Book-Directory]/PROJECT_CONTEXT.md`
-2. Update session context with new BOOK_PATH
-3. Store new `ACTIVE_BOOK` and `BOOK_PATH` in session
+1. Set `BOOK_PATH` = `[BOOKS_ROOT]/[Book-Directory]` (BOOKS_ROOT from settings.json)
+2. Read `[BOOK_PATH]/PROJECT_CONTEXT.md`
+3. Update session context with new BOOK_PATH
+4. Store new `ACTIVE_BOOK` and `BOOK_PATH` in session
 
 ### Step 7: Confirmation
 
@@ -150,9 +152,14 @@ If user selects the already active book:
 
 After switching:
 - `ACTIVE_BOOK` = new book ID
-- `BOOK_PATH` = BOOKS_ROOT/[new book directory]
+- `BOOK_PATH` = BOOKS_ROOT/[new book directory] (BOOKS_ROOT from settings.json)
 
 These are used by all prompts for path resolution.
+
+**Path Resolution:**
+- CONFIG_ROOT = current directory (.config/)
+- BOOKS_ROOT = from settings.json → booksRoot
+- BOOK_PATH = BOOKS_ROOT/[book directory]
 
 ---
 

@@ -8,11 +8,17 @@ This command provides book lifecycle management: archive, delete, and restore op
 
 ## Prerequisites
 
-This command only works in **multi-book mode**. Check:
-- `.config/fw-location.json` exists (indicates BOOKS_ROOT)
-- `.config/books-registry.json` exists
+This command only works from **CONFIG_ROOT** (.config/ directory). Check:
+- `fw-location.json` exists (indicates valid CONFIG_ROOT)
+- `books-registry.json` exists
+- `settings.json` exists (contains BOOKS_ROOT path)
 
-If neither exists, inform user: "This command requires a valid BOOKS_ROOT. Run /fw-init first."
+If not found, inform user: "This command requires a valid CONFIG_ROOT. Run /fw-init first."
+
+**Path Resolution:**
+- CONFIG_ROOT = current directory (.config/)
+- BOOKS_ROOT = from settings.json → booksRoot
+- PROJECT_ROOT = parent of CONFIG_ROOT
 
 ---
 
@@ -109,9 +115,10 @@ Type "archive" to confirm:
 mkdir -p "[BOOKS_ROOT]/Archive"
 ```
 
-2. **Move book directory:**
+2. **Move book directory (from PROJECT_ROOT):**
 ```bash
-git mv "[BOOKS_ROOT]/[Book-Directory]" "[BOOKS_ROOT]/Archive/[Book-Directory]"
+cd [CONFIG_ROOT]/..
+git mv "BOOKS_ROOT/[Book-Directory]" "BOOKS_ROOT/Archive/[Book-Directory]"
 ```
 
 3. **Update books-registry.json:**
@@ -119,12 +126,13 @@ git mv "[BOOKS_ROOT]/[Book-Directory]" "[BOOKS_ROOT]/Archive/[Book-Directory]"
    - Update `directory` to `"Archive/[Book-Directory]"`
    - If this was activeBook, set `activeBook` to `null`
 
-4. **Commit the change:**
+4. **Commit the change (from PROJECT_ROOT):**
 ```bash
+cd [CONFIG_ROOT]/..
 git add -A
 git commit -m "Archive book: [Book Title]
 
-Moved to Archive/[Book-Directory]
+Moved to BOOKS_ROOT/Archive/[Book-Directory]
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -201,23 +209,25 @@ To confirm deletion, type the book title exactly:
 
 ### Step 2.3: Execute Delete
 
-1. **Remove from git and filesystem:**
+1. **Remove from git and filesystem (from PROJECT_ROOT):**
 ```bash
-git rm -rf "[BOOKS_ROOT]/[Book-Directory]"
+cd [CONFIG_ROOT]/..
+git rm -rf "BOOKS_ROOT/[Book-Directory]"
 # OR for archived books:
-git rm -rf "[BOOKS_ROOT]/Archive/[Book-Directory]"
+git rm -rf "BOOKS_ROOT/Archive/[Book-Directory]"
 ```
 
 2. **Update books-registry.json:**
    - Remove book entry from `books` array
    - If this was activeBook, set `activeBook` to `null`
 
-3. **Commit the change:**
+3. **Commit the change (from PROJECT_ROOT):**
 ```bash
+cd [CONFIG_ROOT]/..
 git add -A
 git commit -m "Delete book: [Book Title]
 
-Permanently removed [Book-Directory]/
+Permanently removed BOOKS_ROOT/[Book-Directory]/
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -269,9 +279,10 @@ To archive a book: /manage-book archive
 
 ### Step 3.2: Execute Restore
 
-1. **Move book back to BOOKS_ROOT:**
+1. **Move book back to BOOKS_ROOT (from PROJECT_ROOT):**
 ```bash
-git mv "[BOOKS_ROOT]/Archive/[Book-Directory]" "[BOOKS_ROOT]/[Book-Directory]"
+cd [CONFIG_ROOT]/..
+git mv "BOOKS_ROOT/Archive/[Book-Directory]" "BOOKS_ROOT/[Book-Directory]"
 ```
 
 2. **Update books-registry.json:**
@@ -279,12 +290,13 @@ git mv "[BOOKS_ROOT]/Archive/[Book-Directory]" "[BOOKS_ROOT]/[Book-Directory]"
    - Update `directory` to `"[Book-Directory]"` (remove Archive/ prefix)
    - Update `lastAccessed` to CONFIRMED_DATE
 
-3. **Commit the change:**
+3. **Commit the change (from PROJECT_ROOT):**
 ```bash
+cd [CONFIG_ROOT]/..
 git add -A
 git commit -m "Restore book: [Book Title]
 
-Restored from Archive/ to active
+Restored from BOOKS_ROOT/Archive/ to active
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
