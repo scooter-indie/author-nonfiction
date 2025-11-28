@@ -1,6 +1,6 @@
 # AI-Assisted Nonfiction Book Authoring Framework
 
-**Version 0.15.4**
+**Version 0.16.0**
 
 A complete system for writing professional nonfiction books with AI assistance using Claude Code.
 
@@ -26,57 +26,49 @@ This is a **production-ready framework** for authoring nonfiction books with AI 
 
 ## Quick Start
 
-### 1. Download the Framework
+### 1. Clone the Framework
 
-Download `nonfiction-v0.15.4.zip` from:
-
-**GitHub Releases**: https://github.com/scooter-indie/author-nonfiction/releases/latest
-
-Save it to your book project directory (e.g., `E:\Projects\my-book`).
-
-### 2. Extract the Framework
-
-Extract the zip file to your project directory:
-
-**Windows**:
-- Right-click `nonfiction-v0.15.4.zip` → "Extract All..."
-- Choose your project directory as the destination
-
-**macOS/Linux**:
-```bash
-cd /path/to/my-book
-unzip nonfiction-v0.15.4.zip
-```
-
-### 3. Run Configuration
-
-Start Claude in your project directory and execute:
+Clone the distribution repository:
 
 ```bash
-cd E:\Projects\my-book
-claude
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git ~/Downloads/author-nonfiction
 ```
 
-Then execute the configuration:
+### 2. Run Setup Script
+
+**Windows:**
+```batch
+cd %USERPROFILE%\Downloads\author-nonfiction
+configure.bat
 ```
-execute configure.md
+
+**macOS/Linux:**
+```bash
+cd ~/Downloads/author-nonfiction
+./configure.sh
 ```
 
-The configuration will:
-- Set up git repository (if needed)
-- Connect to remote repository (optional)
-- Verify installation
-- Guide you to start writing
+### 3. Follow Setup Prompts
 
-### 4. Initialize Your Book
+The setup will:
+- Ask where to create your PROJECT_ROOT (writing environment)
+- Create the unified directory structure:
+  - `PROJECT_ROOT/FW_ROOT/` - Framework files
+  - `PROJECT_ROOT/BOOKS_ROOT/` - Your books
+  - `PROJECT_ROOT/.config/` - Configuration
+- Initialize git repository
+- Generate startup scripts
+- Chain to start-authoring automatically
 
-After configuration, execute:
+### 4. Create Your First Book
+
+After setup completes:
 
 ```
 Execute Prompt 1
 ```
 
-This will ask you about your book and create the complete project structure.
+This will ask about your book and create the complete project structure in BOOKS_ROOT.
 
 ### 5. Start Writing!
 
@@ -87,6 +79,8 @@ Use the framework's 16 prompts to write and manage your book:
 - **Prompt 10**: View progress dashboard
 - **Prompt 7**: Compile full manuscript
 - And more...
+
+**Starting Sessions:** Run `start-authoring.bat` (Windows) or `./start-authoring.sh` (macOS/Linux) from PROJECT_ROOT.
 
 **See**: `Process/Prompts/QUICK_REFERENCE.md` for complete workflow guide
 
@@ -102,16 +96,26 @@ For detailed installation instructions including updates and troubleshooting, se
 
 ## What's Included
 
-After extraction, your project contains:
+After setup, your PROJECT_ROOT contains:
 
-### Framework Files
-- `Process/` - Framework documentation, prompts, templates
-- `INSTALLATION.md` - Installation and update guide
-- `CLAUDE.md` - Framework context for Claude Code
-- `configure.md` - Configuration script
-- `system-instructions.md` - For Claude Desktop integration
-- `CHANGELOG.md` - Version history
-- `.claude/agents/book-writing-assistant.md` - AI writing assistant
+### Directory Structure (v0.16.0+)
+```
+PROJECT_ROOT/
+├── FW_ROOT/              # Framework (cloned, gitignored)
+│   ├── Process/          # Prompts, styles, templates
+│   ├── scripts/          # Automation scripts
+│   └── VERSION           # Framework version
+├── BOOKS_ROOT/           # Your books
+│   ├── [Book-Name]/      # Each book project
+│   └── Archive/          # Archived books
+├── .config/              # Configuration (CONFIG_ROOT)
+│   ├── fw-location.json  # FW_ROOT path
+│   ├── settings.json     # BOOKS_ROOT path
+│   ├── books-registry.json
+│   └── .claude/          # Commands and agents
+├── start-authoring.*     # Startup scripts
+└── .gitignore            # Excludes FW_ROOT/
+```
 
 ### Your Book (Created by Prompt 1)
 - `Manuscript/Chapters/` - Your chapter files
@@ -120,10 +124,10 @@ After extraction, your project contains:
 - `Manuscript/BackMatter/` - Appendices, bibliography, About Author, etc.
 - `Manuscript/Quotes/` - Quote and epigraph management
 - `Manuscript/Style/` - Writing style configuration and EPUB CSS
-- `Manuscript/images/` - All visual assets (unified directory, v0.12.1+)
+- `Manuscript/images/` - All visual assets
 - `Manuscript/Drafts/` - Compiled manuscripts
 - `Manuscript/Exports/` - Published formats
-- `Project_Config.md` - Book metadata
+- `PROJECT_CONTEXT.md` - Book metadata and context
 
 ---
 
@@ -279,17 +283,21 @@ All operations use git for version control:
 
 ## Updating the Framework
 
-To update to a newer framework version:
+Framework updates are checked automatically when you run `/fw-init`. To update manually:
 
-1. **Commit all your work**: `git commit -am "Save work before update"`
-2. **Create backup** of your entire project directory
-3. **Download new version**: `nonfiction-vX.X.X.zip`
-4. **Extract with overwrite** to your project directory
-5. **Run configuration**: `execute configure.md`
-6. **Review changelog** displayed by configure script
-7. **Check consistency**: `Execute Prompt 8`
+```bash
+cd PROJECT_ROOT/FW_ROOT
+git pull origin main
+```
 
-Your book content is preserved - only framework files update.
+Then in your Claude session:
+```
+/fw-init
+```
+
+The framework will detect the new version and apply any migrations.
+
+**Your book content is preserved** - only FW_ROOT framework files update. Your BOOKS_ROOT and .config/ remain untouched.
 
 ---
 
@@ -298,17 +306,22 @@ Your book content is preserved - only framework files update.
 You can use this framework with both Claude Code and Claude Desktop:
 
 1. **Copy system instructions**:
-   - Open `system-instructions.md` from your project
+   - Open `FW_ROOT/Process/Templates/Claude_Desktop_System_Instructions.md`
+   - Replace `[PROJECT_ROOT]` with your actual PROJECT_ROOT path
    - Copy entire contents
 
-2. **Create Claude Desktop project**:
+2. **Configure MCP Filesystem**:
+   - In Claude Desktop Settings → MCP Servers → Filesystem
+   - Add your PROJECT_ROOT to allowed directories
+
+3. **Create Claude Desktop project**:
    - Open Claude Desktop
    - Create new project for your book
    - Paste system instructions into project settings
 
-3. **Use both interfaces**:
-   - **Claude Code**: File operations, git, automation
-   - **Claude Desktop**: Conversational writing, brainstorming
+4. **Use both interfaces**:
+   - **Claude Code**: File operations, git, automation, CLI-only prompts
+   - **Claude Desktop**: Conversational writing, brainstorming, desktop-friendly prompts
 
 ---
 
@@ -366,14 +379,17 @@ This framework is released under the MIT License. See LICENSE file for details.
 
 ## About
 
-**Framework Version**: 0.15.4
+**Framework Version**: 0.16.0
 **Release Date**: 2025-11-28
 **Repository**: https://github.com/scooter-indie/author-nonfiction
+**Distribution**: https://github.com/scooter-indie/author-nonfiction-dist
 
 Created to empower authors to write professional nonfiction books with AI assistance while maintaining complete creative control and ensuring factual accuracy.
 
 ---
 
-**Ready to write your book? Download the framework and get started!**
+**Ready to write your book? Clone the framework and get started!**
 
-https://github.com/scooter-indie/author-nonfiction/releases/latest
+```bash
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git
+```

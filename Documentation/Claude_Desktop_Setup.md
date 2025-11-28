@@ -1,6 +1,6 @@
 # Claude Desktop Setup Guide
 
-**Version:** 0.15.0
+**Version:** 0.16.0
 **Purpose:** Complete guide for using the AI-Assisted Nonfiction Authoring Framework with Claude Desktop.
 
 ---
@@ -10,16 +10,40 @@
 Before setting up Claude Desktop, you need:
 
 1. **Claude Desktop installed** - Download from https://claude.ai/download
-2. **Framework installed** - Either via `configure.md` or manual setup (see `Multi-Book_Setup_Guide.md`)
-3. **Your paths ready:**
-   - `FW_ROOT` - Where the framework is installed (e.g., `E:\author-nonfiction-framework`)
-   - `BOOKS_ROOT` - Where your books are stored (e.g., `E:\My-Books`)
+2. **Framework installed** - Run `configure.bat/sh` to set up PROJECT_ROOT (see Quick Start in README.md)
+3. **Your PROJECT_ROOT path ready:**
+   - e.g., `E:\My-Writing` (Windows)
+   - e.g., `~/My-Writing` (macOS/Linux)
+
+---
+
+## Architecture Overview (v0.16.0+)
+
+The framework uses a unified PROJECT_ROOT structure:
+
+```
+PROJECT_ROOT/
+├── .config/              # CONFIG_ROOT - where Claude starts
+│   ├── fw-location.json  # FW_ROOT path
+│   ├── settings.json     # BOOKS_ROOT path
+│   ├── books-registry.json
+│   ├── CLAUDE.md
+│   └── .claude/          # Commands and agents
+├── FW_ROOT/              # Framework (cloned, gitignored)
+├── BOOKS_ROOT/           # Your books
+│   ├── [Book-Name]/
+│   └── Archive/
+├── start-authoring.*     # Startup scripts
+└── .gitignore
+```
+
+**Key Point:** Claude Desktop needs access to the entire PROJECT_ROOT to read all components.
 
 ---
 
 ## Step 1: Configure MCP Filesystem Access
 
-Claude Desktop uses the Model Context Protocol (MCP) to access files. You must grant access to both framework and books directories.
+Claude Desktop uses the Model Context Protocol (MCP) to access files. You must grant access to PROJECT_ROOT.
 
 ### Windows
 
@@ -50,8 +74,7 @@ Claude Desktop uses the Model Context Protocol (MCP) to access files. You must g
          "args": [
            "-y",
            "@modelcontextprotocol/server-filesystem",
-           "E:\\author-nonfiction-framework",
-           "E:\\My-Books"
+           "E:\\My-Writing"
          ]
        }
      }
@@ -59,9 +82,9 @@ Claude Desktop uses the Model Context Protocol (MCP) to access files. You must g
    ```
 
    **Important:**
-   - Replace paths with your actual `FW_ROOT` and `BOOKS_ROOT` paths
+   - Replace path with your actual PROJECT_ROOT path
    - Use double backslashes (`\\`) for Windows paths in JSON
-   - Both directories must be listed as separate arguments
+   - Single entry provides access to FW_ROOT, BOOKS_ROOT, and .config/
 
 4. **Restart Claude Desktop** for changes to take effect.
 
@@ -82,8 +105,7 @@ Claude Desktop uses the Model Context Protocol (MCP) to access files. You must g
          "args": [
            "-y",
            "@modelcontextprotocol/server-filesystem",
-           "/Users/yourname/author-nonfiction-framework",
-           "/Users/yourname/My-Books"
+           "/Users/yourname/My-Writing"
          ]
        }
      }
@@ -123,16 +145,15 @@ Using Claude Desktop Projects gives you persistent custom instructions.
 3. **Find "Custom Instructions"** or "System Prompt"
 4. **Copy and paste** the contents from:
    ```
-   [FW_ROOT]/Process/Templates/Claude_Desktop_System_Instructions.md
+   [PROJECT_ROOT]/FW_ROOT/Process/Templates/Claude_Desktop_System_Instructions.md
    ```
 
    **Before pasting:**
-   - Replace all `[FW_ROOT]` with your actual framework path
-   - Replace all `[BOOKS_ROOT]` with your actual books path
+   - Replace all `[PROJECT_ROOT]` with your actual PROJECT_ROOT path
 
-   Example replacements:
-   - `[FW_ROOT]` → `E:\author-nonfiction-framework`
-   - `[BOOKS_ROOT]` → `E:\My-Books`
+   Example replacement:
+   - `[PROJECT_ROOT]` → `E:\My-Writing` (Windows)
+   - `[PROJECT_ROOT]` → `/Users/yourname/My-Writing` (macOS)
 
 5. **Save** the project settings.
 
@@ -144,12 +165,12 @@ Using Claude Desktop Projects gives you persistent custom instructions.
 
 In your new project, send this message:
 ```
-Please read the file: [FW_ROOT]/VERSION
+Please read the file: [PROJECT_ROOT]/.config/fw-location.json
 
-(Replace [FW_ROOT] with your actual path)
+(Replace [PROJECT_ROOT] with your actual path)
 ```
 
-If working correctly, Claude will read and display the version number.
+If working correctly, Claude will read and display the fw-location.json contents.
 
 ### Test Full Initialization
 
@@ -159,12 +180,14 @@ Please initialize following the system instructions.
 ```
 
 Claude should:
-1. Read fw-location.json
-2. Read FRAMEWORK_CORE.md
-3. Check for updates
-4. Show available books
-5. Ask which book to work on
-6. Confirm the date
+1. Read fw-location.json to find FW_ROOT
+2. Read settings.json to find BOOKS_ROOT
+3. Read books-registry.json
+4. Read FRAMEWORK_CORE.md
+5. Check for updates
+6. Show available books
+7. Ask which book to work on
+8. Confirm the date
 
 ---
 
@@ -191,8 +214,8 @@ For operations requiring Claude Code CLI, Claude will inform you:
 This operation requires Claude Code CLI.
 
 In your terminal, run:
-cd [BOOKS_ROOT]
-claude
+[PROJECT_ROOT]/start-authoring.bat  (Windows)
+[PROJECT_ROOT]/start-authoring.sh   (macOS/Linux)
 
 Then say: "Execute Prompt [X]"
 ```
@@ -214,20 +237,19 @@ Then say: "Execute Prompt [X]"
 
 ### "Cannot read file" errors
 
-**Cause:** MCP filesystem not configured or paths incorrect.
+**Cause:** MCP filesystem not configured or path incorrect.
 
 **Solution:**
-1. Verify `claude_desktop_config.json` has correct paths
-2. Check that both directories are listed
-3. Restart Claude Desktop after changes
-4. Ensure Node.js is installed (`npx` command requires it)
+1. Verify `claude_desktop_config.json` has correct PROJECT_ROOT path
+2. Restart Claude Desktop after changes
+3. Ensure Node.js is installed (`npx` command requires it)
 
 ### "Framework not found" errors
 
-**Cause:** fw-location.json points to wrong path.
+**Cause:** fw-location.json points to wrong FW_ROOT path.
 
 **Solution:**
-1. Check `[BOOKS_ROOT]/.config/fw-location.json`
+1. Check `[PROJECT_ROOT]/.config/fw-location.json`
 2. Verify `frameworkRoot` path is correct
 3. Ensure the path uses your OS's path format
 
@@ -238,7 +260,7 @@ Then say: "Execute Prompt [X]"
 **Solution:**
 1. Open project settings
 2. Verify custom instructions are present
-3. Check that paths were replaced correctly
+3. Check that PROJECT_ROOT was replaced correctly
 
 ### Update check fails
 
@@ -246,7 +268,7 @@ Then say: "Execute Prompt [X]"
 
 **Solution:**
 - This is informational only - framework still works
-- Manually check releases at: https://github.com/scooter-indie/author-nonfiction-dist/releases
+- Manually update: `cd [PROJECT_ROOT]/FW_ROOT && git pull`
 
 ---
 
@@ -288,29 +310,34 @@ Even with Claude Desktop, periodically use Claude Code CLI to:
 ## Reference: Project Structure
 
 ```
-FW_ROOT/                              # Framework (read-only)
-├── Process/
-│   ├── FRAMEWORK_CORE.md             # Essential framework knowledge
-│   ├── Prompts/                      # All prompt files
-│   ├── Styles/                       # Style library
-│   └── Templates/
-│       └── Claude_Desktop_System_Instructions.md
-├── VERSION                           # Framework version
-└── CLAUDE.md                         # Framework CLAUDE.md
-
-BOOKS_ROOT/                           # Your books
-├── .config/
+PROJECT_ROOT/
+├── .config/                          # CONFIG_ROOT
 │   ├── fw-location.json              # Points to FW_ROOT
+│   ├── settings.json                 # Points to BOOKS_ROOT
 │   ├── books-registry.json           # All books list
-│   └── settings.json                 # Preferences
-├── Book-Title-One/
-│   ├── Manuscript/                   # Book content
-│   ├── .config/                      # Book config
-│   └── PROJECT_CONTEXT.md            # Book context
-├── Book-Title-Two/
-│   └── ...
-├── Archive/                          # Archived books
-└── CLAUDE.md                         # Books CLAUDE.md
+│   ├── CLAUDE.md                     # Claude instructions
+│   └── .claude/
+│       ├── commands/                 # fw-init, switch-book, manage-book
+│       └── agents/                   # book-writing-assistant
+├── FW_ROOT/                          # Framework (gitignored)
+│   ├── Process/
+│   │   ├── FRAMEWORK_CORE.md         # Essential knowledge
+│   │   ├── Prompts/                  # All prompt files
+│   │   ├── Styles/                   # Style library
+│   │   └── Templates/
+│   │       └── Claude_Desktop_System_Instructions.md
+│   └── VERSION                       # Framework version
+├── BOOKS_ROOT/                       # Your books
+│   ├── Book-Title-One/
+│   │   ├── Manuscript/               # Book content
+│   │   ├── .config/                  # Book config
+│   │   └── PROJECT_CONTEXT.md        # Book context
+│   ├── Book-Title-Two/
+│   │   └── ...
+│   └── Archive/                      # Archived books
+├── start-authoring.bat/.sh           # Startup scripts
+├── bp-start-authoring.bat/.sh        # Bypass permissions
+└── .gitignore                        # Excludes FW_ROOT/
 ```
 
 ---
@@ -331,5 +358,5 @@ BOOKS_ROOT/                           # Your books
 
 ---
 
-*Framework Version: 0.15.0*
-*Last Updated: 2025-11-27*
+*Framework Version: 0.16.0*
+*Last Updated: 2025-11-28*

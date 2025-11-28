@@ -1,6 +1,6 @@
 # Prepare Release
 
-**Current Framework Version:** 0.15.4
+**Current Framework Version:** 0.16.0
 **Last Updated:** 2025-11-28
 
 ---
@@ -472,16 +472,25 @@ Check that the release includes:
 - ✅ Changelog from CHANGELOG.md
 - ✅ Installation instructions (clone-based for v0.15.0+)
 
-**v0.15.0+ Verification (dist repo structure):**
+**v0.16.0+ Verification (unified PROJECT_ROOT architecture):**
 - ✅ `VERSION` file at root (contains version string only)
-- ✅ Minimal `CLAUDE.md` (points to BOOKS_ROOT, not full context)
-- ✅ All BOOKS_ROOT templates in `Process/Templates/`:
-  - `BOOKS_ROOT_CLAUDE_template.md`
+- ✅ `configure.bat` and `configure.sh` at root (bootstrap scripts)
+- ✅ Minimal `CLAUDE.md` (CONFIG_ROOT template for project use)
+- ✅ All templates in `Process/Templates/`:
+  - `configure.bat` and `configure.sh` (bootstrap scripts for FW_ROOT)
+  - `start-authoring.bat/.sh` (startup scripts for PROJECT_ROOT)
+  - `bp-start-authoring.bat/.sh` (bypass permissions scripts)
   - `FW_ROOT_CLAUDE_template.md`
+  - `CONFIG_ROOT_CLAUDE_template.md`
   - `Archive_README_template.md`
-  - `.config/books-registry_template.json`
-  - `.config/fw-location_template.json`
-  - `.config/settings_template.json`
+  - `PROJECT_ROOT_gitignore_template`
+  - `books-registry_template.json`
+  - `fw-location_template.json`
+  - `settings_template.json`
+  - `.claude/commands/fw-init.md`
+  - `.claude/commands/switch-book.md`
+  - `.claude/commands/manage-book.md`
+  - `.claude/agents/book-writing-assistant.md`
 - ✅ `Process/migrations/` directory with README.md
 - ✅ No `Documentation/` directory (maintainer-only)
 - ✅ No `Proposal/` directory (maintainer-only)
@@ -489,29 +498,36 @@ Check that the release includes:
 
 ---
 
-## Dist Repo vs Main Repo (v0.15.0+)
+## Dist Repo vs Main Repo (v0.16.0+)
 
-The re-architecture separates framework distribution from development:
+The unified PROJECT_ROOT architecture separates framework distribution from development:
 
 ### What goes in author-nonfiction-dist (user releases):
 - `Process/` - All framework files (prompts, styles, templates, migrations)
+- `Process/Templates/.claude/` - Slash commands and agents for CONFIG_ROOT
+- `scripts/` - Shell scripts for automation
+- `.claude/` - Minimal slash commands (fw-init, switch-book, manage-book)
 - `VERSION` - Semantic version for update checking
 - `CLAUDE.md` - Minimal FW_ROOT instructions
+- `configure.bat` / `configure.sh` - Bootstrap scripts (at root)
+- `configure.md` - Configuration prompt
 - `LICENSE` - MIT license
 - `INSTALLATION.md` - User installation guide
-- `configure.md` - Configuration prompt
 - `system-instructions.md` - Claude Desktop instructions
 
 ### What stays in author-nonfiction (maintainer only):
 - `Documentation/` - Maintainer documentation
-- `Proposal/` - Development proposals
-- `scripts/` - Build/release scripts (NOT deployed to dist)
+- `Proposal/` - Development proposals (including Implemented/)
 - `.github/` - CI/CD workflows
-- `.claude/` - Maintainer slash commands (gh-workflow.md excluded)
+- `.claude/commands/gh-workflow.md` - Maintainer-only command
 - `PREPARE_RELEASE.md` - This file
-- `CHANGELOG.md` - Release history
+- `CHANGELOG.md` - Release history (copied to dist for reference)
 
-**Note:** The `scripts/` directory is no longer deployed to dist in v0.15.0+. Users don't need shell scripts since configure.md handles all initialization.
+### New v0.16.0 Architecture Notes:
+- **PROJECT_ROOT** contains everything: FW_ROOT/, BOOKS_ROOT/, .config/
+- **configure.bat/sh** bootstraps initial setup from cloned FW_ROOT
+- **Templates** include .claude/ subdirectory for CONFIG_ROOT setup
+- Users start Claude from CONFIG_ROOT (.config/), not FW_ROOT
 
 ---
 
@@ -673,7 +689,7 @@ gh run list --limit 3
 
 ---
 
-**Framework Version:** 0.15.4
+**Framework Version:** 0.16.0
 **Last Updated:** 2025-11-28
 
 *This file is for framework maintainers only - not included in release packages*
