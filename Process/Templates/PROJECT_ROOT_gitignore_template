@@ -1,0 +1,56 @@
+# AI-Assisted Nonfiction Authoring Framework
+# PROJECT_ROOT .gitignore
+#
+# This .gitignore is for the PROJECT_ROOT level repository.
+# It versions BOOKS_ROOT/ and .config/ while ignoring FW_ROOT/.
+
+# Framework (reinstallable from author-nonfiction-dist)
+FW_ROOT/
+
+# Temporary files
+*.tmp
+*.bak
+~*
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build artifacts
+build/
+dist/
+
+# Optional: Large compiled drafts (uncomment if needed)
+# BOOKS_ROOT/*/Drafts/Full_Draft_*.md
+# BOOKS_ROOT/*/Drafts/Full_Draft_*.docx
+# BOOKS_ROOT/*/Drafts/Full_Draft_*.pdf
+
+# Optional: Exports directory (uncomment if you don't want to track exports)
+# BOOKS_ROOT/*/Exports/
+
+# Optional: Research files that are too large
+# BOOKS_ROOT/*/Research/Videos/
+# BOOKS_ROOT/*/Research/Archives/
+
+# Node modules (if using any JavaScript tools)
+node_modules/
+
+# Python virtual environments (if using any Python tools)
+venv/
+.venv/
+env/
+ENV/
+
+# Local Claude settings (may contain personal tokens)
+.config/.claude/settings.local.json
+
+# Lock files (Concurrent editing)
+.locks/

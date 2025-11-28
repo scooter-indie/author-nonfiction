@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Start Claude Code for AI-Assisted Nonfiction Authoring
-# This script ensures Claude starts in the framework directory (FW_ROOT)
+# This script starts Claude in CONFIG_ROOT (.config/) at PROJECT_ROOT
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.config"
 claude --append-system-prompt "IMPORTANT: Run /fw-init immediately before doing anything else." "Start"

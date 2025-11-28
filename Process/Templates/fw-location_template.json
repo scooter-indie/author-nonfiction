@@ -19,16 +19,24 @@
       "type": "string",
       "format": "date",
       "description": "Date of last update check (YYYY-MM-DD)"
+    },
+    "updateChannel": {
+      "type": "string",
+      "enum": ["stable", "beta"],
+      "description": "Update channel for framework updates",
+      "default": "stable"
     }
   },
   "_example": {
-    "frameworkRoot": "E:\\author-nonfiction-framework",
-    "frameworkVersion": "0.15.0",
-    "lastUpdateCheck": "2025-11-27"
+    "frameworkRoot": "E:\\My-Writing-Projects\\FW_ROOT",
+    "frameworkVersion": "0.15.4",
+    "lastUpdateCheck": "2025-11-28",
+    "updateChannel": "stable"
   },
   "_template": {
     "frameworkRoot": "",
     "frameworkVersion": "",
-    "lastUpdateCheck": ""
+    "lastUpdateCheck": "",
+    "updateChannel": "stable"
   }
 }

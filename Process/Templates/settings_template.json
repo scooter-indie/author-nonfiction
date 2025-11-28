@@ -2,9 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "settings.json",
   "title": "User Settings",
-  "description": "Global user preferences for BOOKS_ROOT",
+  "description": "Global user preferences for CONFIG_ROOT",
   "type": "object",
+  "required": ["booksRoot"],
   "properties": {
+    "booksRoot": {
+      "type": "string",
+      "description": "Absolute path to the BOOKS_ROOT directory"
+    },
     "github": {
       "type": "object",
       "description": "GitHub backup configuration",
@@ -68,6 +73,7 @@
     }
   },
   "_example": {
+    "booksRoot": "E:\\My-Writing-Projects\\BOOKS_ROOT",
     "github": {
       "enabled": true,
       "repository": "username/my-books",
@@ -85,6 +91,7 @@
     }
   },
   "_default_template": {
+    "booksRoot": "",
     "github": {
       "enabled": false,
       "repository": null,
