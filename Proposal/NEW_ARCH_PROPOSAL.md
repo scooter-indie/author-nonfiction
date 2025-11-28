@@ -167,6 +167,13 @@ Located in FW_ROOT (included in dist repo). Used for first-time setup.
 @echo off
 cd /d "%~dp0"
 claude --append-system-prompt "IMPORTANT: Run configure.md immediately." "Start"
+
+REM After Claude exits, chain to start-authoring if it was created
+if exist "..\start-authoring.bat" (
+    echo.
+    echo Launching start-authoring...
+    call "..\start-authoring.bat"
+)
 ```
 
 **macOS/Linux (configure.sh):**
@@ -174,6 +181,13 @@ claude --append-system-prompt "IMPORTANT: Run configure.md immediately." "Start"
 #!/bin/bash
 cd "$(dirname "$0")"
 claude --append-system-prompt "IMPORTANT: Run configure.md immediately." "Start"
+
+# After Claude exits, chain to start-authoring if it was created
+if [ -f "../start-authoring.sh" ]; then
+    echo ""
+    echo "Launching start-authoring..."
+    exec "../start-authoring.sh"
+fi
 ```
 
 **Initial Setup Workflow:**
@@ -186,7 +200,8 @@ claude --append-system-prompt "IMPORTANT: Run configure.md immediately." "Start"
    - .config/ with all JSON files and CLAUDE.md
    - .git repository (with FW_ROOT in .gitignore)
    - start-authoring and bp-start-authoring scripts
-6. User can now run start-authoring from PROJECT_ROOT
+6. configure.md instructs user to type `/exit`
+7. Script chains to `start-authoring.bat/sh` automatically
 
 **After Setup - Creating First Book:**
 1. User runs `start-authoring.bat/sh` from PROJECT_ROOT
@@ -690,27 +705,20 @@ Claude starts and runs configure.md which:
 4. Initializes `.git/` repository
 5. Creates `.gitignore` (excludes FW_ROOT/)
 6. Generates startup scripts at PROJECT_ROOT
+7. Instructs user to type `/exit`
 
-### Step 4: Start Writing
+### Step 4: Automatic Chain to start-authoring
 
-**Windows:**
-```batch
-cd E:\My-Writing-Projects
-start-authoring.bat
-```
-
-**macOS/Linux:**
-```bash
-cd E:\My-Writing-Projects
-./start-authoring.sh
-```
+After `/exit`, configure.bat/sh automatically chains to start-authoring:
+- Claude restarts in .config/
+- /fw-init runs automatically
+- Shows "No books yet"
 
 ### Step 5: Create First Book
 
-1. Claude starts in .config/, runs /fw-init
-2. /fw-init shows "No books yet"
-3. Say "Create new book" or run Prompt 1
-4. Book created in BOOKS_ROOT/
+1. Say "Create new book" or run Prompt 1
+2. Book created in BOOKS_ROOT/
+3. Ready to write!
 
 ---
 
