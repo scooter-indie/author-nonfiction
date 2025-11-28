@@ -84,10 +84,10 @@ Update the version number in these files:
    - Line ~396: `**Release Date:** YYYY-MM-DD` (footer)
    - Line ~397: `**Token Efficiency:** [Note about token savings]`
 
-3. `CLAUDE.md`
+3. `CLAUDE.md` (dev repo version - streamlined)
    - Line ~3: `**Framework Version:** X.X.X`
-   - Line ~533: `**Framework Version:** X.X.X`
-   - Line ~534: `**Last Updated:** YYYY-MM-DD`
+   - Line ~82: `**Framework Version:** X.X.X` (footer)
+   - Line ~83: `**Last Updated:** YYYY-MM-DD` (footer)
 
 4. `Documentation/AI-Assisted_Nonfiction_Authoring_Process.md` ← CRITICAL (GitHub Action verifies this)
    - Line ~3: `**Version:** X.X.X`
