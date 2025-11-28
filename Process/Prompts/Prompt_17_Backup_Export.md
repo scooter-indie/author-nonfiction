@@ -13,7 +13,7 @@ Reference `Process/Prompts/Prompt_Essentials.md` for path resolution
 
 This prompt provides three backup/export options:
 
-1. **Full Backup** - ZIP of entire BOOKS_ROOT (all books)
+1. **Full Backup** - ZIP of PROJECT_ROOT (all books + config, excludes FW_ROOT)
 2. **Single Book Export** - Standalone ZIP of one book for sharing
 3. **GitHub Setup** - Configure remote repository for all books
 
@@ -54,21 +54,21 @@ Which option? (1-3)
 ```
 Where should the backup be saved?
 
-Default: [BOOKS_ROOT parent directory]
+Default: [PROJECT_ROOT parent directory]
 Or enter a custom path:
 ```
 
 ### Step 1.2: Create Backup
 
 ```bash
-# Change to BOOKS_ROOT parent
-cd [BOOKS_ROOT]/..
+# Change to PROJECT_ROOT (parent of CONFIG_ROOT)
+cd [CONFIG_ROOT]/..
 
-# Create ZIP excluding .git and common excludes
+# Create ZIP excluding FW_ROOT, .git and common excludes
 zip -r "[backup-location]/books-backup-[CONFIRMED_DATE].zip" \
-    "[BOOKS_ROOT basename]" \
-    -x "*.git/*" \
-    -x "*/.git/*" \
+    "." \
+    -x "FW_ROOT/*" \
+    -x ".git/*" \
     -x "*/node_modules/*" \
     -x "*/__pycache__/*" \
     -x "*.DS_Store"
@@ -93,16 +93,15 @@ Size: [size]
 Books included: [N]
 
 Contents:
-  • [Book 1 Title]
-  • [Book 2 Title]
+  • BOOKS_ROOT/ ([N] books)
   • .config/ (registry and settings)
-  • CLAUDE.md
+  • start-authoring scripts
 
 To restore:
-  1. Unzip to desired location
-  2. Clone framework: git clone [dist-url] [FW_ROOT]
+  1. Unzip to desired location (becomes PROJECT_ROOT)
+  2. Clone framework into FW_ROOT: git clone [dist-url] FW_ROOT
   3. Update .config/fw-location.json with new FW_ROOT path
-  4. Run /fw-init
+  4. Run start-authoring.bat/sh
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -129,7 +128,7 @@ Enter number or name:
 ```
 Where should the export be saved?
 
-Default: [BOOKS_ROOT parent directory]
+Default: [PROJECT_ROOT parent directory]
 Or enter a custom path:
 ```
 
@@ -297,7 +296,7 @@ git remote -v
 
 ### Step 3.4: Update Settings
 
-Update `.config/settings.json`:
+Update `settings.json` (in CONFIG_ROOT):
 ```json
 {
   "github": {

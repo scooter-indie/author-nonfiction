@@ -8,27 +8,36 @@ This command loads essential framework documentation and prepares Claude for exe
 
 ## Step 0: Detect Operating Mode
 
-**First, verify this is a valid BOOKS_ROOT:**
+**First, verify this is a valid CONFIG_ROOT (.config/):**
 
-1. Check if `.config/fw-location.json` exists in the current directory
+1. Check if `fw-location.json` exists in the current directory
 2. If YES → Proceed with initialization
-3. If NO → Error: "Not a valid framework directory. Run from BOOKS_ROOT."
+3. If NO → Error: "Not a valid configuration directory. Run from PROJECT_ROOT/.config/"
 
-Report: `✓ BOOKS_ROOT detected`
+Report: `✓ CONFIG_ROOT detected`
 
 ---
 
 ## Initialization Sequence
 
-If `.config/fw-location.json` exists, follow this sequence:
+If `fw-location.json` exists, follow this sequence:
 
 ### M1. Load Framework Location
 
-Read `.config/fw-location.json` to get:
+Read `fw-location.json` to get:
 - `frameworkRoot` → Store as `FW_ROOT`
 - `frameworkVersion` → Store as `FW_VERSION`
+- `lastUpdateCheck` → Store as `LAST_UPDATE_CHECK`
+- `updateChannel` → Store as `UPDATE_CHANNEL` (default: "stable")
 
 Report: `✓ Framework location: [FW_ROOT]`
+
+### M1b. Load Settings (BOOKS_ROOT)
+
+Read `settings.json` to get:
+- `booksRoot` → Store as `BOOKS_ROOT`
+
+Report: `✓ Books location: [BOOKS_ROOT]`
 
 ### M2. Verify Framework Installation
 
@@ -43,14 +52,25 @@ Report: `✓ FRAMEWORK_CORE.md loaded from FW_ROOT`
 
 ### M4. Check for Framework Updates
 
+**Only check if not already checked today:**
+
+1. Compare `LAST_UPDATE_CHECK` with today's date
+2. If already checked today → Skip to version report
+3. If not checked today → Proceed with update check
+
+**Update check procedure:**
+
 1. Read `[FW_ROOT]/VERSION` to get current version
-2. Compare with `frameworkVersion` in fw-location.json
-3. Attempt to fetch remote version: `https://raw.githubusercontent.com/scooter-indie/author-nonfiction-dist/main/VERSION`
-4. Compare versions (semantic versioning)
+2. Attempt to fetch remote version based on `UPDATE_CHANNEL`:
+   - stable: `https://raw.githubusercontent.com/scooter-indie/author-nonfiction-dist/main/VERSION`
+   - beta: `https://raw.githubusercontent.com/scooter-indie/author-nonfiction-dist/beta/VERSION`
+3. Compare versions (semantic versioning)
+4. Update `lastUpdateCheck` in `fw-location.json` to today's date
 
 **If update available:**
 ```
 ℹ Framework update available: [current] → [latest]
+  Channel: [UPDATE_CHANNEL]
   To update: cd [FW_ROOT] && git pull
 ```
 
@@ -63,7 +83,7 @@ Report: `✓ FRAMEWORK_CORE.md loaded from FW_ROOT`
 **After loading framework, check if migrations are needed:**
 
 1. Read `[FW_ROOT]/VERSION` to get framework version
-2. Read `[BOOKS_ROOT]/.config/fw-location.json` for `frameworkVersion`
+2. Read `fw-location.json` for `frameworkVersion`
 3. If versions differ:
    a. Check `[FW_ROOT]/Process/migrations/` for migration files
    b. Find migrations between old and new version
@@ -83,7 +103,7 @@ Report: `✓ FRAMEWORK_CORE.md loaded from FW_ROOT`
 
 ### M5. Load Books Registry
 
-Read `.config/books-registry.json` to get:
+Read `books-registry.json` to get:
 - List of all registered books
 - Currently active book (if any)
 
@@ -117,9 +137,11 @@ Which book would you like to work on? (number or name)
 - If no books exist → Inform user to run Prompt 1
 
 **After selection:**
-1. Update `activeBook` in books-registry.json
+1. Update `activeBook` in `books-registry.json`
 2. Update `lastAccessed` date for selected book
-3. Store `ACTIVE_BOOK=[book-id]` and `BOOK_PATH=[BOOKS_ROOT]/[directory]` in session
+3. Store variables in session:
+   - `ACTIVE_BOOK=[book-id]`
+   - `BOOK_PATH=[BOOKS_ROOT]/[directory]` (from settings.json booksRoot + book directory)
 
 Report: `✓ Active book: [TITLE]`
 
@@ -158,9 +180,10 @@ After completing all steps above, provide a summary report:
 Framework Initialization Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Config Root: [CONFIG_ROOT]
 Framework Location: [FW_ROOT]
-Framework Version: [VERSION]
-Books Root: [BOOKS_ROOT path]
+Framework Version: [VERSION] ([UPDATE_CHANNEL] channel)
+Books Root: [BOOKS_ROOT]
 Active Book: [TITLE] ([status])
 Book Path: [BOOK_PATH]
 Confirmed Date: [CONFIRMED_DATE]
@@ -199,13 +222,16 @@ After initialization, these variables are available for the session:
 
 | Variable | Description |
 |----------|-------------|
-| `FW_ROOT` | Path to framework installation |
-| `BOOKS_ROOT` | Path to books directory (current working dir) |
+| `CONFIG_ROOT` | Path to configuration directory (current working dir, .config/) |
+| `FW_ROOT` | Path to framework installation (from fw-location.json) |
+| `BOOKS_ROOT` | Path to books directory (from settings.json) |
 | `ACTIVE_BOOK` | Currently selected book ID |
 | `BOOK_PATH` | Full path to active book directory |
 | `CONFIRMED_DATE` | Session date in YYYY-MM-DD format |
+| `UPDATE_CHANNEL` | Framework update channel (stable/beta) |
 
 **Path Resolution for Prompts:**
+- Configuration files: `[CONFIG_ROOT]/...` (fw-location.json, settings.json, books-registry.json)
 - Framework files: `[FW_ROOT]/Process/...`
 - Book content: `[BOOK_PATH]/Manuscript/...`
 

@@ -6,28 +6,34 @@
 
 ---
 
-## Path Resolution (v0.15.0+)
+## Path Resolution (v0.16.0+)
 
-**CRITICAL: All prompts must resolve paths correctly based on operating mode.**
+**CRITICAL: All prompts must resolve paths correctly based on the unified architecture.**
 
-### Multi-Book Mode
+### Unified Project Architecture
 
-When `MODE=multi-book` (fw-location.json exists):
+Claude starts in CONFIG_ROOT (`.config/`). Session variables:
 
 ```
-FW_ROOT         = Path from .config/fw-location.json
-BOOKS_ROOT      = Current working directory
-ACTIVE_BOOK     = ID from .config/books-registry.json
+CONFIG_ROOT     = Current working directory (.config/)
+FW_ROOT         = Path from fw-location.json → frameworkRoot
+BOOKS_ROOT      = Path from settings.json → booksRoot
+ACTIVE_BOOK     = ID from books-registry.json → activeBook
 BOOK_PATH       = BOOKS_ROOT/[activeBook directory]
 ```
 
-**Framework reads:**
+**Configuration reads (from CONFIG_ROOT):**
+- `fw-location.json` - Framework path, version, update info
+- `settings.json` - Books root path, user preferences
+- `books-registry.json` - Book list and active book
+
+**Framework reads (from FW_ROOT):**
 - `[FW_ROOT]/Process/FRAMEWORK_CORE.md`
 - `[FW_ROOT]/Process/Prompts/Prompt_X.md`
 - `[FW_ROOT]/Process/Styles/[style].md`
 - `[FW_ROOT]/Process/Templates/[template]`
 
-**Book reads/writes:**
+**Book reads/writes (at BOOK_PATH):**
 - `[BOOK_PATH]/Manuscript/...`
 - `[BOOK_PATH]/Research/...`
 - `[BOOK_PATH]/.config/...`
@@ -38,11 +44,12 @@ BOOK_PATH       = BOOKS_ROOT/[activeBook directory]
 **At start of each prompt execution:**
 
 ```
-1. Read BOOKS_ROOT/.config/fw-location.json → FW_ROOT
-2. Read BOOKS_ROOT/.config/books-registry.json → activeBook
-3. Set BOOK_PATH = BOOKS_ROOT/[activeBook directory]
-4. Use FW_ROOT for framework file reads
-5. Use BOOK_PATH for book content reads/writes
+1. Read CONFIG_ROOT/fw-location.json → FW_ROOT
+2. Read CONFIG_ROOT/settings.json → BOOKS_ROOT
+3. Read CONFIG_ROOT/books-registry.json → activeBook
+4. Set BOOK_PATH = BOOKS_ROOT/[activeBook directory]
+5. Use FW_ROOT for framework file reads
+6. Use BOOK_PATH for book content reads/writes
 ```
 
 ---

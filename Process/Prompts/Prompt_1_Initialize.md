@@ -25,7 +25,7 @@ Creates complete nonfiction book project:
 
 ## Workflow (10 Steps)
 
-1. **Verify BOOKS_ROOT**
+1. **Verify Session Context**
 2. Lock ProjectConfig
 3. Detect environment
 4. Interactive Q&A
@@ -38,21 +38,22 @@ Creates complete nonfiction book project:
 
 ---
 
-## Step 0: Verify BOOKS_ROOT
+## Step 0: Verify Session Context
 
-**Verify running from valid BOOKS_ROOT:**
+**Verify /fw-init has been run:**
 
 The `/fw-init` command sets session context at startup:
-- `FW_ROOT` - Path to framework installation
-- `BOOKS_ROOT` - Current working directory (where books live)
+- `CONFIG_ROOT` - Current working directory (.config/)
+- `FW_ROOT` - Path to framework installation (from fw-location.json)
+- `BOOKS_ROOT` - Path to books directory (from settings.json)
 
-**If not set:** Check for `.config/fw-location.json`
-- If exists → Valid BOOKS_ROOT
-- If not exists → Error: "Run /fw-init from BOOKS_ROOT first"
+**If not set:** Check for `fw-location.json` in current directory
+- If exists → Valid CONFIG_ROOT
+- If not exists → Error: "Run /fw-init from CONFIG_ROOT first"
 
 **Store context for this prompt:**
 - `FW_ROOT` - Framework location
-- `BOOKS_ROOT` - Current directory
+- `BOOKS_ROOT` - Books directory
 - `BOOK_PATH` - To be created for new book
 
 ---
@@ -238,11 +239,11 @@ bash [FW_ROOT]/scripts/detect-tools.sh [BOOK_PATH]/.config/manifest.json
 
 ## Step 9: Git Commit, Tag & Push (CLI)
 
-**Note:** Git operations happen at BOOKS_ROOT level (single repo for all books).
+**Note:** Git operations happen at PROJECT_ROOT level (parent of .config/, BOOKS_ROOT/, FW_ROOT/).
 
 ```bash
-cd [BOOKS_ROOT]
-git add [Book-Name]/
+cd [CONFIG_ROOT]/..
+git add BOOKS_ROOT/[Book-Name]/
 git commit -m "Initialize book: [title]
 
 - Created [X]-chapter structure
@@ -333,7 +334,7 @@ Options:
 - PROJECT_CONTEXT.md, README.md, USAGE_GUIDE.md
 
 **Registry Updated:**
-- `.config/books-registry.json` - New book entry added
+- `books-registry.json` (in CONFIG_ROOT) - New book entry added
 
 **Note:** Framework files remain at FW_ROOT (not copied to book directory)
 
