@@ -1,6 +1,6 @@
 # Prompt 16: Image Manager
 
-**Version:** 0.15.3
+**Version:** 0.15.4
 **⚡ Token Efficient:** ~6,500 tokens (74% reduction from v0.14.0)
 **CLI-ONLY:** Requires Claude Code CLI for file operations
 
@@ -226,7 +226,7 @@ EOF
 
 ---
 
-**Version:** 0.15.3
+**Version:** 0.15.4
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 74% reduction
 

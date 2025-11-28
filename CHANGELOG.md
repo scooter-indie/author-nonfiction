@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.15.4] - 2025-11-28
+
+### Removed
+- **Legacy (single-book) mode** - Framework now exclusively supports multi-book architecture (#107)
+  - Removed legacy mode from configure.md (Step 3)
+  - Removed legacy mode detection from /fw-init
+  - Updated all prompts to remove legacy mode sections
+  - Scripts now require FW_ROOT parameter (no legacy fallback)
+  - Added deprecation notice to migration guide
+
+### Fixed
+- **BOOKS_ROOT CLAUDE.md removal** - Removed incorrect CLAUDE.md copy to BOOKS_ROOT (#106)
+  - configure.md no longer copies CLAUDE.md to BOOKS_ROOT
+  - Removed BOOKS_ROOT_CLAUDE_template.md from templates
+  - Updated deploy-dist.yml validation
+
+### Technical
+- Removed redundant release.yml workflow (releases created manually)
+- Net reduction of ~546 lines across documentation and scripts
+
+---
+
 ## [0.15.3] - 2025-11-28
 
 ### Fixed

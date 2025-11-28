@@ -6,7 +6,7 @@
 
 ---
 
-> **Note (v0.15.3+):** Legacy (single-book) mode has been removed from the framework.
+> **Note (v0.15.4+):** Legacy (single-book) mode has been removed from the framework.
 > All installations must use multi-book mode. If you have a legacy installation,
 > you must migrate to multi-book mode using the configure.md workflow.
 

@@ -1,6 +1,6 @@
 # Prompt 8 Reference Documentation
 
-**Version:** 0.15.3
+**Version:** 0.15.4
 **Purpose:** Detailed report examples, analysis criteria, and troubleshooting
 
 ---
@@ -380,5 +380,5 @@ Recommendation: Break long paragraphs in Conversational sections only.
 
 ---
 
-**Version:** 0.15.3
+**Version:** 0.15.4
 **For Core Workflow:** See `Prompt_8_Consistency.md`

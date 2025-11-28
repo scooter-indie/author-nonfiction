@@ -1,4 +1,4 @@
-# Framework Core (v0.15.3)
+# Framework Core (v0.15.4)
 
 **Purpose:** Essential framework knowledge for immediate session readiness
 **Loading Strategy:** Load at startup, on-demand loading for detailed docs
@@ -425,7 +425,7 @@ Section Style (Optional Override)
 
 ## 11. Framework Version & Support
 
-**Framework Version:** 0.15.3
+**Framework Version:** 0.15.4
 **Disclaimer Version:** 1.0
 **Release Date:** 2025-11-28
 **Loading Strategy:** Core at startup, detailed docs on-demand
