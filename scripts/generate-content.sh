@@ -34,8 +34,8 @@ if [[ -n "$FW_ROOT" ]]; then
     PROJECT_ROOT="$BOOK_PATH"
     MULTI_BOOK_MODE=true
     echo -e "${BLUE}Mode: Multi-book${NC}"
-    echo -e "  Framework: $FRAMEWORK_ROOT"
-    echo -e "  Book path: $BOOK_PATH"
+    printf "  Framework: %s\n" "$FRAMEWORK_ROOT"
+    printf "  Book path: %s\n" "$BOOK_PATH"
 else
     # Legacy mode: script and project in same location
     FRAMEWORK_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -98,7 +98,7 @@ validate_preconditions() {
 
     # Check if Process/Styles directory exists (in FRAMEWORK_ROOT)
     if [[ ! -d "$FRAMEWORK_ROOT/Process/Styles" ]]; then
-        echo -e "${RED}✗ Process/Styles directory not found at $FRAMEWORK_ROOT${NC}"
+        printf "${RED}✗ Process/Styles directory not found at %s${NC}\n" "$FRAMEWORK_ROOT"
         ((errors++))
     else
         echo -e "${GREEN}✓ Process/Styles directory found${NC}"
