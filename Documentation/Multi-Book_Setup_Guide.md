@@ -43,23 +43,37 @@ PROJECT_ROOT/                    # Your writing environment
 
 ## Quick Start (Automated)
 
-### 1. Clone the Framework
+### 1. Create a Work Directory and Clone the Framework
 
-```bash
-git clone https://github.com/scooter-indie/author-nonfiction-dist.git ~/Downloads/author-nonfiction
+Create a top-level directory for your writing work, then clone the framework into it:
+
+**Windows:**
+```batch
+mkdir D:\MyWork
+cd D:\MyWork
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git ANFW
 ```
+
+**macOS/Linux:**
+```bash
+mkdir ~/MyWork
+cd ~/MyWork
+git clone https://github.com/scooter-indie/author-nonfiction-dist.git ANFW
+```
+
+This deploys the framework into `D:\MyWork\ANFW` (Windows) or `~/MyWork/ANFW` (macOS/Linux).
 
 ### 2. Run Setup Script
 
 **Windows:**
 ```batch
-cd %USERPROFILE%\Downloads\author-nonfiction
+cd D:\MyWork\ANFW
 configure.bat
 ```
 
 **macOS/Linux:**
 ```bash
-cd ~/Downloads/author-nonfiction
+cd ~/MyWork/ANFW
 ./configure.sh
 ```
 
