@@ -4,7 +4,7 @@
       "type": "SessionStart",
       "matcher": "compact",
       "handler": {
-        "script": "echo '⚠️ CONTEXT COMPACTION DETECTED - Run /gh-workflow immediately before doing any work'"
+        "script": "echo '⚠️ CONTEXT COMPACTION DETECTED - Run /dev-init immediately before doing any work'"
       }
     }
   ],

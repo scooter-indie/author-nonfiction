@@ -8,4 +8,6 @@ $file:E:\Projects\author-nonfiction\Process\Anti-Hallucination_Guidelines.md
 
 ---
 
-Anti-Hallucination Guidelines loaded. Ready for development work.
+Anti-Hallucination Guidelines loaded.
+
+**IMPORTANT:** Run /gh-workflow immediately to activate GitHub workflow integration.
