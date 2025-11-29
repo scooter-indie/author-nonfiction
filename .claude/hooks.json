@@ -1,4 +1,13 @@
 {
+  "hooks": [
+    {
+      "type": "SessionStart",
+      "matcher": "compact",
+      "handler": {
+        "script": "echo '⚠️ CONTEXT COMPACTION DETECTED - Run /gh-workflow immediately before doing any work'"
+      }
+    }
+  ],
   "permissions": {
     "allow": [
       "Bash(git status:*)",
