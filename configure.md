@@ -100,11 +100,39 @@ git --version
 
 ---
 
+### Step 0.6: Bash Syntax for File/Directory Checks
+
+**IMPORTANT:** When checking if files or directories exist, use **bash syntax** (not Windows CMD).
+
+**Correct bash syntax:**
+```bash
+# Check if file exists
+test -f "path/to/file" && echo "EXISTS" || echo "NOT_EXISTS"
+
+# Check if directory exists
+test -d "path/to/directory" && echo "EXISTS" || echo "NOT_EXISTS"
+
+# Check if path exists (file or directory)
+test -e "path" && echo "EXISTS" || echo "NOT_EXISTS"
+```
+
+**NEVER use Windows CMD syntax** like `if exist "path" (echo EXISTS)` - this will fail in bash.
+
+---
+
 ### Step 1: Installation Mode Detection
 
 **Detect which mode to use based on current directory:**
 
-Check for these indicators:
+Check for these indicators using bash:
+
+```bash
+# Check for VERSION file (indicates FW_ROOT)
+test -f "VERSION" && echo "VERSION_EXISTS" || echo "VERSION_NOT_FOUND"
+
+# Check for fw-location.json (indicates CONFIG_ROOT)
+test -f "fw-location.json" && echo "FW_LOCATION_EXISTS" || echo "FW_LOCATION_NOT_FOUND"
+```
 
 1. **VERSION file exists?** → Running from cloned FW_ROOT (Fresh Install)
 2. **fw-location.json exists?** → Running from CONFIG_ROOT (Update/Reconfigure)
@@ -183,9 +211,20 @@ Enter path for PROJECT_ROOT:
 
 **WAIT for user response.** Store as `PROJECT_ROOT`.
 
-**Validate:**
+**Validate using bash:**
+```bash
+# Check if PROJECT_ROOT already exists
+test -e "[PROJECT_ROOT]" && echo "PATH_EXISTS" || echo "PATH_AVAILABLE"
+
+# Check if parent directory exists (extract parent from path)
+test -d "$(dirname "[PROJECT_ROOT]")" && echo "PARENT_EXISTS" || echo "PARENT_NOT_FOUND"
+```
+
+**Validation rules:**
 - Path must not already exist (or must be empty)
 - Parent directory must exist and be writable
+
+**If validation fails:** Show appropriate error from Error Handling section.
 
 ### 2A.2: Create PROJECT_ROOT Directory Structure
 
