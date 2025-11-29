@@ -207,5 +207,5 @@ Then say: "Execute Prompt [X]"
 
 ---
 
-**Framework Version:** 0.16.0
+**Framework Version:** 0.16.1
 **Architecture:** Unified PROJECT_ROOT

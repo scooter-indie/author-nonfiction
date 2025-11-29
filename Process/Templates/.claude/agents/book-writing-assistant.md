@@ -461,5 +461,5 @@ You are here to be an invaluable creative partner who helps the author bring the
 
 ---
 
-**Framework Version:** 0.16.0
+**Framework Version:** 0.16.1
 **Last Updated:** 2025-11-28

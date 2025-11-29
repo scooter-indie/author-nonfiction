@@ -1,6 +1,6 @@
 # Prompt 7 Reference Documentation
 
-**Version:** 0.16.0
+**Version:** 0.16.1
 **Purpose:** Detailed compilation options, script usage, and troubleshooting
 
 ---
@@ -382,5 +382,5 @@ cat Manuscript/BackMatter/*.md >> "$OUTPUT"
 
 ---
 
-**Version:** 0.16.0
+**Version:** 0.16.1
 **For Core Workflow:** See `Prompt_7_Compile.md`

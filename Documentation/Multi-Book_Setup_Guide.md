@@ -164,7 +164,7 @@ For detailed setup: See `Documentation/Claude_Desktop_Setup.md`
 ℹ Framework Update Available
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Current version: 0.16.0
+Current version: 0.16.1
 Latest version:  0.16.1
 
 Would you like to update now? (yes/no)
@@ -247,7 +247,7 @@ git clone https://github.com/scooter-indie/author-nonfiction-dist.git [PROJECT_R
 ```json
 {
   "frameworkRoot": "[PROJECT_ROOT]/FW_ROOT",
-  "frameworkVersion": "0.16.0",
+  "frameworkVersion": "0.16.1",
   "lastUpdateCheck": "[YYYY-MM-DD]",
   "updateChannel": "stable"
 }
@@ -343,5 +343,5 @@ Verify book exists in `books-registry.json` and directory exists in BOOKS_ROOT.
 
 ---
 
-*Framework Version: 0.16.0*
+*Framework Version: 0.16.1*
 *Last Updated: 2025-11-28*

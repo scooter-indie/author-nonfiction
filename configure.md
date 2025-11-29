@@ -1,6 +1,6 @@
 # Framework Configuration
 
-**AI-Assisted Nonfiction Authoring Framework v0.16.0**
+**AI-Assisted Nonfiction Authoring Framework v0.16.1**
 
 ---
 
@@ -798,5 +798,5 @@ Manual check: Run this configure.md from CONFIG_ROOT.
 
 ---
 
-*Framework Version: 0.16.0*
+*Framework Version: 0.16.1*
 *Configuration Script: configure.md*

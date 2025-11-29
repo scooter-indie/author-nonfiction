@@ -1,6 +1,6 @@
 # Execute Prompt 5: Scan For User Edits
 
-**Version:** 0.16.0
+**Version:** 0.16.1
 **⚡ Token Efficient:** ~3,500 tokens (65% reduction from v0.14.0)
 **DESKTOP-FRIENDLY:** Works 85% in Desktop (git via CLI)
 
@@ -140,7 +140,7 @@ Release locks for all updated chapters.
 
 ---
 
-**Version:** 0.16.0
+**Version:** 0.16.1
 **Last Updated:** 2025-11-24
 **Token Efficiency:** 65% reduction
 

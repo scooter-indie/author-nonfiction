@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.16.1] - 2025-11-28
+
+### Added
+- **Developer session initialization** - New `/dev-init` command for maintainer sessions
+- **Session compaction detection** - SessionStart hook detects context compaction and prompts re-initialization
+- **Books directory customization** - Prompt for books directory name with "My-Books" default (#120)
+- **Testing proposal** - Added TESTING_PROPOSAL.md for future testing infrastructure (#122)
+
+### Changed
+- **Multi-Book Setup Guide** - Updated with realistic paths and clearer examples (#119)
+- **Compact hook** - Now uses `/dev-init` instead of `/fw-init` for maintainer context
+
+### Fixed
+- **configure.md bash syntax** - Fixed file existence checks to use proper bash syntax (#121)
+
+### Removed
+- **Unused templates** - Removed legacy files no longer needed (#117)
+
+### Technical
+- Cleaned up Proposal/ directory (moved implemented proposals, removed obsolete files)
+- Updated all version references to 0.16.1
+
+---
+
 ## [0.16.0] - 2025-11-28
 
 ### Added

@@ -1,6 +1,6 @@
 # Claude Desktop Setup Guide
 
-**Version:** 0.16.0
+**Version:** 0.16.1
 **Purpose:** Complete guide for using the AI-Assisted Nonfiction Authoring Framework with Claude Desktop.
 
 ---
@@ -358,5 +358,5 @@ PROJECT_ROOT/
 
 ---
 
-*Framework Version: 0.16.0*
+*Framework Version: 0.16.1*
 *Last Updated: 2025-11-28*
